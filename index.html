@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Seongwon Choi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  /* 베이스: 라벤더 화이트 — Tunic/Monument Valley */
+  --navy:       #f7f5ff;
+  --navy-2:     #ede9fb;
+  --navy-3:     #ddd8f5;
+  --navy-4:     #c9c2ee;
+  /* 텍스트 */
+  --cream:      #1a1440;
+  --cream-2:    #2e2660;
+  --cream-3:    #6b619a;
+  /* 포인트: 비비드 인디고 */
+  --gold:       #5040c8;
+  --gold-light: #7060e0;
+  --white:      #0d0926;
+  /* 네비·푸터: 딥 미드나잇 퍼플 */
+  --nav-bg:     #1a1440;
+  --nav-ink:    #e2dcff;
+  --nav-ink-2:  #8878cc;
+  --nav-accent: #a0f0d8;
+  /* 파도 */
+  --wave-1:     #6b58e0;
+  --wave-2:     #4878d8;
+  --wave-3:     #a0f0d8;
+  /* 규칙선 */
+  --rule:       rgba(26,20,64,0.08);
+  --rule-mid:   rgba(26,20,64,0.15);
+  --sans:       'Outfit', 'Noto Sans KR', sans-serif;
+  --nav-h:      72px;
+  --max-w:      1080px;
+  --pad:        clamp(1rem, 3.5vw, 2rem);
+  --radius:     4px;
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--navy); color: var(--cream); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* ── NAV ── */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--nav-bg);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  transition: box-shadow .3s;
+}
+#nav.scrolled { box-shadow: 0 4px 20px rgba(26,20,64,.3); }
+.nav-inner {
+  height: 60px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--pad);
+}
+
+/* 푸터 파도 */
+.footer-wave {
+  width: 100%; height: 60px;
+  position: relative; overflow: hidden;
+  background: var(--navy);
+  pointer-events: none;
+  margin-top: 6rem;
+}
+.footer-wave svg {
+  position: absolute; bottom: 0; left: 0;
+  will-change: transform;
+}
+.fwsvg1 { width: 2880px; }
+.fwsvg2 { width: 2880px; opacity: .75; }
+.fwsvg3 { width: 2880px; opacity: .5; }
+
+.nav-logo { font-size: 1rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--nav-ink); text-decoration: none; }
+.nav-logo span { color: var(--nav-accent); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--nav-ink-2); text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(--nav-accent); }
+
+main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5rem) var(--pad) 0; }
+
+.eyebrow { display: inline-flex; align-items: center; gap: .6rem; font-size: .88rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: 2.5rem; }
+.eyebrow::before { content: ''; display: block; width: 28px; height: 2px; background: var(--gold); }
+.rule { border: none; border-top: 1px solid var(--rule); margin: 5rem 0; }
+
+#about { width: 100%; }
+#about-grid { display: grid; grid-template-columns: 180px 1fr; gap: 4rem; align-items: center; max-width: 720px; }
+@media(max-width:640px){ #about-grid { grid-template-columns: 1fr; gap: 2rem; } }
+
+.about-photo { width: 180px; height: 180px; border-radius: 50%; background: var(--navy-3); border: 3px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--cream-3); font-size: .72rem; letter-spacing: .08em; overflow: hidden; flex-shrink: 0; box-shadow: 0 0 0 6px var(--navy-2), 0 0 0 7px rgba(80,64,200,0.2); }
+.about-photo img { width: 100%; height: 100%; object-fit: cover; }
+.about-tag { display: inline-block; font-size: .68rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold); padding: .25rem .75rem; margin-bottom: 1.25rem; }
+.about-name { font-size: clamp(2.4rem, 5.5vw, 3.8rem); font-weight: 700; line-height: 1.05; letter-spacing: -.01em; color: var(--nav-bg); margin-bottom: .4rem; }
+.about-name-en { font-size: .85rem; font-weight: 400; letter-spacing: .12em; color: var(--cream-3); margin-bottom: 2rem; }
+.about-divider { width: 40px; height: 2px; background: var(--gold); margin-bottom: 1.5rem; }
+.about-meta { font-size: .9rem; color: var(--cream-2); line-height: 2.2; }
+.about-meta a { color: var(--cream-2); text-decoration: none; border-bottom: 1px solid var(--rule-mid); transition: color .2s; }
+.about-meta a:hover { color: var(--gold-light); }
+.link-icons { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 2rem; }
+.link-icon { display: inline-flex; align-items: center; gap: .5rem; padding: .5rem 1.1rem; border: 1px solid var(--rule-mid); font-size: .73rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--cream-2); text-decoration: none; background: var(--navy-3); transition: background .2s, color .2s, border-color .2s; }
+.link-icon:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+.link-icon svg { width: 14px; height: 14px; fill: currentColor; }
+
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; align-items: end; }
+.cup { position: relative; border-radius: 4px 4px 12px 12px; overflow: hidden; transition: transform .22s cubic-bezier(.34,1.56,.64,1); cursor: default; }
+.cup:hover { transform: translateY(-6px); }
+.other-works-grid { display: flex; flex-direction: column; gap: 1.25rem; }
+.ow-row { display: flex; gap: 1.25rem; align-items: baseline; flex-wrap: wrap; }
+.ow-cat { font-size: .68rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); flex-shrink: 0; width: 140px; padding-top: .15rem; }
+.ow-tags { display: flex; gap: .5rem; flex-wrap: wrap; }
+.ow-tag { font-size: .8rem; font-weight: 400; color: var(--cream-2); padding: .25rem .7rem; border: 1px solid var(--rule-mid); border-radius: 999px; background: var(--navy-2); transition: border-color .2s, color .2s; }
+.ow-tag:hover { border-color: var(--gold); color: var(--gold-light); }
+.cup-water { position: absolute; bottom: 0; left: 0; right: 0; z-index: 1; }
+.wave-wrap { position: absolute; top: -20px; left: 0; width: 200%; height: 22px; pointer-events: none; }
+.wave-svg { display: block; width: 100%; height: 22px; }
+@keyframes cupWave { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+.cwl1 { animation: cupWave 5.5s linear infinite; }
+.cwl2 { animation: cupWave 8s linear infinite reverse; }
+.cup:hover .cwl1 { animation-duration: 3.5s; }
+.cup:hover .cwl2 { animation-duration: 5s; }
+.cup-items { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 11px 10px; }
+.cup-item { display: flex; align-items: center; gap: 7px; font-size: .82rem; font-weight: 500; padding: 6px 6px; border-radius: 4px; }
+.cup-badge { width: 20px; height: 20px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 800; flex-shrink: 0; letter-spacing: -.02em; }
+.cup-cat { position: absolute; top: 13px; left: 13px; right: 13px; font-size: .6rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; display: flex; align-items: center; gap: 5px; z-index: 3; }
+.cup-cat-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+.awards-col-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; align-items: start; }
+@media(max-width:640px){ .awards-col-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
+.bead-col { display: flex; flex-direction: column; align-items: center; position: relative; }
+.bead-col::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 1.5px;
+  background: linear-gradient(to bottom, transparent, var(--rule-mid) 8%, var(--rule-mid) 92%, transparent);
+  transform: translateX(-50%); z-index: 0;
+}
+.bead-col-label-wrap {
+  font-size: .68rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  margin-bottom: 1.25rem; position: relative; z-index: 1;
+  padding: 4px 12px; border-radius: 999px;
+  display: flex; align-items: center; gap: 5px;
+  background: var(--navy);
+}
+.bead-col-label-wrap.award    { border: 1px solid var(--gold); color: var(--gold); }
+.bead-col-label-wrap.activity { border: 1px solid #5ecfb0; color: #5ecfb0; }
+.bead-col-label-wrap.cert     { border: 1px solid #9888ff; color: #9888ff; }
+.bead-items {
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+  position: relative; z-index: 1; width: 100%;
+  transform-origin: top center; will-change: transform;
+}
+.bead {
+  width: 200px; border-radius: var(--radius);
+  padding: 9px 14px; margin: 4px 0;
+  display: flex; flex-direction: column; gap: 2px;
+  border: 1px solid var(--rule-mid);
+  background: var(--navy-2);
+  position: relative;
+  transition: border-color .2s;
+}
+.bead:hover { border-color: var(--gold); }
+.bead::before, .bead::after {
+  content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--rule-mid);
+}
+.bead::before { top: -8px; }
+.bead::after  { bottom: -8px; }
+.bead-title { font-size: .82rem; font-weight: 500; color: var(--cream); line-height: 1.3; }
+.bead-org   { font-size: .72rem; color: var(--cream-3); }
+.bead-date  { font-size: .68rem; color: var(--cream-3); margin-top: 2px; font-variant-numeric: tabular-nums; }
+.awards-empty-col { font-size: .8rem; color: var(--cream-3); font-style: italic; padding: .5rem 0; }
+
+.projects-list { display: flex; flex-direction: column; }
+.project-card { display: grid; grid-template-columns: 58% 1fr; gap: 4rem; align-items: center; padding: 7rem 0; border-bottom: 1px solid var(--rule); }
+.project-card:first-child { border-top: 1px solid var(--rule); }
+.project-card.reverse { direction: rtl; }
+.project-card.reverse > * { direction: ltr; }
+@media(max-width:680px){ .project-card, .project-card.reverse { grid-template-columns: 1fr; direction: ltr; gap: 2rem; padding: 3.5rem 0; } }
+
+.proj-media { position: relative; }
+.proj-slider { width: 100%; aspect-ratio: 16/9; background: var(--navy-3); border: 1px solid var(--rule-mid); overflow: hidden; position: relative; transition: border-color .3s; }
+.proj-slider:hover { border-color: var(--gold); }
+.proj-slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .4s ease; }
+.proj-slide.active { opacity: 1; }
+.proj-slide img, .proj-slide iframe { width: 100%; height: 100%; object-fit: cover; }
+.slide-placeholder { display: flex; flex-direction: column; align-items: center; gap: .75rem; color: var(--cream-3); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; }
+.slide-placeholder svg { width: 40px; height: 40px; stroke: var(--cream-3); fill: none; stroke-width: 1.5; }
+.slide-type-badge { position: absolute; top: .75rem; left: .75rem; font-size: .65rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding: .2rem .55rem; background: var(--gold); color: var(--navy); pointer-events: none; border-radius: 2px; }
+.slider-nav { display: flex; align-items: center; justify-content: space-between; margin-top: .75rem; }
+.slider-btn { width: 28px; height: 28px; border: none; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--cream-3); padding: 0; transition: color .2s; }
+.slider-btn:hover { color: var(--gold-light); }
+.slider-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+.slider-dots { display: flex; gap: .4rem; align-items: center; }
+.slider-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--navy-4); border: 1px solid var(--rule-mid); cursor: pointer; transition: all .25s; }
+.slider-dot.active { width: 20px; border-radius: 3px; background: var(--gold); border-color: var(--gold); }
+
+.proj-info { display: flex; flex-direction: column; gap: 1rem; }
+.proj-index { font-size: .72rem; font-weight: 600; letter-spacing: .18em; color: var(--gold); text-transform: uppercase; }
+.proj-title { font-size: clamp(1.9rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.1; letter-spacing: -.01em; color: var(--nav-bg); }
+.proj-subtitle { font-size: .88rem; color: var(--cream-3); }
+.proj-tags { display: flex; gap: .4rem; flex-wrap: wrap; margin: .2rem 0; }
+.proj-tag { font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding: .25rem .65rem; border: 1px solid var(--rule-mid); color: var(--cream-3); border-radius: var(--radius); }
+.proj-meta-row { display: flex; gap: 1.5rem; flex-wrap: wrap; padding: .9rem 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.proj-meta-item strong { display: block; font-size: .62rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--cream-3); margin-bottom: .15rem; }
+.proj-meta-item span { font-size: .88rem; color: var(--cream-2); }
+.proj-summary { font-size: .98rem; color: var(--cream-2); line-height: 1.85; }
+.proj-show-more { display: inline-flex; align-items: center; gap: .6rem; margin-top: .4rem; align-self: flex-start; font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: .7rem 1.5rem; border: 1px solid var(--gold); background: transparent; color: var(--gold); cursor: pointer; font-family: var(--sans); border-radius: var(--radius); transition: background .2s, color .2s; }
+.proj-show-more:hover { background: var(--gold); color: var(--navy); }
+.proj-show-more svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2.5; transition: transform .2s; }
+.proj-show-more:hover svg { transform: translateX(3px); }
+
+#detail-view { display: none; padding-top: 2rem; }
+#detail-view.visible { display: block; }
+.detail-back { display: inline-flex; align-items: center; gap: .5rem; font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--cream-3); cursor: pointer; background: none; border: none; font-family: var(--sans); margin-bottom: 3rem; transition: color .2s; }
+.detail-back:hover { color: var(--gold-light); }
+.detail-back svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+.detail-eyebrow { font-size: .68rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: .75rem; }
+.detail-title { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 700; line-height: 1.05; letter-spacing: -.02em; color: var(--white); margin-bottom: .4rem; }
+.detail-subtitle { font-size: .9rem; color: var(--cream-3); margin-bottom: 2.5rem; }
+.detail-media { width: 100%; aspect-ratio: 16/9; background: var(--navy-3); border: 1px solid var(--rule-mid); overflow: hidden; position: relative; margin-bottom: 1rem; }
+.detail-media-slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .4s ease; }
+.detail-media-slide.active { opacity: 1; }
+.detail-media-slide img, .detail-media-slide iframe { width: 100%; height: 100%; object-fit: cover; }
+.detail-media-nav { display: flex; align-items: center; gap: 1rem; margin-bottom: 4rem; }
+.detail-media-dots { display: flex; gap: .4rem; }
+
+/* 본문 + 사이드바 레이아웃 */
+.detail-body { display: grid; grid-template-columns: 1fr 140px; gap: 7rem; align-items: start; }
+@media(max-width:640px){ .detail-body { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+/* 본문 섹션들 */
+.detail-section {
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+  transition: opacity .4s ease;
+}
+.detail-section:first-child { border-top: 1px solid var(--rule); }
+.detail-section:last-child { border-bottom: none; }
+
+.detail-section::before {
+  content: '';
+  position: absolute;
+  left: -24px; top: 0; bottom: 0;
+  width: 1.5px;
+  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity .5s ease;
+  border-radius: 2px;
+}
+.detail-section::after {
+  content: '';
+  position: absolute;
+  left: -24px; top: 0; bottom: 0;
+  width: 160px;
+  background: linear-gradient(to right, rgba(80,64,200,.018), transparent);
+  opacity: 0;
+  transition: opacity .5s ease;
+  pointer-events: none;
+}
+.detail-section.in-view::before { opacity: .4; }
+.detail-section.in-view::after { opacity: 1; }
+.detail-section:not(.in-view) { opacity: .65; }
+.detail-section-label { font-size: .88rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.25rem; }
+.detail-section-text { font-size: .9rem; color: var(--cream-2); line-height: 1.85; }
+.detail-section-text p { margin-bottom: .75rem; }
+.detail-section-text p:last-child { margin-bottom: 0; }
+
+/* contribution 아이템 */
+.contributions { display: flex; flex-direction: column; gap: 1.5rem; }
+.contribution { background: var(--navy-2); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; display: flex; transition: border-color .2s; }
+.contribution:hover { border-color: var(--gold); }
+.contribution-img { width: 130px; flex-shrink: 0; background: var(--navy-3); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.contribution-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.contribution-img-placeholder { font-size: .65rem; color: var(--cream-3); letter-spacing: .06em; text-transform: uppercase; padding: 1rem; text-align: center; }
+.contribution-body { padding: 1.1rem 1.25rem; flex: 1; min-width: 0; }
+.contribution-title { font-size: .95rem; font-weight: 600; color: var(--white); margin-bottom: .5rem; line-height: 1.3; }
+.contribution-desc { font-size: .855rem; color: var(--cream-2); line-height: 1.85; }
+
+/* 회고 */
+.retro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+@media(max-width:500px){ .retro-grid { grid-template-columns: 1fr; } }
+.retro-card { padding: 1.1rem 1.25rem; border-radius: var(--radius); border: 1px solid var(--rule); }
+.retro-card.good { border-color: rgba(64,160,100,.25); background: rgba(64,160,100,.06); }
+.retro-card.bad  { border-color: rgba(200,151,58,.25);  background: rgba(200,151,58,.06); }
+.retro-card-label { font-size: .6rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; margin-bottom: .6rem; }
+.retro-card.good .retro-card-label { color: #4a9e6a; }
+.retro-card.bad  .retro-card-label { color: var(--gold); }
+.retro-card-text { font-size: .855rem; color: var(--cream-2); line-height: 1.8; }
+.feedback-chart { display: flex; flex-direction: column; gap: .75rem; }
+.feedback-row { display: flex; align-items: center; gap: 1rem; }
+.feedback-label { font-size: .8rem; color: var(--cream-2); width: 60px; flex-shrink: 0; }
+.feedback-bar-wrap { flex: 1; height: 8px; background: var(--navy-3); border-radius: 4px; overflow: hidden; }
+.feedback-bar { height: 100%; border-radius: 4px; background: linear-gradient(to right, #5040c8, #a0f0d8); transition: width .8s cubic-bezier(.22,1,.36,1); }
+.feedback-val { font-size: .78rem; color: var(--cream-3); width: 44px; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+/* 사이드바 */
+.detail-sidebar { position: sticky; top: calc(var(--nav-h) + 2rem); }
+.sidebar-block { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule); }
+.sidebar-block:last-child { border-bottom: none; }
+.sidebar-label { font-size: .62rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: .85rem; }
+.sidebar-value { font-size: .82rem; color: var(--cream-2); line-height: 2; }
+.sidebar-link { display: flex; align-items: center; gap: .5rem; font-size: .78rem; font-weight: 500; color: var(--cream-2); text-decoration: none; padding: .5rem .75rem; border: 1px solid var(--rule-mid); background: var(--navy-3); margin-bottom: .4rem; border-radius: var(--radius); transition: background .2s, color .2s, border-color .2s; }
+.sidebar-link:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+.sidebar-link svg { width: 12px; height: 12px; stroke: currentColor; fill: none; }
+
+footer { background: var(--nav-bg); padding: 0; }
+.footer-wave {
+  width: 100%; height: 40px;
+  position: relative; overflow: hidden; line-height: 0;
+  background: var(--bg);
+}
+.footer-wave svg {
+  position: absolute; bottom: 0; left: 0;
+  height: 40px; will-change: transform;
+}
+.fwsvg1 { width: 2880px; }
+.fwsvg2 { width: 2880px; opacity: .65; }
+.fwsvg3 { width: 2880px; opacity: .38; }
+.footer-inner { max-width: var(--max-w); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; padding: 2.5rem var(--pad); }
+.footer-brand { font-size: 1rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--nav-ink); }
+.footer-brand span { color: var(--nav-accent); }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { font-size: .72rem; font-weight: 500; letter-spacing: .08em; color: var(--nav-ink-2); text-decoration: none; transition: color .2s; }
+.footer-links a:hover { color: var(--nav-accent); }
+.footer-copy { font-size: .72rem; color: var(--nav-ink-2); width: 100%; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+.fade-up { animation: fadeUp .55s ease both; }
+.fu1{animation-delay:.06s} .fu2{animation-delay:.13s} .fu3{animation-delay:.20s} .fu4{animation-delay:.27s} .fu5{animation-delay:.34s}
+
+.detail-nav-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--rule); flex-wrap: wrap; }
+.detail-nav-btn { display: inline-flex; align-items: center; gap: .5rem; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: .65rem 1.25rem; border: 1px solid var(--rule-mid); background: transparent; color: var(--cream-2); cursor: pointer; font-family: var(--sans); border-radius: var(--radius); transition: background .2s, color .2s, border-color .2s; }
+.detail-nav-btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+.detail-nav-btn:disabled { opacity: .3; cursor: default; pointer-events: none; }
+.detail-nav-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+.detail-nav-center { display: flex; gap: .75rem; }
+.shelf-row { display: flex; flex-direction: row; gap: 6px; align-items: flex-end; padding: 0 8px; flex-wrap: wrap; }
+.shelf-floor { height: 6px; background: var(--rule-mid); border-radius: 2px; margin: 0 0 1rem; }
+.shelf-legend { display: flex; gap: 1.25rem; flex-wrap: wrap; padding: 0 8px; }
+.shelf-legend-item { display: flex; align-items: center; gap: 6px; font-size: .72rem; color: var(--cream-3); }
+.shelf-legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+.book-wrap { position: relative; flex-shrink: 0; width: 38px; cursor: default; z-index: 1; }
+.book-wrap:hover { z-index: 500; }
+.book-inner {
+  position: relative; width: 38px;
+  transition: transform .4s cubic-bezier(.34,1.2,.64,1), box-shadow .4s;
+}
+.book-wrap:hover .book-inner {
+  transform: translateY(-60px);
+  box-shadow: 0 20px 40px rgba(0,0,0,.5);
+}
+.book-spine-el {
+  width: 38px; border-radius: 3px;
+  border-left: 3px solid rgba(255,255,255,.2);
+  display: flex; flex-direction: column; padding: 10px 5px;
+  position: relative; z-index: 1;
+}
+.book-spine { writing-mode: vertical-lr; font-size: 11px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; font-family: var(--sans); }
+.book-cover-panel {
+  position: absolute; bottom: 0; left: 0;
+  width: 0; height: 100%; border-radius: 3px;
+  overflow: hidden; z-index: 3;
+  transition: width .4s cubic-bezier(.34,1.1,.64,1);
+}
+.book-wrap:hover .book-cover-panel { width: calc(var(--book-h) * 2 / 3); }
+.book-cover-img { height: 100%; width: auto; object-fit: cover; display: block; }
+.book-cover-bg { height: 100%; width: 100%; }
+.book-popup {
+  position: absolute; top: 0; width: 180px;
+  background: var(--navy-2); border: 1px solid var(--rule-mid);
+  border-radius: var(--radius); padding: 12px;
+  opacity: 0; pointer-events: none;
+  transform: translateX(-4px);
+  transition: opacity .2s ease, transform .2s ease;
+  z-index: 400;
+}
+.book-wrap:hover .book-popup { opacity: 1; pointer-events: auto; transform: translateX(0); transition-delay: .28s; }
+.book-popup-genre { font-size: .6rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 5px; }
+.book-popup-title { font-size: .82rem; font-weight: 500; color: var(--cream); line-height: 1.35; margin-bottom: 2px; }
+.book-popup-author { font-size: .75rem; color: var(--cream-3); margin-bottom: 6px; }
+.book-popup-memo { font-size: .75rem; color: var(--cream-3); line-height: 1.5; border-top: 1px solid var(--rule); padding-top: 6px; }
+
+/* ── 섹션 좌측 그라디언트 라이트 ── */
+.section-highlight { position: relative; overflow: visible; }
+.section-highlight::before { display: none; }
+
+/* 라이트 오버레이 — fixed, JS로 위치 제어 */
+#section-light {
+  position: fixed;
+  left: 0; top: 0;
+  width: 40vw;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(to right, rgba(80,64,200,.055) 0%, rgba(80,64,200,.02) 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+#section-light.visible { opacity: 1; }
+
+/* ── 프로젝트 scale up + 카드 light ── */
+.project-card {
+  transform: scale(0.97);
+  opacity: .6;
+  transition: transform .5s cubic-bezier(.22,1,.36,1), opacity .5s ease;
+  position: relative; overflow: visible;
+}
+.project-card::after {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--pad)); right: 0; top: 0; bottom: 0;
+  background: linear-gradient(to right, rgba(80,64,200,.09) 0%, rgba(80,64,200,.03) 45%, transparent 80%);
+  opacity: 0;
+  transition: opacity .5s ease;
+  pointer-events: none;
+}
+.project-card.in-view {
+  transform: scale(1);
+  opacity: 1;
+}
+.project-card.in-view::after { opacity: 1; }
+
+@media print {
+  :root { --navy:#fff; --navy-2:#fff; --navy-3:#f4f4f4; --cream:#111; --cream-2:#333; --cream-3:#666; --white:#000; --gold:#8a6420; }
+  #nav { position: static; }
+  #detail-view { display: none !important; }
+  .proj-show-more { display: none; }
+  .project-card { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div id="section-light"></div>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" onclick="showList();return false;">SW<span>.</span>CHOI</a>
+    <ul class="nav-links">
+      <li><a href="#about"       onclick="showList()">About</a></li>
+      <li><a href="#skills"      onclick="showList()">Skills</a></li>
+      <li><a href="#projects"    onclick="showList()">Projects</a></li>
+      <li><a href="#other-works" onclick="showList()">Etc</a></li>
+      <li><a href="#books"       onclick="showList()">Books</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div id="list-view">
+
+    <section id="about">
+      <div class="eyebrow">About</div>
+      <div id="about-grid">
+        <div class="about-photo" id="about-photo-wrap"><span>PHOTO</span></div>
+        <div class="fade-up fu1">
+          <div class="about-tag" id="about-role-tag"></div>
+          <h1 class="about-name" id="about-name-ko"></h1>
+          <div class="about-name-en" id="about-name-en"></div>
+          <div class="about-divider"></div>
+          <div class="about-meta" id="about-meta"></div>
+          <div class="link-icons" id="link-icons"></div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <section id="skills">
+      <div class="eyebrow">Skills &amp; Tools</div>
+      <div class="skills-grid" id="skills-grid"></div>
+    </section>
+
+    <hr class="rule">
+    <section id="awards">
+      <div class="eyebrow">Awards &amp; Activities</div>
+      <div class="awards-col-grid" id="awards-col-grid"></div>
+    </section>
+
+    <hr class="rule">
+
+    <section id="projects">
+      <div class="eyebrow">Projects</div>
+      <div class="projects-list" id="projects-list"></div>
+    </section>
+
+    <hr class="rule">
+
+    <section id="other-works">
+      <div class="eyebrow">기타 프로젝트 &amp; 과제</div>
+      <div class="other-works-grid" id="other-works-grid"></div>
+    </section>
+
+    <hr class="rule">
+
+    <section id="books">
+      <div class="eyebrow">참고도서</div>
+      <div class="shelf-row" id="shelf"></div>
+      <div class="shelf-floor"></div>
+      <div class="shelf-legend" id="shelf-legend"></div>
+    </section>
+
+  </div>
+
+  <div id="detail-view">
+    <button class="detail-back" onclick="showList()">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Projects
+    </button>
+    <div class="detail-eyebrow" id="d-eyebrow"></div>
+    <h2 class="detail-title" id="d-title"></h2>
+    <div class="detail-subtitle" id="d-subtitle"></div>
+    <div class="detail-media" id="d-media"></div>
+    <div class="detail-media-nav">
+      <button class="slider-btn" id="d-prev"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="detail-media-dots" id="d-dots"></div>
+      <button class="slider-btn" id="d-next"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+    <div class="detail-body">
+      <div id="d-main"></div>
+      <aside class="detail-sidebar" id="d-sidebar"></aside>
+    </div>
+    <div class="detail-nav-row" id="d-nav-row"></div>
+  </div>
+</main>
+
+<div class="footer-wave" aria-hidden="true">
+  <svg class="fwsvg3" viewBox="0 0 2880 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="height:60px">
+    <path d="M0,60 C30,38 60,38 90,38 C120,38 150,60 180,60 C210,60 240,38 270,38 C300,38 330,60 360,60 C390,60 420,38 450,38 C480,38 510,60 540,60 C570,60 600,38 630,38 C660,38 690,60 720,60 C750,60 780,38 810,38 C840,38 870,60 900,60 C930,60 960,38 990,38 C1020,38 1050,60 1080,60 C1110,60 1140,38 1170,38 C1200,38 1230,60 1260,60 C1290,60 1320,38 1350,38 C1380,38 1410,60 1440,60 C1470,60 1500,38 1530,38 C1560,38 1590,60 1620,60 C1650,60 1680,38 1710,38 C1740,38 1770,60 1800,60 C1830,60 1860,38 1890,38 C1920,38 1950,60 1980,60 C2010,60 2040,38 2070,38 C2100,38 2130,60 2160,60 C2190,60 2220,38 2250,38 C2280,38 2310,60 2340,60 C2370,60 2400,38 2430,38 C2460,38 2490,60 2520,60 C2550,60 2580,38 2610,38 C2640,38 2670,60 2700,60 C2730,60 2760,38 2790,38 C2820,38 2850,60 2880,60 V60 H0 Z" fill="#a0f0d8"/>
+  </svg>
+  <svg class="fwsvg2" viewBox="0 0 2880 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="height:48px">
+    <path d="M0,48 C60,30 120,30 180,30 C240,30 300,48 360,48 C420,48 480,30 540,30 C600,30 660,48 720,48 C780,48 840,30 900,30 C960,30 1020,48 1080,48 C1140,48 1200,30 1260,30 C1320,30 1380,48 1440,48 C1500,48 1560,30 1620,30 C1680,30 1740,48 1800,48 C1860,48 1920,30 1980,30 C2040,30 2100,48 2160,48 C2220,48 2280,30 2340,30 C2400,30 2460,48 2520,48 C2580,48 2640,30 2700,30 C2760,30 2820,48 2880,48 V48 H0 Z" fill="#6b58e0"/>
+  </svg>
+  <svg class="fwsvg1" viewBox="0 0 2880 32" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="height:32px">
+    <path d="M0,32 C90,20 180,20 270,20 C360,20 450,32 540,32 C630,32 720,20 810,20 C900,20 990,32 1080,32 C1170,32 1260,20 1350,20 C1440,20 1530,32 1620,32 C1710,32 1800,20 1890,20 C1980,20 2070,32 2160,32 C2250,32 2340,20 2430,20 C2520,20 2610,32 2700,32 C2790,32 2880,20 2880,20 V32 H0 Z" fill="#1a1440"/>
+  </svg>
+</div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">SW<span>.</span>CHOI</div>
+    <nav class="footer-links">
+      <a href="#about"       onclick="showList()">About</a>
+      <a href="#skills"      onclick="showList()">Skills</a>
+      <a href="#awards"      onclick="showList()">Awards</a>
+      <a href="#projects"    onclick="showList()">Projects</a>
+      <a href="#other-works" onclick="showList()">Etc</a>
+      <a href="#books"       onclick="showList()">Books</a>
+    </nav>
+    <div class="footer-copy" id="footer-copy"></div>
+  </div>
+</footer>
+
+<script>
+// ============================================================
+//  PORTFOLIO DATA — 기업 지원 시 이 블록만 수정하세요
+// ============================================================
+const PROFILE = {
+  nameKo: "최성원", nameEn: "SEONGWON CHOI",
+  role: "Game Client Programmer",
+  university: "중앙대학교 소프트웨어학부",
+  email: "qwik0102@gmail.com",
+  links: [
+    { label: "GitHub",  icon: "github",  url: "https://github.com/1Seong" },
+    { label: "Steam",   icon: "steam",   url: "https://steamcommunity.com/profiles/76561198190444966/" },
+    { label: "Notion",  icon: "notion",  url: "https://www.notion.so/193a55184a7480548fcfda8ec4d58c03" },
+  ],
+};
+const SKILLS = [
+  { category: "언어",     items: [{ name:"C#", icon:"" }, { name:"C++", icon:"" }] },
+  { category: "엔진",     items: [{ name:"Unity 6", icon:"" }, { name:"URP", icon:"" }] },
+  { category: "라이브러리", items: [{ name:"Photon", icon:"" }, { name:"DOTween", icon:"" }, { name:"Localization", icon:"" }, { name:"ASP.NET", icon:"" }] },
+  { category: "툴",       items: [{ name:"Aseprite", icon:"" }, { name:"Rider", icon:"" }, { name:"Git", icon:"" }] },
+  { category: "플랫폼",   items: [{ name:"PC / Steam", icon:"" }, { name:"Android", icon:"" }] },
+];
+const BOOKS = [
+  // 예시 형식:
+  // { title: "책 제목", author: "저자", genre: "언어", memo: "한 줄 메모", h: 190 },
+  // genre는 "언어", "엔진", "소프트웨어 개발", "네트워크" 중 하나
+  // h는 책 높이(px) — 150~220 사이로 자유롭게 지정
+  { title: "Game Programming Patterns", author: "Robert Nystrom",    genre: "엔진",         memo: "디자인 패턴을 게임 맥락으로. 아키텍처 설계에 큰 도움.", h: 200 },
+  { title: "클린 코드",                  author: "Robert C. Martin", genre: "소프트웨어 개발", memo: "가독성 높은 코드 작성법. 네이밍과 함수 설계에 영향받음.", h: 180 },
+  { title: "실용주의 프로그래머",          author: "David Thomas",     genre: "소프트웨어 개발", memo: "소프트웨어 장인 정신. 개발 철학에 영향받음.", h: 190 },
+  { title: "알고리즘 문제해결 전략",       author: "구종만",             genre: "언어",          memo: "PS 기초부터 고급까지. 알고리즘 역량 향상에 핵심.", h: 210 },
+  { title: "TCP/IP 완벽 가이드",         author: "Charles M. Kozierok", genre: "네트워크",    memo: "멀티플레이어 구현 시 레퍼런스로 참조.", h: 170 },
+  { title: "컴퓨터 구조와 원리",          author: "백준흠",              genre: "언어",         memo: "하드웨어 동작 원리 이해. CS 기초 다지기.", h: 185 },
+  { title: "Unity Shader Graph",        author: "John P. Doran",    genre: "엔진",          memo: "URP 셰이더 입문서. 비주얼 이펙트 구현 시 참고.", h: 160 },
+];
+const AWARDS = {
+  // 예시 형식:
+  // 수상: [{ date:"2024.06", title:"수상명", org:"주관기관" }],
+  // 대외활동: [{ date:"2023.01", title:"활동명", org:"기관명" }],
+  // 시험및자격증: [{ date:"2024.11", title:"TOPCIT 500점", org:"정보통신기획평가원" }],
+  수상: [
+    { date:"2024.06", title:"우수상 — 캡스톤 디자인 경진대회", org:"중앙대학교" },
+  ],
+  대외활동: [
+    { date:"2023.01", title:"Global Game Jam 참가", org:"IGDA" },
+  ],
+  시험및자격증: [
+    { date:"2024.11", title:"TOPCIT 500점", org:"정보통신기획평가원" },
+  ],
+};
+const OTHER_WORKS = [
+  // 예시 형식:
+  // { category: "카테고리명", items: ["구현 항목 1", "구현 항목 2", "구현 항목 3"] },
+  {
+    category: "소프트웨어 개발",
+    items: ["클라이언트-서버 채팅 앱", "파일 탐색기 UI", "간단한 컴파일러 구현"],
+  },
+  {
+    category: "운영체제",
+    items: ["프로세스 스케줄러", "메모리 관리자", "파일 시스템 구현"],
+  },
+  {
+    category: "인공지능",
+    items: ["A* 경로 탐색", "미니맥스 게임 AI", "CNN 이미지 분류"],
+  },
+  {
+    category: "컴퓨터 그래픽스",
+    items: ["OpenGL 3D 렌더러", "레이트레이싱", "쉐이더 구현"],
+  },
+  {
+    category: "자료구조 / 알고리즘",
+    items: ["AVL 트리", "그래프 탐색 (BFS/DFS)", "동적 프로그래밍 문제풀이"],
+  },
+  {
+    category: "데이터베이스",
+    items: ["ERD 설계 및 구현", "SQL 질의 최적화", "트랜잭션 관리"],
+  },
+];
+const PROJECT_ORDER = ["square_erauqs", "project_b"];
+// 프로젝트 순서 변경 시 배열 순서만 바꾸면 됩니다.
+// 예: ["project_b", "square_erauqs"] → project_b가 먼저 표시됨
+
+const PROJECTS = {
+  // 예시 형식:
+  // project_id: {
+  //   id: "project_id",
+  //   title: "제목", subtitle: "한 줄 설명",
+  //   meta: { engine:"Unity", platform:"Android", team:"1인 개발", year:"2024" },
+  //   tags: ["태그1", "태그2"],
+  //   media: [
+  //     { type:"video", src:"유튜브_embed_URL", label:"Trailer" },
+  //     { type:"image", src:"assets/img.png", label:"Gameplay" },
+  //   ],
+  //   summary: "카드에 표시되는 요약 한두 줄.",
+  //   role: "팀 내 나의 역할 설명.",
+  //   activities: ["대외활동 태그1", "대외활동 태그2"],  // 없으면 null
+  //   contributions: [ { title:"기여 제목", desc:"상세 설명." } ],
+  //   optimizations: [ { title:"최적화 제목", desc:"상세 설명." } ],  // 없으면 []
+  //   retrospective: {
+  //     good: "좋았던 점.",
+  //     bad: "아쉬웠던 점.",
+  //     feedback: "유저 피드백 또는 null",
+  //   },
+  //   other_contributions: "기획·아트 등 기술 외 기여 또는 null",
+  //   links: [ { label:"Steam", url:"https://..." } ],
+  // },
+  square_erauqs: {
+    id:"square_erauqs", title:"SQUARE::ERAUQS", subtitle:"모바일 뱀서라이크",
+    meta:{ engine:"Unity 6 · URP", platform:"Android", team:"1인 개발", year:"2024" },
+    tags:["뱀서라이크","모바일","1인 개발"],
+    media:[
+      { type:"video", src:"", label:"Trailer" },
+      { type:"image", src:"", label:"Gameplay" },
+      { type:"image", src:"", label:"UI" },
+    ],
+    summary:"Unity 6 URP 기반 모바일 뱀서라이크 게임. 전반적인 클라이언트 개발을 단독으로 담당했습니다.",
+    role:"기획, 개발, 아트, 출시까지 전 과정을 단독으로 담당.",
+    activities:["IGD Seoul 정기 세션 참여 (2024.03~08)", "모바일 최적화 주제 발표"],
+    contributions:[
+      { title:"모바일 Safe Area 대응", desc:"노치·펀치홀 기기 대응을 위한 Safe Area 핸들러 직접 구현.", images:[] },
+      { title:"URP 렌더링 최적화", desc:"VSync + Target Framerate 코드 제어로 GPU 병목 해소, 안정적인 60fps 달성.", images:[] },
+      { title:"Unity Localization 시스템", desc:"Sprite Events를 활용한 다국어 UI 전환 구현. Animator Override Controller 클립 속도 버그 직접 디버깅·해결.", images:[] },
+      { title:"Android 빌드 파이프라인", desc:"커스텀 앱 표시명 유지를 위한 IPostGenerateGradleAndroidProject 에디터 스크립트 작성.", images:[] },
+      { title:"오디오 시스템", desc:"Audio Mixer 초기화 타이밍 이슈 해결 및 씬 전환 간 오디오 안정성 확보.", images:[] },
+    ],
+    optimizations:[
+      { title:"GPU 드로우콜 최적화", desc:"스프라이트 아틀라스 통합 및 카메라 컬링으로 드로우콜 40% 감소.", images:[] },
+    ],
+    retrospective:{
+      good:"1인 개발로 전체 파이프라인을 경험할 수 있었고, 실제 출시까지 완주한 점이 가장 큰 수확.",
+      bad:"초기 아키텍처 설계 미흡으로 후반부 리팩토링에 많은 시간이 소요됨.",
+    },
+    feedback:[
+      // 예시 형식: { label:"항목명", value:85, max:100, unit:"%" }
+      // value/max로 비율 표시, unit은 표시용 (점수, %, 개 등)
+      { label:"재미", value:4.2, max:5, unit:"/5" },
+      { label:"조작감", value:3.8, max:5, unit:"/5" },
+      { label:"그래픽", value:4.5, max:5, unit:"/5" },
+      { label:"난이도", value:3.2, max:5, unit:"/5" },
+      { label:"완성도", value:4.0, max:5, unit:"/5" },
+    ],
+    other_contributions:[
+      { title:"픽셀 아트 & 레벨 디자인", desc:"캐릭터, 배경, UI 아이콘 등 픽셀 아트 전체 제작. 레벨 디자인 직접 담당.", images:[] },
+    ],
+    links:[],
+  },
+  project_b: {
+    id:"project_b", title:"프로젝트 B", subtitle:"3D 퍼즐 플랫포머",
+    meta:{ engine:"Unity", platform:"PC", team:"팀 프로젝트", year:"2023" },
+    tags:["퍼즐","플랫포머","PC"],
+    media:[
+      { type:"image", src:"", label:"Screenshot 1" },
+      { type:"image", src:"", label:"Screenshot 2" },
+    ],
+    summary:"3D 퍼즐 플랫포머. 핵심 게임플레이 시스템 및 레벨 로직 담당.",
+    role:"클라이언트 프로그래머. 게임플레이 시스템 및 Android 포팅 담당.",
+    activities:null,
+    contributions:[
+      { title:"레시피 언락 시스템", desc:"PlayerPrefs 기반 영속 데이터 관리, 키 충돌 방지 구조 설계.", images:[] },
+      { title:"Android 포팅", desc:"CMake 빌드 에러(Windows 경로 길이 제한) 해결 및 URP 셰이더 호환성 수정.", images:[] },
+    ],
+    optimizations:[],
+    retrospective:{
+      good:"팀 협업 워크플로우와 Git 브랜치 전략을 실전에서 익힐 수 있었음.",
+      bad:"사전 기술 스택 합의가 부족해 초반 통합 과정에서 충돌이 잦았음.",
+    },
+    feedback:null,
+    other_contributions:null,
+    links:[],
+  },
+};
+// ============================================================
+</script>
+<script>
+const IC = {
+  github:`<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>`,
+  steam:`<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.029 4.524 4.524s-2.03 4.524-4.524 4.524h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.718L.436 15.27C1.862 20.307 6.486 24 11.979 24 18.658 24 24 18.658 24 11.979 24 5.3 18.658 0 11.979 0z"/></svg>`,
+  notion:`<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg>`,
+  ext:`<svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" width="12" height="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>`,
+  arr:`<svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
+  vid:`<svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" width="36" height="36"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
+  img:`<svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" width="36" height="36"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
+};
+
+function buildAbout(){
+  document.getElementById('about-role-tag').textContent=PROFILE.role;
+  document.getElementById('about-name-ko').textContent=PROFILE.nameKo;
+  document.getElementById('about-name-en').textContent=PROFILE.nameEn;
+  document.getElementById('about-meta').innerHTML=`${PROFILE.university}<br><a href="mailto:${PROFILE.email}">${PROFILE.email}</a>`;
+  document.getElementById('footer-copy').textContent=`© ${new Date().getFullYear()} ${PROFILE.nameEn} — Game Client Programmer`;
+  const w=document.getElementById('link-icons');
+  PROFILE.links.forEach(l=>{
+    const a=document.createElement('a'); a.className='link-icon'; a.href=l.url; a.target='_blank'; a.rel='noopener';
+    a.innerHTML=`${IC[l.icon]||''} ${l.label}`; w.appendChild(a);
+  });
+}
+
+function buildSkills(){
+  const ITEM_H=34, PAD_B=10, CAT_H=44, MIN_CUP_H=180;
+  const THEMES={
+    footer:  {bg:'#16133a',border:'#4a40a0',water:'#2e2870',wave2:'#3e3888',catColor:'#b8a8ff',itemColor:'#d8d0ff',badgeBg:'rgba(184,168,255,.2)',badgeColor:'#b8a8ff'},
+    tool:    {bg:'#131828',border:'#384888',water:'#263468',wave2:'#364480',catColor:'#90b0e8',itemColor:'#b8d0ff',badgeBg:'rgba(144,176,232,.2)',badgeColor:'#90b0e8'},
+    platform:{bg:'#0c1e2a',border:'#285878',water:'#1e4860',wave2:'#2c5878',catColor:'#80c8e0',itemColor:'#a8ddf0',badgeBg:'rgba(128,200,224,.2)',badgeColor:'#80c8e0'},
+  };
+  const cupTheme=['footer','footer','footer','tool','platform'];
+  const g=document.getElementById('skills-grid');
+
+  SKILLS.forEach((cat,idx)=>{
+    const t=THEMES[cupTheme[idx]||'footer'];
+    const n=cat.items.length;
+    const waterH=Math.max(44, n*ITEM_H+PAD_B+20);
+    const cupH=Math.max(MIN_CUP_H, waterH+CAT_H+10);
+
+    const div=document.createElement('div');
+    div.className='cup';
+    div.style.cssText=`background:${t.bg};border:1.5px solid ${t.border};height:${cupH}px;`;
+
+    const itemsHTML=cat.items.map(it=>{
+      const badge=it.icon
+        ? `<img src="${it.icon}" alt="${it.name}" style="width:18px;height:18px;object-fit:contain;flex-shrink:0">`
+        : `<div class="cup-badge" style="background:${t.badgeBg};color:${t.badgeColor}">${it.name.replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase()}</div>`;
+      return `<div class="cup-item" style="color:${t.itemColor}">${badge}${it.name}</div>`;
+    }).join('');
+
+    div.innerHTML=`
+      <div class="cup-cat" style="color:${t.catColor}">
+        <div class="cup-cat-dot" style="background:${t.catColor}"></div>${cat.category}
+      </div>
+      <div class="cup-water" style="height:${waterH}px;background:${t.water}">
+        <div class="wave-wrap">
+          <svg class="wave-svg cwl2" viewBox="0 0 720 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,18 C90,2 180,22 270,18 C360,2 450,22 540,18 C630,2 720,22 720,18 L720,22 L0,22 Z" fill="${t.wave2}"/>
+          </svg>
+        </div>
+        <div class="wave-wrap">
+          <svg class="wave-svg cwl1" viewBox="0 0 720 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,12 C60,4 120,20 180,12 C240,4 300,20 360,12 C420,4 480,20 540,12 C600,4 660,20 720,12 L720,22 L0,22 Z" fill="${t.water}"/>
+          </svg>
+        </div>
+      </div>
+      <div class="cup-items">${itemsHTML}</div>`;
+    g.appendChild(div);
+  });
+}
+
+function buildAwards(){
+  const grid = document.getElementById('awards-col-grid');
+  if(!grid) return;
+  const cols = [
+    { key:'수상',         label:'수상',          cls:'award',    icon:'ti-trophy' },
+    { key:'대외활동',     label:'대외활동',       cls:'activity', icon:'ti-users' },
+    { key:'시험및자격증', label:'시험 및 자격증', cls:'cert',     icon:'ti-certificate' },
+  ];
+
+  const STIFFNESS = 0.04, DAMPING = 0.88, MAX_ANGLE = 3.5;
+
+  cols.forEach(col => {
+    const items = AWARDS[col.key] || [];
+    const colEl = document.createElement('div');
+    colEl.className = 'bead-col';
+
+    const beadsHTML = items.length
+      ? items.map(a=>`
+          <div class="bead">
+            <div class="bead-title">${a.title}</div>
+            <div class="bead-org">${a.org}</div>
+            <div class="bead-date">${a.date}</div>
+          </div>`).join('')
+      : `<div class="awards-empty-col">— 추후 업데이트 예정 —</div>`;
+
+    colEl.innerHTML = `
+      <div class="bead-col-label-wrap ${col.cls}">
+        <i class="ti ${col.icon}" aria-hidden="true"></i>${col.label}
+      </div>
+      <div class="bead-items">${beadsHTML}</div>`;
+    grid.appendChild(colEl);
+
+    // 스프링 물리
+    const chain = colEl.querySelector('.bead-items');
+    let angle = 0, velocity = 0, target = 0, raf = null;
+
+    function tick(){
+      velocity = (velocity + (target - angle) * STIFFNESS) * DAMPING;
+      angle += velocity;
+      chain.style.transform = `rotate(${angle}deg)`;
+      if(Math.abs(velocity) < 0.001 && Math.abs(angle - target) < 0.001){
+        chain.style.transform = `rotate(${target}deg)`;
+        cancelAnimationFrame(raf); raf = null; return;
+      }
+      raf = requestAnimationFrame(tick);
+    }
+    function start(){ if(!raf) raf = requestAnimationFrame(tick); }
+
+    colEl.addEventListener('mouseenter', () => { target = MAX_ANGLE; start(); });
+    colEl.addEventListener('mouseleave', () => { target = 0; start(); });
+    colEl.addEventListener('mousemove', e => {
+      const r = colEl.getBoundingClientRect();
+      target = ((e.clientX - r.left) / r.width - 0.5) * MAX_ANGLE * 2;
+      start();
+    });
+  });
+}
+
+function makeSlider(media,cont,dots,prev,next){
+  let cur=0; const sl=[];
+  media.forEach((m,i)=>{
+    const s=document.createElement('div'); s.className='proj-slide'+(i===0?' active':'');
+    s.innerHTML=m.src?(m.type==='video'?`<iframe src="${m.src}" frameborder="0" allowfullscreen></iframe>`:`<img src="${m.src}" alt="${m.label}" loading="lazy">`):`<div class="slide-placeholder">${m.type==='video'?IC.vid:IC.img}<span>${m.label}</span></div>`;
+    if(m.label){const b=document.createElement('div');b.className='slide-type-badge';b.textContent=m.label;s.appendChild(b);}
+    cont.appendChild(s); sl.push(s);
+  });
+  media.forEach((_,i)=>{
+    const d=document.createElement('div'); d.className='slider-dot'+(i===0?' active':'');
+    d.addEventListener('click',()=>go(i)); dots.appendChild(d);
+  });
+  function go(n){sl[cur].classList.remove('active');dots.children[cur].classList.remove('active');cur=(n+sl.length)%sl.length;sl[cur].classList.add('active');dots.children[cur].classList.add('active');}
+  if(prev)prev.addEventListener('click',e=>{e.stopPropagation();go(cur-1);});
+  if(next)next.addEventListener('click',e=>{e.stopPropagation();go(cur+1);});
+}
+
+function buildProjects(){
+  const list=document.getElementById('projects-list');
+  PROJECT_ORDER.forEach((id,idx)=>{
+    const p=PROJECTS[id]; if(!p)return;
+    const card=document.createElement('article'); card.className='project-card'+(idx%2===1?' reverse':'');
+    const mw=document.createElement('div'); mw.className='proj-media';
+    const sl=document.createElement('div'); sl.className='proj-slider';
+    const dw=document.createElement('div'); dw.className='slider-dots';
+    const pb=document.createElement('button'); pb.className='slider-btn'; pb.setAttribute('aria-label','이전'); pb.innerHTML=`<svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>`;
+    const nb=document.createElement('button'); nb.className='slider-btn'; nb.setAttribute('aria-label','다음'); nb.innerHTML=`<svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>`;
+    const nr=document.createElement('div'); nr.className='slider-nav'; nr.append(pb,dw,nb);
+    mw.append(sl,nr); makeSlider(p.media,sl,dw,pb,nb);
+    const info=document.createElement('div'); info.className='proj-info';
+    const metaFiltered=Object.entries(p.meta).filter(([k])=>k!=='year');
+    const mh=metaFiltered.map(([k,v])=>`<div class="proj-meta-item"><strong>${k}</strong><span>${v}</span></div>`).join('');
+    const th=p.tags.map(t=>`<span class="proj-tag">${t}</span>`).join('');
+    info.innerHTML=`
+      <div class="proj-index">${p.meta.year||''}</div>
+      <h3 class="proj-title">${p.title}</h3>
+      <div class="proj-tags">${th}</div>
+      <div class="proj-meta-row">${mh}</div>
+      <p class="proj-summary">${p.summary}</p>
+      <button class="proj-show-more" data-id="${p.id}">Show more ${IC.arr}</button>`;
+    card.append(mw,info); list.appendChild(card);
+  });
+  document.querySelectorAll('.proj-show-more').forEach(b=>{
+    b.addEventListener('click',e=>{e.stopPropagation();showDetail(b.dataset.id);});
+  });
+}
+
+let _currentDetailId = null;
+
+function showDetail(id){
+  const p=PROJECTS[id]; if(!p)return;
+  _currentDetailId = id;
+  document.getElementById('d-eyebrow').textContent=p.meta.year+' · '+p.meta.engine;
+  document.getElementById('d-title').textContent=p.title;
+  document.getElementById('d-subtitle').textContent=p.subtitle;
+  const dm=document.getElementById('d-media'); dm.innerHTML='';
+  const dd=document.getElementById('d-dots'); dd.innerHTML='';
+  let dc=0; const ds=[];
+  p.media.forEach((m,i)=>{
+    const s=document.createElement('div'); s.className='detail-media-slide'+(i===0?' active':'');
+    s.innerHTML=m.src?(m.type==='video'?`<iframe src="${m.src}" frameborder="0" allowfullscreen></iframe>`:`<img src="${m.src}" alt="${m.label}">`):`<div class="slide-placeholder">${m.type==='video'?IC.vid:IC.img}<span>${m.label}</span></div>`;
+    dm.appendChild(s); ds.push(s);
+    const d=document.createElement('div'); d.className='slider-dot'+(i===0?' active':'');
+    d.addEventListener('click',()=>dgo(i)); dd.appendChild(d);
+  });
+  function dgo(n){ds[dc].classList.remove('active');dd.children[dc].classList.remove('active');dc=(n+ds.length)%ds.length;ds[dc].classList.add('active');dd.children[dc].classList.add('active');}
+  document.getElementById('d-prev').onclick=()=>dgo(dc-1);
+  document.getElementById('d-next').onclick=()=>dgo(dc+1);
+  // 사이드바 (Info / Tags / Links)
+  const metaRows=Object.entries(p.meta).map(([k,v])=>`
+    <div style="margin-bottom:.5rem">
+      <span style="font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)">${k}</span><br>
+      <span style="font-size:.82rem;color:var(--cream-2)">${v}</span>
+    </div>`).join('');
+  const linksHTML=p.links.length
+    ? p.links.map(l=>`<a class="sidebar-link" href="${l.url}" target="_blank" rel="noopener">${IC.ext} ${l.label}</a>`).join('')
+    : `<span style="font-size:.8rem;color:var(--cream-3);font-style:italic">— 준비 중 —</span>`;
+  document.getElementById('d-sidebar').innerHTML=`
+    <div class="sidebar-block"><div class="sidebar-label">Info</div><div class="sidebar-value">${metaRows}</div></div>
+    <div class="sidebar-block"><div class="sidebar-label">Tags</div><div class="proj-tags">${p.tags.map(t=>`<span class="proj-tag">${t}</span>`).join('')}</div></div>
+    <div class="sidebar-block"><div class="sidebar-label">Links</div>${linksHTML}</div>`;
+
+  // 본문 섹션들
+  const main = document.getElementById('d-main');
+  main.innerHTML = '';
+
+  const sections = [];
+
+  // 1. Role
+  sections.push(`<div class="detail-section">
+    <div class="detail-section-label">나의 역할</div>
+    <div class="detail-section-text">${p.role}</div>
+  </div>`);
+
+  // 2. Activities (있을 때만)
+  if(p.activities && p.activities.length){
+    const tagsHTML=p.activities.map(a=>`<span class="ow-tag">${a}</span>`).join('');
+    sections.push(`<div class="detail-section">
+      <div class="detail-section-label">대외활동</div>
+      <div class="ow-tags">${tagsHTML}</div>
+    </div>`);
+  }
+
+  // 3. Technical Contributions
+  function contribCard(c){
+    const imgHTML = c.images && c.images.length
+      ? `<div class="contribution-img"><img src="${c.images[0]}" alt="${c.title}"></div>`
+      : '';
+    return `<div class="contribution">${imgHTML}<div class="contribution-body"><div class="contribution-title">${c.title}</div><div class="contribution-desc">${c.desc}</div></div></div>`;
+  }
+
+  const contribHTML = p.contributions.map(contribCard).join('');
+  sections.push(`<div class="detail-section">
+    <div class="detail-section-label">Technical Contributions</div>
+    <div class="contributions">${contribHTML}</div>
+  </div>`);
+
+  // 4. Optimizations (있을 때만)
+  if(p.optimizations && p.optimizations.length){
+    const optHTML = p.optimizations.map(contribCard).join('');
+    sections.push(`<div class="detail-section">
+      <div class="detail-section-label">최적화</div>
+      <div class="contributions">${optHTML}</div>
+    </div>`);
+  }
+
+  // 5. Retrospective
+  if(p.retrospective){
+    const r=p.retrospective;
+    sections.push(`<div class="detail-section">
+      <div class="detail-section-label">회고</div>
+      <div class="retro-grid">
+        <div class="retro-card good">
+          <div class="retro-card-label">좋았던 점</div>
+          <div class="retro-card-text">${r.good}</div>
+        </div>
+        <div class="retro-card bad">
+          <div class="retro-card-label">아쉬웠던 점</div>
+          <div class="retro-card-text">${r.bad}</div>
+        </div>
+      </div>
+    </div>`);
+  }
+
+  // 5-1. 유저 피드백 그래프 (있을 때만)
+  if(p.feedback && p.feedback.length){
+    const rows = p.feedback.map(f=>{
+      const pct = Math.round(f.value / f.max * 100);
+      return `<div class="feedback-row">
+        <div class="feedback-label">${f.label}</div>
+        <div class="feedback-bar-wrap"><div class="feedback-bar" style="width:0" data-pct="${pct}"></div></div>
+        <div class="feedback-val">${f.value}${f.unit}</div>
+      </div>`;
+    }).join('');
+    sections.push(`<div class="detail-section" id="d-feedback-section">
+      <div class="detail-section-label">유저 피드백</div>
+      <div class="feedback-chart">${rows}</div>
+    </div>`);
+  }
+
+  // 6. Other Contributions (있을 때만)
+  if(p.other_contributions){
+    const otherHTML = Array.isArray(p.other_contributions)
+      ? p.other_contributions.map(contribCard).join('')
+      : `<div class="detail-section-text">${p.other_contributions}</div>`;
+    sections.push(`<div class="detail-section">
+      <div class="detail-section-label">기타 기여 (기획 · 아트)</div>
+      <div class="contributions">${otherHTML}</div>
+    </div>`);
+  }
+
+  main.innerHTML = sections.join('');
+
+  // 피드백 바 애니메이션
+  requestAnimationFrame(()=>{
+    main.querySelectorAll('.feedback-bar[data-pct]').forEach(bar=>{
+      requestAnimationFrame(()=>{ bar.style.width = bar.dataset.pct + '%'; });
+    });
+  });
+
+  // 하단 네비 버튼
+  const idx=PROJECT_ORDER.indexOf(id);
+  const prevId=idx>0?PROJECT_ORDER[idx-1]:null;
+  const nextId=idx<PROJECT_ORDER.length-1?PROJECT_ORDER[idx+1]:null;
+  const prevTitle=prevId?PROJECTS[prevId].title:'';
+  const nextTitle=nextId?PROJECTS[nextId].title:'';
+  const navRow=document.getElementById('d-nav-row');
+  navRow.innerHTML=`
+    <button class="detail-nav-btn" onclick="showDetail('${prevId}')" ${!prevId?'disabled':''}>
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      ${prevId?prevTitle:''}
+    </button>
+    <button class="detail-nav-btn" onclick="showList()">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Projects
+    </button>
+    <button class="detail-nav-btn" onclick="showDetail('${nextId}')" ${!nextId?'disabled':''}>
+      ${nextId?nextTitle:''}
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>`;
+
+  document.getElementById('list-view').style.display='none';
+  document.getElementById('detail-view').classList.add('visible');
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>{ onScroll(); }, 50);
+}
+
+function showList(){
+  document.getElementById('detail-view').classList.remove('visible');
+  document.getElementById('list-view').style.display='';
+  // 상세 페이지 하이라이트 초기화
+  document.querySelectorAll('.detail-section').forEach(el => el.classList.remove('in-view'));
+  _prevDetail = null;
+  // 돌아올 때 해당 프로젝트 카드로 스크롤
+  if(_currentDetailId){
+    requestAnimationFrame(()=>{
+      const card=document.querySelector(`.proj-show-more[data-id="${_currentDetailId}"]`);
+      if(card){
+        const rect=card.closest('.project-card');
+        if(rect) rect.scrollIntoView({behavior:'smooth',block:'center'});
+      }
+    });
+  }
+}
+
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>10);
+},{passive:true});
+
+function buildOtherWorks(){
+  const g=document.getElementById('other-works-grid');
+  if(!g||!OTHER_WORKS) return;
+  OTHER_WORKS.forEach(row=>{
+    const div=document.createElement('div'); div.className='ow-row';
+    const tags=row.items.map(item=>`<span class="ow-tag">${item}</span>`).join('');
+    div.innerHTML=`<div class="ow-cat">${row.category}</div><div class="ow-tags">${tags}</div>`;
+    g.appendChild(div);
+  });
+}
+function buildBooks(){
+  const el=document.getElementById('shelf');
+  const legendEl=document.getElementById('shelf-legend');
+  if(!el||!BOOKS) return;
+  const GENRE_COLORS={
+    "언어":         {bg:"#3d3890",border:"#7060e0",color:"#e0d8ff"},
+    "엔진":         {bg:"#1a4a68",border:"#4090c0",color:"#b8e4f8"},
+    "소프트웨어 개발":{bg:"#1a4830",border:"#40a060",color:"#a8e8c0"},
+    "네트워크":     {bg:"#4a2868",border:"#9060c0",color:"#e0b8f8"},
+  };
+  BOOKS.forEach(b=>{
+    const g=GENRE_COLORS[b.genre]||GENRE_COLORS["언어"];
+    const coverW = Math.round(b.h * 2 / 3);
+    const wrap=document.createElement('div');
+    wrap.className='book-wrap';
+    wrap.style.setProperty('--book-h', b.h + 'px');
+    const coverContent=b.cover
+      ?`<img class="book-cover-img" src="${b.cover}" alt="${b.title} 표지">`
+      :`<div class="book-cover-bg" style="background:${g.bg}"></div>`;
+    wrap.innerHTML=`
+      <div class="book-inner" style="height:${b.h}px;">
+        <div class="book-spine-el" style="height:${b.h}px;background:${g.bg};">
+          <div class="book-spine" style="color:${g.color}">${b.title}</div>
+        </div>
+        <div class="book-cover-panel">${coverContent}</div>
+        <div class="book-popup" style="left:${coverW + 8}px;">
+          <div class="book-popup-genre" style="color:${g.color}">${b.genre}</div>
+          <div class="book-popup-title">${b.title}</div>
+          <div class="book-popup-author">${b.author}</div>
+          <div class="book-popup-memo">${b.memo}</div>
+        </div>
+      </div>`;
+    el.appendChild(wrap);
+  });
+  Object.entries(GENRE_COLORS).forEach(([name,g])=>{
+    const item=document.createElement('div');
+    item.className='shelf-legend-item';
+    item.innerHTML=`<div class="shelf-legend-dot" style="background:${g.bg};border:1.5px solid ${g.color}88"></div>${name}`;
+    legendEl.appendChild(item);
+  });
+}
+/* ── 스크롤 기반 하이라이트 ── */
+window._cardObserver = null; // buildProjects에서 참조 방지용
+
+buildAbout();buildSkills();buildAwards();buildProjects();buildOtherWorks();buildBooks();
+
+// 섹션: 뷰포트 중심에 가장 가까운 섹션 하나에만 라이트 효과
+const sections = Array.from(document.querySelectorAll('#about, #skills, #awards, #projects, #other-works, #books'));
+sections.forEach(el => el.classList.add('section-highlight'));
+
+// 프로젝트 카드: 뷰포트 중심에 가장 가까운 카드 하나만 scale up
+function getCards(){ return Array.from(document.querySelectorAll('.project-card')); }
+
+function getClosest(els){
+  const mid = window.innerHeight / 2;
+  let best = null, bestDist = Infinity;
+  els.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    const elMid = rect.top + rect.height / 2;
+    const dist = Math.abs(elMid - mid);
+    if(dist < bestDist){ bestDist = dist; best = el; }
+  });
+  return best;
+}
+
+const lightEl = document.getElementById('section-light');
+let _prevSection = null;
+let _prevCard = null;
+let _prevDetail = null;
+
+function setLight(target){
+  if(!target){
+    lightEl.classList.remove('visible');
+    _prevSection = null;
+    return;
+  }
+  const r = target.getBoundingClientRect();
+  const nextHr = target.nextElementSibling;
+  let bottom = r.bottom;
+  if(nextHr && (nextHr.classList.contains('rule') || nextHr.tagName === 'HR')){
+    bottom = nextHr.getBoundingClientRect().bottom;
+  }
+  lightEl.style.top = r.top + 'px';
+  lightEl.style.height = (bottom - r.top) + 'px';
+  lightEl.classList.add('visible');
+}
+
+let ticking = false;
+function onScroll(){
+  if(ticking) return;
+  ticking = true;
+  requestAnimationFrame(()=>{
+    const isDetail = document.getElementById('detail-view').classList.contains('visible');
+
+    if(isDetail){
+      // 상세 페이지: detail-section 하나만
+      const detailSections = Array.from(document.querySelectorAll('.detail-section'));
+      const activeDetail = getClosest(detailSections);
+      detailSections.forEach(el => {
+        const on = el === activeDetail;
+        if(on !== el.classList.contains('in-view')) el.classList.toggle('in-view', on);
+      });
+      if(activeDetail !== _prevDetail){
+        _prevDetail = activeDetail;
+        setLight(activeDetail);
+      } else {
+        setLight(activeDetail);
+      }
+    } else {
+      _prevDetail = null;
+
+      // 섹션 하나만 (projects 제외 → light)
+      const activeSection = getClosest(sections);
+      sections.forEach(el => {
+        const on = el === activeSection;
+        if(on !== el.classList.contains('in-view')) el.classList.toggle('in-view', on);
+      });
+
+      if(activeSection !== _prevSection){
+        _prevSection = activeSection;
+        if(activeSection && activeSection.id !== 'projects'){
+          lightEl.classList.remove('visible');
+          // 위치 먼저 즉시 세팅, opacity만 fade
+          const r = activeSection.getBoundingClientRect();
+          const nextHr = activeSection.nextElementSibling;
+          let bottom = r.bottom;
+          if(nextHr && (nextHr.classList.contains('rule') || nextHr.tagName === 'HR')){
+            bottom = nextHr.getBoundingClientRect().bottom;
+          }
+          lightEl.style.top = r.top + 'px';
+          lightEl.style.height = (bottom - r.top) + 'px';
+          requestAnimationFrame(()=> requestAnimationFrame(()=> lightEl.classList.add('visible')));
+        } else {
+          lightEl.classList.remove('visible');
+        }
+      } else if(activeSection && activeSection.id !== 'projects'){
+        setLight(activeSection);
+      }
+
+      // 프로젝트 카드 — projects 섹션이 active일 때만
+      const cards = getCards();
+      if(cards.length && activeSection && activeSection.id === 'projects'){
+        const activeCard = getClosest(cards);
+        cards.forEach(el => {
+          const on = el === activeCard;
+          if(on !== el.classList.contains('in-view')) el.classList.toggle('in-view', on);
+        });
+      } else {
+        // projects 섹션이 아니면 카드 모두 비활성
+        getCards().forEach(el => el.classList.remove('in-view'));
+      }
+    }
+
+    ticking = false;
+  });
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+
+/* ── 파도 애니메이션 (rAF 픽셀 제어) ── */
+(function(){
+  const layers = [
+    { id: '.fwsvg1', speed: 1.2, tile: 540, x: 0   },
+    { id: '.fwsvg2', speed: 0.8, tile: 360, x: 0   },
+    { id: '.fwsvg3', speed: 1.0, tile: 180, x: 0   },
+  ];
+  layers.forEach(l => { l.el = document.querySelector(l.id); });
+  let last = null;
+  function tick(ts) {
+    const dt = last ? Math.min(ts - last, 32) : 16;
+    last = ts;
+    layers.forEach(l => {
+      if (!l.el) return;
+      l.x = (l.x + l.speed * (dt / 16)) % l.tile;
+      l.el.style.transform = `translateX(${-l.x}px)`;
+    });
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
