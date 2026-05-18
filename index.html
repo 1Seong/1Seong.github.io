@@ -802,7 +802,7 @@ function buildAwards(){
   if(!grid) return;
   const cols = [
     { key:'수상',         label:'수상',          cls:'award',    icon:'ti-trophy' },
-    { key:'대외활동',     label:'대외활동',       cls:'activity', icon:'ti-users' },
+    { key:'대외활동',     label:'활동',          cls:'activity', icon:'ti-users' },
     { key:'시험및자격증', label:'시험 및 자격증', cls:'cert',     icon:'ti-certificate' },
   ];
 
@@ -953,7 +953,7 @@ function showDetail(id){
   if(p.activities && p.activities.length){
     const tagsHTML=p.activities.map(a=>`<span class="ow-tag">${a}</span>`).join('');
     sections.push(`<div class="detail-section">
-      <div class="detail-section-label">대외활동</div>
+      <div class="detail-section-label">활동</div>
       <div class="ow-tags">${tagsHTML}</div>
     </div>`);
   }
