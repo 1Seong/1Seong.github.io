@@ -489,14 +489,14 @@ footer { background: var(--nav-bg); padding: 0; }
     <hr class="rule">
 
     <section id="other-works">
-      <div class="eyebrow">기타 프로젝트 &amp; 과제</div>
+      <div class="eyebrow">Other Projects &amp; Coursework</div>
       <div class="other-works-grid" id="other-works-grid"></div>
     </section>
 
     <hr class="rule">
 
     <section id="books">
-      <div class="eyebrow">참고도서</div>
+      <div class="eyebrow">Reading List</div>
       <div class="shelf-row" id="shelf"></div>
       <div class="shelf-floor"></div>
       <div class="shelf-legend" id="shelf-legend"></div>
@@ -945,7 +945,7 @@ function showDetail(id){
 
   // 1. Role
   sections.push(`<div class="detail-section">
-    <div class="detail-section-label">나의 역할</div>
+    <div class="detail-section-label">My Role</div>
     <div class="detail-section-text">${p.role}</div>
   </div>`);
 
@@ -953,7 +953,7 @@ function showDetail(id){
   if(p.activities && p.activities.length){
     const tagsHTML=p.activities.map(a=>`<span class="ow-tag">${a}</span>`).join('');
     sections.push(`<div class="detail-section">
-      <div class="detail-section-label">활동</div>
+      <div class="detail-section-label">Activities</div>
       <div class="ow-tags">${tagsHTML}</div>
     </div>`);
   }
@@ -976,7 +976,7 @@ function showDetail(id){
   if(p.optimizations && p.optimizations.length){
     const optHTML = p.optimizations.map(contribCard).join('');
     sections.push(`<div class="detail-section">
-      <div class="detail-section-label">최적화</div>
+      <div class="detail-section-label">Optimization</div>
       <div class="contributions">${optHTML}</div>
     </div>`);
   }
@@ -985,14 +985,14 @@ function showDetail(id){
   if(p.retrospective){
     const r=p.retrospective;
     sections.push(`<div class="detail-section">
-      <div class="detail-section-label">회고</div>
+      <div class="detail-section-label">Retrospective</div>
       <div class="retro-grid">
         <div class="retro-card good">
-          <div class="retro-card-label">좋았던 점</div>
+          <div class="retro-card-label">What went well</div>
           <div class="retro-card-text">${r.good}</div>
         </div>
         <div class="retro-card bad">
-          <div class="retro-card-label">아쉬웠던 점</div>
+          <div class="retro-card-label">What could be better</div>
           <div class="retro-card-text">${r.bad}</div>
         </div>
       </div>
@@ -1010,7 +1010,7 @@ function showDetail(id){
       </div>`;
     }).join('');
     sections.push(`<div class="detail-section" id="d-feedback-section">
-      <div class="detail-section-label">유저 피드백</div>
+      <div class="detail-section-label">User Feedback</div>
       <div class="feedback-chart">${rows}</div>
     </div>`);
   }
@@ -1021,7 +1021,7 @@ function showDetail(id){
       ? p.other_contributions.map(contribCard).join('')
       : `<div class="detail-section-text">${p.other_contributions}</div>`;
     sections.push(`<div class="detail-section">
-      <div class="detail-section-label">기타 기여 (기획 · 아트)</div>
+      <div class="detail-section-label">Other Contributions</div>
       <div class="contributions">${otherHTML}</div>
     </div>`);
   }
