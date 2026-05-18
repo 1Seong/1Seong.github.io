@@ -557,7 +557,7 @@ footer { background: var(--nav-bg); padding: 0; }
 //  PORTFOLIO DATA — 기업 지원 시 이 블록만 수정하세요
 // ============================================================
 const PROFILE = {
-  nameKo: "최성원", nameEn: "SEONGWON CHOI",
+  nameKo: "최성원", nameEn: "SEONGWON CHOI       崔城源",
   role: "Game Client Programmer",
   university: "중앙대학교 소프트웨어학부",
   email: "qwik0102@gmail.com",
@@ -568,10 +568,10 @@ const PROFILE = {
   ],
 };
 const SKILLS = [
-  { category: "언어",     items: [{ name:"C#", icon:"" }, { name:"C++", icon:"" }] },
-  { category: "엔진",     items: [{ name:"Unity 6", icon:"" }, { name:"URP", icon:"" }] },
-  { category: "라이브러리", items: [{ name:"Photon", icon:"" }, { name:"DOTween", icon:"" }, { name:"Localization", icon:"" }, { name:"ASP.NET", icon:"" }] },
-  { category: "툴",       items: [{ name:"Aseprite", icon:"" }, { name:"Rider", icon:"" }, { name:"Git", icon:"" }] },
+  { category: "언어",     items: [{ name:"C#", icon:"" }, { name:"C++", icon:"" }, { name:"C", icon:"" }, { name:"Java", icon:"" }, { name:"Python", icon:"" }] },
+  { category: "엔진",     items: [{ name:"Unity 6 (URP)", icon:"" }] },
+  { category: "라이브러리", items: [{ name:"UniTask", icon:"" }, { name:"DoTween", icon:"" }, { name:"Unity New Input System", icon:"" }, { name:"Unity Localization", icon:"" }] },
+  { category: "툴",       items: [{ name:"Git", icon:"" }, { name:"Supabase", icon:"" }, { name:"Rider", icon:"" }, { name:"Aseprite", icon:"" }] },
   { category: "플랫폼",   items: [{ name:"PC / Steam", icon:"" }, { name:"Android", icon:"" }] },
 ];
 const BOOKS = [
@@ -579,13 +579,15 @@ const BOOKS = [
   // { title: "책 제목", author: "저자", genre: "언어", memo: "한 줄 메모", h: 190 },
   // genre는 "언어", "엔진", "소프트웨어 개발", "네트워크" 중 하나
   // h는 책 높이(px) — 150~220 사이로 자유롭게 지정
-  { title: "Game Programming Patterns", author: "Robert Nystrom",    genre: "엔진",         memo: "디자인 패턴을 게임 맥락으로. 아키텍처 설계에 큰 도움.", h: 200 },
-  { title: "클린 코드",                  author: "Robert C. Martin", genre: "소프트웨어 개발", memo: "가독성 높은 코드 작성법. 네이밍과 함수 설계에 영향받음.", h: 180 },
-  { title: "실용주의 프로그래머",          author: "David Thomas",     genre: "소프트웨어 개발", memo: "소프트웨어 장인 정신. 개발 철학에 영향받음.", h: 190 },
-  { title: "알고리즘 문제해결 전략",       author: "구종만",             genre: "언어",          memo: "PS 기초부터 고급까지. 알고리즘 역량 향상에 핵심.", h: 210 },
-  { title: "TCP/IP 완벽 가이드",         author: "Charles M. Kozierok", genre: "네트워크",    memo: "멀티플레이어 구현 시 레퍼런스로 참조.", h: 170 },
-  { title: "컴퓨터 구조와 원리",          author: "백준흠",              genre: "언어",         memo: "하드웨어 동작 원리 이해. CS 기초 다지기.", h: 185 },
-  { title: "Unity Shader Graph",        author: "John P. Doran",    genre: "엔진",          memo: "URP 셰이더 입문서. 비주얼 이펙트 구현 시 참고.", h: 160 },
+  { title: "C++ Primer", author: "Lippman",    genre: "언어",         memo: "C++ 기초 다지기에 큰 도움이 됨.", h: 200 },
+  { title: "Effective Modern C++",                  author: "Scott Meyers", genre: "언어", memo: "덕분에 복잡한 C++ 개념들과 언어의 특성을 어느정도 정리할 수 있었음.", h: 180 },
+  { title: "Microsoft Visual C# Steop by Step",          author: "John Sharp",     genre: "언어", memo: "C# 입문서로 활용. 기본 문법 위주라서 살짝 아쉬웠던 책.", h: 190 },
+  { title: "Effective C#",       author: "Bill Wagner",             genre: "언어",          memo: "C#의 활용과 특성을 이해하는데 도움이 되었고, C++과의 차이점을 여기에서 크게 체감.", h: 210 },
+  { title: "헤드퍼스트 디자인 패턴",         author: "Eric Freeman, Elisabeth Robson", genre: "소프트웨어 개발",    memo: "단순히 패턴뿐만 아니라 설계의 토대를 잘 잡아준 책.", h: 170 },
+  { title: "게임 프로그래밍 패턴",          author: "Robert Nystrom",              genre: "소프트웨어 개발",         memo: "디자인 패턴을 게임 맥락으로. 아키텍처 설계에 큰 도움. 게임 엔진 구조 이해에도 많이 도움됨.", h: 185 },
+  { title: "유니티 C# 스크립팅 마스터하기",        author: "Alan Thorn",    genre: "엔진",          memo: "유니티의 컴포넌트들을 이해하기 위해 부분부분 참고.", h: 160 },
+  { title: "초보자를 위한 유니티 입문",        author: "아라카와 다쿠야, 아사노 유이치",    genre: "엔진",          memo: "유니티 입문서로 활용.", h: 180 },
+  { title: "게임 서버 프로그래밍 교과서",        author: "배현직",    genre: "네트워크",          memo: "클라이언트-서버 구조의 프로젝트를 설계하는 데 활용.", h: 190 },
 ];
 const AWARDS = {
   // 예시 형식:
@@ -593,13 +595,18 @@ const AWARDS = {
   // 대외활동: [{ date:"2023.01", title:"활동명", org:"기관명" }],
   // 시험및자격증: [{ date:"2024.11", title:"TOPCIT 500점", org:"정보통신기획평가원" }],
   수상: [
-    { date:"2024.06", title:"우수상 — 캡스톤 디자인 경진대회", org:"중앙대학교" },
+    { date:"2026.02", title:"최우수상 — 2026 메토링 4기", org:"NEXON" },
   ],
   대외활동: [
-    { date:"2023.01", title:"Global Game Jam 참가", org:"IGDA" },
+    { date:"2026.02", title:"2026 메토링 4기", org:"NEXON" },
+    { date:"2025.11", title:"게임 전시(챌린저) - UNICON", org:"UNIDEV" },
+    { date:"2025.01", title:"UNIJAM", org:"UNIDEV" },
+    { date:"2026.05", title:"게임 전시 - PlayX4", org:"경기콘텐츠진흥원 외" },
+    { date:"2024.11", title:"게임 전시 - 게임개발동아리 창립제", org:"중앙대학교" },
+    { date:"2026.03", title:"게임 전시 - 동아리박람회", org:"중앙대학교" },
   ],
   시험및자격증: [
-    { date:"2024.11", title:"TOPCIT 500점", org:"정보통신기획평가원" },
+    { date:"2026.05", title:"TOPCIT xxx점", org:"정보통신기획평가원" },
   ],
 };
 const OTHER_WORKS = [
