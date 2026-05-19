@@ -158,6 +158,8 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
   background: var(--navy-2);
   position: relative;
   transition: border-color .2s;
+  transform-origin: top center;
+  will-change: transform;
 }
 .bead:hover { border-color: var(--gold); }
 .bead::before, .bead::after {
@@ -570,8 +572,8 @@ const PROFILE = {
 const SKILLS = [
   { category: "언어",     items: [{ name:"C#", icon:"" }, { name:"C++", icon:"" }, { name:"C", icon:"" }, { name:"Java", icon:"" }, { name:"Python", icon:"" }] },
   { category: "엔진",     items: [{ name:"Unity 6 (URP)", icon:"" }] },
-  { category: "라이브러리", items: [{ name:"UniTask", icon:"" }, { name:"DoTween", icon:"" }, { name:"Unity New Input System", icon:"" }, { name:"Unity Localization", icon:"" }] },
-  { category: "툴",       items: [{ name:"Git", icon:"" }, { name:"Supabase", icon:"" }, { name:"Rider", icon:"" }, { name:"Aseprite", icon:"" }] },
+  { category: "라이브러리", items: [{ name:"UniTask", icon:"" }, { name:"DoTween", icon:"" }, { name:"New Input System", icon:"" }, { name:"Localization", icon:"" }] },
+  { category: "툴",       items: [{ name:"Git", icon:"" }, { name:"Supabase", icon:"" }, { name:"GPT API", icon:"" }, { name:"Aseprite", icon:"" }] },
   { category: "플랫폼",   items: [{ name:"PC / Steam", icon:"" }, { name:"Android", icon:"" }] },
 ];
 const BOOKS = [
@@ -606,128 +608,226 @@ const AWARDS = {
     { date:"2026.03", title:"게임 전시 - 동아리박람회", org:"중앙대학교" },
   ],
   시험및자격증: [
-    { date:"2026.05", title:"TOPCIT xxx점", org:"정보통신기획평가원" },
+    //{ date:"2026.05", title:"TOPCIT xxx점", org:"정보통신기획평가원" },
   ],
 };
 const OTHER_WORKS = [
   // 예시 형식:
   // { category: "카테고리명", items: ["구현 항목 1", "구현 항목 2", "구현 항목 3"] },
   {
-    category: "소프트웨어 개발",
-    items: ["클라이언트-서버 채팅 앱", "파일 탐색기 UI", "간단한 컴파일러 구현"],
+    category: "Data Structure / Algorithm",
+    items: [
+      "문자열/연결리스트/트리(AVL, B-Tree) 구현",
+      "그래프 최단거리 · MST",
+      "미로 분석기", "영어사전 구현",
+    ],
   },
   {
-    category: "운영체제",
-    items: ["프로세스 스케줄러", "메모리 관리자", "파일 시스템 구현"],
+    category: "SW Engineering",
+    items: ["Arkanoid 게임(OOP)", "파일 변환 프로그램(추상화/캡슐화)", "윷놀이(SOLID/MVC/UML/Unit Test)"],
   },
   {
-    category: "인공지능",
-    items: ["A* 경로 탐색", "미니맥스 게임 AI", "CNN 이미지 분류"],
+    category: "OS / Multicore",
+    items: ["자동화 물류 시뮬레이터(스레드 관리)", "차량 교차로(데드락 처리)", "병렬 히스토그램 구축(OpenMP)"],
   },
   {
-    category: "컴퓨터 그래픽스",
-    items: ["OpenGL 3D 렌더러", "레이트레이싱", "쉐이더 구현"],
+    category: "Game Interaction",
+    items: ["AI 캐릭터 챗봇 프로토타입"],
   },
   {
-    category: "자료구조 / 알고리즘",
-    items: ["AVL 트리", "그래프 탐색 (BFS/DFS)", "동적 프로그래밍 문제풀이"],
+    category: "Graphics",
+    items: ["OpenGL 3D 수영 애니메이션", "OpenGL Cook-Torrance lighting", "쉐이더 구현"],
   },
   {
-    category: "데이터베이스",
-    items: ["ERD 설계 및 구현", "SQL 질의 최적화", "트랜잭션 관리"],
+    category: "DB",
+    items: ["ERD, Relation Schema 설계 및 구현", "간단한 RDBMS 구현"],
+  },
+  {
+    category: "AI",
+    items: ["A* 경로 탐색", "Minimax/Expectimax 게임 AI", "강화학습 게임 AI(Q-learning)"],
+  },
+  {
+    category: "CS Theory",
+    items: ["간단한 컴파일러 및 파서 구현"],
   },
 ];
-const PROJECT_ORDER = ["square_erauqs", "project_b"];
+const PROJECT_ORDER = ["square_erauqs", "save_the_world", "necromancer_survivors", "omakhase", "runepago"];
 // 프로젝트 순서 변경 시 배열 순서만 바꾸면 됩니다.
-// 예: ["project_b", "square_erauqs"] → project_b가 먼저 표시됨
 
 const PROJECTS = {
-  // 예시 형식:
-  // project_id: {
-  //   id: "project_id",
-  //   title: "제목", subtitle: "한 줄 설명",
-  //   meta: { engine:"Unity", platform:"Android", team:"1인 개발", year:"2024" },
-  //   tags: ["태그1", "태그2"],
-  //   media: [
-  //     { type:"video", src:"유튜브_embed_URL", label:"Trailer" },
-  //     { type:"image", src:"assets/img.png", label:"Gameplay" },
-  //   ],
-  //   summary: "카드에 표시되는 요약 한두 줄.",
-  //   role: "팀 내 나의 역할 설명.",
-  //   activities: ["대외활동 태그1", "대외활동 태그2"],  // 없으면 null
-  //   contributions: [ { title:"기여 제목", desc:"상세 설명." } ],
-  //   optimizations: [ { title:"최적화 제목", desc:"상세 설명." } ],  // 없으면 []
-  //   retrospective: {
-  //     good: "좋았던 점.",
-  //     bad: "아쉬웠던 점.",
-  //     feedback: "유저 피드백 또는 null",
-  //   },
-  //   other_contributions: "기획·아트 등 기술 외 기여 또는 null",
-  //   links: [ { label:"Steam", url:"https://..." } ],
-  // },
   square_erauqs: {
-    id:"square_erauqs", title:"SQUARE::ERAUQS", subtitle:"모바일 뱀서라이크",
-    meta:{ engine:"Unity 6 · URP", platform:"Android", team:"1인 개발", year:"2024" },
-    tags:["뱀서라이크","모바일","1인 개발"],
-    media:[
-      { type:"video", src:"", label:"Trailer" },
-      { type:"image", src:"", label:"Gameplay" },
-      { type:"image", src:"", label:"UI" },
-    ],
-    summary:"Unity 6 URP 기반 모바일 뱀서라이크 게임. 전반적인 클라이언트 개발을 단독으로 담당했습니다.",
-    role:"기획, 개발, 아트, 출시까지 전 과정을 단독으로 담당.",
-    activities:["IGD Seoul 정기 세션 참여 (2024.03~08)", "모바일 최적화 주제 발표"],
-    contributions:[
-      { title:"모바일 Safe Area 대응", desc:"노치·펀치홀 기기 대응을 위한 Safe Area 핸들러 직접 구현.", images:[] },
-      { title:"URP 렌더링 최적화", desc:"VSync + Target Framerate 코드 제어로 GPU 병목 해소, 안정적인 60fps 달성.", images:[] },
-      { title:"Unity Localization 시스템", desc:"Sprite Events를 활용한 다국어 UI 전환 구현. Animator Override Controller 클립 속도 버그 직접 디버깅·해결.", images:[] },
-      { title:"Android 빌드 파이프라인", desc:"커스텀 앱 표시명 유지를 위한 IPostGenerateGradleAndroidProject 에디터 스크립트 작성.", images:[] },
-      { title:"오디오 시스템", desc:"Audio Mixer 초기화 타이밍 이슈 해결 및 씬 전환 간 오디오 안정성 확보.", images:[] },
-    ],
-    optimizations:[
-      { title:"GPU 드로우콜 최적화", desc:"스프라이트 아틀라스 통합 및 카메라 컬링으로 드로우콜 40% 감소.", images:[] },
-    ],
-    retrospective:{
-      good:"1인 개발로 전체 파이프라인을 경험할 수 있었고, 실제 출시까지 완주한 점이 가장 큰 수확.",
-      bad:"초기 아키텍처 설계 미흡으로 후반부 리팩토링에 많은 시간이 소요됨.",
-    },
-    feedback:[
-      // 예시 형식: { label:"항목명", value:85, max:100, unit:"%" }
-      // value/max로 비율 표시, unit은 표시용 (점수, %, 개 등)
-      { label:"재미", value:4.2, max:5, unit:"/5" },
-      { label:"조작감", value:3.8, max:5, unit:"/5" },
-      { label:"그래픽", value:4.5, max:5, unit:"/5" },
-      { label:"난이도", value:3.2, max:5, unit:"/5" },
-      { label:"완성도", value:4.0, max:5, unit:"/5" },
-    ],
-    other_contributions:[
-      { title:"픽셀 아트 & 레벨 디자인", desc:"캐릭터, 배경, UI 아이콘 등 픽셀 아트 전체 제작. 레벨 디자인 직접 담당.", images:[] },
-    ],
-    links:[],
-  },
-  project_b: {
-    id:"project_b", title:"프로젝트 B", subtitle:"3D 퍼즐 플랫포머",
-    meta:{ engine:"Unity", platform:"PC", team:"팀 프로젝트", year:"2023" },
-    tags:["퍼즐","플랫포머","PC"],
+    id:"square_erauqs",
+    title:"SQUARE :: ERAUQS",
+    subtitle:"퍼즐 플랫포머",
+    meta:{ engine:"Unity", platform:"PC", team:"5인 팀", year:"2025", status:"개선 중" },
+    tags:["퍼즐","플랫포머","팀 프로젝트","UNICON 챌린저 作"],
     media:[
       { type:"image", src:"", label:"Screenshot 1" },
       { type:"image", src:"", label:"Screenshot 2" },
+      { type:"image", src:"", label:"Screenshot 3" },
+      { type:"image", src:"", label:"Screenshot 4" },
     ],
-    summary:"3D 퍼즐 플랫포머. 핵심 게임플레이 시스템 및 레벨 로직 담당.",
-    role:"클라이언트 프로그래머. 게임플레이 시스템 및 Android 포팅 담당.",
-    activities:null,
+    summary:"Unity 엔진 기반 다양한 기믹이 존재하는 퍼즐 플랫포머. 두 플레이어를 동시에 조작하며 스테이지별 새로운 기믹과 시점 전환으로 퍼즐을 해결합니다.",
+    role:"리드 프로그래머 — 스테이지 전반 및 퍼즐 기믹 구현 총괄. 그래픽 아트 병행.",
+    activities:["2025 UNICON 챌린저 부문 출품"],
     contributions:[
-      { title:"레시피 언락 시스템", desc:"PlayerPrefs 기반 영속 데이터 관리, 키 충돌 방지 구조 설계.", images:[] },
-      { title:"Android 포팅", desc:"CMake 빌드 에러(Windows 경로 길이 제한) 해결 및 URP 셰이더 호환성 수정.", images:[] },
+      { title:"기믹 오브젝트 공통 구조 설계", desc:"템플릿 메서드 패턴과 전략 패턴을 적용하여 다양한 기믹 오브젝트의 공통 동작 흐름과 확장 지점을 구조화. 이벤트와 델리게이트로 플레이어 로직 및 스테이지 오브젝트 간 디커플링 달성. Swap, Pause, G-Pause, 빙판 기믹 등 구현.", images:[] },
+      { title:"빙판 기믹을 위한 커스텀 충돌 판정 시스템", desc:"Unity 기본 물리 판정에 의존하지 않고 Raycasting 기반 커스텀 충돌 판정 로직 구현. 연결 리스트 유사 구조로 동적 벽 생성·해체, 상호 참조 및 데드락 문제 해결.", images:[] },
+      { title:"상태 기반 중력 시스템", desc:"C# 프로퍼티와 상태 패턴을 결합한 중력 시스템 직접 구현. 옵저버 패턴으로 Subject 이벤트에 따라 중력 상태를 전환, 두 플레이어 및 기타 오브젝트의 중력을 유연하게 제어.", images:[] },
+      { title:"3D 환경 기반 2D 스테이지 및 렌더링 최적화", desc:"3D 공간에 2D 스테이지를 구성하고 카메라 시점 전환으로 스테이지의 다른 면을 표시. 3D 메시 없이 타일맵만 활용해 현재 시점 면의 이미지만 렌더링하여 성능 최적화.", images:[] },
+      { title:"시점 전환 후 벽 끼임 방지 로직", desc:"시점 전환 과정에서 발생할 수 있는 플레이어 벽 끼임 상황 대비, Raycasting 기반 벽 충돌 판정 및 자동 해소 로직 구현.", images:[] },
+      { title:"씬 단위 책임 분리 및 컴포넌트 경량화", desc:"씬 단위로 책임을 명확히 분리해 스테이지별 단위 테스트 가능하도록 설계. 시점 회전 시 오브젝트 투명화 처리 등 공통 기능을 개별 컴포넌트로 분리해 재사용성 향상.", images:[] },
     ],
     optimizations:[],
     retrospective:{
-      good:"팀 협업 워크플로우와 Git 브랜치 전략을 실전에서 익힐 수 있었음.",
-      bad:"사전 기술 스택 합의가 부족해 초반 통합 과정에서 충돌이 잦았음.",
+      good:"리드 프로그래머로서 팀 전체 기술 방향을 주도하며 복잡한 물리·기믹 시스템을 설계부터 구현까지 완수할 수 있었음.",
+      bad:"초기 기믹 구조 설계에 충분한 시간을 쏟지 못해 후반부에 리팩토링이 필요했음. 팀 간 인터페이스 정의를 더 명확히 했다면 통합 비용을 줄일 수 있었을 것.",
+    },
+    feedback:null,
+    other_contributions:[
+      { title:"그래픽 아트", desc:"게임 전반의 그래픽 아트 제작 참여.", images:[] },
+    ],
+    links:[
+      { label:"GitHub", url:"https://github.com/1Seong/2024WinterProject2" },
+    ],
+  },
+
+  save_the_world: {
+    id:"save_the_world",
+    title:"Save The World",
+    subtitle:"포인트 앤 클릭 룸 이스케이프",
+    meta:{ engine:"Unity", platform:"PC", team:"3인 팀", year:"2025", status:"개선 중", note:"교내 캡스톤디자인" },
+    tags:["포인트 앤 클릭","퍼즐","캡스톤디자인","팀 프로젝트"],
+    media:[
+      { type:"image", src:"", label:"Screenshot 1" },
+      { type:"image", src:"", label:"Screenshot 2" },
+      { type:"image", src:"", label:"Screenshot 3" },
+      { type:"image", src:"", label:"Screenshot 4" },
+      { type:"image", src:"", label:"Screenshot 5" },
+    ],
+    summary:"6.25 전쟁유공자의 삶을 회고하는 스토리텔링 기반 포인트 앤 클릭 룸 이스케이프. 6종 미니게임과 다채로운 쉐이더·연출로 몰입도 높은 게임플레이를 제공합니다.",
+    role:"클라이언트 프로그래밍 전체 담당. 픽셀 및 그래픽 아트(쉐이더), 연출 및 미니게임 세부 기획 병행.",
+    activities:["교내 25-2 캡스톤디자인"],
+    contributions:[
+      { title:"1인칭 몰입형 2D 포인트 앤 클릭 시스템", desc:"3D 환경 위에 2D 포인트 앤 클릭 방식 구현. Unity 마우스 이벤트·Raycasting으로 상호작용 처리, 마우스 방향에 따라 카메라가 제한 각도 내에서 기울어지는 Tilt 기능으로 몰입도 강화. DoTween·Easing Function 기반 방 회전 연출 구현.", images:[] },
+      { title:"데이터 중심 아이템·인벤토리 시스템", desc:"타입 객체 패턴으로 아이템 로직과 데이터 분리, Scriptable Object로 관리. DoTween과 좌표계 변환으로 아이템 획득·사용 애니메이션 연출. 이벤트·델리게이트 기반 MVC 구조로 모델과 뷰 분리.", images:[] },
+      { title:"노트 UI 및 아이템 상호작용 확장 구조", desc:"글자 조각 배치 노트 UI 구현. 템플릿 메서드 패턴으로 룸 아이템과 공통 구조 유지, 노트 전용 Raycasting 로직 분리. 무지개 이펙트·Dissolve 쉐이더 연출 구현.", images:[] },
+      { title:"6종 미니게임 구현 및 최적화", desc:"타이밍·균형·청소·횡스크롤 등 6종 미니게임 구현. 청소는 파티클+Raycasting으로 성능 병목 최소화. 횡스크롤은 다중 Layer Parallax 적용. 재봉틀은 Perlin Noise+Catmull-Rom Spline 랜덤 경로 생성. Line Renderer 점선 쉐이더 UI 구현.", images:[] },
+      { title:"CSV 기반 대사 시스템", desc:"CSV 파일 대사를 파싱해 대사·발화자 데이터를 Typewriter 연출·UI 로직으로부터 분리. 기획자가 코드 수정 없이 대사 수정 가능한 구조 구축.", images:[] },
+      { title:"세이브 시스템 및 데이터 보안", desc:"옵저버 패턴으로 저장 대상을 메시지 기반 수집. PlayerPrefs 대신 JSON 직렬화 + AES 암호화로 데이터 보안 강화.", images:[] },
+      { title:"Shader Graph 비주얼 연출 시스템", desc:"픽셀 렌더링, 툰, TV 노이즈, CRT, 풀스크린 피격, 물 반사, 바람 흔들림, 디스토션 쉐이더 등 다수 구현. 2-Channel 방식(별도 카메라→Raw Image)과 URP Rendering Feature로 Post Processing 순서 제어.", images:[] },
+      { title:"AudioMixer 기반 사운드 시스템 및 해상도 독립 화면 구성", desc:"BGM·Instant SFX·Looping SFX 채널 분리, On/Off 시 Fade 효과 적용. 동적 윈도우 크기 변경을 지원하면서 게임 화면 비율 고정, Camera Stack으로 UI Overlay 카메라 분리.", images:[] },
+    ],
+    optimizations:[],
+    retrospective:{
+      good:"1인 클라이언트 담당으로 전체 게임 시스템을 설계부터 구현까지 완수. 다양한 쉐이더와 미니게임 구현으로 기술 폭을 크게 넓힐 수 있었음.",
+      bad:"3인 소규모 팀이다 보니 기획·아트·개발이 겹쳐 일정 관리가 어려웠음. 미니게임 수가 많아 각 게임의 완성도를 충분히 끌어올리기 어려웠음.",
+    },
+    feedback:null,
+    other_contributions:[
+      { title:"픽셀 아트 & 그래픽 아트", desc:"캐릭터, 아이템 등에 사용되는 픽셀 아트 제작. 배경·연출·UI 쉐이더·파티클 이펙트 포함 그래픽 아트 구현.", images:[] },
+      { title:"연출 및 미니게임 세부 기획", desc:"게임 전반의 연출 기획 전체 담당. 6종 미니게임 기초 기획을 바탕으로 심화 기획 진행.", images:[] },
+    ],
+    links:[
+      { label:"GitHub", url:"https://github.com/1Seong/SaveTheWorld" },
+    ],
+  },
+
+  necromancer_survivors: {
+    id:"necromancer_survivors",
+    title:"NecromancerSurvivors",
+    subtitle:"뱀서라이크",
+    meta:{ engine:"Unity", platform:"PC", team:"3인 팀", year:"2024", status:"완료" },
+    tags:["뱀서라이크","팀 프로젝트"],
+    media:[
+      { type:"image", src:"", label:"Screenshot 1" },
+      { type:"image", src:"", label:"Screenshot 2" },
+      { type:"image", src:"", label:"Screenshot 3" },
+    ],
+    summary:"Unity 기반 Vampire Survivors-like 장르 게임. 3 스테이지 구성, 스테이지별 최종 보스, 맵 곳곳의 함정 랜덤 배치로 차별화된 게임플레이를 제공합니다.",
+    role:"클라이언트 프로그래밍 — 무기, 스테이지, 보스 구현. 스테이지 및 보스 기획 병행.",
+    activities:null,
+    contributions:[
+      { title:"대규모 적 스폰 최적화", desc:"프로토타입 패턴과 객체 풀 패턴을 결합해 다수의 적을 효율적으로 생성·재사용. 런타임 중 불필요한 생성·소멸을 최소화하여 전반적인 성능 개선.", images:[] },
+      { title:"충돌 처리와 피격 판정의 분리 설계", desc:"Collider Layer를 분리하여 물리적 충돌과 피격 판정을 독립적으로 처리. 오브젝트 간 자연스러운 움직임을 유지하면서 의도한 게임플레이 판정을 안정적으로 구현.", images:[] },
+      { title:"Raycasting 기반 위치 보정 및 스폰 안정화", desc:"Raycasting과 Collider Layer를 함께 활용해 오브젝트 재배치 및 스폰 과정에서 발생하던 겹침·비정상 위치 문제 해결.", images:[] },
+      { title:"함정 시스템의 상태 기반 설계", desc:"곰덫, 가시 발판, 자동 포탑 등 함정 요소를 상태 패턴으로 구현. 각 상태 전이를 애니메이션과 동기화하여 시각적으로 자연스럽고 예측 가능한 동작 유도.", images:[] },
+      { title:"보스 패턴의 컴포넌트 분리 구조", desc:"3종 보스의 각 2가지 고유 공격 패턴을 탄환·장판 등 미니 컴포넌트 단위로 분리, 상태 기반으로 제어하여 애니메이션과의 동기화 확보.", images:[] },
+      { title:"전투 가독성 향상을 위한 QOL 기능", desc:"쉐이더 기반 피격 시각 효과, 화면 밖 적 표시 인디케이터(월드↔화면 좌표 변환), 보스 공격 경로·타이머 인디케이터 구현.", images:[] },
+    ],
+    optimizations:[],
+    retrospective:{
+      good:"게임 전반의 아키텍처 패턴(객체 풀, 상태 패턴, 컴포넌트 분리)을 실전에서 적용하고 검증할 수 있었음.",
+      bad:"3인 팀의 첫 협업 프로젝트로 초반 역할 분담과 코드 컨벤션 정립에 시간이 소요됨. 에셋 서치에 예상보다 많은 시간이 걸렸음.",
     },
     feedback:null,
     other_contributions:null,
-    links:[],
+    links:[
+      { label:"GitHub", url:"https://github.com/roxasventus/CIEN-tutorial-project-team2" },
+    ],
+  },
+
+  omakhase: {
+    id:"omakhase",
+    title:"오!막하세",
+    subtitle:"포인트 앤 클릭 식당 경영 시뮬레이션",
+    meta:{ engine:"Unity", platform:"PC", team:"5인 팀", year:"2025", status:"진행 중" },
+    tags:["포인트 앤 클릭","경영 시뮬레이션","팀 프로젝트"],
+    media:[
+      { type:"image", src:"", label:"Screenshot 1" },
+      { type:"image", src:"", label:"Screenshot 2" },
+      { type:"image", src:"", label:"Screenshot 3" },
+    ],
+    summary:"Unity 기반 포인트 앤 클릭 식당 경영·쿠킹 게임. 조리법·메인재료·주재료 카테고리 분류로 다양한 레시피 조합을 유도하고 명성 수치에 따른 멀티엔딩을 제공합니다.",
+    role:"클라이언트 프로그래밍 — 게임 구조 설계, UI 구현 담당.",
+    activities:null,
+    contributions:[
+      { title:"데이터 중심 설계 기반 레시피 시스템", desc:"Scriptable Data와 타입 객체 패턴으로 재료·레시피 데이터를 대분류·소분류 단위로 캡슐화. 신규 재료·레시피 추가 시 기존 로직 수정 없이 데이터 확장 가능한 구조 설계.", images:[] },
+      { title:"저결합 해금 시스템 및 디버깅 환경", desc:"옵저버 패턴과 C# 이벤트·델리게이트로 주재료 해금 시스템 구현, 시스템 간 커플링 최소화. 유니티 에디터 내 디버깅 툴을 함께 구현해 해금 조건·이벤트 흐름을 단위 테스트 수준에서 검증.", images:[] },
+      { title:"MVC 구조 기반 레시피북 UI", desc:"동적 화면 비율을 고려한 UI 배치 전략 적용. 해금 시스템 메시지를 View 단에서 처리하는 MVC 아키텍처로 역할 분리.", images:[] },
+      { title:"UI 공통 로직 추상화 및 세부 연출", desc:"템플릿 메서드 패턴으로 유사 UI 요소 간 중복 코드 제거. 주재료·부재료·조리법 선택 씬 UI를 일관된 방식으로 구현. 코루틴 기반 버튼 스케일링 효과 등 세부 연출 추가.", images:[] },
+      { title:"대사 시스템 UI 및 동적 선택지", desc:"파서로부터 전달된 대사 데이터를 캐릭터 정보와 함께 표시하는 대사창 UI 구현. 문자열 길이에 따라 자동 크기 조절되는 선택지 버튼 설계.", images:[] },
+      { title:"Raycast 제어 기반 튜토리얼 시스템", desc:"마우스 클릭 이벤트를 선택적으로 차단·허용하는 Raycast Block 구조로 튜토리얼 구현. 플레이어 입력 흐름을 단계적으로 제어해 의도된 학습 동선 안정적 유도.", images:[] },
+    ],
+    optimizations:[],
+    retrospective:{
+      good:"데이터 중심 설계와 패턴 기반 구조를 실전 프로젝트에 적용해 확장성과 유지보수성을 실감할 수 있었음.",
+      bad:"진행 중인 프로젝트로 기획 변경이 잦아 구조를 수차례 수정해야 했음. 초기 설계 단계에서 기획자와의 소통을 더 긴밀히 했으면 좋았을 것.",
+    },
+    feedback:null,
+    other_contributions:null,
+    links:[
+      { label:"GitHub", url:"https://github.com/1Seong/OMakHase" },
+    ],
+  },
+
+  runepago: {
+    id:"runepago",
+    title:"RUNEpago",
+    subtitle:"뱀서라이크 (게임잼)",
+    meta:{ engine:"Unity", platform:"PC", team:"5인 팀", year:"2025", status:"완료", note:"2025 UNIJAM" },
+    tags:["뱀서라이크","게임잼","팀 프로젝트","UNIJAM"],
+    media:[
+      { type:"image", src:"", label:"Screenshot 1" },
+      { type:"image", src:"", label:"Screenshot 2" },
+      { type:"image", src:"", label:"Screenshot 3" },
+    ],
+    summary:"'점입가경' 주제에 맞게 3일간 제작한 Vampire Survivor-like 게임. '양날의 검' 컨셉으로 득과 실이 동시에 존재하는 능력과 무기가 특징입니다.",
+    role:"클라이언트 프로그래밍 — 무기 시스템, UI 구현 담당.",
+    activities:["2025 UNIJAM 참가"],
+    contributions:[
+      { title:"무기 시스템 데이터·로직 분리 및 프로토타이핑 최적화", desc:"무기 데이터를 Scriptable Data로 분리하고 템플릿 메서드 패턴을 적용해 기능 로직과 데이터 정의를 명확히 분리. 데이터 교체만으로 다양한 무기를 빠르게 구현·검증 가능한 구조 설계. 운석, 화살비, 얼음창 등 추가 무기 구현.", images:[] },
+    ],
+    optimizations:[],
+    retrospective:{
+      good:"3일이라는 짧은 기간 안에 팀원들과 빠르게 역할을 분담하고 동작하는 게임을 완성할 수 있었음. 게임잼 특유의 긴장감 속에서 프로토타이핑 속도를 높이는 설계 방식을 익힐 수 있었음.",
+      bad:"시간 제약으로 QA 시간이 부족했고, 일부 밸런스 이슈를 출품 전에 해결하지 못했음.",
+    },
+    feedback:null,
+    other_contributions:null,
+    links:[
+      { label:"GitHub", url:"https://github.com/1Seong/unijam2025" },
+    ],
   },
 };
 // ============================================================
@@ -808,12 +908,12 @@ function buildAwards(){
   const grid = document.getElementById('awards-col-grid');
   if(!grid) return;
   const cols = [
-    { key:'수상',         label:'수상',          cls:'award',    icon:'ti-trophy' },
     { key:'대외활동',     label:'활동',          cls:'activity', icon:'ti-users' },
+    { key:'수상',         label:'수상',          cls:'award',    icon:'ti-trophy' },
     { key:'시험및자격증', label:'시험 및 자격증', cls:'cert',     icon:'ti-certificate' },
   ];
 
-  const STIFFNESS = 0.04, DAMPING = 0.88, MAX_ANGLE = 3.5;
+  const STIFFNESS = 0.032, DAMPING = 0.86, MAX_ANGLE = 3.0;
 
   cols.forEach(col => {
     const items = AWARDS[col.key] || [];
@@ -836,27 +936,75 @@ function buildAwards(){
       <div class="bead-items">${beadsHTML}</div>`;
     grid.appendChild(colEl);
 
-    // 스프링 물리
-    const chain = colEl.querySelector('.bead-items');
-    let angle = 0, velocity = 0, target = 0, raf = null;
+    // 각 비즈 개별 스프링 + 중심 줄 기울임
+    const beads = Array.from(colEl.querySelectorAll('.bead'));
+    const line = colEl.querySelector('.bead-col::before') || colEl; // 중심선은 colEl 자체를 기울임
+
+    // 각 비즈마다 독립적인 스프링 상태
+    const springs = beads.map((_, i) => ({
+      angle: 0, velocity: 0, target: 0,
+      delay: i * 0.04,        // 아래 비즈일수록 늦게 반응 (실 늘어진 효과)
+      amplitude: 1 + i * 0.3, // 아래 비즈일수록 더 많이 흔들림
+    }));
+
+    // 컬럼 전체 기울임 (중심 줄)
+    let colAngle = 0, colVel = 0, colTarget = 0;
+
+    let raf = null;
+    let frame = 0;
 
     function tick(){
-      velocity = (velocity + (target - angle) * STIFFNESS) * DAMPING;
-      angle += velocity;
-      chain.style.transform = `rotate(${angle}deg)`;
-      if(Math.abs(velocity) < 0.001 && Math.abs(angle - target) < 0.001){
-        chain.style.transform = `rotate(${target}deg)`;
+      frame++;
+      let anyActive = false;
+
+      // 컬럼 전체 기울임
+      colVel = (colVel + (colTarget - colAngle) * STIFFNESS) * DAMPING;
+      colAngle += colVel;
+      colEl.style.transform = `rotate(${colAngle}deg)`;
+      colEl.style.transformOrigin = 'top center';
+      if(Math.abs(colVel) > 0.001) anyActive = true;
+
+      // 각 비즈 개별 흔들림
+      springs.forEach((s, i) => {
+        // 딜레이 적용: frame이 충분히 지났을 때만 비즈 target 활성화
+        const delayFrames = Math.round(s.delay * 60);
+        const effectiveTarget = frame > delayFrames ? s.target * s.amplitude : 0;
+
+        s.velocity = (s.velocity + (effectiveTarget - s.angle) * STIFFNESS) * DAMPING;
+        s.angle += s.velocity;
+        beads[i].style.transform = `rotate(${s.angle}deg)`;
+        beads[i].style.transformOrigin = 'top center';
+        if(Math.abs(s.velocity) > 0.001) anyActive = true;
+      });
+
+      if(!anyActive && Math.abs(colAngle - colTarget) < 0.001){
+        beads.forEach((b, i) => { b.style.transform = `rotate(${springs[i].target * springs[i].amplitude}deg)`; });
+        colEl.style.transform = `rotate(${colTarget}deg)`;
         cancelAnimationFrame(raf); raf = null; return;
       }
       raf = requestAnimationFrame(tick);
     }
-    function start(){ if(!raf) raf = requestAnimationFrame(tick); }
 
-    colEl.addEventListener('mouseenter', () => { target = MAX_ANGLE; start(); });
-    colEl.addEventListener('mouseleave', () => { target = 0; start(); });
+    function start(){
+      frame = 0;
+      if(!raf) raf = requestAnimationFrame(tick);
+    }
+
+    colEl.addEventListener('mouseenter', () => {
+      colTarget = MAX_ANGLE * 0.4;
+      springs.forEach(s => { s.target = MAX_ANGLE; });
+      start();
+    });
+    colEl.addEventListener('mouseleave', () => {
+      colTarget = 0;
+      springs.forEach(s => { s.target = 0; });
+      start();
+    });
     colEl.addEventListener('mousemove', e => {
       const r = colEl.getBoundingClientRect();
-      target = ((e.clientX - r.left) / r.width - 0.5) * MAX_ANGLE * 2;
+      const rel = (e.clientX - r.left) / r.width - 0.5;
+      colTarget = rel * MAX_ANGLE * 0.8;
+      springs.forEach(s => { s.target = rel * MAX_ANGLE * 2; });
       start();
     });
   });
@@ -1240,17 +1388,23 @@ function onScroll(){
         setLight(activeSection);
       }
 
-      // 프로젝트 카드 — projects 섹션이 active일 때만
+      // 프로젝트 카드 — 뷰포트에 조금이라도 보이는 카드 중 중심에 가장 가까운 것
       const cards = getCards();
-      if(cards.length && activeSection && activeSection.id === 'projects'){
-        const activeCard = getClosest(cards);
-        cards.forEach(el => {
-          const on = el === activeCard;
-          if(on !== el.classList.contains('in-view')) el.classList.toggle('in-view', on);
+      if(cards.length){
+        // 뷰포트에 보이는 카드가 하나라도 있으면 활성화
+        const visibleCards = cards.filter(el => {
+          const r = el.getBoundingClientRect();
+          return r.bottom > 0 && r.top < window.innerHeight;
         });
-      } else {
-        // projects 섹션이 아니면 카드 모두 비활성
-        getCards().forEach(el => el.classList.remove('in-view'));
+        if(visibleCards.length){
+          const activeCard = getClosest(cards);
+          cards.forEach(el => {
+            const on = el === activeCard;
+            if(on !== el.classList.contains('in-view')) el.classList.toggle('in-view', on);
+          });
+        } else {
+          cards.forEach(el => el.classList.remove('in-view'));
+        }
       }
     }
 
