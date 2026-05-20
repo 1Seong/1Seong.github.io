@@ -488,11 +488,11 @@ footer { background: var(--nav-bg); padding: 0; }
   <div class="nav-inner">
     <a href="#" class="nav-logo" onclick="showList();return false;">SW<span>.</span>CHOI</a>
     <ul class="nav-links">
-      <li><a href="#about"       onclick="showList()">About</a></li>
-      <li><a href="#skills"      onclick="showList()">Skills</a></li>
-      <li><a href="#projects"    onclick="showList()">Projects</a></li>
-      <li><a href="#other-works" onclick="showList()">Etc</a></li>
-      <li><a href="#books"       onclick="showList()">Books</a></li>
+      <li><a href="#about"       onclick="showList('about');return false;">About</a></li>
+      <li><a href="#skills"      onclick="showList('skills');return false;">Skills</a></li>
+      <li><a href="#projects"    onclick="showList('projects');return false;">Projects</a></li>
+      <li><a href="#other-works" onclick="showList('other-works');return false;">Etc</a></li>
+      <li><a href="#books"       onclick="showList('books');return false;">Books</a></li>
     </ul>
   </div>
 </nav>
@@ -590,12 +590,12 @@ footer { background: var(--nav-bg); padding: 0; }
   <div class="footer-inner">
     <div class="footer-brand">SW<span>.</span>CHOI</div>
     <nav class="footer-links">
-      <a href="#about"       onclick="showList()">About</a>
-      <a href="#skills"      onclick="showList()">Skills</a>
-      <a href="#awards"      onclick="showList()">Awards</a>
-      <a href="#projects"    onclick="showList()">Projects</a>
-      <a href="#other-works" onclick="showList()">Etc</a>
-      <a href="#books"       onclick="showList()">Books</a>
+      <a href="#about"       onclick="showList('about');return false;">About</a>
+      <a href="#skills"      onclick="showList('skills');return false;">Skills</a>
+      <a href="#awards"      onclick="showList('awards');return false;">Awards</a>
+      <a href="#projects"    onclick="showList('projects');return false;">Projects</a>
+      <a href="#other-works" onclick="showList('other-works');return false;">Etc</a>
+      <a href="#books"       onclick="showList('books');return false;">Books</a>
     </nav>
     <div class="footer-copy" id="footer-copy"></div>
   </div>
@@ -1381,22 +1381,25 @@ function showDetail(id){
   setTimeout(()=>{ onScroll(); }, 50);
 }
 
-function showList(){
+function showList(target){
   document.getElementById('detail-view').classList.remove('visible');
   document.getElementById('list-view').style.display='';
-  // 상세 페이지 하이라이트 초기화
   document.querySelectorAll('.detail-section').forEach(el => el.classList.remove('in-view'));
   _prevDetail = null;
-  // 돌아올 때 해당 프로젝트 카드로 스크롤
-  if(_currentDetailId){
-    requestAnimationFrame(()=>{
-      const card=document.querySelector(`.proj-show-more[data-id="${_currentDetailId}"]`);
+  requestAnimationFrame(()=>{
+    if(target){
+      // 특정 섹션으로 이동
+      const el = document.getElementById(target);
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    } else if(_currentDetailId){
+      // 목적지 없으면 프로젝트 카드로 복귀
+      const card = document.querySelector(`.proj-show-more[data-id="${_currentDetailId}"]`);
       if(card){
-        const rect=card.closest('.project-card');
-        if(rect) rect.scrollIntoView({behavior:'smooth',block:'center'});
+        const rect = card.closest('.project-card');
+        if(rect) rect.scrollIntoView({behavior:'smooth', block:'center'});
       }
-    });
-  }
+    }
+  });
 }
 
 window.addEventListener('scroll',()=>{
