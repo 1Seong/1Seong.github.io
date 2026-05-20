@@ -612,7 +612,7 @@ const PROFILE = {
   email: "qwik0102@gmail.com",
   links: [
     { label: "GitHub",  icon: "github",  url: "https://github.com/1Seong" },
-    { label: "Steam",   icon: "steam",   url: "https://steamcommunity.com/profiles/76561198190444966/" },
+    //{ label: "Steam",   icon: "steam",   url: "https://steamcommunity.com/profiles/76561198190444966/" },
     { label: "Notion",  icon: "notion",  url: "https://www.notion.so/193a55184a7480548fcfda8ec4d58c03" },
   ],
 };
@@ -714,55 +714,61 @@ const PROJECTS = {
         { type:"image", src:"", label:"Screenshot 3" },
         { type:"image", src:"", label:"Screenshot 4" },
       ],
-      summary:"Unity 엔진 기반 다양한 기믹이 존재하는 퍼즐 플랫포머. 두 플레이어를 동시에 조작하며 스테이지별 새로운 기믹과 시점 전환으로 퍼즐을 해결합니다.",
-      role:"프로그래밍",
+      summary:"다양한 기믹이 적용된 맵 에디터로 유저가 직접 맵을 제작하고 공유하며 플레이하는 UGC 기반 3D 퍼즐 게임.",
+      role:"프로그래밍 - 백엔드(Supabase), 클라이언트(Unity 게임 로직), 그래픽 전 영역을 단독으로 담당.",
       activities:["교내 캡스톤디자인 2"],
       contributions:[
         {
           title:"이메일·OAuth 통합 인증 시스템", category:"인증",
-          desc:"<br>• Supabase Auth C# SDK를 Unity에 연동해 이메일/비밀번호 회원가입·로그인·비밀번호 변경·재설정 구현<br>• Google·Discord 소셜 로그인은 로컬 포트를 동적 할당해 HTTP 리스너로 OAuth 콜백을 직접 수신한 뒤 PKCE 코드 교환 방식으로 세션 발급<br>• 인증 상태 변경(로그인·로그아웃·토큰 갱신)을 옵저버 패턴으로 구독해 앱 전역에 전파<br>• Unity UI 이벤트의 async 제약으로 인해 Update() 플래그 패턴으로 비동기 작업을 메인 스레드에서 안전하게 실행<br>• 네트워크 재연결을 주기적으로 감지해 세션 자동 갱신",
+          desc:"<br>• Supabase Auth C# SDK를 Unity에 연동해 이메일/비밀번호 회원가입·로그인·비밀번호 변경·재설정 구현<br>• Google·Discord 소셜 로그인은 HTTP 리스너로 OAuth 콜백을 직접 수신한 뒤 PKCE 코드 교환 방식으로 세션 발급<br>• 인증 상태 변경을 옵저버 패턴으로 구독해 앱 전역에 전파<br>• Unity UI 이벤트의 async 제약으로 인해 Update() 플래그 패턴으로 비동기 작업을 메인 스레드에서 안전하게 실행<br>• 네트워크 재연결을 주기적으로 감지해 세션 자동 갱신",
           images:[]
         },
         {
           title:"DB 설계 및 RLS·트리거 기반 데이터 정합성", category:"DB",
-          desc:"<br>• 맵, 좋아요, 클리어 기록, 신고, 닉네임 등 7개 테이블 설계, 복합 기본키로 무결성 확보<br>• Row Level Security(RLS)로 인증된 사용자만 자신의 데이터에 접근·수정 가능하도록 권한 분리<br>• 트리거로 좋아요 수 자동 집계, 클리어 기록 중복 방지, 최소 이동 수 자동 갱신을 DB 레벨에서 처리<br>• 비속어 정규화 함수와 금지어 테이블을 연동한 INSERT/UPDATE 트리거로 콘텐츠 필터링 구현",
+          desc:"<br>• 맵, 좋아요, 클리어 기록, 닉네임 등 테이블 설계, 복합 기본키로 무결성 확보<br>• Row Level Security(RLS)로 인증된 사용자만 자신의 데이터에 접근·수정 가능하도록 권한 분리<br>• 트리거로 좋아요 수 자동 집계, 클리어 기록 중복 방지, 최고기록 자동 갱신을 DB 레벨에서 처리<br>• 비속어 정규화 함수와 금지어 테이블을 연동한 INSERT/UPDATE 트리거로 콘텐츠 필터링 구현",
           images:[]
         },
         {
           title:"맵 검색·정렬·좋아요 시스템", category:"백엔드",
-          desc:"<br>• Supabase PostgREST API와 RPC 호출로 맵 이름·제작자 닉네임·맵 코드 통합 검색, 정렬, 페이지네이션, 클리어 여부 필터를 단일 서버 함수 호출로 처리<br>• 좋아요·클리어·신고 여부를 JSONB 배치 쿼리로 일괄 조회, 로컬 딕셔너리로 인덱싱해 N+1 쿼리 문제 방지<br>• 맵 목록 페치와 인터랙션 조회·닉네임 조회를 UniTask.WhenAll로 병렬 실행해 응답 속도 최적화<br>• 좋아요 토글은 INSERT ON CONFLICT DO NOTHING으로 원자적으로 처리하고 트리거로 좋아요 수에 자동 반영<br>• Supabase Storage에 썸네일 이미지 업로드·삭제 연동",
+          desc:"<br>• Supabase PostgREST API와 RPC 호출로 검색, 정렬, 페이지네이션, 필터를 단일 서버 함수 호출로 처리<br>• 좋아요·클리어·신고 여부를 JSONB 배치 쿼리로 일괄 조회, 로컬 딕셔너리로 인덱싱해 N+1 쿼리 문제 방지<br>• 맵 목록 페치와 인터랙션 조회·닉네임 조회를 UniTask.WhenAll로 병렬 실행해 응답 속도 최적화<br>• 좋아요 토글은 INSERT ON CONFLICT DO NOTHING으로 원자적으로 처리하고 트리거로 좋아요 수에 자동 반영<br>• Supabase Storage에 썸네일 이미지 업로드·삭제 연동",
           images:[]
         },
         {
           title:"맵 에디터", category:"에디터",
-          desc:"<br>• 도로·지우개·플레이어·포탈·기믹 등 다양한 편집 도구 구현<br>• 포탈은 In→Out 순서로 두 타일을 연결하고 Line Renderer로 연결 관계 시각화<br>• Undo는 맵 상태 전체를 깊은 복사해 스택에 보존<br>• RenderTexture로 썸네일을 캡처해 Supabase Storage에 업로드, 저장·업로드 시 자동 갱신",
+          desc:"<br>• 도로·지우개·기믹 등 다양한 편집 도구 구현<br>• 포탈은 In→Out 순서로 두 타일을 연결하고 Line Renderer로 연결 관계 시각화<br>• RenderTexture로 썸네일을 캡처해 Supabase Storage에 업로드, 저장·업로드 시 자동 갱신",
           images:[]
         },
         {
           title:"3D 큐브 퍼즐 핵심 게임플레이 루프", category:"게임플레이",
-          desc:"<br>• 3D 격자 배열로 맵 상태를 표현하고 열거형으로 타일 종류 관리<br>• Undo를 위해 맵 배열·플레이어 위치·기믹 상태·포탈 딕셔너리를 구조체에 묶어 스택에 깊은 복사로 보존<br>• 타일 상태 전이(색칠·반전)는 딕셔너리 룩업으로 O(1) 처리<br>• 기믹 구현<br>&nbsp;&nbsp;◦ Ghost — 잔여 횟수 기반 통과<br>&nbsp;&nbsp;◦ Portal — 딕셔너리 기반 순간이동<br>&nbsp;&nbsp;◦ Dash — 재귀 이동<br>&nbsp;&nbsp;◦ Laser — BFS 기반 6방향 연쇄 반전<br>&nbsp;&nbsp;◦ Inverter — 맨해튼 거리 기반 웨이브 전파 반전<br>• DOTween과 UniTask로 이동·기믹 발동·클리어 연출 구현",
+          desc:"<br>• 3D 격자 배열로 맵 상태를 표현하고 열거형으로 타일 종류 관리<br>• Undo를 위해 상태 데이터를 구조체로 묶어 스택에 깊은 복사로 보존<br>• 타일 상태 전이(색칠·반전)는 딕셔너리 룩업으로 O(1) 처리<br>• 기믹 구현<br>&nbsp;&nbsp;◦ Inverter — 맨해튼 거리 기반 웨이브 전파 반전<br>&nbsp;&nbsp;◦ Laser — BFS 기반 6방향 연쇄 반전<br>&nbsp;&nbsp;◦ Portal — 딕셔너리 기반 순간이동<br>&nbsp;&nbsp;◦ Dash — 재귀 이동<br>• DOTween과 UniTask로 이동·기믹 발동·클리어 연출 구현",
           images:[]
         },
         {
           title:"루빅큐브식 회전 기믹", category:"기믹",
-          desc:"<br>• 플레이어가 이동불가 공간 방향으로 이동하면 해당 레이어 전체가 회전하는 기믹 구현<br>• 회전은 2D 행렬 전치+역순으로 좌표를 재매핑<br>• 인접 레이어는 연쇄 애니메이션(지연 재귀 + UniTask.WhenAll)으로 루빅큐브처럼 연결해 회전",
+          desc:"<br>• 플레이어가 이동불가 공간으로 이동하면 레이어 전체가 회전하는 기믹 구현<br>• 회전은 2D 행렬 전치+역순으로 좌표를 재매핑<br>• 인접 레이어는 연쇄 애니메이션(지연 재귀 + UniTask.WhenAll)으로 루빅큐브처럼 연결해 회전",
           images:[]
         },
         {
           title:"스텐실·알파 테스트 기반 기믹 전용 셰이더", category:"셰이더",
-          desc:"<br>• 기믹 활성화 시 큐브 내부에서만 렌더링되도록 스텐실 버퍼로 마스킹<br>• 광선-AABB 교차 검사로 큐브 바깥 픽셀을 discard 처리<br>• Fractal Brownian Motion(FBM) 기반 노이즈로 아메바 SDF를 실시간 생성해 유기적인 Ghost 이펙트 표현<br>• URP HLSL로 직접 작성해 렌더링 패스 순서를 명시적으로 제어",
+          desc:"<br>• 기믹 활성화 시 큐브 내부에서만 렌더링되도록 스텐실 버퍼로 마스킹<br>• 광선-AABB 교차 검사로 큐브 바깥 픽셀을 discard 처리<br>• Fractal Brownian Motion(FBM) 기반 노이즈로 아메바 SDF를 실시간 생성해 유기적인 Ghost 이펙트 표현",
           images:[]
         },
       ],
       optimizations:[],
       retrospective:{
-        good:"리드 프로그래머로서 팀 전체 기술 방향을 주도하며 복잡한 물리·기믹 시스템을 설계부터 구현까지 완수할 수 있었음.",
-        bad:"초기 기믹 구조 설계에 충분한 시간을 쏟지 못해 후반부에 리팩토링이 필요했음. 팀 간 인터페이스 정의를 더 명확히 했다면 통합 비용을 줄일 수 있었을 것.",
+        good:"DB 설계와 인증을 포함한 백엔드 영역에 처음 도전한 프로젝트로, 서버-클라이언트 전 스택을 혼자 구축하며 백엔드 역량을 크게 키울 수 있었음. 맵 에디터를 직접 제작해 기획자들이 코드 없이 맵을 자유롭게 제작할 수 있게 된 것이 가장 뿌듯했음.",
+        bad:"백엔드·클라이언트·그래픽을 모두 단독으로 담당하다 보니 작업량이 과중해 문서화에 충분한 시간을 쏟지 못한 것이 아쉬움.",
       },
       feedback:null,
-      other_contributions:[],
+      other_contributions:[
+        { title: "기믹 연출 기획", category: "기획", desc: "각 기믹의 시각적 연출 방식 기획 담당.", images: [] },
+        { title: "UI 디자인 기획", category: "기획", desc: "게임 전반의 UI 레이아웃 및 디자인 기획 담당.", images: [] },
+        { title: "그래픽 아트", category: "그래픽", desc: "기타 인게임 그래픽 아트 제작.", images: [] },
+      ],
       links:[
-        { label:"GitHub", url:"https://github.com/1Seong/2024WinterProject2" },
+        { label:"GitHub", url:"https://github.com/1Seong/Capstone2" },
+        { label: "Game Build", url:"https://drive.google.com/drive/u/0/folders/10mRU31GlTHey1yCcf1V_u7jEjr0QA4JT"},
+        { label: "Google Drive", url:"https://drive.google.com/drive/u/0/folders/1IGMLGUreO3WDR3LEqzpbtfKZpKzZaxUQ"}
       ],
     },
   
