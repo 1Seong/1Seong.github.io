@@ -683,7 +683,7 @@ const OTHER_WORKS = [
   },
   {
     category: "Graphics",
-    items: ["OpenGL 3D 수영 애니메이션", "OpenGL Cook-Torrance lighting", "쉐이더 구현"],
+    items: ["OpenGL 3D 수영 애니메이션", "OpenGL Cook-Torrance lighting"],
   },
   {
     category: "DB",
@@ -698,7 +698,7 @@ const OTHER_WORKS = [
     items: ["간단한 컴파일러 및 파서 구현"],
   },
 ];
-const PROJECT_ORDER = ["eulerian_aurora", "square_erauqs", "save_the_world", "omakhase", "necromancer_survivors", "runepago"];
+const PROJECT_ORDER = ["eulerian_aurora", "square_erauqs", "save_the_world", "omakhase", "necromancer_survivors"];
 // 프로젝트 순서 변경 시 배열 순서만 바꾸면 됩니다.
 
 const PROJECTS = {
@@ -1254,7 +1254,11 @@ function showDetail(id){
     const imgHTML = c.images && c.images.length
       ? `<div class="contribution-img-wrap"><img src="${c.images[0]}" alt="${c.title}"></div>` : '';
     return `<div class="contribution">
-      <div class="contribution-header" onclick="this.closest('.contribution').classList.toggle('open')">
+      <div class="contribution-header" onclick="
+        this.closest('.contribution').classList.toggle('open');
+        requestAnimationFrame(()=>requestAnimationFrame(()=>onScroll()));
+        setTimeout(()=>{ ticking=false; onScroll(); }, 380);
+      ">
         <div class="contribution-icon"><i class="ti ${cat.icon}" aria-hidden="true"></i></div>
         <div class="contribution-title">${c.title}</div>
         ${badgeHTML}
