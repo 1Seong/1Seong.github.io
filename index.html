@@ -265,7 +265,7 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 }
 .detail-section.in-view::before { opacity: .4; }
 .detail-section.in-view::after { opacity: 1; }
-.detail-section:not(.in-view) { opacity: .65; }
+.detail-section:not(.in-view) { opacity: 1; }
 .detail-section-label { font-size: .88rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.25rem; }
 .detail-section-text { font-size: .9rem; color: var(--cream-2); line-height: 1.85; }
 .detail-section-text p { margin-bottom: .75rem; }
@@ -1468,17 +1468,21 @@ function getCards(){ return Array.from(document.querySelectorAll('.project-card'
 
 function getClosest(els){
   const vh = window.innerHeight;
+  const mid = vh / 2;
   let best = null, bestScore = -Infinity;
   els.forEach(el => {
     const rect = el.getBoundingClientRect();
-    // 뷰포트와 겹치는 픽셀 수 계산
     const visTop = Math.max(rect.top, 0);
     const visBot = Math.min(rect.bottom, vh);
     const visible = Math.max(0, visBot - visTop);
-    // 전체 높이 대비 보이는 비율 (짧은 항목이 불리하지 않도록)
-    const ratio = rect.height > 0 ? visible / Math.min(rect.height, vh) : 0;
-    // 보이는 픽셀 + 비율 가중치
-    const score = visible + ratio * 80;
+    if(visible <= 0) return;
+    // 항목 자체 높이 대비 보이는 비율 (짧은 항목 보호)
+    const ratio = visible / Math.min(rect.height, vh);
+    // 중심이 화면 중앙에 가까울수록 보너스
+    const elMid = rect.top + rect.height / 2;
+    const centerBonus = 1 - Math.min(Math.abs(elMid - mid) / vh, 1);
+    // 비율을 최우선, 절대 픽셀은 보조
+    const score = ratio * 200 + centerBonus * 60 + visible * 0.1;
     if(score > bestScore){ bestScore = score; best = el; }
   });
   return best;
@@ -1514,19 +1518,8 @@ function onScroll(){
     const isDetail = document.getElementById('detail-view').classList.contains('visible');
 
     if(isDetail){
-      // 상세 페이지: detail-section 하나만
-      const detailSections = Array.from(document.querySelectorAll('.detail-section'));
-      const activeDetail = getClosest(detailSections);
-      detailSections.forEach(el => {
-        const on = el === activeDetail;
-        if(on !== el.classList.contains('in-view')) el.classList.toggle('in-view', on);
-      });
-      if(activeDetail !== _prevDetail){
-        _prevDetail = activeDetail;
-        setLight(activeDetail);
-      } else {
-        setLight(activeDetail);
-      }
+      // 상세 페이지: 하이라이트 없음
+      lightEl.classList.remove('visible');
     } else {
       _prevDetail = null;
 
