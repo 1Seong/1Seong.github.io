@@ -270,6 +270,7 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .detail-section-text { font-size: .9rem; color: var(--cream-2); line-height: 1.85; }
 .detail-section-text p { margin-bottom: .75rem; }
 .detail-section-text p:last-child { margin-bottom: 0; }
+.detail-section-text strong { font-weight: 600; color: var(--white); }
 
 /* contribution 아이템 */
 .contributions { display: flex; flex-direction: column; gap: .6rem; }
@@ -294,12 +295,11 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
   flex: 1; font-size: 1rem; font-weight: 600; color: var(--white); line-height: 1.3;
 }
 .contribution-badge {
-  font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-  padding: 2px 7px; border-radius: 999px; flex-shrink: 0;
-  background: var(--navy-3); color: var(--cream-3);
-  transition: background .2s, color .2s;
+  font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 999px; flex-shrink: 0; border: 1px solid transparent;
+  transition: opacity .2s;
 }
-.contribution.open .contribution-badge { background: rgba(80,64,200,.18); color: var(--gold); }
+.contribution.open .contribution-badge { opacity: .8; }
 /* chevron — 오른쪽 끝에 명확하게 */
 .contribution-chevron {
   font-size: 1.1rem; color: var(--cream-3); flex-shrink: 0; margin-left: .25rem;
@@ -318,6 +318,9 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .contribution-img-wrap { margin-bottom: .85rem; border-radius: var(--radius); overflow: hidden; }
 .contribution-img-wrap img { width: 100%; display: block; object-fit: cover; max-height: 240px; }
 .contribution-desc { font-size: .92rem; color: var(--cream-2); line-height: 1.85; border-top: 1px solid var(--rule); padding-top: .75rem; }
+.contribution-desc strong { display: block; color: var(--white); font-weight: 600; margin-bottom: .4rem; }
+.contribution-desc ul { margin: .3rem 0 0; padding-left: 1.1rem; }
+.contribution-desc li { margin-bottom: .2rem; }
 
 /* 회고 이미지 */
 .retro-images { display: flex; gap: .75rem; margin-top: 1rem; flex-wrap: wrap; }
@@ -340,10 +343,12 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .retro-card-text { font-size: .855rem; color: var(--cream-2); line-height: 1.8; }
 .feedback-chart { display: flex; flex-direction: column; gap: .75rem; }
 .feedback-row { display: flex; align-items: center; gap: 1rem; }
-.feedback-label { font-size: .8rem; color: var(--cream-2); width: 60px; flex-shrink: 0; }
-.feedback-bar-wrap { flex: 1; height: 8px; background: var(--navy-3); border-radius: 4px; overflow: hidden; }
+.feedback-label-wrap { display: flex; flex-direction: column; gap: .1rem; width: 68px; flex-shrink: 0; }
+.feedback-label { font-size: .8rem; color: var(--cream-2); }
+.feedback-bar-wrap { flex: 1; max-width: 480px; height: 8px; background: var(--navy-3); border-radius: 4px; overflow: hidden; }
 .feedback-bar { height: 100%; border-radius: 4px; background: linear-gradient(to right, #5040c8, #a0f0d8); transition: width .8s cubic-bezier(.22,1,.36,1); }
 .feedback-val { font-size: .78rem; color: var(--cream-3); width: 44px; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+.feedback-source { font-size: .68rem; color: var(--cream-3); }
 
 /* 사이드바 */
 .detail-sidebar { position: sticky; top: calc(var(--nav-h) + 2rem); }
@@ -715,42 +720,42 @@ const PROJECTS = {
         { type:"image", src:"", label:"Screenshot 4" },
       ],
       summary:"다양한 기믹이 적용된 맵 에디터로 유저가 직접 맵을 제작하고 공유하며 플레이하는 UGC 기반 3D 퍼즐 게임.",
-      role:"프로그래밍 - 백엔드(Supabase), 클라이언트(Unity 게임 로직), 그래픽 전 영역을 단독으로 담당.",
+      role:"<br>• <strong>프로그래밍</strong> - 백엔드(Supabase), 클라이언트(Unity 게임 로직)<br>• <strong>아트</strong> - 그래픽 전 영역을 단독으로 담당.",
       activities:["교내 캡스톤디자인 2"],
       contributions:[
         {
           title:"이메일·OAuth 통합 인증 시스템", category:"인증",
-          desc:"<br>• Supabase Auth C# SDK를 Unity에 연동해 이메일/비밀번호 회원가입·로그인·비밀번호 변경·재설정 구현<br>• Google·Discord 소셜 로그인은 HTTP 리스너로 OAuth 콜백을 직접 수신한 뒤 PKCE 코드 교환 방식으로 세션 발급<br>• 인증 상태 변경을 옵저버 패턴으로 구독해 앱 전역에 전파<br>• Unity UI 이벤트의 async 제약으로 인해 Update() 플래그 패턴으로 비동기 작업을 메인 스레드에서 안전하게 실행<br>• 네트워크 재연결을 주기적으로 감지해 세션 자동 갱신",
+          desc:"<br><strong>Supabase Auth C# SDK를 Unity에 연동해 이메일/비밀번호 회원가입·로그인·비밀번호 변경·재설정 구현</strong><ul><li>Google·Discord 소셜 로그인은 HTTP 리스너로 OAuth 콜백을 직접 수신한 뒤 PKCE 코드 교환 방식으로 세션 발급</li><li>인증 상태 변경을 옵저버 패턴으로 구독해 앱 전역에 전파</li><li>Unity UI 이벤트의 async 제약으로 인해 Update() 플래그 패턴으로 비동기 작업을 메인 스레드에서 안전하게 실행</li><li>네트워크 재연결을 주기적으로 감지해 세션 자동 갱신</li></ul>",
           images:[]
         },
         {
           title:"DB 설계 및 RLS·트리거 기반 데이터 정합성", category:"DB",
-          desc:"<br>• 맵, 좋아요, 클리어 기록, 닉네임 등 테이블 설계, 복합 기본키로 무결성 확보<br>• Row Level Security(RLS)로 인증된 사용자만 자신의 데이터에 접근·수정 가능하도록 권한 분리<br>• 트리거로 좋아요 수 자동 집계, 클리어 기록 중복 방지, 최고기록 자동 갱신을 DB 레벨에서 처리<br>• 비속어 정규화 함수와 금지어 테이블을 연동한 INSERT/UPDATE 트리거로 콘텐츠 필터링 구현",
+          desc:"<br><strong>맵, 좋아요, 클리어 기록, 닉네임 등 테이블 설계, 복합 기본키로 무결성 확보</strong><ul><li>Row Level Security(RLS)로 인증된 사용자만 자신의 데이터에 접근·수정 가능하도록 권한 분리</li><li>트리거로 좋아요 수 자동 집계, 클리어 기록 중복 방지, 최고기록 자동 갱신을 DB 레벨에서 처리</li><li>비속어 정규화 함수와 금지어 테이블을 연동한 INSERT/UPDATE 트리거로 콘텐츠 필터링 구현</li></ul>",
           images:[]
         },
         {
           title:"맵 검색·정렬·좋아요 시스템", category:"백엔드",
-          desc:"<br>• Supabase PostgREST API와 RPC 호출로 검색, 정렬, 페이지네이션, 필터를 단일 서버 함수 호출로 처리<br>• 좋아요·클리어·신고 여부를 JSONB 배치 쿼리로 일괄 조회, 로컬 딕셔너리로 인덱싱해 N+1 쿼리 문제 방지<br>• 맵 목록 페치와 인터랙션 조회·닉네임 조회를 UniTask.WhenAll로 병렬 실행해 응답 속도 최적화<br>• 좋아요 토글은 INSERT ON CONFLICT DO NOTHING으로 원자적으로 처리하고 트리거로 좋아요 수에 자동 반영<br>• Supabase Storage에 썸네일 이미지 업로드·삭제 연동",
+          desc:"<br><strong>Supabase PostgREST API와 RPC 호출로 검색, 정렬, 페이지네이션, 필터를 단일 서버 함수 호출로 처리</strong><ul><li>좋아요·클리어·신고 여부를 JSONB 배치 쿼리로 일괄 조회, 로컬 딕셔너리로 인덱싱해 N+1 쿼리 문제 방지</li><li>맵 목록 페치와 인터랙션 조회·닉네임 조회를 UniTask.WhenAll로 병렬 실행해 응답 속도 최적화</li><li>좋아요 토글은 INSERT ON CONFLICT DO NOTHING으로 원자적으로 처리하고 트리거로 좋아요 수에 자동 반영</li><li>Supabase Storage에 썸네일 이미지 업로드·삭제 연동</li></ul>",
           images:[]
         },
         {
           title:"맵 에디터", category:"에디터",
-          desc:"<br>• 도로·지우개·기믹 등 다양한 편집 도구 구현<br>• 포탈은 Line Renderer로 연결 관계 시각화<br>• RenderTexture로 썸네일을 캡처해 Supabase Storage에 업로드, 저장·업로드 시 자동 갱신",
+          desc:"<br><strong>도로·지우개·기믹 등 다양한 편집 도구 구현</strong><ul><li>포탈은 Line Renderer로 연결 관계 시각화</li><li>RenderTexture로 썸네일을 캡처해 Supabase Storage에 업로드, 저장·업로드 시 자동 갱신</li></ul>",
           images:[]
         },
         {
           title:"3D 큐브 퍼즐 핵심 게임플레이 루프", category:"게임플레이",
-          desc:"<br>• 3D 격자 배열로 맵 상태를 표현하고 열거형으로 타일 종류 관리<br>• Undo를 위해 상태 데이터를 구조체로 묶어 스택에 깊은 복사로 보존<br>• 타일 상태 전이(색칠·반전)는 딕셔너리 룩업으로 O(1) 처리<br>• 기믹 구현<br>&nbsp;&nbsp;◦ Inverter — 맨해튼 거리 기반 웨이브 전파 반전<br>&nbsp;&nbsp;◦ Laser — BFS 기반 6방향 연쇄 반전<br>&nbsp;&nbsp;◦ Portal — 딕셔너리 기반 순간이동<br>• DOTween과 UniTask로 이동·기믹 발동·클리어 연출 구현",
+          desc:"<br><strong>3D 격자 배열로 맵 상태를 표현하고 열거형으로 타일 종류 관리</strong><ul><li>Undo를 위해 상태 데이터를 구조체로 묶어 스택에 깊은 복사로 보존</li><li>타일 상태 전이(색칠·반전)는 딕셔너리 룩업으로 O(1) 처리</li><li>기믹 구현<br>&nbsp;&nbsp;◦ Inverter — 맨해튼 거리 기반 웨이브 전파 반전<br>&nbsp;&nbsp;◦ Laser — BFS 기반 6방향 연쇄 반전<br>&nbsp;&nbsp;◦ Portal — 딕셔너리 기반 순간이동</li><li>DOTween과 UniTask로 이동·기믹 발동·클리어 연출 구현</li></ul>",
           images:[]
         },
         {
           title:"루빅큐브식 회전 기믹", category:"기믹",
-          desc:"<br>• 플레이어가 이동불가 공간으로 이동하면 레이어 전체가 회전하는 기믹 구현<br>• 회전은 2D 행렬 전치+역순으로 좌표를 재매핑<br>• 인접 레이어는 연쇄 애니메이션(지연 재귀 + UniTask.WhenAll)으로 루빅큐브처럼 연결해 회전",
+          desc:"<br><strong>플레이어가 이동불가 공간으로 이동하면 레이어 전체가 회전하는 기믹 구현</strong><ul><li>회전은 2D 행렬 전치+역순으로 좌표를 재매핑</li><li>인접 레이어는 연쇄 애니메이션(지연 재귀 + UniTask.WhenAll)으로 루빅큐브처럼 연결해 회전</li></ul>",
           images:[]
         },
         {
           title:"스텐실·알파 테스트 기반 기믹 전용 셰이더", category:"셰이더",
-          desc:"<br>• 기믹 활성화 시 큐브 내부에서만 렌더링되도록 스텐실 버퍼로 마스킹<br>• 광선-AABB 교차 검사로 큐브 바깥 픽셀을 discard 처리<br>• Fractal Brownian Motion(FBM) 기반 노이즈로 아메바 SDF를 실시간 생성해 유기적인 Ghost 이펙트 표현",
+          desc:"<br><strong>기믹 활성화 시 큐브 내부에서만 렌더링되도록 스텐실 버퍼로 마스킹</strong><ul><li>광선-AABB 교차 검사로 큐브 바깥 픽셀을 discard 처리</li><li>Fractal Brownian Motion(FBM) 기반 노이즈로 아메바 SDF를 실시간 생성해 유기적인 Ghost 이펙트 표현</li></ul>",
           images:[]
         },
       ],
@@ -785,49 +790,49 @@ const PROJECTS = {
       { type:"image", src:"", label:"Screenshot 4" },
     ],
     summary:"두 플레이어를 동시에 조작하며 스테이지별 새로운 기믹과 시점 전환 기능으로 퍼즐을 해결.",
-    role:"리드 프로그래머 — 스테이지 및 퍼즐 기믹 구현, 모바일 이식 총괄.",
-    activities:["2025 UNICON 챌린저 부문 출품"],
+    role:"<br>• <strong>리드 프로그래머</strong> — 스테이지 및 퍼즐 기믹 구현, 모바일 이식 총괄.",
+    activities:["2025 UNICON 챌린저 부문 출품", "교내 동아리박람회 전시"],
     contributions:[
       {
         title:"추상화 기반 기믹 오브젝트 공통 구조",
         category:"구조",
-        desc:"<br>• 추상 클래스로 기믹의 공통 동작 흐름(초기화, 색상 처리, 충돌 판정)을 정의하고 하위 클래스에서 구체 동작을 구현하는 템플릿 메서드 패턴 적용<br>• 이벤트·델리게이트로 기믹 발동 시점을 상위 클래스에서 구독하는 옵저버 구조 구현, 하위 기믹은 발동 로직에만 집중<br>• Pause(물리 동결+타이머), G-Pause(중력 반전 10초 유지), 포탈(DOTween 진입·퇴장 트윈+쿨다운) 기믹 구현",
+        desc:"<br><strong>추상 클래스로 기믹의 공통 동작 흐름(초기화, 색상 처리, 충돌 판정)을 정의하고 하위 클래스에서 구체 동작을 구현하는 템플릿 메서드 패턴 적용</strong><ul><li>이벤트·델리게이트로 기믹 발동 시점을 상위 클래스에서 구독하는 옵저버 구조 구현, 하위 기믹은 발동 로직에만 집중</li><li>Pause(물리 동결+타이머), G-Pause(중력 반전 10초 유지), 포탈(DOTween 진입·퇴장 트윈+쿨다운) 기믹 구현</li></ul>",
         images:[]
       },
       {
         title:"시점 전환 기반 2D/3D 듀얼 뷰 시스템",
         category:"게임플레이",
-        desc:"<br>• 탑뷰·사이드뷰 두 시점을 이벤트 체인으로 전환 — 카메라 회전, 물리 제약, 플레이어 위치 보정이 하나의 멀티캐스트 델리게이트로 순차 실행<br>• 전환 중 플레이어·오브젝트가 벽에 끼이는 현상을 OverlapBox로 감지하고 중력 방향으로 밀어내는 위치 보정 로직 구현",
+        desc:"<br><strong>탑뷰·사이드뷰 두 시점을 이벤트 체인으로 전환 — 카메라 회전, 물리 제약, 플레이어 위치 보정이 하나의 멀티캐스트 델리게이트로 순차 실행</strong><ul><li>전환 중 플레이어·오브젝트가 벽에 끼이는 현상을 OverlapBox로 감지하고 중력 방향으로 밀어내는 위치 보정 로직 구현</li></ul>",
         images:[]
       },
       {
         title:"커스텀 중력 및 물리 제어 시스템",
         category:"물리",
-        desc:"<br>• Unity 기본 물리 대신 FixedUpdate에서 방향별 중력 벡터를 직접 AddForce하는 커스텀 중력 구현, 세 상태를 C# 프로퍼티 setter에서 전환<br>• 중력 상태 변경을 이벤트로 발행해 중력 방향과 Rigidbody 제약 조건을 일관성 있게 동기화<br>• 빙판 위에서 BoxCast로 Ice 태그 감지 시 마찰 계수를 0으로 변경하고 Move를 비활성화해 미끄럼 물리 구현, 플랫폼 감지 시 즉시 복원",
+        desc:"<br><strong>Unity 기본 물리 대신 FixedUpdate에서 방향별 중력 벡터를 직접 AddForce하는 커스텀 중력 구현, 세 상태를 C# 프로퍼티 setter에서 전환</strong><ul><li>중력 상태 변경을 이벤트로 발행해 중력 방향과 Rigidbody 제약 조건을 일관성 있게 동기화</li><li>빙판 위에서 BoxCast로 Ice 태그 감지 시 마찰 계수를 0으로 변경하고 Move를 비활성화해 미끄럼 물리 구현, 플랫폼 감지 시 즉시 복원</li></ul>",
         images:[]
       },
       {
         title:"Raycasting 기반 커스텀 충돌 판정",
         category:"물리",
-        desc:"<br>• Unity 기본 충돌 이벤트 대신 BoxCastAll로 Platform 레이어만 선택적으로 감지해 착지·내벽 충돌·빙판을 프레임마다 판정<br>• 착지 판정은 법선 벡터와 중력 역방향의 내적으로 경사면 여부를 구분해 오탐 방지<br>• 점프패드 위 착지 여부를 플랫폼 레이어 BoxCast로 확인 후 중력 방향 기반 임펄스를 계산(√(2·g·jumpUnit))해 일관된 점프 높이 보장",
+        desc:"<br><strong>Unity 기본 충돌 이벤트 대신 BoxCastAll로 Platform 레이어만 선택적으로 감지해 착지·내벽 충돌·빙판을 프레임마다 판정</strong><ul><li>착지 판정은 법선 벡터와 중력 역방향의 내적으로 경사면 여부를 구분해 오탐 방지</li><li>점프패드 위 착지 여부를 플랫폼 레이어 BoxCast로 확인 후 중력 방향 기반 임펄스를 계산(√(2·g·jumpUnit))해 일관된 점프 높이 보장</li></ul>",
         images:[]
       },
       {
         title:"스프링 오브젝트의 벽 연결 전파 시스템",
         category:"물리",
-        desc:"<br>• 스프링이 벽에 직접 닿지 않아도 다른 스프링·플레이어를 통해 간접적으로 연결됐는지 재귀적으로 탐색하는 연결 전파 구조 구현<br>• 좌·우 BoxCast로 인접 오브젝트를 감지하고 해당 오브젝트의 연결 상태를 재귀 조회 — 순환 참조(데드락)를 교차 검사로 방지",
+        desc:"<br><strong>스프링이 벽에 직접 닿지 않아도 다른 스프링·플레이어를 통해 간접적으로 연결됐는지 재귀적으로 탐색하는 연결 전파 구조 구현</strong><ul><li>좌·우 BoxCast로 인접 오브젝트를 감지하고 해당 오브젝트의 연결 상태를 재귀 조회 — 순환 참조(데드락)를 교차 검사로 방지</li></ul>",
         images:[]
       },
       {
         title:"모바일 이식 — 입력 추상화 및 모바일 UI",
         category:"게임플레이",
-        desc:"<br>• InputWrapper 정적 클래스로 키보드 입력과 가상 버튼 입력을 단일 인터페이스로 추상화 — 플랫폼 전처리기로 모바일 모드를 감지해 분기<br>• 가상 버튼(IPointerDown/Up)에서 축 값을 주입하고 점프·시점 전환은 Action 델리게이트로 발행해 게임 로직이 입력 출처를 알 필요 없는 구조 달성",
+        desc:"<br><strong>InputWrapper 정적 클래스로 키보드 입력과 가상 버튼 입력을 단일 인터페이스로 추상화 — 플랫폼 전처리기로 모바일 모드를 감지해 분기</strong><ul><li>가상 버튼(IPointerDown/Up)에서 축 값을 주입하고 점프·시점 전환은 Action 델리게이트로 발행해 게임 로직이 입력 출처를 알 필요 없는 구조 달성</li></ul>",
         images:[]
       },
       {
         title:"Unity Localization 기반 다국어 지원",
         category:"UI",
-        desc:"<br>• Unity Localization의 LocalizeStringEvent로 텍스트를 런타임에 교체하고, 언어별 Animator Controller를 교체하는 이벤트 기반 구조 구현<br>• 힌트 UI는 Localization Table에서 문자열을 조회해 씬별 힌트 텍스트를 코드 수정 없이 교체 가능<br>• 한국어/영어 전환 시 폰트 크기를 단계적으로 줄이며 레이아웃 깨짐 없이 텍스트 자동 조절",
+        desc:"<br><strong>Unity Localization의 LocalizeStringEvent로 텍스트를 런타임에 교체하고, 언어별 Animator Controller를 교체하는 이벤트 기반 구조 구현</strong><ul><li>힌트 UI는 Localization Table에서 문자열을 조회해 씬별 힌트 텍스트를 코드 수정 없이 교체 가능</li><li>한국어/영어 전환 시 폰트 크기를 단계적으로 줄이며 레이아웃 깨짐 없이 텍스트 자동 조절</li></ul>",
         images:[]
       },
     ],
@@ -836,7 +841,17 @@ const PROJECTS = {
       good:"리드 프로그래머로서 팀 전체 기술 방향을 주도하며 복잡한 물리·기믹 시스템을 설계부터 구현까지 완수할 수 있었음.",
       bad:"초기 기믹 구조 설계에 충분한 시간을 쏟지 못해 후반부에 리팩토링이 필요했음. 팀 간 인터페이스 정의를 더 명확히 했다면 통합 비용을 줄일 수 있었을 것.",
     },
-    feedback:null,
+    feedback:{
+      graphs: [
+        { label:"재미", value:4.49, max:5, unit:"/5", source:"설문 49명" },
+        { label:"독창성", value:3.94, max:5,unit:"/5", source:"설문 49명" },
+        { label:"비주얼", value:4.51, max:5,unit:"/5", source:"설문 49명" },
+        { label:"몰입감", value:4.24, max:5,unit:"/5", source:"설문 49명" },
+      ],
+      quotes: [
+        {text:"응답자의 73%가 3,000원 이상 지불 의향 (중앙값 3,000~5,000원, 응답 49명)"},
+      ]
+    },
     other_contributions:null,
     links:[
       { label: "Steam", url:"https://store.steampowered.com/app/4331920/SQUAREERAUQS/"},
@@ -858,49 +873,49 @@ const PROJECTS = {
       { type:"image", src:"", label:"Screenshot 5" },
     ],
     summary:"6.25 전쟁유공자의 삶을 회고하는 스토리텔링 기반 포인트 앤 클릭 룸 이스케이프. 6종 미니게임과 다채로운 쉐이더·연출로 몰입도 높은 게임플레이를 제공.",
-    role:"클라이언트 프로그래밍 단독 담당. 픽셀 및 그래픽 아트(쉐이더), 연출 및 미니게임 세부 기획 병행.",
+    role:"<br>• <strong>프로그래밍</strong> - 클라이언트 프로그래밍 단독 담당<br>• <strong>기획</strong> - 연출 및 미니게임 세부 기획<br>• <strong>아트</strong> - 픽셀 및 그래픽 아트(쉐이더)",
     activities:["교내 캡스톤디자인 1"],
     contributions:[
       {
         title:"1인칭 몰입형 포인트 앤 클릭 + 방 회전 시스템",
         category:"게임플레이",
-        desc:"<br>• 3D 공간에 2D UI를 오버레이한 포인트 앤 클릭 구조 위에, 마우스 위치에 따라 카메라가 실시간으로 기울어지는 Tilt 효과로 몰입도 강화<br>• 방 6면을 개별 평면으로 관리해 이동 시 해당 면의 인터랙티브 오브젝트를 활성화·비활성화하는 구조로 씬 분리 없이 방 탐색 구현<br>• DOTween으로 면 전환 트윈 연출을 인터페이스로 추상화해 전환 방식을 교체 가능한 구조로 설계",
+        desc:"<br><strong>3D 공간에 2D UI를 오버레이한 포인트 앤 클릭 구조 위에, 마우스 위치에 따라 카메라가 실시간으로 기울어지는 Tilt 효과로 몰입도 강화</strong><ul><li>방 6면을 개별 평면으로 관리해 이동 시 해당 면의 인터랙티브 오브젝트를 활성화·비활성화하는 구조로 씬 분리 없이 방 탐색 구현</li><li>DOTween으로 면 전환 트윈 연출을 인터페이스로 추상화해 전환 방식을 교체 가능한 구조로 설계</li></ul>",
         images:[]
       },
       {
         title:"템플릿 메서드 기반 인터랙티브 오브젝트 시스템",
         category:"구조",
-        desc:"<br>• 추상 클래스에 On/Off 두 추상 메서드와 토글 상태 전환 흐름을 정의하는 템플릿 메서드 패턴으로 모든 방 오브젝트의 공통 구조 통일<br>• 상위 클래스는 상태 관리와 중복 클릭 방지(isActing 플래그)만 담당<br>• 블러 처리가 필요한 오브젝트는 잠금 이벤트 구독으로 활성화 시점을 외부에서 제어, 파티클 연출을 자동 전환<br>• 아이템 사용 대상도 동일 인터페이스로 추상화해 아이템 매칭 로직과 연출 로직을 분리",
+        desc:"<br><strong>추상 클래스에 On/Off 두 추상 메서드와 토글 상태 전환 흐름을 정의하는 템플릿 메서드 패턴으로 모든 방 오브젝트의 공통 구조 통일</strong><ul><li>상위 클래스는 상태 관리와 중복 클릭 방지(isActing 플래그)만 담당</li><li>블러 처리가 필요한 오브젝트는 잠금 이벤트 구독으로 활성화 시점을 외부에서 제어, 파티클 연출을 자동 전환</li><li>아이템 사용 대상도 동일 인터페이스로 추상화해 아이템 매칭 로직과 연출 로직을 분리</li></ul>",
         images:[]
       },
       {
         title:"데이터 중심 아이템·인벤토리 시스템",
         category:"구조",
-        desc:"<br>• 아이템 종류별 식별자·스프라이트·크기를 Scriptable Object로 분리해 코드 수정 없이 새 아이템 추가 가능한 타입 객체 패턴 적용<br>• 아이템 수집 시 이벤트로 수집 신호를 발행하고, 인벤토리 UI는 이를 구독해 월드 좌표→캔버스 로컬 좌표 변환 후 DOTween으로 아이템이 날아가는 연출 구현<br>• 선택된 아이템이 마우스를 따라다니는 동안 Canvas RectTransform 좌표계 변환으로 정확한 마우스 추적 처리",
+        desc:"<br><strong>아이템 종류별 식별자·스프라이트·크기를 Scriptable Object로 분리해 코드 수정 없이 새 아이템 추가 가능한 타입 객체 패턴 적용</strong><ul><li>아이템 수집 시 이벤트로 수집 신호를 발행하고, 인벤토리 UI는 이를 구독해 월드 좌표→캔버스 로컬 좌표 변환 후 DOTween으로 아이템이 날아가는 연출 구현</li><li>선택된 아이템이 마우스를 따라다니는 동안 Canvas RectTransform 좌표계 변환으로 정확한 마우스 추적 처리</li></ul>",
         images:[]
       },
       {
         title:"CSV 기반 대화 시스템 및 회상 연출",
         category:"구조",
-        desc:"<br>• CSV를 파싱해 발화자 데이터를 구조체 리스트로 변환, Typewriter 연출·UI 로직과 대사 데이터를 완전 분리해 기획자가 코드 수정 없이 대사 수정 가능<br>• 스페이스 입력으로 타이핑 스킵과 대사 넘기기를 플래그 기반으로 처리, 대화 중 언제든 중단 가능한 구조<br>• 발화자에 따라 좌·우 캐릭터 이미지를 동적으로 전환하는 초상화 컨트롤러와 연동",
+        desc:"<br><strong>CSV를 파싱해 발화자 데이터를 구조체 리스트로 변환, Typewriter 연출·UI 로직과 대사 데이터를 완전 분리해 기획자가 코드 수정 없이 대사 수정 가능</strong><ul><li>스페이스 입력으로 타이핑 스킵과 대사 넘기기를 플래그 기반으로 처리, 대화 중 언제든 중단 가능한 구조</li><li>발화자에 따라 좌·우 캐릭터 이미지를 동적으로 전환하는 초상화 컨트롤러와 연동</li></ul>",
         images:[]
       },
       {
         title:"미니게임 공통 프레임워크 및 다양한 게임 구현",
         category:"게임플레이",
-        desc:"<br>• 미니게임 공통 생명주기(시작·진행·종료·텍스트 연출·씬 복귀)를 단일 매니저로 관리, 각 미니게임은 정해진 이벤트만 호출해 반복 구현 최소화<br>• 횡스크롤 게임: 시간에 따라 장애물 이동 속도와 스폰 주기를 가속, 맵 세그먼트를 앞으로 이동시키는 무한 스크롤 구현<br>• 재봉틀 게임: Perlin Noise + Catmull-Rom Spline으로 유기적인 랜덤 경로 생성, 회차마다 경로 너비·노이즈 강도를 조절해 난이도 점진 상승<br>• 청소 게임: 마우스 포인터 Raycasting과 파티클을 활용해 간단한 청소 게임 구현",
+        desc:"<br><strong>미니게임 공통 생명주기(시작·진행·종료·텍스트 연출·씬 복귀)를 단일 매니저로 관리, 각 미니게임은 정해진 이벤트만 호출해 반복 구현 최소화</strong><ul><li>횡스크롤 게임: 시간에 따라 장애물 이동 속도와 스폰 주기를 가속, 맵 세그먼트를 앞으로 이동시키는 무한 스크롤 구현</li><li>재봉틀 게임: Perlin Noise + Catmull-Rom Spline으로 유기적인 랜덤 경로 생성, 회차마다 경로 너비·노이즈 강도를 조절해 난이도 점진 상승</li><li>청소 게임: 마우스 포인터 Raycasting과 파티클을 활용해 간단한 청소 게임 구현</li></ul>",
         images:[]
       },
       {
         title:"ISaveable 인터페이스 기반 세이브 시스템",
         category:"저장",
-        desc:"<br>• ISaveable 인터페이스로 저장 가능한 모든 오브젝트의 직렬화·역직렬화 계약을 통일, 등록된 오브젝트를 순회하며 일괄 저장·로드<br>• SaveManager는 전체 데이터를 AES 암호화 후 저장해 외부 변조 방지<br>• 오브젝트 생성 시 자동 등록, 파괴 시 자동 해제로 저장 대상 관리를 컴포넌트 라이프사이클에 위임해 누락 방지",
+        desc:"<br><strong>ISaveable 인터페이스로 저장 가능한 모든 오브젝트의 직렬화·역직렬화 계약을 통일, 등록된 오브젝트를 순회하며 일괄 저장·로드</strong><ul><li>SaveManager는 전체 데이터를 AES 암호화 후 저장해 외부 변조 방지</li><li>오브젝트 생성 시 자동 등록, 파괴 시 자동 해제로 저장 대상 관리를 컴포넌트 라이프사이클에 위임해 누락 방지</li></ul>",
         images:[]
       },
       {
         title:"Shader Graph 기반 비주얼 연출",
         category:"셰이더",
-        desc:"<br>• 픽셀 렌더링 - 깊이 텍스처를 샘플링해 깊이값 차이가 큰 경계를 감지해 윤곽선을 추출. 결과를 텍셀 단위로 스냅해 저해상도 픽셀 느낌 구현<br>• 물 반사 - RenderTexture를 수면 메시에 투영하고 Gradient Noise로 생성한 굴절 오프셋을 UV에 더해 반사 왜곡 구현.<br>• CRT 이펙트 - 씬 컬러를 읽어온 뒤 R·G·B 채널을 서로 다른 UV 오프셋으로 각각 샘플링해 색수차 번짐 구현. Checkerboard 노드로 수평 스캔라인 패턴을 생성하고 시간×속도 오프셋으로 스크롤해 CRT 특유의 주사선 흐름 연출<br>• 툰 셰이더 - 월드 공간 법선과 주광 방향의 내적으로 조명 강도를 계산. Remap + Floor로 연속적인 값을 양자화해 명암 경계를 제어.<br>• 풀스크린 피격 이펙트 - 씬 컬러를 읽어온 뒤 Simple Noise 기반 왜곡과 색조를 블렌드. UV 좌표 중심 거리 + Smoothstep으로 비네트 효과 추가.",
+        desc:"<br><strong>픽셀 렌더링 - 깊이 텍스처를 샘플링해 깊이값 차이가 큰 경계를 감지해 윤곽선을 추출. 결과를 텍셀 단위로 스냅해 저해상도 픽셀 느낌 구현</strong><ul><li>물 반사 - RenderTexture를 수면 메시에 투영하고 Gradient Noise로 생성한 굴절 오프셋을 UV에 더해 반사 왜곡 구현.</li><li>CRT 이펙트 - 씬 컬러를 읽어온 뒤 R·G·B 채널을 서로 다른 UV 오프셋으로 각각 샘플링해 색수차 번짐 구현. Checkerboard 노드로 수평 스캔라인 패턴을 생성하고 시간×속도 오프셋으로 스크롤해 CRT 특유의 주사선 흐름 연출</li><li>툰 셰이더 - 월드 공간 법선과 주광 방향의 내적으로 조명 강도를 계산. Remap + Floor로 연속적인 값을 양자화해 명암 경계를 제어.</li><li>풀스크린 피격 이펙트 - 씬 컬러를 읽어온 뒤 Simple Noise 기반 왜곡과 색조를 블렌드. UV 좌표 중심 거리 + Smoothstep으로 비네트 효과 추가.</li></ul>",
         images:[]
       },
     ],
@@ -932,28 +947,39 @@ const PROJECTS = {
       { type:"image", src:"", label:"Screenshot 2" },
       { type:"image", src:"", label:"Screenshot 3" },
     ],
-    summary:"Unity 기반 Vampire Survivors-like 장르 게임. 3 스테이지 구성, 스테이지별 최종 보스, 맵 곳곳의 함정 랜덤 배치로 차별화된 게임플레이를 제공합니다.",
-    role:"클라이언트 프로그래밍 — 무기, 스테이지, 보스 구현. 스테이지 및 보스 기획 병행.",
-    activities:null,
+    summary:"Vampire Survivors-like 장르 게임. 3 스테이지 구성, 스테이지별 최종 보스, 맵 곳곳의 함정 랜덤 배치로 차별화된 게임플레이를 제공.",
+    role:"<br>• <strong>프로그래밍</strong> — 무기, 스테이지, 보스 구현<br>• <strong>기획</strong> - 스테이지 및 보스 기획.",
+    activities:["교내 게임개발동아리 창립제 전시"],
     contributions:[
-      { title:"대규모 적 스폰 최적화", category:"최적화", desc:"프로토타입 패턴과 객체 풀 패턴을 결합해 다수의 적을 효율적으로 생성·재사용. 런타임 중 불필요한 생성·소멸을 최소화하여 전반적인 성능 개선.", images:[] },
-      { title:"충돌 처리와 피격 판정의 분리 설계", category:"물리", desc:"Collider Layer를 분리하여 물리적 충돌과 피격 판정을 독립적으로 처리. 오브젝트 간 자연스러운 움직임을 유지하면서 의도한 게임플레이 판정을 안정적으로 구현.", images:[] },
-      { title:"Raycasting 기반 위치 보정 및 스폰 안정화", category:"물리", desc:"Raycasting과 Collider Layer를 함께 활용해 오브젝트 재배치 및 스폰 과정에서 발생하던 겹침·비정상 위치 문제 해결.", images:[] },
-      { title:"함정 시스템의 상태 기반 설계", category:"기믹", desc:"곰덫, 가시 발판, 자동 포탑 등 함정 요소를 상태 패턴으로 구현. 각 상태 전이를 애니메이션과 동기화하여 시각적으로 자연스럽고 예측 가능한 동작 유도.", images:[] },
-      { title:"보스 패턴의 컴포넌트 분리 구조", category:"구조", desc:"3종 보스의 각 2가지 고유 공격 패턴을 탄환·장판 등 미니 컴포넌트 단위로 분리, 상태 기반으로 제어하여 애니메이션과의 동기화 확보.", images:[] },
-      { title:"전투 가독성 향상을 위한 QOL 기능", category:"UX", desc:"쉐이더 기반 피격 시각 효과, 화면 밖 적 표시 인디케이터(월드↔화면 좌표 변환), 보스 공격 경로·타이머 인디케이터 구현.", images:[] },
+      { title:"대규모 적 스폰 최적화", category:"최적화",
+        desc:"<br><strong>프로토타입 패턴과 객체 풀 패턴을 결합해 다수의 적을 효율적으로 생성·재사용.</strong><ul><li>런타임 중 불필요한 생성·소멸을 최소화해 전반적인 성능 개선.</li><li>스폰 포인트에 NoSpawn 태그 충돌 감지를 적용해 플레이어와 겹치는 위치에서의 스폰을 방지.</li></ul>", images:[] },
+
+      { title:"물리 레이어 분리 기반 충돌 설계", category:"물리",
+        desc:"<br><strong>Collider Layer를 분리해 물리 충돌과 피격 판정을 독립적으로 처리.</strong><ul><li>플레이어의 OnCollisionStay(몸 접촉)·OnTriggerEnter(총알)·OnTriggerStay(장판) 세 채널을 각각 분리하여 판정 유형별로 독립적인 로직 적용.</li></ul>", images:[] },
+
+      { title:"Raycasting 기반 유효 텔레포트 지점 탐색", category:"물리",
+        desc:"<br><strong>보스 텔레포트 시 플레이어 위치 기준 임의 오프셋을 샘플링하고, OverlapCircle로 벽 레이어와의 겹침을 검사해 유효한 위치가 확정될 때까지 반복 탐색.</strong><ul><li>Raycasting과 Collider Layer를 함께 활용해 오브젝트 재배치 및 스폰 과정에서 발생하던 겹침·비정상 위치 문제 해결.</li></ul>", images:[] },
+
+      { title:"보스 패턴의 컴포넌트 분리 및 코루틴 설계", category:"구조",
+        desc:"<br><strong>3종 보스의 각 2가지 고유 공격 패턴을 독립 컴포넌트 단위로 분리하고 코루틴 기반 시퀀스로 제어.</strong><ul><li>빔 조준은 FixedUpdate 단위로 arctangent 각도를 계산하고 좌우 스프라이트 flipX에 따라 각도 범위를 대칭 처리.</li><li>방사형 폭발은 45도 간격 8방향 배치를 N링으로 확장하는 구조로 구현.</li><li>텔레포트 후 부채꼴 분산 다방향 발사는 AngleAxis로 균등 각도 분할해 방향 벡터 생성.</li></ul>", images:[] },
+
+      { title:"함정 시스템의 상태 기반 설계", category:"기믹",
+        desc:"<br><strong>곰덫·가시 발판·자동 포탑·용암·보스 함정 등 5종 함정을 타입 열거형 + 상태 패턴으로 구현.</strong><ul><li>각 상태 전이를 애니메이션 이벤트와 동기화해 시각적으로 자연스러운 동작 유도.</li></ul>", images:[] },
+
+      { title:"전투 가독성 향상을 위한 QOL 기능", category:"UX",
+        desc:"<br><strong>AnimationCurve 기반 시간 Lerp로 피격 섬광 강도를 점진적으로 변화시키는 셰이더 연동 피격 시각 효과 구현.</strong><ul><li>타겟-인디케이터 쌍을 딕셔너리로 관리하며 뷰포트 좌표 변환, arctangent 회전 계산을 적용한 화면 밖 적 표시 인디케이터 구현.</li></ul>", images:[] },
     ],
     optimizations:[],
     retrospective:{
       good:"게임 전반의 아키텍처 패턴(객체 풀, 상태 패턴, 컴포넌트 분리)을 실전에서 적용하고 검증할 수 있었음.",
-      bad:"3인 팀의 첫 협업 프로젝트로 초반 역할 분담과 코드 컨벤션 정립에 시간이 소요됨. 에셋 서치에 예상보다 많은 시간이 걸렸음.",
+      bad:"3인 팀의 첫 협업 프로젝트로 초반 역할 분담과 코드 컨벤션 정립에 시간이 소요됨. 또한 에셋 서치에 예상보다 많은 시간이 걸렸음.",
     },
     feedback:null,
     other_contributions:null,
     links:[
       { label:"GitHub", url:"https://github.com/roxasventus/CIEN-tutorial-project-team2" },
-      { label:"Play Game", url:"https://github.com/roxasventus/CIEN-tutorial-project-team2" },
-      { label:"Game Build", url:"https://drive.google.com/drive/u/0/folders/10mRU31GlTHey1yCcf1V_u7jEjr0QA4JT"},
+      { label:"Play Game", url:"https://con.cien.or.kr/pages/viewpage.action?pageId=186843195" },
+      { label:"Game Build", url:"https://drive.google.com/drive/folders/1LzkgqlUuflqwX97TPu4fO12ICVEyI7bE?usp=sharing"},
             
     ],
   },
@@ -970,23 +996,23 @@ const PROJECTS = {
       { type:"image", src:"", label:"Screenshot 3" },
     ],
     summary:"Unity 기반 포인트 앤 클릭 식당 경영·쿠킹 게임. 조리법·메인재료·주재료 카테고리 분류로 다양한 레시피 조합을 유도하고 명성 수치에 따른 멀티엔딩을 제공합니다.",
-    role:"클라이언트 프로그래밍 — 게임 구조 설계, UI 구현 담당.",
+    role:"<br>• <strong>프로그래밍</strong> — 게임 구조 설계, UI 구현 담당.",
     activities:null,
     contributions:[
       { title:"데이터 중심 설계 기반 레시피 시스템", category:"구조",
-        desc:"<br>• Scriptable Object 상속 계층으로 레시피·손님 주문 데이터를 공통 베이스에서 분기.<br>• 재료·조리법·카테고리를 중첩 열거형과 정적 카테고리 매핑으로 대분류·소분류 단위로 캡슐화해 신규 재료·레시피 추가 시 기존 로직 수정 없이 데이터만 확장 가능한 구조 설계.", images:[] },
+        desc:"<br><strong>Scriptable Object 상속 계층으로 레시피·손님 주문 데이터를 공통 베이스에서 분기.</strong><ul><li>재료·조리법·카테고리를 중첩 열거형과 정적 카테고리 매핑으로 대분류·소분류 단위로 캡슐화해 신규 재료·레시피 추가 시 기존 로직 수정 없이 데이터만 확장 가능한 구조 설계.</li></ul>", images:[] },
 
       { title:"해시맵 기반 레시피 조회 및 손님 조건 판정", category:"게임플레이",
-        desc:"<br>• 게임 시작 시 (재료베이스·조리법·주재료·부재료) 4-튜플 키로 레시피 딕셔너리를 구성해 O(1) 조회.<br>• 손님 주문 조건 판정은 카테고리→주재료→부재료→베이스→조리법 순의 단락평가 필터링으로 구현.", images:[] },
+        desc:"<br><strong>게임 시작 시 (재료베이스·조리법·주재료·부재료) 4-튜플 키로 레시피 딕셔너리를 구성해 O(1) 조회.</strong><ul><li>손님 주문 조건 판정은 카테고리→주재료→부재료→베이스→조리법 순의 단락평가 필터링으로 구현.</li></ul>", images:[] },
 
       { title:"저결합 해금 시스템 및 디버깅 환경", category:"구조",
-        desc:"<br>• 옵저버 패턴과 C# 이벤트·델리게이트로 재료 해금 시스템 구현.<br>• 해금 이벤트에 (자식 인덱스, 모드) 쌍을 실어 각 버튼 컨트롤러가 자신에게 해당하는 이벤트만 처리하도록 시스템 간 커플링 최소화.<br>• 유니티 에디터 내 디버깅 툴을 함께 구현해 해금 조건·이벤트 흐름을 단위 테스트 수준에서 검증.", images:[] },
+        desc:"<br><strong>옵저버 패턴과 C# 이벤트·델리게이트로 재료 해금 시스템 구현.</strong><ul><li>해금 이벤트에 (자식 인덱스, 모드) 쌍을 실어 각 버튼 컨트롤러가 자신에게 해당하는 이벤트만 처리하도록 시스템 간 커플링 최소화.</li><li>유니티 에디터 내 디버깅 툴을 함께 구현해 해금 조건·이벤트 흐름을 단위 테스트 수준에서 검증.</li></ul>", images:[] },
 
       { title:"MVC 구조 기반 레시피북 UI", category:"UI",
-        desc:"<br>• 재료 선택 프로퍼티 Setter에서 레시피 조회를 즉시 트리거해 우측 페이지를 반응형 갱신.<br>• 해금 이벤트를 View 단에서 구독해 버튼 활성화 처리하는 MVC 아키텍처로 역할 분리.", images:[] },
+        desc:"<br><strong>재료 선택 프로퍼티 Setter에서 레시피 조회를 즉시 트리거해 우측 페이지를 반응형 갱신.</strong><ul><li>해금 이벤트를 View 단에서 구독해 버튼 활성화 처리하는 MVC 아키텍처로 역할 분리.</li></ul>", images:[] },
 
       { title:"UI 공통 로직 추상화 및 세부 연출", category:"UI",
-        desc:"<br>• 템플릿 메서드 패턴으로 선택 버튼 그룹의 활성·비활성 동작을 추상화하고, 유사 UI 요소마다 구체 동작만 오버라이드해 중복 코드 제거.<br>• 코루틴 기반 스프라이트 페이드 전환 및 버튼 스케일링 효과 등 세부 연출 추가.", images:[] },
+        desc:"<br><strong>템플릿 메서드 패턴으로 선택 버튼 그룹의 활성·비활성 동작을 추상화하고, 유사 UI 요소마다 구체 동작만 오버라이드해 중복 코드 제거.</strong><ul><li>코루틴 기반 스프라이트 페이드 전환 및 버튼 스케일링 효과 등 세부 연출 추가.</li></ul>", images:[] },
     ],
     optimizations:[],
     retrospective:{
@@ -1318,32 +1344,32 @@ function showDetail(id){
   // 3. Technical Contributions
   // 카테고리 → 아이콘 + 뱃지 레이블 맵
   const CONTRIB_CATS = {
-    '인증':       { icon:'ti-lock',            label:'인증' },
-    '백엔드':     { icon:'ti-server',           label:'백엔드' },
-    'DB':         { icon:'ti-database',         label:'DB' },
-    '네트워크':   { icon:'ti-wifi',             label:'네트워크' },
-    '게임플레이': { icon:'ti-sword',            label:'게임플레이' },
-    '기믹':       { icon:'ti-rotate-rectangle', label:'기믹' },
-    '물리':       { icon:'ti-atom-2',           label:'물리' },
-    '그래픽':     { icon:'ti-brush',            label:'그래픽' },
-    '셰이더':     { icon:'ti-sparkles',         label:'셰이더' },
-    'UI':         { icon:'ti-layout-cards',     label:'UI' },
-    'UX':         { icon:'ti-accessible',       label:'UX' },
-    '사운드':     { icon:'ti-volume',           label:'사운드' },
-    '저장':       { icon:'ti-device-floppy',    label:'저장' },
-    '최적화':     { icon:'ti-bolt',             label:'최적화' },
-    '빌드':       { icon:'ti-settings',         label:'빌드' },
-    '구조':       { icon:'ti-sitemap',          label:'구조' },
-    '에디터':     { icon:'ti-tool',             label:'에디터' },
-    'AI':         { icon:'ti-cpu',              label:'AI' },
-    '기획':       { icon:'ti-pencil',           label:'기획' },
+    '인증':       { icon:'ti-lock',            label:'인증',       color:'#92600a', bg:'#fdf3dc' },
+    '백엔드':     { icon:'ti-server',           label:'백엔드',     color:'#1e5fa8', bg:'#ddeaf8' },
+    'DB':         { icon:'ti-database',         label:'DB',         color:'#1e5fa8', bg:'#ddeaf8' },
+    '네트워크':   { icon:'ti-wifi',             label:'네트워크',   color:'#1e5fa8', bg:'#ddeaf8' },
+    '게임플레이': { icon:'ti-sword',            label:'게임플레이', color:'#4535b0', bg:'#e8e5fa' },
+    '기믹':       { icon:'ti-rotate-rectangle', label:'기믹',       color:'#4535b0', bg:'#e8e5fa' },
+    '물리':       { icon:'ti-atom-2',           label:'물리',       color:'#4535b0', bg:'#e8e5fa' },
+    '그래픽':     { icon:'ti-brush',            label:'그래픽',     color:'#0e7070', bg:'#d8f2f0' },
+    '셰이더':     { icon:'ti-sparkles',         label:'셰이더',     color:'#0e7070', bg:'#d8f2f0' },
+    'UI':         { icon:'ti-layout-cards',     label:'UI',         color:'#7030b8', bg:'#eedff8' },
+    'UX':         { icon:'ti-accessible',       label:'UX',         color:'#7030b8', bg:'#eedff8' },
+    '사운드':     { icon:'ti-volume',           label:'사운드',     color:'#0e7070', bg:'#d8f2f0' },
+    '저장':       { icon:'ti-device-floppy',    label:'저장',       color:'#92600a', bg:'#fdf3dc' },
+    '최적화':     { icon:'ti-bolt',             label:'최적화',     color:'#a02030', bg:'#f8dde0' },
+    '빌드':       { icon:'ti-settings',         label:'빌드',       color:'#5a5285', bg:'#eae8f5' },
+    '구조':       { icon:'ti-sitemap',          label:'구조',       color:'#5040c8', bg:'#e4e1f8' },
+    '에디터':     { icon:'ti-tool',             label:'에디터',     color:'#5a5285', bg:'#eae8f5' },
+    'AI':         { icon:'ti-cpu',              label:'AI',         color:'#5040c8', bg:'#e4e1f8' },
+    '기획':       { icon:'ti-pencil',           label:'기획',       color:'#5a5285', bg:'#eae8f5' },
   };
-  const DEFAULT_CAT = { icon:'ti-code-dots', label:'' };
+  const DEFAULT_CAT = { icon:'ti-code-dots', label:'', color:'#5a5285', bg:'#eae8f5' };
 
   function contribCard(c){
     const cat = c.category ? (CONTRIB_CATS[c.category] || DEFAULT_CAT) : DEFAULT_CAT;
     const badgeHTML = cat.label
-      ? `<span class="contribution-badge">${cat.label}</span>` : '';
+      ? `<span class="contribution-badge" style="background:${cat.bg};color:${cat.color};border-color:${cat.color}33;">${cat.label}</span>` : '';
     const imgHTML = c.images && c.images.length
       ? `<div class="contribution-img-wrap"><img src="${c.images[0]}" alt="${c.title}"></div>` : '';
     return `<div class="contribution">
@@ -1353,8 +1379,8 @@ function showDetail(id){
         setTimeout(()=>{ ticking=false; onScroll(); }, 380);
       ">
         <div class="contribution-icon"><i class="ti ${cat.icon}" aria-hidden="true"></i></div>
-        <div class="contribution-title">${c.title}</div>
         ${badgeHTML}
+        <div class="contribution-title">${c.title}</div>
         <div class="contribution-chevron"><i class="ti ti-chevron-down" aria-hidden="true"></i></div>
       </div>
       <div class="contribution-body">
@@ -1409,7 +1435,10 @@ function showDetail(id){
     const graphHTML = graphs.length ? `<div class="feedback-chart">${graphs.map(f=>{
       const pct = Math.round(f.value / f.max * 100);
       return `<div class="feedback-row">
-        <div class="feedback-label">${f.label}</div>
+        <div class="feedback-label-wrap">
+          <div class="feedback-label">${f.label}</div>
+          ${f.source ? `<div class="feedback-source">${f.source}</div>` : ''}
+        </div>
         <div class="feedback-bar-wrap"><div class="feedback-bar" style="width:0" data-pct="${pct}"></div></div>
         <div class="feedback-val">${f.value}${f.unit}</div>
       </div>`;
