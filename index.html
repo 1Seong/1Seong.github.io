@@ -706,7 +706,7 @@ const PROJECTS = {
       id:"eulerian_aurora",
       title:"Eulerian Aurora",
       subtitle:"UGC 3D 퍼즐 게임",
-      meta:{ engine:"Unity", platform:"PC", team:"3인 팀", year:"2026"},
+      meta:{ engine:"Unity", platform:"PC(Windows)", team:"3인 팀", year:"2026"},
       tags:["3D 퍼즐", "UGC"],
       media:[
         { type:"image", src:"", label:"Screenshot 1" },
@@ -735,12 +735,12 @@ const PROJECTS = {
         },
         {
           title:"맵 에디터", category:"에디터",
-          desc:"<br>• 도로·지우개·기믹 등 다양한 편집 도구 구현<br>• 포탈은 In→Out 순서로 두 타일을 연결하고 Line Renderer로 연결 관계 시각화<br>• RenderTexture로 썸네일을 캡처해 Supabase Storage에 업로드, 저장·업로드 시 자동 갱신",
+          desc:"<br>• 도로·지우개·기믹 등 다양한 편집 도구 구현<br>• 포탈은 Line Renderer로 연결 관계 시각화<br>• RenderTexture로 썸네일을 캡처해 Supabase Storage에 업로드, 저장·업로드 시 자동 갱신",
           images:[]
         },
         {
           title:"3D 큐브 퍼즐 핵심 게임플레이 루프", category:"게임플레이",
-          desc:"<br>• 3D 격자 배열로 맵 상태를 표현하고 열거형으로 타일 종류 관리<br>• Undo를 위해 상태 데이터를 구조체로 묶어 스택에 깊은 복사로 보존<br>• 타일 상태 전이(색칠·반전)는 딕셔너리 룩업으로 O(1) 처리<br>• 기믹 구현<br>&nbsp;&nbsp;◦ Inverter — 맨해튼 거리 기반 웨이브 전파 반전<br>&nbsp;&nbsp;◦ Laser — BFS 기반 6방향 연쇄 반전<br>&nbsp;&nbsp;◦ Portal — 딕셔너리 기반 순간이동<br>&nbsp;&nbsp;◦ Dash — 재귀 이동<br>• DOTween과 UniTask로 이동·기믹 발동·클리어 연출 구현",
+          desc:"<br>• 3D 격자 배열로 맵 상태를 표현하고 열거형으로 타일 종류 관리<br>• Undo를 위해 상태 데이터를 구조체로 묶어 스택에 깊은 복사로 보존<br>• 타일 상태 전이(색칠·반전)는 딕셔너리 룩업으로 O(1) 처리<br>• 기믹 구현<br>&nbsp;&nbsp;◦ Inverter — 맨해튼 거리 기반 웨이브 전파 반전<br>&nbsp;&nbsp;◦ Laser — BFS 기반 6방향 연쇄 반전<br>&nbsp;&nbsp;◦ Portal — 딕셔너리 기반 순간이동<br>• DOTween과 UniTask로 이동·기믹 발동·클리어 연출 구현",
           images:[]
         },
         {
@@ -762,7 +762,7 @@ const PROJECTS = {
       feedback:null,
       other_contributions:[
         { title: "기믹 연출 기획", category: "기획", desc: "각 기믹의 시각적 연출 방식 기획 담당.", images: [] },
-        { title: "UI 디자인 기획", category: "기획", desc: "게임 전반의 UI 레이아웃 및 디자인 기획 담당.", images: [] },
+        { title: "UI 디자인 기획", category: "기획", desc: "게임 전반의 UI 디자인 기획 담당.", images: [] },
         { title: "그래픽 아트", category: "그래픽", desc: "기타 인게임 그래픽 아트 제작.", images: [] },
       ],
       links:[
@@ -776,7 +776,7 @@ const PROJECTS = {
     id:"square_erauqs",
     title:"SQUARE::ERAUQS",
     subtitle:"2D 퍼즐 플랫포머",
-    meta:{ engine:"Unity", platform:"PC(Steam) / Android", team:"5인 팀", year:"2024 ~"},
+    meta:{ engine:"Unity", platform:"PC(Windows/Mac) / Android", team:"5인 팀", year:"2024 ~"},
     tags:["퍼즐","2D 플랫포머", "Steam"],
     media:[
       { type:"image", src:"", label:"Screenshot 1" },
@@ -784,16 +784,52 @@ const PROJECTS = {
       { type:"image", src:"", label:"Screenshot 3" },
       { type:"image", src:"", label:"Screenshot 4" },
     ],
-    summary:"Unity 엔진 기반 다양한 기믹이 존재하는 퍼즐 플랫포머. 두 플레이어를 동시에 조작하며 스테이지별 새로운 기믹과 시점 전환으로 퍼즐을 해결합니다.",
+    summary:"두 플레이어를 동시에 조작하며 스테이지별 새로운 기믹과 시점 전환 기능으로 퍼즐을 해결.",
     role:"리드 프로그래머 — 스테이지 및 퍼즐 기믹 구현, 모바일 이식 총괄.",
     activities:["2025 UNICON 챌린저 부문 출품"],
     contributions:[
-      { title:"기믹 오브젝트 공통 구조 설계", category:"구조", desc:"템플릿 메서드 패턴과 전략 패턴을 적용하여 다양한 기믹 오브젝트의 공통 동작 흐름과 확장 지점을 구조화. 이벤트와 델리게이트로 플레이어 로직 및 스테이지 오브젝트 간 디커플링 달성. Swap, Pause, G-Pause, 빙판 기믹 등 구현.", images:[] },
-      { title:"빙판 기믹을 위한 커스텀 충돌 판정 시스템", category:"물리", desc:"Unity 기본 물리 판정에 의존하지 않고 Raycasting 기반 커스텀 충돌 판정 로직 구현. 연결 리스트 유사 구조로 동적 벽 생성·해체, 상호 참조 및 데드락 문제 해결.", images:[] },
-      { title:"상태 기반 중력 시스템", category:"물리", desc:"C# 프로퍼티와 상태 패턴을 결합한 중력 시스템 직접 구현. 옵저버 패턴으로 Subject 이벤트에 따라 중력 상태를 전환, 두 플레이어 및 기타 오브젝트의 중력을 유연하게 제어.", images:[] },
-      { title:"3D 환경 기반 2D 스테이지 및 렌더링 최적화", category:"최적화", desc:"3D 공간에 2D 스테이지를 구성하고 카메라 시점 전환으로 스테이지의 다른 면을 표시. 3D 메시 없이 타일맵만 활용해 현재 시점 면의 이미지만 렌더링하여 성능 최적화.", images:[] },
-      { title:"시점 전환 후 벽 끼임 방지 로직", category:"기믹", desc:"시점 전환 과정에서 발생할 수 있는 플레이어 벽 끼임 상황 대비, Raycasting 기반 벽 충돌 판정 및 자동 해소 로직 구현.", images:[] },
-      { title:"씬 단위 책임 분리 및 컴포넌트 경량화", category:"구조", desc:"씬 단위로 책임을 명확히 분리해 스테이지별 단위 테스트 가능하도록 설계. 시점 회전 시 오브젝트 투명화 처리 등 공통 기능을 개별 컴포넌트로 분리해 재사용성 향상.", images:[] },
+      {
+        title:"추상화 기반 기믹 오브젝트 공통 구조",
+        category:"구조",
+        desc:"<br>• 추상 클래스로 기믹의 공통 동작 흐름(초기화, 색상 처리, 충돌 판정)을 정의하고 하위 클래스에서 구체 동작을 구현하는 템플릿 메서드 패턴 적용<br>• 이벤트·델리게이트로 기믹 발동 시점을 상위 클래스에서 구독하는 옵저버 구조 구현, 하위 기믹은 발동 로직에만 집중<br>• Pause(물리 동결+타이머), G-Pause(중력 반전 10초 유지), 포탈(DOTween 진입·퇴장 트윈+쿨다운) 기믹 구현",
+        images:[]
+      },
+      {
+        title:"시점 전환 기반 2D/3D 듀얼 뷰 시스템",
+        category:"게임플레이",
+        desc:"<br>• 탑뷰·사이드뷰 두 시점을 이벤트 체인으로 전환 — 카메라 회전, 물리 제약, 플레이어 위치 보정이 하나의 멀티캐스트 델리게이트로 순차 실행<br>• 전환 중 플레이어·오브젝트가 벽에 끼이는 현상을 OverlapBox로 감지하고 중력 방향으로 밀어내는 위치 보정 로직 구현",
+        images:[]
+      },
+      {
+        title:"커스텀 중력 및 물리 제어 시스템",
+        category:"물리",
+        desc:"<br>• Unity 기본 물리 대신 FixedUpdate에서 방향별 중력 벡터를 직접 AddForce하는 커스텀 중력 구현, 세 상태를 C# 프로퍼티 setter에서 전환<br>• 중력 상태 변경을 이벤트로 발행해 중력 방향과 Rigidbody 제약 조건을 일관성 있게 동기화<br>• 빙판 위에서 BoxCast로 Ice 태그 감지 시 마찰 계수를 0으로 변경하고 Move를 비활성화해 미끄럼 물리 구현, 플랫폼 감지 시 즉시 복원",
+        images:[]
+      },
+      {
+        title:"Raycasting 기반 커스텀 충돌 판정",
+        category:"물리",
+        desc:"<br>• Unity 기본 충돌 이벤트 대신 BoxCastAll로 Platform 레이어만 선택적으로 감지해 착지·내벽 충돌·빙판을 프레임마다 판정<br>• 착지 판정은 법선 벡터와 중력 역방향의 내적으로 경사면 여부를 구분해 오탐 방지<br>• 점프패드 위 착지 여부를 플랫폼 레이어 BoxCast로 확인 후 중력 방향 기반 임펄스를 계산(√(2·g·jumpUnit))해 일관된 점프 높이 보장",
+        images:[]
+      },
+      {
+        title:"스프링 오브젝트의 벽 연결 전파 시스템",
+        category:"물리",
+        desc:"<br>• 스프링이 벽에 직접 닿지 않아도 다른 스프링·플레이어를 통해 간접적으로 연결됐는지 재귀적으로 탐색하는 연결 전파 구조 구현<br>• 좌·우 BoxCast로 인접 오브젝트를 감지하고 해당 오브젝트의 연결 상태를 재귀 조회 — 순환 참조(데드락)를 교차 검사로 방지",
+        images:[]
+      },
+      {
+        title:"모바일 이식 — 입력 추상화 및 모바일 UI",
+        category:"게임플레이",
+        desc:"<br>• InputWrapper 정적 클래스로 키보드 입력과 가상 버튼 입력을 단일 인터페이스로 추상화 — 플랫폼 전처리기로 모바일 모드를 감지해 분기<br>• 가상 버튼(IPointerDown/Up)에서 축 값을 주입하고 점프·시점 전환은 Action 델리게이트로 발행해 게임 로직이 입력 출처를 알 필요 없는 구조 달성",
+        images:[]
+      },
+      {
+        title:"Unity Localization 기반 다국어 지원",
+        category:"UI",
+        desc:"<br>• Unity Localization의 LocalizeStringEvent로 텍스트를 런타임에 교체하고, 언어별 Animator Controller를 교체하는 이벤트 기반 구조 구현<br>• 힌트 UI는 Localization Table에서 문자열을 조회해 씬별 힌트 텍스트를 코드 수정 없이 교체 가능<br>• 한국어/영어 전환 시 폰트 크기를 단계적으로 줄이며 레이아웃 깨짐 없이 텍스트 자동 조절",
+        images:[]
+      },
     ],
     optimizations:[],
     retrospective:{
@@ -801,9 +837,10 @@ const PROJECTS = {
       bad:"초기 기믹 구조 설계에 충분한 시간을 쏟지 못해 후반부에 리팩토링이 필요했음. 팀 간 인터페이스 정의를 더 명확히 했다면 통합 비용을 줄일 수 있었을 것.",
     },
     feedback:null,
-    other_contributions:[],
+    other_contributions:null,
     links:[
-      { label:"GitHub", url:"https://github.com/1Seong/2024WinterProject2" },
+      { label: "Steam", url:"https://store.steampowered.com/app/4331920/SQUAREERAUQS/"},
+      { label: "Google Drive", url:"https://drive.google.com/drive/u/0/folders/1CryMZz71U2earFqjluCkLWHVGd4bTEiC"}
     ],
   },
 
@@ -811,7 +848,7 @@ const PROJECTS = {
     id:"save_the_world",
     title:"Save The World",
     subtitle:"포인트 앤 클릭 룸 이스케이프",
-    meta:{ engine:"Unity", platform:"PC", team:"3인 팀", year:"2025"},
+    meta:{ engine:"Unity", platform:"PC(Windows)", team:"3인 팀", year:"2025"},
     tags:["포인트 앤 클릭","퍼즐"],
     media:[
       { type:"image", src:"", label:"Screenshot 1" },
@@ -820,23 +857,57 @@ const PROJECTS = {
       { type:"image", src:"", label:"Screenshot 4" },
       { type:"image", src:"", label:"Screenshot 5" },
     ],
-    summary:"6.25 전쟁유공자의 삶을 회고하는 스토리텔링 기반 포인트 앤 클릭 룸 이스케이프. 6종 미니게임과 다채로운 쉐이더·연출로 몰입도 높은 게임플레이를 제공합니다.",
-    role:"클라이언트 프로그래밍 전체 담당. 픽셀 및 그래픽 아트(쉐이더), 연출 및 미니게임 세부 기획 병행.",
-    activities:["교내 25-2 캡스톤디자인"],
+    summary:"6.25 전쟁유공자의 삶을 회고하는 스토리텔링 기반 포인트 앤 클릭 룸 이스케이프. 6종 미니게임과 다채로운 쉐이더·연출로 몰입도 높은 게임플레이를 제공.",
+    role:"클라이언트 프로그래밍 단독 담당. 픽셀 및 그래픽 아트(쉐이더), 연출 및 미니게임 세부 기획 병행.",
+    activities:["교내 캡스톤디자인 1"],
     contributions:[
-      { title:"1인칭 몰입형 2D 포인트 앤 클릭 시스템", category:"게임플레이", desc:"3D 환경 위에 2D 포인트 앤 클릭 방식 구현. Unity 마우스 이벤트·Raycasting으로 상호작용 처리, 마우스 방향에 따라 카메라가 제한 각도 내에서 기울어지는 Tilt 기능으로 몰입도 강화. DoTween·Easing Function 기반 방 회전 연출 구현.", images:[] },
-      { title:"데이터 중심 아이템·인벤토리 시스템", category:"구조", desc:"타입 객체 패턴으로 아이템 로직과 데이터 분리, Scriptable Object로 관리. DoTween과 좌표계 변환으로 아이템 획득·사용 애니메이션 연출. 이벤트·델리게이트 기반 MVC 구조로 모델과 뷰 분리.", images:[] },
-      { title:"노트 UI 및 아이템 상호작용 확장 구조", category:"UI", desc:"글자 조각 배치 노트 UI 구현. 템플릿 메서드 패턴으로 룸 아이템과 공통 구조 유지, 노트 전용 Raycasting 로직 분리. 무지개 이펙트·Dissolve 쉐이더 연출 구현.", images:[] },
-      { title:"6종 미니게임 구현 및 최적화", category:"게임플레이", desc:"타이밍·균형·청소·횡스크롤 등 6종 미니게임 구현. 청소는 파티클+Raycasting으로 성능 병목 최소화. 횡스크롤은 다중 Layer Parallax 적용. 재봉틀은 Perlin Noise+Catmull-Rom Spline 랜덤 경로 생성. Line Renderer 점선 쉐이더 UI 구현.", images:[] },
-      { title:"CSV 기반 대사 시스템", category:"구조", desc:"CSV 파일 대사를 파싱해 대사·발화자 데이터를 Typewriter 연출·UI 로직으로부터 분리. 기획자가 코드 수정 없이 대사 수정 가능한 구조 구축.", images:[] },
-      { title:"세이브 시스템 및 데이터 보안", category:"저장", desc:"옵저버 패턴으로 저장 대상을 메시지 기반 수집. PlayerPrefs 대신 JSON 직렬화 + AES 암호화로 데이터 보안 강화.", images:[] },
-      { title:"Shader Graph 비주얼 연출 시스템", category:"셰이더", desc:"픽셀 렌더링, 툰, TV 노이즈, CRT, 풀스크린 피격, 물 반사, 바람 흔들림, 디스토션 쉐이더 등 다수 구현. 2-Channel 방식(별도 카메라→Raw Image)과 URP Rendering Feature로 Post Processing 순서 제어.", images:[] },
-      { title:"AudioMixer 기반 사운드 시스템 및 해상도 독립 화면 구성", category:"사운드", desc:"BGM·Instant SFX·Looping SFX 채널 분리, On/Off 시 Fade 효과 적용. 동적 윈도우 크기 변경을 지원하면서 게임 화면 비율 고정, Camera Stack으로 UI Overlay 카메라 분리.", images:[] },
+      {
+        title:"1인칭 몰입형 포인트 앤 클릭 + 방 회전 시스템",
+        category:"게임플레이",
+        desc:"<br>• 3D 공간에 2D UI를 오버레이한 포인트 앤 클릭 구조 위에, 마우스 위치에 따라 카메라가 실시간으로 기울어지는 Tilt 효과로 몰입도 강화<br>• 방 6면을 개별 평면으로 관리해 이동 시 해당 면의 인터랙티브 오브젝트를 활성화·비활성화하는 구조로 씬 분리 없이 방 탐색 구현<br>• DOTween으로 면 전환 트윈 연출을 인터페이스로 추상화해 전환 방식을 교체 가능한 구조로 설계",
+        images:[]
+      },
+      {
+        title:"템플릿 메서드 기반 인터랙티브 오브젝트 시스템",
+        category:"구조",
+        desc:"<br>• 추상 클래스에 On/Off 두 추상 메서드와 토글 상태 전환 흐름을 정의하는 템플릿 메서드 패턴으로 모든 방 오브젝트의 공통 구조 통일<br>• 상위 클래스는 상태 관리와 중복 클릭 방지(isActing 플래그)만 담당<br>• 블러 처리가 필요한 오브젝트는 잠금 이벤트 구독으로 활성화 시점을 외부에서 제어, 파티클 연출을 자동 전환<br>• 아이템 사용 대상도 동일 인터페이스로 추상화해 아이템 매칭 로직과 연출 로직을 분리",
+        images:[]
+      },
+      {
+        title:"데이터 중심 아이템·인벤토리 시스템",
+        category:"구조",
+        desc:"<br>• 아이템 종류별 식별자·스프라이트·크기를 Scriptable Object로 분리해 코드 수정 없이 새 아이템 추가 가능한 타입 객체 패턴 적용<br>• 아이템 수집 시 이벤트로 수집 신호를 발행하고, 인벤토리 UI는 이를 구독해 월드 좌표→캔버스 로컬 좌표 변환 후 DOTween으로 아이템이 날아가는 연출 구현<br>• 선택된 아이템이 마우스를 따라다니는 동안 Canvas RectTransform 좌표계 변환으로 정확한 마우스 추적 처리",
+        images:[]
+      },
+      {
+        title:"CSV 기반 대화 시스템 및 회상 연출",
+        category:"구조",
+        desc:"<br>• CSV를 파싱해 발화자 데이터를 구조체 리스트로 변환, Typewriter 연출·UI 로직과 대사 데이터를 완전 분리해 기획자가 코드 수정 없이 대사 수정 가능<br>• 스페이스 입력으로 타이핑 스킵과 대사 넘기기를 플래그 기반으로 처리, 대화 중 언제든 중단 가능한 구조<br>• 발화자에 따라 좌·우 캐릭터 이미지를 동적으로 전환하는 초상화 컨트롤러와 연동",
+        images:[]
+      },
+      {
+        title:"미니게임 공통 프레임워크 및 다양한 게임 구현",
+        category:"게임플레이",
+        desc:"<br>• 미니게임 공통 생명주기(시작·진행·종료·텍스트 연출·씬 복귀)를 단일 매니저로 관리, 각 미니게임은 정해진 이벤트만 호출해 반복 구현 최소화<br>• 횡스크롤 게임: 시간에 따라 장애물 이동 속도와 스폰 주기를 가속, 맵 세그먼트를 앞으로 이동시키는 무한 스크롤 구현<br>• 재봉틀 게임: Perlin Noise + Catmull-Rom Spline으로 유기적인 랜덤 경로 생성, 회차마다 경로 너비·노이즈 강도를 조절해 난이도 점진 상승<br>• 청소 게임: 마우스 포인터 Raycasting과 파티클을 활용해 간단한 청소 게임 구현",
+        images:[]
+      },
+      {
+        title:"ISaveable 인터페이스 기반 세이브 시스템",
+        category:"저장",
+        desc:"<br>• ISaveable 인터페이스로 저장 가능한 모든 오브젝트의 직렬화·역직렬화 계약을 통일, 등록된 오브젝트를 순회하며 일괄 저장·로드<br>• SaveManager는 전체 데이터를 AES 암호화 후 저장해 외부 변조 방지<br>• 오브젝트 생성 시 자동 등록, 파괴 시 자동 해제로 저장 대상 관리를 컴포넌트 라이프사이클에 위임해 누락 방지",
+        images:[]
+      },
+      {
+        title:"Shader Graph 기반 비주얼 연출",
+        category:"셰이더",
+        desc:"<br>• 픽셀 렌더링 - 깊이 텍스처를 샘플링해 깊이값 차이가 큰 경계를 감지해 윤곽선을 추출. 결과를 텍셀 단위로 스냅해 저해상도 픽셀 느낌 구현<br>• 물 반사 - RenderTexture를 수면 메시에 투영하고 Gradient Noise로 생성한 굴절 오프셋을 UV에 더해 반사 왜곡 구현.<br>• CRT 이펙트 - 씬 컬러를 읽어온 뒤 R·G·B 채널을 서로 다른 UV 오프셋으로 각각 샘플링해 색수차 번짐 구현. Checkerboard 노드로 수평 스캔라인 패턴을 생성하고 시간×속도 오프셋으로 스크롤해 CRT 특유의 주사선 흐름 연출<br>• 툰 셰이더 - 월드 공간 법선과 주광 방향의 내적으로 조명 강도를 계산. Remap + Floor로 연속적인 값을 양자화해 명암 경계를 제어.<br>• 풀스크린 피격 이펙트 - 씬 컬러를 읽어온 뒤 Simple Noise 기반 왜곡과 색조를 블렌드. UV 좌표 중심 거리 + Smoothstep으로 비네트 효과 추가.",
+        images:[]
+      },
     ],
     optimizations:[],
     retrospective:{
-      good:"1인 클라이언트 담당으로 전체 게임 시스템을 설계부터 구현까지 완수. 다양한 쉐이더와 미니게임 구현으로 기술 폭을 크게 넓힐 수 있었음.",
-      bad:"3인 소규모 팀이다 보니 기획·아트·개발이 겹쳐 일정 관리가 어려웠음. 미니게임 수가 많아 각 게임의 완성도를 충분히 끌어올리기 어려웠음.",
+      good:"1인 클라이언트 담당으로 전체 게임 시스템을 설계부터 구현까지 완수. 다양한 쉐이더와 미니게임 구현으로 기술 폭을 크게 넓힐 수 있었음. 또한 단순히 게임을 만드는 것을 넘어, 6·25 유공자분들을 직접 뵙는 경험을 했음. 그분들의 이야기를 들으며 전쟁에 대한 경각심과 깊은 존경심을 다시 한번 가지게 된 뜻깊은 프로젝트였음.",
+      bad:"3인 소규모 팀이다 보니 기획·아트·개발이 겹쳐 일정 관리가 어려웠음. 시간이 한정된 상황에서 미니게임 수가 많아 각 게임의 완성도를 충분히 끌어올리기 어려웠음.",
     },
     feedback:null,
     other_contributions:[
@@ -844,7 +915,9 @@ const PROJECTS = {
       { title:"연출 및 미니게임 세부 기획", category:"기획", desc:"게임 전반의 연출 기획 전체 담당. 6종 미니게임 기초 기획을 바탕으로 심화 기획 진행.", images:[] },
     ],
     links:[
-      { label:"GitHub", url:"https://github.com/1Seong/SaveTheWorld" },
+      { label: "GitHub", url:"https://github.com/1Seong/SaveTheWorld"},
+      { label: "Game Build", url:"https://drive.google.com/drive/u/0/folders/1U_Dh2vRMxM6RLzvLdlB24sk-XuiHqxuw"},
+      { label: "Google Drive", url:"https://drive.google.com/drive/u/0/folders/1R1nXdQBDilDXkxfdgRZK6MDpsjeSJuxS"}
     ],
   },
 
@@ -852,8 +925,8 @@ const PROJECTS = {
     id:"necromancer_survivors",
     title:"NecromancerSurvivors",
     subtitle:"뱀서라이크",
-    meta:{ engine:"Unity", platform:"PC", team:"3인 팀", year:"2024", status:"완료" },
-    tags:["뱀서라이크","팀 프로젝트"],
+    meta:{ engine:"Unity", platform:"PC(Windows)", team:"3인 팀", year:"2024"},
+    tags:["뱀서라이크"],
     media:[
       { type:"image", src:"", label:"Screenshot 1" },
       { type:"image", src:"", label:"Screenshot 2" },
@@ -879,6 +952,9 @@ const PROJECTS = {
     other_contributions:null,
     links:[
       { label:"GitHub", url:"https://github.com/roxasventus/CIEN-tutorial-project-team2" },
+      { label:"Play Game", url:"https://github.com/roxasventus/CIEN-tutorial-project-team2" },
+      { label:"Game Build", url:"https://drive.google.com/drive/u/0/folders/10mRU31GlTHey1yCcf1V_u7jEjr0QA4JT"},
+            
     ],
   },
 
@@ -886,8 +962,8 @@ const PROJECTS = {
     id:"omakhase",
     title:"오!막하세",
     subtitle:"포인트 앤 클릭 식당 경영 시뮬레이션",
-    meta:{ engine:"Unity", platform:"PC", team:"5인 팀", year:"2025", status:"진행 중" },
-    tags:["포인트 앤 클릭","경영 시뮬레이션","팀 프로젝트"],
+    meta:{ engine:"Unity", platform:"PC(Windows)", team:"5인 팀", year:"2025 ~ 2026"},
+    tags:["포인트 앤 클릭","경영 시뮬레이션"],
     media:[
       { type:"image", src:"", label:"Screenshot 1" },
       { type:"image", src:"", label:"Screenshot 2" },
@@ -897,22 +973,33 @@ const PROJECTS = {
     role:"클라이언트 프로그래밍 — 게임 구조 설계, UI 구현 담당.",
     activities:null,
     contributions:[
-      { title:"데이터 중심 설계 기반 레시피 시스템", category:"구조", desc:"Scriptable Data와 타입 객체 패턴으로 재료·레시피 데이터를 대분류·소분류 단위로 캡슐화. 신규 재료·레시피 추가 시 기존 로직 수정 없이 데이터 확장 가능한 구조 설계.", images:[] },
-      { title:"저결합 해금 시스템 및 디버깅 환경", category:"구조", desc:"옵저버 패턴과 C# 이벤트·델리게이트로 주재료 해금 시스템 구현, 시스템 간 커플링 최소화. 유니티 에디터 내 디버깅 툴을 함께 구현해 해금 조건·이벤트 흐름을 단위 테스트 수준에서 검증.", images:[] },
-      { title:"MVC 구조 기반 레시피북 UI", category:"UI", desc:"동적 화면 비율을 고려한 UI 배치 전략 적용. 해금 시스템 메시지를 View 단에서 처리하는 MVC 아키텍처로 역할 분리.", images:[] },
-      { title:"UI 공통 로직 추상화 및 세부 연출", category:"UI", desc:"템플릿 메서드 패턴으로 유사 UI 요소 간 중복 코드 제거. 주재료·부재료·조리법 선택 씬 UI를 일관된 방식으로 구현. 코루틴 기반 버튼 스케일링 효과 등 세부 연출 추가.", images:[] },
-      { title:"대사 시스템 UI 및 동적 선택지", category:"UI", desc:"파서로부터 전달된 대사 데이터를 캐릭터 정보와 함께 표시하는 대사창 UI 구현. 문자열 길이에 따라 자동 크기 조절되는 선택지 버튼 설계.", images:[] },
-      { title:"Raycast 제어 기반 튜토리얼 시스템", category:"UX", desc:"마우스 클릭 이벤트를 선택적으로 차단·허용하는 Raycast Block 구조로 튜토리얼 구현. 플레이어 입력 흐름을 단계적으로 제어해 의도된 학습 동선 안정적 유도.", images:[] },
+      { title:"데이터 중심 설계 기반 레시피 시스템", category:"구조",
+        desc:"<br>• Scriptable Object 상속 계층으로 레시피·손님 주문 데이터를 공통 베이스에서 분기.<br>• 재료·조리법·카테고리를 중첩 열거형과 정적 카테고리 매핑으로 대분류·소분류 단위로 캡슐화해 신규 재료·레시피 추가 시 기존 로직 수정 없이 데이터만 확장 가능한 구조 설계.", images:[] },
+
+      { title:"해시맵 기반 레시피 조회 및 손님 조건 판정", category:"게임플레이",
+        desc:"<br>• 게임 시작 시 (재료베이스·조리법·주재료·부재료) 4-튜플 키로 레시피 딕셔너리를 구성해 O(1) 조회.<br>• 손님 주문 조건 판정은 카테고리→주재료→부재료→베이스→조리법 순의 단락평가 필터링으로 구현.", images:[] },
+
+      { title:"저결합 해금 시스템 및 디버깅 환경", category:"구조",
+        desc:"<br>• 옵저버 패턴과 C# 이벤트·델리게이트로 재료 해금 시스템 구현.<br>• 해금 이벤트에 (자식 인덱스, 모드) 쌍을 실어 각 버튼 컨트롤러가 자신에게 해당하는 이벤트만 처리하도록 시스템 간 커플링 최소화.<br>• 유니티 에디터 내 디버깅 툴을 함께 구현해 해금 조건·이벤트 흐름을 단위 테스트 수준에서 검증.", images:[] },
+
+      { title:"MVC 구조 기반 레시피북 UI", category:"UI",
+        desc:"<br>• 재료 선택 프로퍼티 Setter에서 레시피 조회를 즉시 트리거해 우측 페이지를 반응형 갱신.<br>• 해금 이벤트를 View 단에서 구독해 버튼 활성화 처리하는 MVC 아키텍처로 역할 분리.", images:[] },
+
+      { title:"UI 공통 로직 추상화 및 세부 연출", category:"UI",
+        desc:"<br>• 템플릿 메서드 패턴으로 선택 버튼 그룹의 활성·비활성 동작을 추상화하고, 유사 UI 요소마다 구체 동작만 오버라이드해 중복 코드 제거.<br>• 코루틴 기반 스프라이트 페이드 전환 및 버튼 스케일링 효과 등 세부 연출 추가.", images:[] },
     ],
     optimizations:[],
     retrospective:{
       good:"데이터 중심 설계와 패턴 기반 구조를 실전 프로젝트에 적용해 확장성과 유지보수성을 실감할 수 있었음.",
-      bad:"진행 중인 프로젝트로 기획 변경이 잦아 구조를 수차례 수정해야 했음. 초기 설계 단계에서 기획자와의 소통을 더 긴밀히 했으면 좋았을 것.",
+      bad:"프로젝트를 진행하면서 기획 변경이 잦아 구조를 수차례 수정해야 했음. 초기 설계 단계에서 기획자와의 소통을 더 긴밀히 했으면 좋았을 것.",
     },
     feedback:null,
     other_contributions:null,
     links:[
       { label:"GitHub", url:"https://github.com/1Seong/OMakHase" },
+      { label: "Game Build", url:"https://drive.google.com/drive/u/0/folders/1zsLRjDbIwuwMQWg2RsX3LpfD9MK6QiTr"},
+      { label: "Google Drive", url:"https://drive.google.com/drive/u/0/folders/1kuZ1A9s4I4U6mIoMt-8Pci-bre_BDi60"}
+      
     ],
   },
 
@@ -1341,6 +1428,7 @@ function showDetail(id){
   }
 
   // 6. Other Contributions (있을 때만)
+  /*
   if(p.other_contributions){
     const otherHTML = Array.isArray(p.other_contributions)
       ? p.other_contributions.map(contribCard).join('')
@@ -1348,6 +1436,14 @@ function showDetail(id){
     sections.push(`<div class="detail-section">
       <div class="detail-section-label">Other Contributions</div>
       <div class="contributions">${otherHTML}</div>
+    </div>`);
+  }
+  */
+  if(p.other_contributions){
+    const otherHTML=p.other_contributions.map(a=>`<span class="ow-tag">${a.title}</span>`).join('');
+    sections.push(`<div class="detail-section">
+      <div class="detail-section-label">Other Contributions</div>
+      <div class="ow-tags">${otherHTML}</div>
     </div>`);
   }
 
