@@ -43,7 +43,7 @@
   --radius:     4px;
 }
 html { scroll-behavior: smooth; }
-body { font-family: var(--sans); background: var(--navy); color: var(--cream); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+body { word-break: keep-all; font-family: var(--sans); background: var(--navy); color: var(--cream); line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
 /* ── NAV ── */
 #nav {
@@ -271,6 +271,16 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .detail-section-text p { margin-bottom: .75rem; }
 .detail-section-text p:last-child { margin-bottom: 0; }
 .detail-section-text strong { font-weight: 600; color: var(--white); }
+.role-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.role-card { background: var(--navy-2); border: 1px solid var(--rule-mid); border-radius: 8px; padding: 1rem 1.1rem; }
+.role-card.role-primary { background: rgba(80,64,200,.08); border: 1.5px solid var(--gold); position: relative; padding-top: 1rem; }
+.role-card-badge { position: absolute; top: -1px; right: 12px; background: var(--gold); color: #fff; font-size: .62rem; font-weight: 700; padding: 2px 7px; border-radius: 0 0 5px 5px; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.role-card-header { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
+.role-card-icon { font-size: 17px; color: var(--cream-3); }
+.role-card.role-primary .role-card-icon { color: var(--gold); }
+.role-card-name { font-size: .82rem; font-weight: 700; color: var(--white); }
+.role-card-desc { font-size: .8rem; color: var(--cream-2); line-height: 1.65; }
+@media(max-width:640px){ .role-cards { grid-template-columns: 1fr; } }
 
 /* contribution 아이템 */
 .contributions { display: flex; flex-direction: column; gap: .6rem; }
@@ -703,7 +713,7 @@ const OTHER_WORKS = [
     items: ["간단한 컴파일러 및 파서 구현"],
   },
 ];
-const PROJECT_ORDER = ["eulerian_aurora", "square_erauqs", "save_the_world", "omakhase", "necromancer_survivors"];
+const PROJECT_ORDER = ["eulerian_aurora", "square_erauqs", "save_the_world", "necromancer_survivors", "omakhase"];
 // 프로젝트 순서 변경 시 배열 순서만 바꾸면 됩니다.
 
 const PROJECTS = {
@@ -720,9 +730,27 @@ const PROJECTS = {
         { type:"image", src:"", label:"Screenshot 4" },
       ],
       summary:"다양한 기믹이 적용된 맵 에디터로 유저가 직접 맵을 제작하고 공유하며 플레이하는 UGC 기반 3D 퍼즐 게임.",
-      role:"<br>• <strong>프로그래밍</strong> - 백엔드(Supabase), 클라이언트(Unity 게임 로직)<br>• <strong>아트</strong> - 그래픽 전 영역을 단독으로 담당.",
+      role:[
+        { name:"프로그래밍", icon:"ti-code", desc:"백엔드(Supabase), 클라이언트(Unity 게임 로직)" },
+        { name:"아트", icon:"ti-brush", desc:"그래픽 전 영역을 단독으로 담당." },
+      ],
       activities:["교내 캡스톤디자인 2"],
       contributions:[
+        {
+          title:"3D 큐브 퍼즐 핵심 게임플레이 루프", category:"게임플레이",
+          desc:"<br><strong>3D 격자 배열로 맵 상태를 표현하고 열거형으로 타일 종류 관리</strong><ul><li>Undo를 위해 상태 데이터를 구조체로 묶어 스택에 깊은 복사로 보존</li><li>타일 상태 전이(색칠·반전)는 딕셔너리 룩업으로 O(1) 처리</li><li>기믹 구현<br>&nbsp;&nbsp;◦ Inverter — 맨해튼 거리 기반 웨이브 전파 반전<br>&nbsp;&nbsp;◦ Laser — BFS 기반 6방향 연쇄 반전<br>&nbsp;&nbsp;◦ Portal — 딕셔너리 기반 순간이동</li><li>DOTween과 UniTask로 이동·기믹 발동·클리어 연출 구현</li></ul>",
+          images:[]
+        },
+        {
+          title:"루빅큐브식 회전 기믹", category:"기믹",
+          desc:"<br><strong>플레이어가 이동불가 공간으로 이동하면 레이어 전체가 회전하는 기믹 구현</strong><ul><li>회전은 2D 행렬 전치+역순으로 좌표를 재매핑</li><li>인접 레이어는 연쇄 애니메이션(지연 재귀 + UniTask.WhenAll)으로 루빅큐브처럼 연결해 회전</li></ul>",
+          images:[]
+        },
+        {
+          title:"맵 에디터", category:"에디터",
+          desc:"<br><strong>도로·지우개·기믹 등 다양한 편집 도구 구현</strong><ul><li>포탈은 Line Renderer로 연결 관계 시각화</li><li>RenderTexture로 썸네일을 캡처해 Supabase Storage에 업로드, 저장·업로드 시 자동 갱신</li></ul>",
+          images:[]
+        },
         {
           title:"이메일·OAuth 통합 인증 시스템", category:"인증",
           desc:"<br><strong>Supabase Auth C# SDK를 Unity에 연동해 이메일/비밀번호 회원가입·로그인·비밀번호 변경·재설정 구현</strong><ul><li>Google·Discord 소셜 로그인은 HTTP 리스너로 OAuth 콜백을 직접 수신한 뒤 PKCE 코드 교환 방식으로 세션 발급</li><li>인증 상태 변경을 옵저버 패턴으로 구독해 앱 전역에 전파</li><li>Unity UI 이벤트의 async 제약으로 인해 Update() 플래그 패턴으로 비동기 작업을 메인 스레드에서 안전하게 실행</li><li>네트워크 재연결을 주기적으로 감지해 세션 자동 갱신</li></ul>",
@@ -736,21 +764,6 @@ const PROJECTS = {
         {
           title:"맵 검색·정렬·좋아요 시스템", category:"백엔드",
           desc:"<br><strong>Supabase PostgREST API와 RPC 호출로 검색, 정렬, 페이지네이션, 필터를 단일 서버 함수 호출로 처리</strong><ul><li>좋아요·클리어·신고 여부를 JSONB 배치 쿼리로 일괄 조회, 로컬 딕셔너리로 인덱싱해 N+1 쿼리 문제 방지</li><li>맵 목록 페치와 인터랙션 조회·닉네임 조회를 UniTask.WhenAll로 병렬 실행해 응답 속도 최적화</li><li>좋아요 토글은 INSERT ON CONFLICT DO NOTHING으로 원자적으로 처리하고 트리거로 좋아요 수에 자동 반영</li><li>Supabase Storage에 썸네일 이미지 업로드·삭제 연동</li></ul>",
-          images:[]
-        },
-        {
-          title:"맵 에디터", category:"에디터",
-          desc:"<br><strong>도로·지우개·기믹 등 다양한 편집 도구 구현</strong><ul><li>포탈은 Line Renderer로 연결 관계 시각화</li><li>RenderTexture로 썸네일을 캡처해 Supabase Storage에 업로드, 저장·업로드 시 자동 갱신</li></ul>",
-          images:[]
-        },
-        {
-          title:"3D 큐브 퍼즐 핵심 게임플레이 루프", category:"게임플레이",
-          desc:"<br><strong>3D 격자 배열로 맵 상태를 표현하고 열거형으로 타일 종류 관리</strong><ul><li>Undo를 위해 상태 데이터를 구조체로 묶어 스택에 깊은 복사로 보존</li><li>타일 상태 전이(색칠·반전)는 딕셔너리 룩업으로 O(1) 처리</li><li>기믹 구현<br>&nbsp;&nbsp;◦ Inverter — 맨해튼 거리 기반 웨이브 전파 반전<br>&nbsp;&nbsp;◦ Laser — BFS 기반 6방향 연쇄 반전<br>&nbsp;&nbsp;◦ Portal — 딕셔너리 기반 순간이동</li><li>DOTween과 UniTask로 이동·기믹 발동·클리어 연출 구현</li></ul>",
-          images:[]
-        },
-        {
-          title:"루빅큐브식 회전 기믹", category:"기믹",
-          desc:"<br><strong>플레이어가 이동불가 공간으로 이동하면 레이어 전체가 회전하는 기믹 구현</strong><ul><li>회전은 2D 행렬 전치+역순으로 좌표를 재매핑</li><li>인접 레이어는 연쇄 애니메이션(지연 재귀 + UniTask.WhenAll)으로 루빅큐브처럼 연결해 회전</li></ul>",
           images:[]
         },
         {
@@ -781,7 +794,7 @@ const PROJECTS = {
     id:"square_erauqs",
     title:"SQUARE::ERAUQS",
     subtitle:"2D 퍼즐 플랫포머",
-    meta:{ engine:"Unity", platform:"PC(Windows/Mac) / Android", team:"5인 팀", year:"2024 ~"},
+    meta:{ engine:"Unity", platform:"PC(Windows/Mac) / Android", team:"5인 팀", year:"2024 ~ 2026"},
     tags:["퍼즐","2D 플랫포머", "Steam"],
     media:[
       { type:"image", src:"", label:"Screenshot 1" },
@@ -790,8 +803,10 @@ const PROJECTS = {
       { type:"image", src:"", label:"Screenshot 4" },
     ],
     summary:"두 플레이어를 동시에 조작하며 스테이지별 새로운 기믹과 시점 전환 기능으로 퍼즐을 해결.",
-    role:"<br>• <strong>리드 프로그래머</strong> — 스테이지 및 퍼즐 기믹 구현, 모바일 이식 총괄.",
-    activities:["2025 UNICON 챌린저 부문 출품", "교내 동아리박람회 전시"],
+    role:[
+        { name:"리드 프로그래머", icon:"ti-code", desc:"스테이지 및 퍼즐 기믹 구현, 모바일 이식 총괄." },
+      ],
+    activities:["Steam 출시", "2025 UNICON 챌린저 부문 출품", "교내 동아리박람회 전시"],
     contributions:[
       {
         title:"추상화 기반 기믹 오브젝트 공통 구조",
@@ -838,7 +853,7 @@ const PROJECTS = {
     ],
     optimizations:[],
     retrospective:{
-      good:"리드 프로그래머로서 팀 전체 기술 방향을 주도하며 복잡한 물리·기믹 시스템을 설계부터 구현까지 완수할 수 있었음.",
+      good:"리드 프로그래머로서 팀 전체 기술 방향을 주도하며 복잡한 물리·기믹 시스템을 설계부터 구현까지 완수할 수 있었음. 개발 시작부터 Steam 출시까지 프로젝트 개발 사이클 전체를 경험할 수 있었음.",
       bad:"초기 기믹 구조 설계에 충분한 시간을 쏟지 못해 후반부에 리팩토링이 필요했음. 팀 간 인터페이스 정의를 더 명확히 했다면 통합 비용을 줄일 수 있었을 것.",
     },
     feedback:{
@@ -873,7 +888,11 @@ const PROJECTS = {
       { type:"image", src:"", label:"Screenshot 5" },
     ],
     summary:"6.25 전쟁유공자의 삶을 회고하는 스토리텔링 기반 포인트 앤 클릭 룸 이스케이프. 6종 미니게임과 다채로운 쉐이더·연출로 몰입도 높은 게임플레이를 제공.",
-    role:"<br>• <strong>프로그래밍</strong> - 클라이언트 프로그래밍 단독 담당<br>• <strong>기획</strong> - 연출 및 미니게임 세부 기획<br>• <strong>아트</strong> - 픽셀 및 그래픽 아트(쉐이더)",
+    role:[
+        { name:"프로그래밍", icon:"ti-code", desc:"클라이언트 프로그래밍 단독 담당" },
+        { name:"기획", icon:"ti-pencil", desc:"연출 및 미니게임 세부 기획" },
+        { name:"아트", icon:"ti-brush", desc:"픽셀 및 그래픽 아트(쉐이더)" },
+      ],
     activities:["교내 캡스톤디자인 1"],
     contributions:[
       {
@@ -938,7 +957,7 @@ const PROJECTS = {
 
   necromancer_survivors: {
     id:"necromancer_survivors",
-    title:"NecromancerSurvivors",
+    title:"Necromancer Survivors",
     subtitle:"뱀서라이크",
     meta:{ engine:"Unity", platform:"PC(Windows)", team:"3인 팀", year:"2024"},
     tags:["뱀서라이크"],
@@ -948,7 +967,10 @@ const PROJECTS = {
       { type:"image", src:"", label:"Screenshot 3" },
     ],
     summary:"Vampire Survivors-like 장르 게임. 3 스테이지 구성, 스테이지별 최종 보스, 맵 곳곳의 함정 랜덤 배치로 차별화된 게임플레이를 제공.",
-    role:"<br>• <strong>프로그래밍</strong> — 무기, 스테이지, 보스 구현<br>• <strong>기획</strong> - 스테이지 및 보스 기획.",
+    role:[
+        { name:"프로그래밍", icon:"ti-code", desc:"무기, 스테이지, 보스 구현" },
+        { name:"기획", icon:"ti-pencil", desc:"스테이지 및 보스 기획." },
+      ],
     activities:["교내 게임개발동아리 창립제 전시"],
     contributions:[
       { title:"대규모 적 스폰 최적화", category:"최적화",
@@ -996,7 +1018,9 @@ const PROJECTS = {
       { type:"image", src:"", label:"Screenshot 3" },
     ],
     summary:"Unity 기반 포인트 앤 클릭 식당 경영·쿠킹 게임. 조리법·메인재료·주재료 카테고리 분류로 다양한 레시피 조합을 유도하고 명성 수치에 따른 멀티엔딩을 제공합니다.",
-    role:"<br>• <strong>프로그래밍</strong> — 게임 구조 설계, UI 구현 담당.",
+    role:[
+        { name:"프로그래밍", icon:"ti-code", desc:"게임 구조 설계, UI 구현 담당." },
+      ],
     activities:null,
     contributions:[
       { title:"데이터 중심 설계 기반 레시피 시스템", category:"구조",
@@ -1327,9 +1351,20 @@ function showDetail(id){
   const sections = [];
 
   // 1. Role
+  const roleHTML = Array.isArray(p.role)
+    ? `<div class="role-cards">${p.role.map((r,i)=>`
+        <div class="role-card${i===0?' role-primary':''}">
+          ${i===0?'<div class="role-card-badge">주요 역할</div>':''}
+          <div class="role-card-header">
+            <i class="ti ${r.icon||'ti-code'} role-card-icon" aria-hidden="true"></i>
+            <span class="role-card-name">${r.name}</span>
+          </div>
+          <div class="role-card-desc">${r.desc}</div>
+        </div>`).join('')}</div>`
+    : `<div class="detail-section-text">${p.role}</div>`;
   sections.push(`<div class="detail-section">
     <div class="detail-section-label">My Role</div>
-    <div class="detail-section-text">${p.role}</div>
+    ${roleHTML}
   </div>`);
 
   // 2. Activities (있을 때만)
