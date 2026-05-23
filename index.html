@@ -88,7 +88,13 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .rule { border: none; border-top: 1px solid var(--rule); margin: 5rem 0; }
 
 #about { width: 100%; }
-#about-grid { display: grid; grid-template-columns: 180px 1fr; gap: 4rem; align-items: center; max-width: 720px; }
+#about-grid {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 4rem;
+  align-items: start;
+  max-width: 720px;
+}
 @media(max-width:640px){ #about-grid { grid-template-columns: 1fr; gap: 2rem; } }
 
 .about-photo { width: 180px; height: 180px; border-radius: 50%; background: var(--navy-3); border: 3px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--cream-3); font-size: .72rem; letter-spacing: .08em; overflow: hidden; flex-shrink: 0; box-shadow: 0 0 0 6px var(--navy-2), 0 0 0 7px rgba(80,64,200,0.2); }
@@ -100,6 +106,11 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .about-meta { font-size: .9rem; color: var(--cream-2); line-height: 2.2; }
 .about-meta a { color: var(--cream-2); text-decoration: none; border-bottom: 1px solid var(--rule-mid); transition: color .2s; }
 .about-meta a:hover { color: var(--gold-light); }
+.about-highlights { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; margin-top: 1.4rem; max-width: 560px; }
+.about-highlight { border: 1px solid var(--rule-mid); background: var(--navy-2); border-radius: var(--radius); padding: .75rem .85rem; }
+.about-highlight-k { display: block; font-size: .62rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: .2rem; }
+.about-highlight-v { display: block; font-size: .86rem; color: var(--cream-2); line-height: 1.45; }
+@media(max-width:520px){ .about-highlights { grid-template-columns: 1fr; } }
 .link-icons { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 2rem; }
 .link-icon { display: inline-flex; align-items: center; gap: .5rem; padding: .5rem 1.1rem; border: 1px solid var(--rule-mid); font-size: .73rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--cream-2); text-decoration: none; background: var(--navy-3); transition: background .2s, color .2s, border-color .2s; }
 .link-icon:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
@@ -203,17 +214,22 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .slider-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--navy-4); border: 1px solid var(--rule-mid); cursor: pointer; transition: all .25s; }
 .slider-dot.active { width: 20px; border-radius: 3px; background: var(--gold); border-color: var(--gold); }
 
-.proj-info { display: flex; flex-direction: column; gap: 1rem; }
+.proj-info { display: flex; flex-direction: column; gap: .72rem; }
 .proj-index { font-size: .72rem; font-weight: 600; letter-spacing: .18em; color: var(--gold); text-transform: uppercase; }
+.proj-badges { display: flex; gap: .38rem; flex-wrap: wrap; margin: -.15rem 0 .05rem; }
+.proj-badge { display: inline-flex; align-items: center; gap: .25rem; font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .22rem .55rem; border-radius: 999px; border: 1px solid var(--rule-mid); color: var(--cream-2); background: var(--navy-2); }
+.proj-badge.primary { color: #fff; background: var(--gold); border-color: var(--gold); }
+.proj-badge.sub { color: var(--gold); border-color: rgba(80,64,200,.35); background: rgba(80,64,200,.07); }
 .proj-title { font-size: clamp(1.9rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.1; letter-spacing: -.01em; color: var(--nav-bg); }
-.proj-subtitle { font-size: .88rem; color: var(--cream-3); }
-.proj-tags { display: flex; gap: .4rem; flex-wrap: wrap; margin: .2rem 0; }
-.proj-tag { font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding: .25rem .65rem; border: 1px solid var(--rule-mid); color: var(--cream-3); border-radius: var(--radius); }
+.proj-subtitle { font-size: .88rem; color: var(--cream-3); margin-top: -.25rem; }
+.proj-tags { display: flex; gap: .35rem; flex-wrap: wrap; margin: .05rem 0; }
+.proj-tag { font-size: .66rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: .2rem .52rem; border: 1px solid var(--rule-mid); color: var(--cream-3); border-radius: var(--radius); }
 .proj-meta-row { display: flex; gap: 1.5rem; flex-wrap: wrap; padding: .9rem 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
 .proj-meta-item strong { display: block; font-size: .62rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--cream-3); margin-bottom: .15rem; }
 .proj-meta-item span { font-size: .88rem; color: var(--cream-2); }
-.proj-summary { font-size: .98rem; color: var(--cream-2); line-height: 1.85; }
-.proj-show-more { display: inline-flex; align-items: center; gap: .6rem; margin-top: .4rem; align-self: flex-start; font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: .7rem 1.5rem; border: 1px solid var(--gold); background: transparent; color: var(--gold); cursor: pointer; font-family: var(--sans); border-radius: var(--radius); transition: background .2s, color .2s; }
+.proj-meta-line { font-size: .8rem; color: var(--cream-3); line-height: 1.5; }
+.proj-summary { font-size: .93rem; color: var(--cream-2); line-height: 1.85; }
+.proj-show-more { display: inline-flex; align-items: center; gap: .6rem; margin-top: .25rem; align-self: flex-start; font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: .7rem 1.5rem; border: 1px solid var(--gold); background: transparent; color: var(--gold); cursor: pointer; font-family: var(--sans); border-radius: var(--radius); transition: background .2s, color .2s; }
 .proj-show-more:hover { background: var(--gold); color: var(--navy); }
 .proj-show-more svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2.5; transition: transform .2s; }
 .proj-show-more:hover svg { transform: translateX(3px); }
@@ -510,6 +526,7 @@ footer { background: var(--nav-bg); padding: 0; }
     <ul class="nav-links">
       <li><a href="#about"       onclick="showList('about');return false;">About</a></li>
       <li><a href="#skills"      onclick="showList('skills');return false;">Skills</a></li>
+      <li><a href="#awards"      onclick="showList('awards');return false;">Awards</a></li>
       <li><a href="#projects"    onclick="showList('projects');return false;">Projects</a></li>
       <li><a href="#other-works" onclick="showList('other-works');return false;">Etc</a></li>
       <li><a href="#books"       onclick="showList('books');return false;">Books</a></li>
@@ -530,6 +547,7 @@ footer { background: var(--nav-bg); padding: 0; }
           <div class="about-name-en" id="about-name-en"></div>
           <div class="about-divider"></div>
           <div class="about-meta" id="about-meta"></div>
+          <div class="about-highlights" id="about-highlights"></div>
           <div class="link-icons" id="link-icons"></div>
         </div>
       </div>
@@ -637,11 +655,11 @@ const PROFILE = {
   ],
 };
 const SKILLS = [
-  { category: "언어",     items: [{ name:"C#", icon:"" }, { name:"C++", icon:"" }, { name:"C", icon:"" }, { name:"Java", icon:"" }, { name:"Python", icon:"" }] },
-  { category: "엔진",     items: [{ name:"Unity 6 (URP)", icon:"" }] },
-  { category: "라이브러리", items: [{ name:"UniTask", icon:"" }, { name:"DoTween", icon:"" }, { name:"New Input System", icon:"" }, { name:"Localization", icon:"" }] },
-  { category: "툴",       items: [{ name:"Git", icon:"" }, { name:"Supabase", icon:"" }, { name:"GPT API", icon:"" }, { name:"Aseprite", icon:"" }] },
-  { category: "플랫폼",   items: [{ name:"PC / Steam", icon:"" }, { name:"Android", icon:"" }] },
+  { category: "Main Stack", items: [{ name:"Unity 6 (URP)", icon:"" }, { name:"C#", icon:"" }, { name:"C++", icon:"" }] },
+  { category: "Gameplay Client", items: [{ name:"Physics", icon:"" }, { name:"Input", icon:"" }, { name:"Camera", icon:"" }, { name:"UI", icon:"" }, { name:"Localization", icon:"" }] },
+  { category: "Architecture", items: [{ name:"Design Pattern", icon:"" }, { name:"MVC", icon:"" }, { name:"Observer", icon:"" }, { name:"ScriptableObject", icon:"" }] },
+  { category: "Libraries", items: [{ name:"UniTask", icon:"" }, { name:"DOTween", icon:"" }, { name:"New Input System", icon:"" }, { name:"Shader Graph", icon:"" }] },
+  { category: "Tools / Platform", items: [{ name:"Git", icon:"" }, { name:"Supabase", icon:"" }, { name:"PC / Steam", icon:"" }, { name:"Android", icon:"" }, { name:"Aseprite", icon:"" }] },
 ];
 const BOOKS = [
   // 예시 형식:
@@ -727,7 +745,12 @@ const PROJECTS = {
       title:"Eulerian Aurora",
       subtitle:"UGC 3D 퍼즐 게임",
       meta:{ engine:"Unity", platform:"PC(Windows)", team:"3인 팀", year:"2026"},
-      tags:["3D 퍼즐", "UGC"],
+      tags:[],
+      badges:[
+        { text:"Full-stack", type:"primary" },
+        { text:"UGC", type:"sub" },
+        { text:"Map Editor", type:"sub" },
+      ],
       media:[
         { type:"image", src:"assets/projects/aurora/title.png", label:"1" },
         { type:"image", src:"assets/projects/aurora/editor.png", label:"2" },
@@ -800,7 +823,12 @@ const PROJECTS = {
     title:"SQUARE::ERAUQS",
     subtitle:"2D 퍼즐 플랫포머",
     meta:{ engine:"Unity", platform:"PC(Windows/Mac) / Android", team:"5인 팀", year:"2024 ~ 2026"},
-    tags:["퍼즐","2D 플랫포머", "Steam"],
+    tags:[],
+    badges:[
+      { text:"Steam Released", type:"primary" },
+      { text:"Lead Programmer", type:"primary" },
+      { text:"Exhibited", type:"sub" },
+    ],
     media:[
       { type:"video", src:"assets/projects/square/trailer.mp4", thumbnail: "assets/projects/square/1.png", label:"Trailer" },
       { type:"image", src:"assets/projects/square/mobile.png", label:"1" },
@@ -885,7 +913,12 @@ const PROJECTS = {
     title:"Save The World",
     subtitle:"포인트 앤 클릭 룸 이스케이프",
     meta:{ engine:"Unity", platform:"PC(Windows)", team:"3인 팀", year:"2025"},
-    tags:["포인트 앤 클릭","퍼즐"],
+    tags:[],
+    badges:[
+      { text:"Solo Client", type:"primary" },
+      { text:"System Design", type:"sub" },
+      { text:"Shader", type:"sub" },
+    ],
     media:[
       { type:"video", src:"assets/projects/stw/trailer.mp4", thumbnail: "assets/projects/stw/thumbnail.jpg",label:"Trailer" },
       { type:"image", src:"assets/projects/stw/room.png", label:"1" },
@@ -967,7 +1000,12 @@ const PROJECTS = {
     title:"Necromancer Survivors",
     subtitle:"뱀서라이크",
     meta:{ engine:"Unity", platform:"PC(Windows)", team:"3인 팀", year:"2024"},
-    tags:["뱀서라이크"],
+    tags:[],
+    badges:[
+      { text:"Game System", type:"primary" },
+      { text:"Exhibited", type:"sub" },
+      { text:"Optimization", type:"sub" },
+    ],
     media:[
       { type:"image", src:"assets/projects/nec/1.png", label:"1" },
       { type:"image", src:"assets/projects/nec/2.png", label:"2" },
@@ -1018,7 +1056,12 @@ const PROJECTS = {
     title:"오,막하세!",
     subtitle:"포인트 앤 클릭 식당 경영 시뮬레이션",
     meta:{ engine:"Unity", platform:"PC(Windows)", team:"5인 팀", year:"2025 ~ 2026"},
-    tags:["포인트 앤 클릭","경영 시뮬레이션"],
+    tags:[],
+    badges:[
+      { text:"UI Structure", type:"primary" },
+      { text:"Data-driven", type:"sub" },
+      { text:"Exhibited", type:"sub" },
+    ],
     media:[
       { type:"video", src:"assets/projects/omak/trailer.mkv", thumbnail:"assets/projects/omak/thumbnail.png",label:"Trailer" },
       { type:"image", src:"assets/projects/omak/ingame.png", label:"1" },
@@ -1029,7 +1072,7 @@ const PROJECTS = {
     role:[
         { name:"클라이언트 프로그래밍", icon:"ti-code", desc:"게임 구조 설계, UI 구현 담당." },
       ],
-    activities:null,
+    activities:["PlayX4 IGIB 전시"],
     contributions:[
       { title:"데이터 중심 설계 기반 레시피 시스템", category:"구조",
         desc:"<br><strong>Scriptable Object 상속 계층으로 레시피·손님 주문 데이터를 공통 베이스에서 분기.</strong><ul><li>재료·조리법·카테고리를 중첩 열거형과 정적 카테고리 매핑으로 대분류·소분류 단위로 캡슐화해 신규 재료·레시피 추가 시 기존 로직 수정 없이 데이터만 확장 가능한 구조 설계.</li></ul>", images:[] },
@@ -1067,6 +1110,11 @@ const PROJECTS = {
     subtitle:"뱀서라이크 (게임잼)",
     meta:{ engine:"Unity", platform:"PC", team:"5인 팀", year:"2025", status:"완료", note:"2025 UNIJAM" },
     tags:["뱀서라이크","게임잼","팀 프로젝트","UNIJAM"],
+    badges:[
+      { text:"Game Jam", type:"primary" },
+      { text:"Prototype", type:"sub" },
+      { text:"Weapon System", type:"sub" },
+    ],
     media:[
       { type:"image", src:"", label:"Screenshot 1" },
       { type:"image", src:"", label:"Screenshot 2" },
@@ -1108,6 +1156,15 @@ function buildAbout(){
   document.getElementById('about-name-ko').textContent=PROFILE.nameKo;
   document.getElementById('about-name-en').textContent=PROFILE.nameEn;
   document.getElementById('about-meta').innerHTML=`${PROFILE.university}<br><a href="mailto:${PROFILE.email}">${PROFILE.email}</a>`;
+  const highlights=document.getElementById('about-highlights');
+  if(highlights){
+    highlights.innerHTML=[
+      ['Main', 'Unity / C# 클라이언트'],
+      ['Focus', '퍼즐·상호작용 시스템'],
+      ['Experience', 'Steam 출시 · 전시 경험'],
+      ['Strength', '물리 기믹 · UI 구조 설계'],
+    ].map(([k,v])=>`<div class="about-highlight"><span class="about-highlight-k">${k}</span><span class="about-highlight-v">${v}</span></div>`).join('');
+  }
   document.getElementById('footer-copy').textContent=`© ${new Date().getFullYear()} ${PROFILE.nameEn} — Game Client Programmer`;
   const w=document.getElementById('link-icons');
   PROFILE.links.forEach(l=>{
@@ -1291,6 +1348,14 @@ function makeSlider(media,cont,dots,prev,next){
   if(next)next.addEventListener('click',e=>{e.stopPropagation();go(cur+1);});
 }
 
+function getProjectBadges(p){
+  if(!Array.isArray(p.badges)) return '';
+  return p.badges
+    .slice(0,3)
+    .map(b=>`<span class="proj-badge ${b.type || 'sub'}">${b.text}</span>`)
+    .join('');
+}
+
 function buildProjects(){
   const list=document.getElementById('projects-list');
   PROJECT_ORDER.forEach((id,idx)=>{
@@ -1304,14 +1369,16 @@ function buildProjects(){
     const nr=document.createElement('div'); nr.className='slider-nav'; nr.append(pb,dw,nb);
     mw.append(sl,nr); makeSlider(p.media,sl,dw,pb,nb);
     const info=document.createElement('div'); info.className='proj-info';
-    const metaFiltered=Object.entries(p.meta).filter(([k])=>k!=='year');
-    const mh=metaFiltered.map(([k,v])=>`<div class="proj-meta-item"><strong>${k}</strong><span>${v}</span></div>`).join('');
-    const th=p.tags.map(t=>`<span class="proj-tag">${t}</span>`).join('');
+    const metaLine=[p.meta.engine, p.meta.platform, p.meta.team].filter(Boolean).join(' · ');
+    const th=(p.tags||[]).slice(0,3).map(t=>`<span class="proj-tag">${t}</span>`).join('');
+    const badges=getProjectBadges(p);
     info.innerHTML=`
       <div class="proj-index">${p.meta.year||''}</div>
+      ${badges?`<div class="proj-badges">${badges}</div>`:''}
       <h3 class="proj-title">${p.title}</h3>
-      <div class="proj-tags">${th}</div>
-      <div class="proj-meta-row">${mh}</div>
+      <div class="proj-subtitle">${p.subtitle||''}</div>
+      ${th?`<div class="proj-tags">${th}</div>`:''}
+      <div class="proj-meta-line">${metaLine}</div>
       <p class="proj-summary">${p.summary}</p>
       <button class="proj-show-more" data-id="${p.id}">Show more ${IC.arr}</button>`;
     card.append(mw,info); list.appendChild(card);
