@@ -809,7 +809,7 @@ const AWARDS = {
     { date:"2026.02", title:"2026 메토링 4기", org:"NEXON" },
     { date:"2025.11", title:"게임 전시(챌린저) - UNICON", org:"UNIDEV" },
     { date:"2025.01", title:"UNIJAM", org:"UNIDEV" },
-    { date:"2026.05", title:"게임 전시 - PlayX4 IGIB", org:"경기콘텐츠진흥원 외" },
+    { date:"2026.05", title:"게임 전시 - PlayX4 IndieSeed", org:"경기콘텐츠진흥원 외" },
     { date:"2024.11", title:"게임 전시 - 게임개발동아리 창립제", org:"중앙대학교" },
     { date:"2026.03", title:"게임 전시 - 동아리박람회", org:"중앙대학교" },
   ],
@@ -866,7 +866,7 @@ const PROJECTS = {
     title:"Eulerian Aurora",
     subtitle:"UGC 3D 퍼즐 게임",
     meta:{ engine:"Unity", platform:"PC(Windows)", team:"3인 팀", year:"2026"},
-    tags:["3D 퍼즐", "UGC", "Full-stack"],
+    tags:null,
     badges:[
       { text:"Full-stack", type:"primary" },
       { text:"UGC", type:"sub" },
@@ -999,54 +999,97 @@ const PROJECTS = {
         { name:"리드 프로그래머", icon:"ti-code", desc:"스테이지 및 퍼즐 기믹 구현, 모바일 이식 총괄." },
       ],
     activities:["Steam 출시", "2025 UNICON 챌린저 부문 출품", "교내 동아리박람회 전시"],
+    goal:"두 캐릭터와 시점 전환을 활용해 2D 플랫포머와 공간 퍼즐의 풀이 방식을 결합한 퍼즐 경험 구현",
+
+    keyChallenges:[
+      "탑뷰·사이드뷰 전환과 물리 상태 동기화",
+      "커스텀 중력·빙판·스프링 상호작용 안정화",
+      "PC·모바일 입력 구조 통합",
+      "Steam 출시 후 플랫폼별 품질 검증"
+    ],
+
     contributions:[
       {
-        title:"추상화 기반 기믹 오브젝트 공통 구조",
+        title:"시점 전환 기반 듀얼 뷰 시스템",
+        category:"게임플레이",
+        desc:"<br><strong>탑뷰와 사이드뷰를 오가며 퍼즐 풀이 방식이 바뀌는 핵심 시스템 구현</strong><ul><li>시점 전환 시 카메라 회전, 투영 벽 활성화, 플레이어 위치 보정을 이벤트 체인으로 순차 실행</li><li>전환 중 입력과 중복 동작을 제한해 카메라 회전·물리 상태 변경이 충돌하지 않도록 제어</li><li>사이드뷰와 탑뷰에서 사용하는 이동 축과 충돌 기준이 달라지는 점을 고려해 플레이어와 오브젝트 상태를 재정렬</li></ul>",
+        images:[]
+      },
+      {
+        title:"커스텀 중력 및 물리 상태 제어",
+        category:"물리",
+        desc:"<br><strong>Unity 기본 중력 대신 게임 규칙에 맞는 방향별 중력 상태를 직접 관리</strong><ul><li>기본 중력, 반전 중력, 시점 전환용 중력 상태를 분리하고 각 상태에 맞는 중력 벡터와 위·아래 방향을 갱신</li><li>중력 상태 변경 시 Rigidbody 제약 조건을 함께 전환해 2D/3D 시점 변화에도 의도한 축으로만 움직이도록 제어</li><li>중력 반전 기믹은 이벤트 기반으로 연결해 플레이어와 이동 오브젝트의 중력 상태를 일관되게 동기화</li></ul>",
+        images:[]
+      },
+      {
+        title:"Raycasting 기반 충돌·착지 판정",
+        category:"물리",
+        desc:"<br><strong>물리 기반 퍼즐의 오작동을 줄이기 위해 레이어와 방향 벡터 기반의 커스텀 판정 구현</strong><ul><li>BoxCast로 플랫폼 레이어만 선택적으로 감지해 착지, 내벽, 빙판 접촉 상태를 프레임 단위로 판정</li><li>착지 판정은 충돌 법선과 현재 중력 반대 방향의 내적으로 검사해 벽이나 경사면을 바닥으로 오판하지 않도록 처리</li><li>점프 높이는 중력과 목표 높이 기반의 초기 속도 공식으로 계산해 중력 방향이 바뀌어도 일관된 점프감을 유지</li></ul>",
+        images:[]
+      },
+      {
+        title:"빙판·스프링 벽 연결 전파 시스템",
+        category:"물리",
+        desc:"<br><strong>빙판 위 오브젝트가 벽과 간접 연결되었을 때 자연스럽게 정지하도록 연결 상태 전파 구조 구현</strong><ul><li>좌우 BoxCast로 인접한 벽, 플레이어, 스프링을 감지하고 벽 연결 여부를 전파해 간접 접촉 상태까지 판정</li><li>벽과 연결된 스프링은 Rigidbody 위치 제약을 적용해 빙판 위에서 불필요한 반동과 미끄러짐을 방지</li><li>서로를 반복 참조하는 상황을 검사해 연결 판정이 꼬이거나 데드락성 상태가 발생하지 않도록 처리</li></ul>",
+        images:[]
+      },
+      {
+        title:"추상화 기반 기믹 오브젝트 구조",
         category:"구조",
-        desc:"<br><strong>추상 클래스로 기믹의 공통 동작 흐름(초기화, 색상 처리, 충돌 판정)을 정의하고 하위 클래스에서 구체 동작을 구현하는 템플릿 메서드 패턴 적용</strong><ul><li>이벤트·델리게이트로 기믹 발동 시점을 상위 클래스에서 구독하는 옵저버 구조 구현, 하위 기믹은 발동 로직에만 집중</li><li>Pause(물리 동결+타이머), G-Pause(중력 반전 10초 유지), 포탈(DOTween 진입·퇴장 트윈+쿨다운) 기믹 구현</li></ul>",
+        desc:"<br><strong>색상 선택, 충돌 판정, 발동 흐름이 반복되는 기믹을 공통 구조로 추상화</strong><ul><li>공통 초기화와 플레이어 충돌 흐름은 상위 구조에서 처리하고, 개별 기믹은 발동 로직에 집중하도록 분리</li><li>플레이어 색상에 따라 작동 여부가 달라지는 기믹은 전략 패턴에 가까운 선택 구조로 분리해 조건 분기 최소화</li><li>Pause, 중력 반전, 포탈, 스왑, 스프링 등 다양한 기믹을 같은 발동 흐름 위에서 확장 가능하게 구성</li></ul>",
         images:[]
       },
       {
-        title:"시점 전환 기반 2D/3D 듀얼 뷰 시스템",
-        category:"게임플레이",
-        desc:"<br><strong>탑뷰·사이드뷰 두 시점을 이벤트 체인으로 전환 — 카메라 회전, 물리 제약, 플레이어 위치 보정이 하나의 멀티캐스트 델리게이트로 순차 실행</strong><ul><li>전환 중 플레이어·오브젝트가 벽에 끼이는 현상을 OverlapBox로 감지하고 중력 방향으로 밀어내는 위치 보정 로직 구현</li></ul>",
-        images:[]
-      },
-      {
-        title:"커스텀 중력 및 물리 제어 시스템",
-        category:"물리",
-        desc:"<br><strong>Unity 기본 물리 대신 FixedUpdate에서 방향별 중력 벡터를 직접 AddForce하는 커스텀 중력 구현, 세 상태를 C# 프로퍼티 setter에서 전환</strong><ul><li>중력 상태 변경을 이벤트로 발행해 중력 방향과 Rigidbody 제약 조건을 일관성 있게 동기화</li><li>빙판 위에서 BoxCast로 Ice 태그 감지 시 마찰 계수를 0으로 변경하고 Move를 비활성화해 미끄럼 물리 구현, 플랫폼 감지 시 즉시 복원</li></ul>",
-        images:[]
-      },
-      {
-        title:"Raycasting 기반 커스텀 충돌 판정",
-        category:"물리",
-        desc:"<br><strong>Unity 기본 충돌 이벤트 대신 BoxCastAll로 Platform 레이어만 선택적으로 감지해 착지·내벽 충돌·빙판을 프레임마다 판정</strong><ul><li>착지 판정은 법선 벡터와 중력 역방향의 내적으로 경사면 여부를 구분해 오탐 방지</li><li>점프패드 위 착지 여부를 플랫폼 레이어 BoxCast로 확인 후 중력 방향 기반 임펄스를 계산(√(2·g·jumpUnit))해 일관된 점프 높이 보장</li></ul>",
-        images:[]
-      },
-      {
-        title:"스프링 오브젝트의 벽 연결 전파 시스템",
-        category:"물리",
-        desc:"<br><strong>스프링이 벽에 직접 닿지 않아도 다른 스프링·플레이어를 통해 간접적으로 연결됐는지 재귀적으로 탐색하는 연결 전파 구조 구현</strong><ul><li>좌·우 BoxCast로 인접 오브젝트를 감지하고 해당 오브젝트의 연결 상태를 재귀 조회 — 순환 참조(데드락)를 교차 검사로 방지</li></ul>",
-        images:[]
-      },
-      {
-        title:"모바일 이식 — 입력 추상화 및 모바일 UI",
-        category:"게임플레이",
-        desc:"<br><strong>InputWrapper 정적 클래스로 키보드 입력과 가상 버튼 입력을 단일 인터페이스로 추상화 — 플랫폼 전처리기로 모바일 모드를 감지해 분기</strong><ul><li>가상 버튼(IPointerDown/Up)에서 축 값을 주입하고 점프·시점 전환은 Action 델리게이트로 발행해 게임 로직이 입력 출처를 알 필요 없는 구조 달성</li></ul>",
+        title:"모바일 이식 — 입력 추상화 및 UI 대응",
+        category:"플랫폼",
+        desc:"<br><strong>PC 키보드 입력과 모바일 가상 버튼 입력을 같은 게임 로직에서 사용할 수 있도록 입력 계층을 추상화</strong><ul><li>키보드 축 입력과 모바일 버튼에서 주입된 축 값을 하나의 입력 인터페이스로 통합</li><li>점프와 시점 전환은 이벤트로 발행해 플레이어 로직이 입력 장치에 직접 의존하지 않도록 설계</li><li>모바일 UI, 가상 버튼, 안전 영역 대응을 추가해 PC 기반 프로젝트를 Android 환경에서도 플레이 가능하게 이식</li></ul>",
         images:[]
       },
       {
         title:"Unity Localization 기반 다국어 지원",
         category:"UI",
-        desc:"<br><strong>Unity Localization의 LocalizeStringEvent로 텍스트를 런타임에 교체하고, 언어별 Animator Controller를 교체하는 이벤트 기반 구조 구현</strong><ul><li>힌트 UI는 Localization Table에서 문자열을 조회해 씬별 힌트 텍스트를 코드 수정 없이 교체 가능</li><li>한국어/영어 전환 시 폰트 크기를 단계적으로 줄이며 레이아웃 깨짐 없이 텍스트 자동 조절</li></ul>",
+        desc:"<br><strong>출시 대응을 위해 텍스트와 언어별 UI 표현을 런타임에 교체하는 로컬라이징 구조 구현</strong><ul><li>Unity Localization 기반으로 언어별 텍스트를 교체해 코드 수정 없이 힌트와 UI 문구를 관리</li><li>언어 변경에 따라 애니메이션 컨트롤러와 UI 표현을 전환해 한국어·영어 환경을 모두 지원</li><li>문장 길이 차이로 인한 UI 깨짐을 줄이기 위해 언어별 표시 방식과 레이아웃을 조정</li></ul>",
+        images:[]
+      }
+    ],
+
+    technicalDecisions:[
+      {
+        q:"왜 시점 전환을 이벤트 체인으로 구성했나요?",
+        a:"카메라 회전, 투영 벽 전환, 플레이어 위치 보정, 물리 제약 변경이 동시에 얽혀 있었기 때문에 각 기능을 직접 호출로 묶기보다 전환 이벤트에 구독시키는 방식이 유지보수와 확장에 유리했습니다."
+      },
+      {
+        q:"왜 Unity 기본 중력 대신 커스텀 중력을 구현했나요?",
+        a:"이 게임은 탑뷰·사이드뷰 전환과 중력 반전 기믹이 핵심이라, 단일 전역 중력만으로는 플레이어와 오브젝트별 상태를 제어하기 어려웠습니다. 그래서 오브젝트별 중력 방향과 Rigidbody 제약을 직접 관리했습니다."
+      },
+      {
+        q:"왜 충돌 판정에 BoxCast를 적극 사용했나요?",
+        a:"BoxCast는 비용이 있는 물리 쿼리이지만, 시점 전환과 커스텀 중력 때문에 착지·벽·빙판·스프링 연결 상태를 충돌 이벤트만으로 안정적으로 구분하기 어려웠습니다. 그래서 Platform 레이어와 짧은 감지 거리로 범위를 제한하고, 시점 상태에 따라 박스 크기와 방향을 조정해 판정 안정성을 우선했습니다."
+      },
+      {
+        q:"왜 입력 계층을 직접 추상화했나요?",
+        a:"초기에는 PC 출시를 기준으로 개발했지만, 이후 모바일 이식이 결정되면서 기존 플레이어 로직을 크게 바꾸지 않는 방식이 필요했습니다. 그래서 New Input System으로 전체 입력 구조를 교체하기보다, 기존 입력 호출부 위에 얇은 래퍼를 두어 키보드 입력과 모바일 버튼 입력을 같은 인터페이스로 전달했습니다."
+      }
+    ],
+
+    optimizations:[
+      {
+        title:"투영 벽 구조의 사전 배치 최적화",
+        category:"최적화",
+        desc:"<br><strong>시점 전환마다 벽을 동적으로 생성하기보다, 스테이지 구조에 맞춰 필요한 충돌 영역을 사전 배치하는 방식으로 안정성 확보</strong><ul><li>초기에는 내부 벽 메시를 투영해 런타임에 충돌 벽을 생성하는 구조를 검토했지만, 스테이지 수와 구조가 제한적이라는 점을 고려해 사전 배치 방식이 더 적합하다고 판단</li><li>시점 전환 시에는 미리 준비된 투영 벽과 제한 영역의 활성 상태만 전환해 런타임 메시 생성 비용과 예외 상황을 줄임</li><li>복잡한 동적 생성보다 예측 가능한 충돌 구조를 선택해 퍼즐 풀이와 QA 안정성을 우선시</li></ul>",
         images:[]
       },
+      {
+        title:"모바일 실기 프로파일링 및 렌더링 최적화",
+        category:"최적화",
+        desc:"<br><strong>Android 실기 환경에서 성능을 확인하고, 2D 타일맵 기반 게임에 불필요한 3D 렌더링 비용을 줄임</strong><ul><li>모바일 기기를 노트북과 연결해 Unity Profiler로 실기 프레임과 렌더링 비용을 점검</li><li>게임이 2D 타일맵 중심으로 구성된 점을 고려해 불필요한 조명·그림자 렌더링을 비활성화</li><li>모바일 환경에서 화면 전환과 퍼즐 조작이 안정적으로 유지되도록 렌더링 설정과 UI 표시를 점검</li></ul>",
+        images:[]
+      }
     ],
-    optimizations:[],
+
     retrospective:{
-      good:"리드 프로그래머로서 팀 전체 기술 방향을 주도하며 복잡한 물리·기믹 시스템을 설계부터 구현까지 완수할 수 있었음. 개발 시작부터 Steam 출시까지 프로젝트 개발 사이클 전체를 경험함.",
-      bad:"초기 기믹 구조 설계에 충분한 시간을 쏟지 못해 후반부에 리팩토링이 필요했음. 팀 간 인터페이스 정의를 더 명확히 했다면 통합 비용을 줄일 수 있었을 것.",
+      good:"리드 프로그래머로서 시점 전환, 커스텀 물리, 기믹 구조, 모바일 이식까지 프로젝트의 핵심 기술 방향을 주도했습니다. 개발 시작부터 Steam 출시와 전시까지 이어지는 전체 사이클을 경험하며, 장기 프로젝트에서 구조 설계가 얼마나 중요한지 체감했습니다.",
+      bad:"초기에는 기믹별 구현을 빠르게 붙이는 데 집중해 공통 인터페이스와 팀 내 작업 기준을 충분히 명확히 하지 못했습니다. 후반으로 갈수록 통합 비용이 커졌기 때문에, 이후에는 기능 구현 전 역할 경계와 데이터·이벤트 흐름을 먼저 공유하는 방식을 더 중요하게 생각하게 되었습니다.",
       images:["assets/projects/square/uniconpc.jpg", "assets/projects/square/uniconteam.jpg"]
     },
     feedback:{
@@ -1231,7 +1274,7 @@ const PROJECTS = {
     role:[
         { name:"클라이언트 프로그래밍", icon:"ti-code", desc:"게임 구조 설계, UI 구현 담당." },
       ],
-    activities:["PlayX4 IGIB 전시"],
+    activities:["PlayX4 IndieSeed"],
     contributions:[
       { title:"데이터 중심 설계 기반 레시피 시스템", category:"구조",
         desc:"<br><strong>Scriptable Object 상속 계층으로 레시피·손님 주문 데이터를 공통 베이스에서 분기.</strong><ul><li>재료·조리법·카테고리를 중첩 열거형과 정적 카테고리 매핑으로 대분류·소분류 단위로 캡슐화해 신규 재료·레시피 추가 시 기존 로직 수정 없이 데이터만 확장 가능한 구조 설계.</li></ul>", images:[] },
@@ -1636,7 +1679,6 @@ function showDetail(id){
     : `<span style="font-size:.8rem;color:var(--cream-3);font-style:italic">— 준비 중 —</span>`;
   document.getElementById('d-sidebar').innerHTML=`
     <div class="sidebar-block"><div class="sidebar-label">Info</div><div class="sidebar-value">${metaRows}</div></div>
-    <div class="sidebar-block"><div class="sidebar-label">Tags</div><div class="proj-tags">${p.tags.map(t=>`<span class="proj-tag">${t}</span>`).join('')}</div></div>
     <div class="sidebar-block"><div class="sidebar-label">Links</div>${linksHTML}</div>`;
 
   // 본문 섹션들
@@ -1696,6 +1738,7 @@ function showDetail(id){
     '에디터':     { icon:'ti-tool',             label:'에디터',     color:'#5a5285', bg:'#eae8f5' },
     'AI':         { icon:'ti-cpu',              label:'AI',         color:'#5040c8', bg:'#e4e1f8' },
     '기획':       { icon:'ti-pencil',           label:'기획',       color:'#5a5285', bg:'#eae8f5' },
+    '플랫폼': { icon:'ti-device-gamepad-2', label:'플랫폼', color:'#5a5285', bg:'#eae8f5' },
   };
   const DEFAULT_CAT = { icon:'ti-code-dots', label:'', color:'#5a5285', bg:'#eae8f5' };
 
