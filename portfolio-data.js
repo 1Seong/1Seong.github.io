@@ -134,31 +134,31 @@ const PROJECTS = {
         title:"퍼즐 핵심 게임플레이 루프",
         category:"게임플레이",
         desc:"<br><strong>에디터·플레이·업로드 흐름에서 동일한 3D 배열 기반 상태 구조를 설계</strong><ul><li>stack을 활용한 스냅샷 저장으로 Undo 구현</li></ul>",
-        images:[]
+        images:["assets/projects/aurora/tile.png"]
       },
       {
         title:"기믹 시스템과 상호작용",
         category:"게임플레이",
         desc:"<br><strong>포탈, 회전, 인버터 등 6가지 기믹을 공통 타일 상태 시스템 위에 구현</strong><ul><li>인버터는 발동 지점 기준 맨해튼 거리로 타일을 그룹화하고, 순서대로 연출을 재생해 파도 연출 구현</li></ul>",
-        images:[]
+        images:["assets/projects/aurora/gimmik.png"]
       },
       {
         title:"맵 에디터와 레벨 제작 파이프라인",
         category:"에디터",
         desc:"<br><strong>유저가 직접 타일과 기믹을 배치하고 저장·업로드할 수 있는 맵 에디터 구현</strong><ul><li>맵 데이터, 포탈 정보, 회전 정보를 직렬화해 DB에 저장하고, 동일 데이터 포맷으로 에디터·플레이 테스트·업로드 흐름을 연결</li></ul>",
-        images:[]
+        images:["assets/projects/aurora/editor2.png"]
       },
       {
         title:"Supabase 기반 UGC 백엔드",
         category:"백엔드",
         desc:"<br><strong>Supabase Auth와 RPC를 Unity 클라이언트에 연결해 서버 통신 흐름을 구성</strong><ul><li>로그인, 회원가입, 세션 복원을 Supabase Auth 기반의 단일 인증 흐름으로 정리</li><li>온라인·인증 상태 변경을 옵저버 구조로 앱 전역에 전파</li></ul>",
-        images:[]
+        images:["assets/projects/aurora/supabase.png"]
       },
       {
         title:"UGC 맵 데이터베이스 구조 설계",
         category:"DB",
         desc:"<br><strong>맵, 좋아요, 클리어 기록 등을 PostgreSQL로 UGC 데이터 저장 기준을 정리</strong><ul><li>RLS 정책으로 사용자별 읽기·쓰기 권한을 제한하고, 본인 데이터와 공개 맵 데이터 접근 범위를 분리</li></ul>",
-        images:[]
+        images:["assets/projects/aurora/db.png"]
       },
     ],
     troubleshooting: [
@@ -266,36 +266,37 @@ const PROJECTS = {
         title:"시점 전환 기반 듀얼 뷰 시스템",
         category:"게임플레이",
         desc:"<br><strong>탑뷰와 사이드뷰를 오가며 퍼즐 방식이 바뀌는 핵심 시스템 구현</strong><ul><li>시점 전환 시 카메라 회전, 벽 활성화, 플레이어 위치 보정 등을 이벤트 체인으로 순차 실행</li></ul>",
-        images:[]
+        images:["assets/projects/square/view.png"]
       },
       {
         title:"커스텀 중력 및 물리 상태 제어",
         category:"물리",
         desc:"<br><strong>Unity 기본 중력 대신 방향별 중력 상태를 이벤트 기반으로 직접 관리</strong><ul><li>상태 변경 시 Rigidbody 제약 조건을 함께 관리해 의도한 축으로만 이동 제어</li></ul>",
-        images:[]
+        images:["assets/projects/square/gravity.png"]
       },
       {
         title:"추상화 기반 기믹 오브젝트 구조",
         category:"구조",
         desc:"<br><strong></strong><ul><li>템플릿 메서드 패턴으로 공통 흐름은 상위 구조에서 처리하고, 하위에서는 개별 기믹 로직에 집중</li><li>다양한 기믹을 같은 발동 흐름 위에서 확장 가능하게 구성</li></ul>",
-        images:[]
+        images:["assets/projects/square/gimmik.png"]
       },
       {
         title: "맵툴 데이터 기반 레벨 제작 파이프라인",
         category: "구조",
         desc: `<strong>맵툴에서 제작한 데이터를 게임 내 스테이지 구조로 변환하는 파이프라인 구현.</strong><ul><li>맵툴 출력 데이터를 파싱하고, 게임 로직에서 사용할 수 있는 타일/오브젝트 배치 데이터로 가공</li></ul>`
+        ,images:["assets/projects/square/editor.png"]
       },
       {
         title:"모바일 이식 — 입력 추상화 및 UI 대응",
         category:"플랫폼",
         desc:"<br><strong>PC 입력과 모바일 가상 버튼 입력을 같은 게임 로직 위에서 사용할 수 있도록 입력 계층 추상화</strong><ul><li>모바일 UI 안전 영역 대응을 추가해 모든 Android 기기에서도 플레이 가능하게 이식</li></ul>",
-        images:[]
+        images:["assets/projects/square/mobile2.png"]
       },
       {
         title:"Unity Localization 기반 번역 지원",
         category:"UI",
         desc:"<br><strong>텍스트와 애니메이션, UI 레이아웃을 런타임에 교체하는 로컬라이징 구조 구현</strong><ul><li>Unity Localization 기반으로 코드 수정 없이 문자열 관리</li></ul>",
-        images:[]
+        images:["assets/projects/square/hint.png"]
       }
     ],
     troubleshooting: [
@@ -431,31 +432,31 @@ const PROJECTS = {
         title:"1인칭 방 탐색과 면 단위 상호작용 구조",
         category:"게임플레이",
         desc:"<br><strong>방을 여러 면으로 나누어 관리하고, 현재 바라보는 면에 해당하는 상호작용 요소만 활성화되는 탐색 구조 구현</strong><ul><li>카메라 이동과 UI 입력을 분리해 방 회전, 오브젝트 클릭, 클로즈업 진입이 서로 충돌하지 않도록 제어</li></ul>",
-        images:[]
+        images:["assets/projects/stw/view.png"]
       },
       {
         title:"데이터 중심 아이템·인벤토리 시스템",
         category:"구조",
         desc:"<br><strong>아이템의 식별자, 이미지, 표시 크기 데이터를 에셋으로 분리하고, 습득·선택·사용 흐름을 이벤트 기반으로 연결</strong><ul><li>아이템 데이터와 화면 표시 로직을 분리해 새 아이템 추가 시 코드 수정 범위를 줄임</li></ul>",
-        images:[]
+        images:["assets/projects/stw/item.png"]
       },
       {
         title:"미니게임 공통 프레임워크와 개별 게임 구현",
         category:"게임플레이",
         desc:"<br><strong>여러 미니게임의 시작 안내, 플레이 상태, 종료 연출, 결과 텍스트, 보상 지급, 메인 씬 복귀 흐름을 공통화</strong><ul><li>공통 흐름을 기준으로 각 미니게임은 자신만의 조작·판정·난이도 로직에 집중하도록 분리</li></ul>",
-        images:[]
+        images:["assets/projects/stw/mini.png"]
       },
       {
         title:"Shader Graph 기반 비주얼 연출",
         category:"셰이더",
         desc:"<br><strong>스토리 분위기와 회상 장면의 감정선을 강화하기 위해 픽셀 렌더링, 물 반사, CRT, 툰 셰이딩, 풀스크린 이펙트를 구현</strong><ul><li>픽셀 전용 카메라와 RenderTexture를 활용하여 픽셀 렌더링 구현</li><li>RenderTexture와 노이즈 기반 UV 왜곡을 활용해 물 반사 구현</li></ul>",
-        images:[]
+        images:["assets/projects/stw/shader.png"]
       },
       {
         title:"CSV 기반 대화와 회상 시퀀스 연출",
         category:"구조",
         desc:"<br><strong>대사 데이터를 CSV로 분리하고, 발화자·초상화·배경 전환·타이핑 연출을 하나의 회상 시퀀스로 연결</strong><ul><li>발화자 정보에 따라 좌우 캐릭터 이미지를 갱신하고, 시퀀스 전환 시 배경과 음악을 함께 교체해 회상 장면의 흐름 강화</li></ul>",
-        images:[]
+        images:["assets/projects/stw/csv.png"]
       },
     ],
     troubleshooting:[
