@@ -9,9 +9,11 @@ const PROFILE = {
   links: [
     { label: "GitHub",  icon: "github",  url: "https://github.com/1Seong" },
     //{ label: "Steam",   icon: "steam",   url: "https://steamcommunity.com/profiles/76561198190444966/" },
-    { label: "Notion",  icon: "notion",  url: "https://www.notion.so/9516adf7733d404ebc914550ff4af2a2" },
+    { label: "공부 정리 노션",  icon: "notion",  url: "https://www.notion.so/9516adf7733d404ebc914550ff4af2a2" },
+    { label: "알고리즘 문제풀이 회고록", icon: "log", url: "https://docs.google.com/spreadsheets/d/15jzOT1EcCLq-PmLsfNGJwK5ABmyuKudDGDV3rOjn0R4/edit?gid=1741200533#gid=1741200533" },
   ],
 };
+const MILESTONE_SUMMARY = [{ value: "8회", label: "팀 프로젝트" }];
 const SKILLS = [
   { category: "Main Stack", items: [{ name:"Unity 6 / URP", icon:"" }, { name:"C#", icon:"" }, { name:"C++", icon:"" }] },
   { category: "Sub Stack", items: [{ name:"PostgreSQL", icon:"" }] },
@@ -43,6 +45,7 @@ const AWARDS = {
     { date:"2026.02", title:"최우수상 - 메토링 4기", org:"NEXON" },
   ],
   대외활동: [
+    { date:"2026.05.23 ~ 2026.09.04", title:"1.44MB 게임 개발 공모전 출품 — Hell Pit", org:"2P GAME ARCADE", url:"https://2pgarcade.com/contest-144mb.html" },
     { date:"2026.02", title:"2026 메토링 4기", org:"NEXON" },
     { date:"2025.11", title:"게임 전시(챌린저) - UNICON 2025", org:"UNIDEV" },
     { date:"2025.01", title:"UNIJAM", org:"UNIDEV" },
@@ -52,7 +55,7 @@ const AWARDS = {
     { date:"2026.08", title:"게임 전시 - UNICON 2026", org:"UNIDEV" },
   ],
   시험및자격증: [
-    { date:"2026.05", title:"TOPCIT 620점", org:"정보통신기획평가원" },
+    { date:"2026.05.16 ~ 2028.05.16", title:"TOPCIT 620점", org:"정보통신기획평가원", url:"https://www.topcit.or.kr/site/faq.do" },
   ],
 };
 const OTHER_WORKS = [
@@ -104,9 +107,9 @@ const PROJECTS = {
     meta:{ engine:"Unity", platform:"PC(Windows)", team:"3인 팀", year:"2026.01 ~"},
     tags:null,
     badges:[
-      { text:"Full-stack", type:"primary" },
-      { text:"UGC", type:"sub" },
-      { text:"Map Editor", type:"sub" },
+      { text:"UGC 퍼즐", type:"primary" },
+      { text:"Unity · C#", type:"sub" },
+      { text:"Supabase", type:"sub" },
     ],
     media:[
       { type:"video", src:"assets/projects/aurora/trailer.mp4", thumbnail: "assets/projects/aurora/trailerthumb.png", label:"Trailer" },
@@ -133,48 +136,60 @@ const PROJECTS = {
       {
         title:"퍼즐 핵심 게임플레이 루프",
         category:"게임플레이",
-        desc:"<br><strong>에디터·플레이·업로드 흐름에서 동일한 3D 배열 기반 상태 구조를 설계</strong><ul><li>stack을 활용한 스냅샷 저장으로 Undo 구현</li></ul>",
+        goal:"편집·플레이·업로드에서 일관된 퍼즐 상태 유지",
+        solution:["3D 타일 배열을 기준으로 이동·색칠·클리어를 판정하고 표시 상태를 갱신", "Memento 방식으로 맵·플레이어·포탈·고스트/레이저 상태를 복사해 스택에 저장하고, Undo 시 함께 복원"],
+        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/gameplay/README.md",
         images:["assets/projects/aurora/tile.png"]
       },
       {
         title:"기믹 시스템과 상호작용",
         category:"게임플레이",
-        desc:"<br><strong>포탈, 회전, 인버터 등 6가지 기믹을 공통 타일 상태 시스템 위에 구현</strong><ul><li>인버터는 발동 지점 기준 맨해튼 거리로 타일을 그룹화하고, 순서대로 연출을 재생해 파도 연출 구현</li></ul>",
+        goal:"6가지 기믹을 이동·타일 상태와 일관되게 연동",
+        solution:["포탈 좌표 이동, 고스트 횟수 소모, 레이저 경로 반전, 대시 연속 이동을 타일 상태와 연동", "인버터는 맵 상태를 먼저 반전한 뒤 맨해튼 거리별 그룹을 순차 연출하고, 회전은 데이터·연출을 분리"],
+        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/gimmick-state/README.md",
         images:["assets/projects/aurora/gimmik.png"]
       },
       {
         title:"맵 에디터와 레벨 제작 파이프라인",
         category:"에디터",
-        desc:"<br><strong>유저가 직접 타일과 기믹을 배치하고 저장·업로드할 수 있는 맵 에디터 구현</strong><ul><li>맵 데이터, 포탈 정보, 회전 정보를 직렬화해 DB에 저장하고, 동일 데이터 포맷으로 에디터·플레이 테스트·업로드 흐름을 연결</li></ul>",
+        goal:"유저가 만든 맵을 바로 테스트하고 공유",
+        solution:["표면·방향을 검사해 타일을 배치하고, 편집 전 맵·시작점을 저장해 되돌리기 지원", "테스트에는 편집 데이터의 복사본을 전달하고, 타일·포탈·회전 정보를 공통 포맷으로 직렬화해 저장·업로드"],
+        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/map-generation/README.md",
         images:["assets/projects/aurora/editor2.png"]
       },
       {
         title:"Supabase 기반 UGC 백엔드",
         category:"백엔드",
-        desc:"<br><strong>Supabase Auth와 RPC를 Unity 클라이언트에 연결해 서버 통신 흐름을 구성</strong><ul><li>로그인, 회원가입, 세션 복원을 Supabase Auth 기반의 단일 인증 흐름으로 정리</li><li>온라인·인증 상태 변경을 옵저버 구조로 앱 전역에 전파</li></ul>",
+        goal:"이메일·외부 계정 인증을 하나의 세션 흐름으로 통합",
+        solution:["싱글턴 SupabaseManager에 이메일·Google/Discord(PKCE) 인증·세션 복원을 모으고, SDK의 Observer 방식 상태 리스너와 연동", "회원가입·비밀번호 변경과 맵 생성·수정·게시·신고를 연동. 좋아요 RPC는 JWT의 사용자 ID로 처리"],
+        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/authentication/README.md",
         images:["assets/projects/aurora/supabase.png"]
       },
       {
         title:"UGC 맵 데이터베이스 구조 설계",
         category:"DB",
-        desc:"<br><strong>맵, 좋아요, 클리어 기록 등을 PostgreSQL로 UGC 데이터 저장 기준을 정리</strong><ul><li>RLS 정책으로 사용자별 읽기·쓰기 권한을 제한하고, 본인 데이터와 공개 맵 데이터 접근 범위를 분리</li></ul>",
+        goal:"맵 원본과 사용자별 활동 기록을 구분해 관리",
+        solution:["초안·게시 맵·사용자 활동을 분리하고, 맵 ID·작성자 ID의 복합키와 외래키로 좋아요·클리어·신고 기록 연결", "RLS로 공개 맵 조회와 본인 데이터 수정을 구분하고, 트리거로 좋아요 수와 더 좋은 클리어 기록 반영"],
+        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/ugc-backend/README.md",
+        codeLabel:"클라이언트·DB 샘플 · 서버 부분은 재구성 예시",
         images:["assets/projects/aurora/db.png"]
       },
     ],
     troubleshooting: [
       {
         title: "레이어 회전 후 좌표 기준이 어긋나는 문제",
-        problem: "루빅큐브식 레이어 오브젝트를 실제로 회전시키면, 이후 오브젝트의 로컬 좌표와 데이터 좌표가 달라지는 문제가 발생",
-        cause: "회전 연출과 맵 데이터 변환을 같은 오브젝트 상태에 의존하면서, 회전한 뒤의 좌표 기준을 계속 보정해야 해 계산이 복잡해짐",
-        solution: "회전은 화면 연출로만 처리하고, 실제 퍼즐 상태는 2D 단면 배열을 분리한 뒤 전치·역순 변환으로 데이터 좌표만 재매핑하도록 분리",
-        result: "회전 연출 이후에도 맵 데이터 기준을 일정하게 유지해 좌표 계산 복잡도를 줄이고, 연속 회전 상황에서도 퍼즐 상태를 안정적으로 갱신"
+        problem: "레이어 회전 뒤 로컬 좌표와 데이터 좌표가 어긋남",
+        cause: "회전 연출과 상태 갱신이 같은 Transform에 의존",
+        solution: "단면 배열의 전치·역순으로 좌표를 재매핑하고, 연출 후 표시 오브젝트를 격자로 복원",
+        result: "연속 회전에서도 데이터 좌표 기준 유지",
+        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/layer-rotation/README.md"
       },
       {
         title: "중심 큐브 뒤의 기믹 이펙트가 완전히 가려지지 않는 문제",
-        problem: "일반 스텐실 마스킹만으로는 중심 큐브 뒤쪽에 존재하는 기믹 이펙트가 일부 노출되는 문제가 발생",
-        cause: "스텐실 버퍼는 의도한 영역 제한에는 유효했지만, 큐브 볼륨 뒤에 있는 픽셀까지 완전히 판별하기에는 기준이 부족했음",
-        solution: "스텐실 마스킹에 광선-AABB 교차 판정을 추가해 큐브 영역 밖이거나 큐브 뒤에 있어야 하는 픽셀을 제거",
-        result: "고스트, 레이저, 인버터, 포탈 등 기믹 이펙트가 큐브 내부 영역에 맞춰 안정적으로 표시되고, 불필요한 이펙트 노출을 방지"
+        problem: "중심 큐브 뒤의 기믹 이펙트가 노출됨",
+        cause: "스텐실만으로 큐브 볼륨 뒤쪽의 픽셀을 판별하기 어려움",
+        solution: "광선-AABB 교차 판정을 더해 가려져야 할 픽셀 제거",
+        result: "큐브 영역과 깊이에 맞게 이펙트 표시"
       }
     ],
     /*
@@ -196,9 +211,12 @@ const PROJECTS = {
     optimizations:[
       {
         title:"RPC 조회 기반 맵 목록 조회 최적화",
+        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/ugc-backend/README.md",
         category:"최적화",
         desc:"<br><strong>온라인 맵 목록에서 필요한 데이터를 여러 번 나누어 요청하지 않도록 조회 흐름을 통합</strong><ul><li>검색, 정렬, 페이지네이션, 클리어 필터를 DB 함수 호출 하나로 처리</li><li>좋아요·클리어·신고 여부는 맵 키 목록을 기반으로 한 번에 조회하고, 클라이언트에서 딕셔너리로 매핑</li><li>닉네임 조회도 작성자 ID 기준으로 묶어 처리해 같은 작성자 정보를 반복 요청하지 않도록 구성</li></ul>",
-        images:[]
+        images:[],
+        // 전후 사진: src에 이미지 경로를 입력하면 해당 사진만 표시합니다.
+        comparison: { before: { src:"", alt:"", caption:"" }, after: { src:"", alt:"", caption:"" } }
       },
     ],
 
@@ -211,7 +229,8 @@ const PROJECTS = {
     feedback:null,
     other_contributions:null,
     links:[
-      { label:"GitHub", url:"https://github.com/1Seong/Capstone2" },
+      { label:"GitHub", url:"https://github.com/1Seong/EulerianAurora" },
+      { label:"QA Log", url:"https://docs.google.com/spreadsheets/d/1m_KURQGTxd0x7m2Nlj68Ax_Qtp4aNc9YAAjlM2upWb4/edit?gid=0#gid=0" },
       { label:"Game Build", url:"https://drive.google.com/drive/u/0/folders/10mRU31GlTHey1yCcf1V_u7jEjr0QA4JT"},
       { label:"Google Drive", url:"https://drive.google.com/drive/u/0/folders/1IGMLGUreO3WDR3LEqzpbtfKZpKzZaxUQ"}
     ],
@@ -222,10 +241,10 @@ const PROJECTS = {
       linkMap:{ Document:"Google Drive", GitHub:"GitHub", "Game Build":"Game Build" },
       optimizations:[
         {
-          measurement:"유저 맵 검색, 정렬, 필터, 좋아요/클리어가 호출되는 흐름을 점검",
-          cause:"맵 목록과 사용자별 상태 데이터를 따로 요청하면서 같은 맵/작성자 정보를 반복 조회",
-          improvement:"RPC로 목록 조회를 통합하고 좋아요, 클리어 등을 키 목록 기준으로 한번에 조회",
-          result:"요청 횟수를 한 번으로 개선하면서 대기 시간 소폭 감소"
+          measurement:"맵 목록과 사용자별 상태의 요청 흐름 점검",
+          cause:"맵·작성자별 개별 조회가 반복됨",
+          improvement:"검색·정렬·필터·페이지를 RPC로 통합하고, 복합키 목록의 상태 JOIN·닉네임 배치 요청을 병렬 실행",
+          result:"맵 수에 비례하던 개별 요청을 페이지 단위로 통합"
         }
       ]
     },
@@ -238,8 +257,9 @@ const PROJECTS = {
     meta:{ engine:"Unity", platform:"PC(Windows/Mac) / Android", team:"5인 팀", year:"2025.01 ~ 2026.09"},
     tags:[],
     badges:[
-      { text:"Steam Released", type:"primary" },
-      { text:"Map-Editor", type:"sub" },
+      { text:"Steam 출시", type:"primary" },
+      { text:"Unity · C#", type:"sub" },
+      { text:"시점 전환 퍼즐", type:"sub" },
     ],
     media:[
       { type:"video", src:"assets/projects/square/trailer.mp4", thumbnail: "assets/projects/square/1.png", label:"Trailer" },
@@ -265,54 +285,68 @@ const PROJECTS = {
       {
         title:"시점 전환 기반 듀얼 뷰 시스템",
         category:"게임플레이",
-        desc:"<br><strong>탑뷰와 사이드뷰를 오가며 퍼즐 방식이 바뀌는 핵심 시스템 구현</strong><ul><li>시점 전환 시 카메라 회전, 벽 활성화, 플레이어 위치 보정 등을 이벤트 체인으로 순차 실행</li></ul>",
+        goal:"탑뷰·사이드뷰에서 달라지는 공간 규칙 연결",
+        solution:["Observer 패턴으로 카메라·투영 벽·좌표 보정·중력을 전환 이벤트에 구독시켜 순차 호출하고, 후속 처리는 별도 이벤트로 분리", "점프·제한 구역·전환 중 입력을 거부해 전환 조건과 실행 순서를 일관되게 관리"],
+        codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/view-gravity/README.md",
         images:["assets/projects/square/view.png"]
       },
       {
         title:"커스텀 중력 및 물리 상태 제어",
         category:"물리",
-        desc:"<br><strong>Unity 기본 중력 대신 방향별 중력 상태를 이벤트 기반으로 직접 관리</strong><ul><li>상태 변경 시 Rigidbody 제약 조건을 함께 관리해 의도한 축으로만 이동 제어</li></ul>",
+        goal:"시점 전환·중력 반전에도 의도한 축으로 이동",
+        solution:["기본·반전·사이드뷰 중력을 enum 상태로 관리하고, 방향별 가속도와 Rigidbody 고정 축을 함께 갱신", "시점 전환 이벤트를 구독해 중력을 바꾸되, 탑뷰 복귀 시 전환 전 중력 상태를 복원"],
+        codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/view-gravity/README.md",
         images:["assets/projects/square/gravity.png"]
       },
       {
         title:"추상화 기반 기믹 오브젝트 구조",
         category:"구조",
-        desc:"<br><strong></strong><ul><li>템플릿 메서드 패턴으로 공통 흐름은 상위 구조에서 처리하고, 하위에서는 개별 기믹 로직에 집중</li><li>다양한 기믹을 같은 발동 흐름 위에서 확장 가능하게 구성</li></ul>",
+        goal:"공통 발동 규칙을 유지하며 새 기믹을 확장",
+        solution:["Strategy 패턴으로 플레이어 색상 적용 정책을 교체하고, 공통 접촉 검사 뒤 해당 기믹의 효과를 호출", "소모형 기믹은 공통 검사를 재사용해 소모 처리를 확장. 공통 구조는 직접 설계하고 개별 효과는 팀원이 구현"],
+        codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/gimmick-structure/README.md",
         images:["assets/projects/square/gimmik.png"]
       },
       {
         title: "맵툴 데이터 기반 레벨 제작 파이프라인",
         category: "구조",
-        desc: `<strong>맵툴에서 제작한 데이터를 게임 내 스테이지 구조로 변환하는 파이프라인 구현.</strong><ul><li>맵툴 출력 데이터를 파싱하고, 게임 로직에서 사용할 수 있는 타일/오브젝트 배치 데이터로 가공</li></ul>`
+        goal:"맵툴 출력만으로 플레이 가능한 스테이지 생성",
+        solution:["맵툴 출력의 두 시점 타일을 공통 벽·시점별 벽으로 가공해 게임 오브젝트와 제한 영역을 생성", "격자를 직사각형으로 병합해 충돌체를 배치. 맵툴 UI 자체가 아닌 출력 데이터의 빌딩 파이프라인을 담당"],
+        codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/map-generation/README.md"
         ,images:["assets/projects/square/editor.png"]
       },
       {
         title:"모바일 이식 — 입력 추상화 및 UI 대응",
         category:"플랫폼",
-        desc:"<br><strong>PC 입력과 모바일 가상 버튼 입력을 같은 게임 로직 위에서 사용할 수 있도록 입력 계층 추상화</strong><ul><li>모바일 UI 안전 영역 대응을 추가해 모든 Android 기기에서도 플레이 가능하게 이식</li></ul>",
+        goal:"기존 플레이 로직을 유지하며 Android로 이식",
+        solution:["Adapter 역할의 InputWrapper로 키보드·터치 입력을 같은 API로 제공해 기존 플레이 로직 재사용", "드래그·버튼 해제 시 축 입력을 정리하고, Safe Area를 부모 UI 좌표로 변환해 화면 경계 대응"],
+        codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/mobile-ui/README.md",
         images:["assets/projects/square/mobile2.png"]
       },
       {
         title:"Unity Localization 기반 번역 지원",
         category:"UI",
-        desc:"<br><strong>텍스트와 애니메이션, UI 레이아웃을 런타임에 교체하는 로컬라이징 구조 구현</strong><ul><li>Unity Localization 기반으로 코드 수정 없이 문자열 관리</li></ul>",
+        goal:"코드 수정 없이 한·영 문구와 언어별 연출 관리",
+        solution:["공통 키·ID의 한·영 Localization 테이블로 문구를 관리하고, 한국어에서는 전용 Animator로 연출·레이아웃 대응"],
+        codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/mobile-ui/README.md",
         images:["assets/projects/square/hint.png"]
       }
     ],
     troubleshooting: [
       {
         title: "빙판 위 오브젝트가 미세한 틈에서 튕기는 문제",
-        problem: "빙판 위 오브젝트가 다른 오브젝트에 부딪히면 정지해야 했지만, 오브젝트 사이에 미세한 틈이 있을 경우 당구공처럼 서로 튕기는 버그가 발생",
-        cause: "충돌 순간의 접촉 여부만으로 정지 상태를 판단하면서, 실제로는 벽과 연결된 구조인데도 미세한 간격 때문에 연결 상태를 놓치는 경우가 있었음",
-        solution: "좌우 BoxCast로 인접 오브젝트를 감지하고, 벽에 연결된 상태를 인접 오브젝트에 전파해 연결 여부를 판단하도록 수정",
-        result: "빙판 위 연쇄 오브젝트가 미세한 틈에 영향을 덜 받게 되었고, 벽과 연결된 경우 안정적으로 정지하도록 개선"
+        problem: "빙판의 인접 오브젝트가 틈 사이에서 연쇄 반동",
+        cause: "접촉 여부만으로는 벽에 이어진 상태를 놓침",
+        solution: "좌우 BoxCast로 이웃의 벽 연결 상태를 전파하고, 직접 상호 참조를 제외해 X축 제약 적용",
+        result: "벽 연결 시 정지하고 연결 해제 시 다시 미끄러짐",
+        codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/physics-stability/README.md"
       },
       {
         title: "벽에 붙은 스프링이 간헐적으로 동작하지 않는 문제",
-        problem: "벽에 스프링이 붙어 있을 때 플레이어가 닿아도 간헐적으로 스프링이 발동하지 않는 문제가 발생",
-        cause: "스프링 자체 문제가 아니라, 플레이어와 벽이 미세하게 겹치는 순간 점프 BoxCast가 벽을 바닥처럼 비정상 감지해 점프 플래그를 꺼버린 것이 원인",
-        solution: "바닥 감지 로직에서 충돌체 감지만 보지 않고, 감지된 표면의 normal을 추가로 검사해 실제 바닥에 착지한 경우에만 점프 상태를 갱신하도록 수정",
-        result: "점프 중일 때만 동작하는 스프링 조건이 의도대로 유지되었고, 벽 접촉 상황에서 스프링이 간헐적으로 무시되는 문제를 해결"
+        problem: "벽에 붙은 스프링이 간헐적으로 미발동",
+        cause: "점프 BoxCast가 겹친 벽을 바닥으로 오인해 점프 상태 해제",
+        solution: "충돌면 normal과 중력 반대 방향의 내적을 검사해 실제 바닥 착지만 인정",
+        result: "벽 접촉 중에도 점프 상태와 스프링 발동 조건 유지",
+        codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/physics-stability/README.md"
       }
     ],
     /*
@@ -333,16 +367,14 @@ const PROJECTS = {
     */
     optimizations:[
       {
-        title:"맵툴 기반 스테이지 생성 최적화",
-        category:"최적화",
-        desc:"<br><strong>시점 전환마다 벽을 동적으로 생성하기보다, 스테이지 구조에 맞춰 필요한 충돌 영역을 사전 배치하는 방식으로 안정성 확보</strong><ul><li>초기에는 내부 벽 메시를 투영해 런타임에 충돌 벽을 생성하는 구조를 검토했지만, 스테이지 수와 구조가 제한적이라는 점을 고려해 사전 배치 방식이 더 적합하다고 판단</li><li>시점 전환 시에는 미리 준비된 투영 벽과 제한 영역의 활성 상태만 전환해 런타임 메시 생성 비용과 예외 상황을 줄임</li><li>복잡한 동적 생성보다 예측 가능한 충돌 구조를 선택해 퍼즐 풀이와 QA 안정성을 우선시</li></ul>",
-        images:[]
-      },
-      {
         title:"모바일 실기 프로파일링 및 렌더링 최적화",
+        codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/mobile-rendering/README.md",
+        codeLabel:"GitHub 렌더링 설정 발췌",
         category:"최적화",
         desc:"<br><strong>Android 실기 환경에서 성능을 확인하고, 2D 타일맵 기반 게임에 불필요한 3D 렌더링 비용을 줄임</strong><ul><li>모바일 기기를 노트북과 연결해 Unity Profiler로 실기 프레임과 렌더링 비용을 점검</li><li>게임이 2D 타일맵 중심으로 구성된 점을 고려해 불필요한 조명·그림자 렌더링을 비활성화</li><li>모바일 환경에서 화면 전환과 퍼즐 조작이 안정적으로 유지되도록 렌더링 설정과 UI 표시를 점검</li></ul>",
-        images:[]
+        images:[],
+        // 전후 사진: src에 이미지 경로를 입력하면 해당 사진만 표시합니다.
+        comparison: { before: { src:"", alt:"", caption:"" }, after: { src:"", alt:"", caption:"" } }
       }
     ],
     retrospective:{
@@ -362,7 +394,8 @@ const PROJECTS = {
     },
     other_contributions:null,
     links:[
-      { label: "Game Build", url:"https://drive.google.com/drive/folders/1vM2_CeByVGM1knHkupi5VcFxYvktSX5H?usp=sharing"},
+      { label:"Steam", url:"https://store.steampowered.com/app/4331920/SQUAREERAUQS/" },
+      { label:"GitHub", url:"https://github.com/1Seong/SQUARE-ERAUQS" },
       { label: "Google Drive", url:"https://drive.google.com/drive/u/0/folders/1CryMZz71U2earFqjluCkLWHVGd4bTEiC"},
       { label: "QA Log", url:"https://docs.google.com/spreadsheets/d/1-eGDIEAFwoTwJuYDjnPrFnmGSa9eE8IL7ZH3_mnJYps/edit?usp=sharing"}
     ],
@@ -370,24 +403,19 @@ const PROJECTS = {
     detail: {
       coreContributionCount:4,
       techStack:["Unity", "C#", "Localization", "Android"],
-      linkMap:{ Document:"Google Drive", "Game Build":"Steam" },
+      linkMap:{ Document:"Google Drive" },
       optimizations:[
         {
-          measurement:"씬 로딩 중 벽 생성 과정에서 메시 위치 계산과 오브젝트 재배치가 반복되는 것을 확인",
-          cause:"두 시점에 대한 각각의 벽을 런타임 메시 기준으로 계산해 스테이지마다 생성 비용 증가",
-          improvement:"맵툴에서 탑뷰/사이드뷰 벽 데이터를 미리 정의하고, 두 뷰의 union 위치를 기준으로 벽을 생성하도록 변경",
-          result:"스테이지 생성 계산을 단순화하면서 스테이지 로딩 시간을 4초대에서 1초 이내로 단축"
-        },
-        {
           measurement:"Unity Profiler를 Android 기기에 연결하여 실기 프레임과 렌더링 비용을 측정",
-          cause:"2D 타일맵 중심 게임에 불필요한 조명, 그림자, 후처리 설정이 남아 있었음",
-          improvement:"모바일 빌드 기준에 맞는 렌더링 설정을 정리하고 불필요한 비용을 줄임",
-          result:"모바일 환경에서 안정적인 60 프레임 이상 확보"
+          cause:"2D 화면에 필요한 수준으로 렌더링 비용을 줄일 필요",
+          improvement:"Render Scale 0.65, 그림자·깊이/불투명 텍스처 해제, SRP Batcher 사용",
+          result:"모바일용 렌더링 비용 축소 · 전후 측정 자료는 미보관"
         }
       ],
       feedbackIterations:[
-        { feedback:"어려운 맵에서 진행을 보조해 줄 힌트가 있으면 좋겠다", improvement:"원활한 게임플레이를 도와주도록 스테이지별 힌트 시스템 도입" },
-        { feedback:"스테이지 수가 적어 플레이타임이 다소 아쉽다", improvement:"맵툴을 구현하고 스테이지를 쉽게 확장 가능하도록 개선하여 스테이지 수를 2배로 확장" }
+        // source / sourceUrl: 실제 피드백 출처를 입력한 경우에만 카드 우측 하단에 표시합니다.
+        { feedback:"어려운 맵에서 진행을 보조해 줄 힌트가 있으면 좋겠다", improvement:"스테이지별 힌트 시스템 도입", source:"", sourceUrl:"" },
+        { feedback:"스테이지 수가 적어 플레이타임이 다소 아쉽다", improvement:"맵툴 기반 제작 흐름으로 스테이지 수를 2배로 확장", source:"", sourceUrl:"" }
       ]
     },
   },
@@ -399,9 +427,9 @@ const PROJECTS = {
     meta:{ engine:"Unity", platform:"PC(Windows)", team:"3인 팀", year:"2025.06 ~ 2025.12"},
     tags:[],
     badges:[
-      { text:"Solo Client", type:"primary" },
-      { text:"System Design", type:"sub" },
-      { text:"Shader", type:"sub" },
+      { text:"스토리 방탈출", type:"primary" },
+      { text:"Unity · C#", type:"sub" },
+      { text:"Shader Graph", type:"sub" },
     ],
     media:[
       { type:"video", src:"assets/projects/stw/trailer.mp4", thumbnail: "assets/projects/stw/thumbnail.jpg",label:"Trailer" },
@@ -431,48 +459,62 @@ const PROJECTS = {
       {
         title:"1인칭 방 탐색과 면 단위 상호작용 구조",
         category:"게임플레이",
-        desc:"<br><strong>방을 여러 면으로 나누어 관리하고, 현재 바라보는 면에 해당하는 상호작용 요소만 활성화되는 탐색 구조 구현</strong><ul><li>카메라 이동과 UI 입력을 분리해 방 회전, 오브젝트 클릭, 클로즈업 진입이 서로 충돌하지 않도록 제어</li></ul>",
+        goal:"방을 돌려 탐색할 때 카메라·입력 충돌 방지",
+        solution:["벽면·천장·이전 시점을 나누어 회전과 UI 전환을 제어하고, 전환 중에는 중복 입력을 잠금", "DOTween 완료 시 카메라 각도를 확정하고 커서 추종 기준을 갱신한 뒤 입력 잠금 해제"],
+        codeUrl:"https://github.com/1Seong/SaveTheWorld/blob/main/portfolio/room-navigation/README.md",
         images:["assets/projects/stw/view.png"]
       },
       {
         title:"데이터 중심 아이템·인벤토리 시스템",
         category:"구조",
-        desc:"<br><strong>아이템의 식별자, 이미지, 표시 크기 데이터를 에셋으로 분리하고, 습득·선택·사용 흐름을 이벤트 기반으로 연결</strong><ul><li>아이템 데이터와 화면 표시 로직을 분리해 새 아이템 추가 시 코드 수정 범위를 줄임</li></ul>",
+        goal:"아이템 추가 시 인벤토리·상호작용 코드 변경 최소화",
+        solution:["Type Object 방식으로 아이템 ID·이미지·표시 크기를 공유 에셋에 두고, 인벤토리 인스턴스와 분리", "사용 대상의 ID 일치 시 효과 실행·아이템 소비를 진행하고, Observer 방식의 습득·완료 이벤트로 인벤토리·보상·해금 연결"],
+        codeUrl:"https://github.com/1Seong/SaveTheWorld/blob/main/portfolio/item-system/README.md",
         images:["assets/projects/stw/item.png"]
       },
       {
         title:"미니게임 공통 프레임워크와 개별 게임 구현",
         category:"게임플레이",
-        desc:"<br><strong>여러 미니게임의 시작 안내, 플레이 상태, 종료 연출, 결과 텍스트, 보상 지급, 메인 씬 복귀 흐름을 공통화</strong><ul><li>공통 흐름을 기준으로 각 미니게임은 자신만의 조작·판정·난이도 로직에 집중하도록 분리</li></ul>",
+        goal:"서로 다른 미니게임의 진행·복귀 흐름 재사용",
+        solution:["공통 매니저가 안내·시작·결과 연출·복귀 순서를 맡아 각 미니게임의 중복 흐름을 통합", "개별 게임은 타이밍 구간·보간 경로의 이탈을 판정하고, 성공 횟수별 회상 문구와 완료 보상을 연결"],
+        codeUrl:"https://github.com/1Seong/SaveTheWorld/blob/main/portfolio/minigames/README.md",
         images:["assets/projects/stw/mini.png"]
       },
       {
         title:"Shader Graph 기반 비주얼 연출",
         category:"셰이더",
-        desc:"<br><strong>스토리 분위기와 회상 장면의 감정선을 강화하기 위해 픽셀 렌더링, 물 반사, CRT, 툰 셰이딩, 풀스크린 이펙트를 구현</strong><ul><li>픽셀 전용 카메라와 RenderTexture를 활용하여 픽셀 렌더링 구현</li><li>RenderTexture와 노이즈 기반 UV 왜곡을 활용해 물 반사 구현</li></ul>",
+        goal:"회상 장면과 공간별 분위기를 시각적으로 구분",
+        solution:["저해상도 색상 RT를 Point 샘플링하고, 별도 깊이 텍스처와 Scene Depth를 비교해 픽셀 오브젝트의 가림·경계를 보정", "카메라의 반사 화면 RT를 세로 반전한 UV로 읽고, 시간·노이즈·수면 텍스처로 UV를 왜곡해 물 반사 연출"],
+        codeUrl:"https://github.com/1Seong/SaveTheWorld/blob/main/portfolio/shader-effects/README.md",
+        codeLabel:"Shader Graph 샘플 · 픽셀 합성과 물 반사",
         images:["assets/projects/stw/shader.png"]
       },
       {
         title:"CSV 기반 대화와 회상 시퀀스 연출",
         category:"구조",
-        desc:"<br><strong>대사 데이터를 CSV로 분리하고, 발화자·초상화·배경 전환·타이핑 연출을 하나의 회상 시퀀스로 연결</strong><ul><li>발화자 정보에 따라 좌우 캐릭터 이미지를 갱신하고, 시퀀스 전환 시 배경과 음악을 함께 교체해 회상 장면의 흐름 강화</li></ul>",
+        goal:"대사를 수정해도 같은 회상 연출 흐름 재사용",
+        solution:["따옴표로 묶인 CSV 필드를 파싱해 발화자·초상화·문장 데이터로 변환", "화자별 초상화 강조·스킵 가능한 타이핑과 배경·음악 전환을 연결해 회상 흐름 구성"],
+        codeUrl:"https://github.com/1Seong/SaveTheWorld/blob/main/portfolio/dialogue-sequence/README.md",
         images:["assets/projects/stw/csv.png"]
       },
     ],
     troubleshooting:[
       {
         title:"진행 상태 저장·불러오기 구조가 하드코딩되는 문제",
-        problem:"아이템 습득, 미니게임 클리어, 오브젝트 상태처럼 저장되어야 할 대상이 많고 흩어져 있어 저장·복원 코드가 하드코딩되고 추적이 어려워짐",
-        cause:"각 시스템이 저장 로직을 개별적으로 처리하면서 의존성이 늘어남",
-        solution:"ISavable 인터페이스로 저장 가능한 대상을 공통 계약으로 묶고, 구독 시스템을 통해 각 시스템이 저장·복원 흐름에 참여하도록 구조화",
-        result:"저장 시스템과 개별 오브젝트의 의존성을 줄이고, 저장 대상 추가 및 재진입 복원 흐름의 코드 추적성을 개선"
+        problem:"흩어진 진행 상태를 저장하는 코드가 하드코딩됨",
+        cause:"저장 매니저가 개별 시스템의 내부 상태에 의존",
+        solution:"ISaveable 구현체를 등록·해제하고, SaveKey별 JSON 변환은 각 시스템에 위임. 초기 등록 뒤 복원해 진행 조건도 재구성",
+        result:"저장 대상 추가 시 매니저 수정 없이 확장",
+        codeUrl:"https://github.com/1Seong/SaveTheWorld/blob/main/portfolio/save-system/README.md"
       },
       {
         title:"창 모드 화면비율과 레터박스 UI 렌더링 문제",
-        problem:"Unity가 고정 비율 창 모드를 직접 지원하지 않아 창 크기 변경 시 화면비가 깨지고, 기존 Screen Overlay UI가 레터박스 위에 렌더링되는 문제가 발생",
-        cause:"게임 화면과 UI가 같은 출력 흐름에 묶여 있어 레터박스 영역을 만들더라도 UI가 그 위에 그려졌고, 창 크기 변화에 맞춰 표시 영역을 분리하기 어려웠음",
-        solution:"창 크기 변경 시 목표 화면비에 맞춰 레터박스를 생성하고, 카메라 스택을 활용해 게임용 카메라와 UI용 카메라를 분리",
-        result:"창 모드에서도 고정된 화면비를 유지하고, UI가 레터박스 영역을 침범하지 않도록 표시 구조를 안정화"
+        problem:"창 크기 변경 시 화면비가 깨지고 UI가 레터박스를 침범",
+        cause:"Overlay UI가 게임 카메라의 viewport 제한을 받지 않음",
+        solution:"게임·UI 카메라 스택을 구성하고, 창 크기 변경 때 두 카메라의 rect를 같은 목표 비율로 동기화",
+        result:"고정 화면비와 레터박스 안쪽 UI 표시 유지",
+        codeUrl:"https://github.com/1Seong/SaveTheWorld/blob/main/Assets/Scripts/AspectRatioKeeper.cs",
+        codeLabel:"GitHub 원본 코드 · 카메라 스택은 씬 설정"
       }
     ],
     /*
@@ -495,14 +537,7 @@ const PROJECTS = {
       }
     ],
     */
-    optimizations:[
-      {
-        title:"반복 연출의 Tween 시퀀스화",
-        category:"최적화",
-        desc:"<br><strong>아이템 드롭, 카메라 클로즈업, 페이드, 배경 전환처럼 반복되는 연출을 Tween 시퀀스로 구성해 코드 흐름을 단순화</strong><ul><li>시간 기반 애니메이션을 직접 Update에서 관리하지 않고 시퀀스로 묶어 연출 흐름을 명확하게 표현</li><li>입력 제한, 카메라 이동, 보상 활성화 같은 후속 동작을 완료 콜백에 연결해 비동기 연출 중 상태 충돌을 줄임</li><li>미니게임 재시작과 대화 전환에서도 페이드 흐름을 재사용해 장면 전환 품질을 일정하게 유지</li></ul>",
-        images:[]
-      }
-    ],
+    optimizations:[],
     retrospective:{
       good:"공통 상호작용 구조와 미니게임 프레임워크를 먼저 잡아두면서, 기획·아트 변경에도 같은 흐름 위에서 기능을 확장할 수 있었습니다. 팀원들과 연출 의도와 구현 가능 범위를 조율하며, 6·25 유공자분들의 실제 이야기를 게임 경험으로 옮기는 데 집중했습니다.",
       bad:"실제 유공자분들의 이야기를 바탕으로 한 프로젝트였기 때문에, 역사적 무게감과 게임적 재미 사이의 균형을 잡는 것이 가장 어려웠습니다. 이후에는 스토리 중심 게임일수록 모든 의미를 설명하기보다, 상호작용과 장면 전환 속에서 자연스럽게 느끼게 만드는 설계가 중요하다는 점을 배웠습니다.",
@@ -520,14 +555,7 @@ const PROJECTS = {
       coreContributionCount:3,
       techStack:["Unity", "C#", "Shader Graph"],
       linkMap:{ Documentation:"Google Drive", GitHub:"GitHub", "Game Build":"Game Build" },
-      optimizations:[
-        {
-          measurement:"아이템 드롭, 카메라 클로즈업, 페이드, 배경 전환처럼 반복되는 시간 기반 연출을 점검",
-          cause:"Update 기반 직접 제어가 늘어나면서 연출 전환의 품질이 떨어짐",
-          improvement:"반복 연출을 Tween 시퀀스로 묶고 완료 콜백에 후속 동작을 연결",
-          result:"연출 코드 흐름을 짧게 만들고 장면 전환 품질을 일정하게 유지"
-        }
-      ]
+      optimizations:[]
     },
   },
 
@@ -538,8 +566,9 @@ const PROJECTS = {
     meta:{ engine:"Unity", platform:"PC(Windows)", team:"3인 팀", year:"2024.07 ~ 2024.09"},
     tags:[],
     badges:[
-      { text:"Game System", type:"primary" },
-      { text:"Exhibited", type:"sub" },
+      { text:"뱀서라이크", type:"primary" },
+      { text:"Unity · C#", type:"sub" },
+      { text:"보스·함정", type:"sub" },
     ],
     media:[
       { type:"video", src:"assets/projects/nec/demo.mp4", thumbnail: "assets/projects/nec/1.png",label:"Demo" },
@@ -565,27 +594,35 @@ const PROJECTS = {
 
     contributions:[
       {
-        title:"충돌 채널 분리 기반 전투 판정",
+        title:"충돌·트리거 분리 기반 전투 판정",
         category:"물리",
-        desc:"<br><strong>몸 접촉, 투사체 피격, 장판 피해, 흡인 필드처럼 서로 다른 전투 판정을 충돌 채널별로 분리해 처리</strong><ul><li>적과의 지속 충돌은 물리 충돌로, 투사체와 장판 피해는 트리거 진입·유지로 분리해 판정 유형을 명확히 구분</li></ul>",
+        goal:"접촉·투사체·함정 피해의 적용 조건 구분",
+        solution:["몸 접촉은 충돌, 투사체·지속 피해는 트리거·태그로 구분해 공통 전투 구조를 확장", "함정은 감지 → 예고 → 공격으로 나누고, 애니메이션 이벤트로 피해 판정 구간을 해제"],
+        codeUrl:"https://github.com/roxasventus/CIEN-tutorial-project-team2/blob/main/portfolio/combat/README.md",
         images:[]
       },
       {
         title:"보스 패턴의 컴포넌트 분리와 공격 시퀀스",
         category:"구조",
-        desc:"<br><strong>3종 보스의 고유 공격을 독립된 패턴 단위로 분리하고, 코루틴과 방향 계산을 활용해 공격 시퀀스를 제어</strong><ul><li>빔 계열 공격은 플레이어 방향 벡터와 arctangent 계산으로 조준 각도를 산출하고, 보스 방향에 따라 각도 범위를 제한</li><li>방사형 폭발은 45도 간격의 8방향 배치를 링 단위로 확장해 N단계 광역 패턴으로 구성</li></ul>",
+        goal:"보스별 공격 예고와 실행 시점을 독립적으로 제어",
+        solution:["Component 방식으로 보스 본체와 공격 로직을 나누고, 코루틴으로 조준 → 고정 → 발사 → 복구 제어", "방향 벡터·Atan2로 조준 각도를 제한하고, 공격 중 이동 잠금과 피해 판정 태그를 연출에 맞춰 변경"],
+        codeUrl:"https://github.com/roxasventus/CIEN-tutorial-project-team2/blob/main/portfolio/boss-spawn/README.md",
         images:[]
       },
       {
         title:"유효 위치 검증 기반 스폰·순간이동 처리",
         category:"물리",
-        desc:"<br><strong>적 스폰과 보스 순간이동 시 벽, 플레이어 주변 금지 영역, 충돌 위험 위치를 검사해 비정상 위치 생성을 방지</strong><ul><li>스폰 포인트가 금지 영역과 겹치면 후보에서 제외하고, 유효한 지점이 나올 때까지 다시 선택</li><li>보스 순간이동은 플레이어 주변의 임의 후보 위치를 샘플링한 뒤 벽 레이어와 겹치지 않는 지점만 채택</li></ul>",
+        goal:"벽이나 플레이어 주변 금지 영역에 생성되는 상황 방지",
+        solution:["스폰 금지 트리거의 후보 상태를 확인하고, 순간이동은 주변 위치를 샘플링해 벽 레이어 검사 후 채택", "유효 위치를 찾을 때까지 재선택하는 구조로, 유효 후보가 존재한다는 맵 구성 전제를 사용"],
+        codeUrl:"https://github.com/roxasventus/CIEN-tutorial-project-team2/blob/main/portfolio/boss-spawn/README.md",
         images:[]
       },
       {
         title:"전투 가독성 UI",
         category:"기믹",
-        desc:"<br><strong>함정별 상태 전이와 화면 밖 타겟 인디케이터를 구현해 전투 상황을 예측 가능하게 정리</strong><ul><li>가시 발판과 포탑은 애니메이션 상태와 공격 태그를 동기화해 피해 판정이 시각 연출과 맞물리도록 구성</li><li>보스처럼 중요한 대상은 월드 좌표를 뷰포트 좌표로 변환하고, 화면 가장자리 인디케이터가 실제 방향을 가리키도록 처리</li></ul>",
+        goal:"화면 밖 보스의 위치를 전투 중에도 파악",
+        solution:["팀 공통 Object Pool에서 보스를 가져와 스테이지 데이터로 초기화하고, 표시 대상을 등록하는 흐름을 연결", "보스·인디케이터를 매핑해 등록 대상만 갱신하고, 뷰포트 경계 보정으로 화면 밖 방향 표시"],
+        codeUrl:"https://github.com/roxasventus/CIEN-tutorial-project-team2/blob/main/portfolio/pool-indicator/README.md",
         images:[]
       }
     ],
@@ -610,13 +647,17 @@ const PROJECTS = {
         title:"객체 풀링 기반 대량 스폰 최적화",
         category:"최적화",
         desc:"<br><strong>적, 보스, 투사체, 이펙트를 프리팹 타입별 풀에서 재사용해 대량 전투 상황의 생성·파괴 비용을 줄임</strong><ul><li>프리팹 인덱스별 리스트를 두고 비활성 오브젝트를 우선 재사용</li><li>풀에 남은 오브젝트가 없을 때만 새로 생성해 초기 구현의 유연성도 유지</li><li>스폰, 무기 발사, 보스 탄막 모두 같은 풀 접근 흐름을 사용해 반복 생성 비용을 완화</li></ul>",
-        images:[]
+        images:[],
+        // 전후 사진: src에 이미지 경로를 입력하면 해당 사진만 표시합니다.
+        comparison: { before: { src:"", alt:"", caption:"" }, after: { src:"", alt:"", caption:"" } }
       },
       {
         title:"스폰·타겟 표시 갱신 범위 축소",
         category:"최적화",
         desc:"<br><strong>스테이지 데이터와 대상별 매핑 구조를 활용해 필요한 오브젝트만 생성·갱신되도록 처리</strong><ul><li>스테이지 번호에 따라 스폰 주기, 체력, 속도, 피해량, 스프라이트 타입을 선택해 같은 스폰 로직을 재사용</li><li>보스 등장 시에만 화면 밖 인디케이터를 추가하고, 타겟과 인디케이터를 딕셔너리로 묶어 개별 갱신</li><li>뷰포트 좌표를 기준으로 화면 밖 여부와 가장자리 위치를 계산해 전투 UI 갱신 로직을 단순화</li></ul>",
-        images:[]
+        images:[],
+        // 전후 사진: src에 이미지 경로를 입력하면 해당 사진만 표시합니다.
+        comparison: { before: { src:"", alt:"", caption:"" }, after: { src:"", alt:"", caption:"" } }
       }
     ],
 
@@ -648,9 +689,9 @@ const PROJECTS = {
     meta:{ engine:"Unity", platform:"PC(Windows)", team:"5인 팀", year:"2025.02 ~ 2026.06"},
     tags:[],
     badges:[
-      { text:"UI Structure", type:"primary" },
-      { text:"Data-driven", type:"sub" },
-      { text:"Exhibited", type:"sub" },
+      { text:"식당 경영", type:"primary" },
+      { text:"Unity · C#", type:"sub" },
+      { text:"PlayX4 전시", type:"sub" },
     ],
     media:[
       { type:"video", src:"assets/projects/omak/trailer.mkv", thumbnail:"assets/projects/omak/thumbnail.png",label:"Trailer" },
@@ -677,31 +718,41 @@ const PROJECTS = {
       {
         title:"Type Object 패턴 기반 레시피 데이터 시스템",
         category:"구조",
-        desc:"<br><strong>레시피, 카테고리, 재료 조합을 ScriptableObject 데이터로 분리하는 Type Object 패턴을 적용해 코드 수정 없이 메뉴를 확장 가능한 구조로 설계</strong><ul><li>공통 레시피 베이스 위에서 확장해 이름, 설명, 맛 수치, 스프라이트 등 정보를 함께 관리</li></ul>",
+        goal:"메뉴 추가·밸런스 변경을 코드 수정 없이 처리",
+        solution:["메뉴마다 클래스를 늘리는 대신, ScriptableObject 에셋에 조합·이름·맛·이미지 정의", "CategoryData·RecipeBase·RecipeData로 공통 분류와 결과 데이터를 나누어 메뉴 추가·수치 변경을 에셋에서 처리"],
+        codeUrl:"https://github.com/1Seong/OMakHase/blob/main/portfolio/recipe-system/README.md",
         images:[]
       },
       {
-        title:"튜플 키 기반 레시피 조회와 조리 결과 판정",
+        title:"튜플 키 기반 레시피 조합 조회",
         category:"게임플레이",
-        desc:"<br><strong>선택된 재료·조리법 조합을 튜플 키로 변환해 레시피를 빠르게 조회하고, 손님 요구 조건과 맛 수치에 따라 결과를 판정</strong><ul><li>게임 시작 시 레시피 목록을 딕셔너리로 변환해 조합 탐색을 반복 순회가 아닌 키 조회 방식으로 처리</li></ul>",
+        goal:"조리·레시피북에서 같은 기준으로 조합 조회",
+        solution:["시작 시 기본 재료·조리법·육류/생선·채소의 4개 enum을 튜플 키로 인덱싱해 딕셔너리 조회", "미등록 조합은 null로 반환해 UI가 구분하도록 처리. 조리 진행·평판 판정은 팀원 담당"],
+        codeUrl:"https://github.com/1Seong/OMakHase/blob/main/portfolio/recipe-system/README.md",
         images:[]
       },
       {
         title:"Observer 패턴 기반 해금·UI 동기화 시스템",
         category:"구조",
-        desc:"<br><strong>재료와 레시피의 해금 상태 변경을 이벤트로 발행하고, 각 UI가 이를 구독해 필요한 부분만 갱신하는 구조 구현</strong><ul><li>재료 종류별 해금 상태를 저장하고, 해금 발생 시 인덱스와 카테고리 정보를 이벤트로 전달</li></ul>",
+        goal:"해금 로직이 각 UI를 직접 참조하지 않도록 분리",
+        solution:["해금 분류·버튼 인덱스를 발행하고, 각 UI는 자기 분류만 갱신하며 생명주기에 맞춰 구독 해제", "재료·레시피 해금을 저장·복원하고, 직접 구현한 최초 발견 시 해금 호출과 업적 중복 알림 방지를 연결"],
+        codeUrl:"https://github.com/1Seong/OMakHase/blob/main/portfolio/unlock-ui/README.md",
         images:[]
       },
       {
         title:"MVC 흐름 기반 레시피북 UI",
         category:"UI",
-        desc:"<br><strong>선택 상태를 Model에서 관리하고, 레시피 조회 결과를 View에 반영하는 MVC 흐름으로 레시피북 UI 구현</strong><ul><li>레시피 조회 로직, 해금 상태 판정, 화면 표시를 분리해 UI 수정과 데이터 확장이 서로 영향을 덜 주도록 구성</li></ul>",
+        goal:"선택 조합과 발견 상태를 레시피북에 즉시 반영",
+        solution:["MVC 역할 분리를 참고해 버튼 입력 → RecipeManager 조회 → 화면 갱신으로 구분하되, 선택·표시는 BookController가 관리", "미등록·미발견·발견을 구분하고, 발견한 메뉴에만 이미지·이름·맛 수치를 공개"],
+        codeUrl:"https://github.com/1Seong/OMakHase/blob/main/portfolio/recipe-book/README.md",
         images:[]
       },
       {
         title:"인터페이스·상속 기반 선택 버튼 UI 공통화",
         category:"UI",
-        desc:"<br><strong>재료 종류별 선택 버튼과 해금 버튼이 공통 인터페이스와 상속 구조 위에서 동작하도록 구성해 중복 구현을 줄임</strong><ul><li>해금 버튼 그룹은 공통 동작을 재사용하되, 레시피북처럼 예외가 필요한 UI는 일부 동작만 확장해 처리</li></ul>",
+        goal:"재료별 버튼의 중복 구현과 화면별 예외 최소화",
+        solution:["ButtonBehavior로 재료·조리법 버튼의 선택 전달을 통일해 조회·표시 로직 중복 방지", "Template Method 패턴으로 ClearButton의 초기화 순서는 재사용하고, GetButtonCount만 재정의해 화면별 버튼 구성 대응"],
+        codeUrl:"https://github.com/1Seong/OMakHase/blob/main/portfolio/unlock-ui/README.md",
         images:[]
       }
     ],
@@ -725,14 +776,7 @@ const PROJECTS = {
       }
     ],
     */
-    optimizations:[
-      {
-        title:"딕셔너리 기반 레시피 조회 최적화",
-        category:"최적화",
-        desc:"<br><strong>레시피 목록을 조합 키 기반 딕셔너리로 변환해 조리와 레시피북 조회 비용을 줄임</strong><ul><li>게임 시작 시 레시피 데이터를 한 번만 순회해 조회 테이블을 구성</li><li>조리 시점과 레시피북 갱신 시점에는 전체 목록 순회 없이 선택 조합으로 바로 레시피를 조회</li><li>레시피 수가 늘어나도 조회 로직의 복잡도가 증가하지 않도록 구성</li></ul>",
-        images:[]
-      },
-    ],
+    optimizations:[],
 
     retrospective:{
       good:"데이터 중심 레시피 구조, 이벤트 UI를 구현하며 기획 변경에 대응하기 쉬운 구조를 설계할 수 있었습니다. PlayX4 전시를 하며 실제 사용자 플레이 피드백을 받은 점도 의미 있었습니다.",
@@ -758,17 +802,10 @@ const PROJECTS = {
       coreContributionCount:3,
       techStack:["Unity", "C#"],
       linkMap:{ Document:"Google Drive", GitHub:"GitHub", "Game Build":"Game Build" },
-      optimizations:[
-        {
-          measurement:"조리 결과와 레시피북 갱신 시 전체 레시피 목록을 반복 순회하는 비용을 점검",
-          cause:"재료, 조리법, 주재료, 부재료 조합이 늘어날수록 선형 탐색 비용과 분기 복잡도가 증가",
-          improvement:"조합을 튜플 키로 묶고 게임 시작 시 딕셔너리 조회 테이블을 구성",
-          result:"조리와 레시피북 조회를 즉시 조회 방식으로 바꾸고 레시피 확장 비용을 낮춤"
-        }
-      ],
+      optimizations:[],
       feedbackIterations:[
-        { feedback:"레시피북의 조작 가이드가 부족해서 처음 사용 방법을 알기 어렵다", improvement:"레시피북 엔트리 페이지에 간단한 이용 설명 추가" },
-        { feedback:"요리 완성시 만들어진 결과물을 바로 알 수가 없다", improvement:"팝업형 UI를 추가하여 완성된 요리에 대한 직관적인 안내 구현" }
+        { feedback:"레시피북의 조작 가이드가 부족해서 처음 사용 방법을 알기 어렵다", improvement:"레시피북 첫 페이지에 이용 설명 추가", source:"", sourceUrl:"" },
+        { feedback:"요리 완성시 만들어진 결과물을 바로 알 수가 없다", improvement:"완성된 요리를 알리는 팝업 UI 추가", source:"", sourceUrl:"" }
       ]
     },
   },
@@ -780,9 +817,9 @@ const PROJECTS = {
     meta:{ engine:"Unity", platform:"WebGL", team:"3인 팀", year:"2026.07 ~ 2026.08" },
     tags:["OpenAI API","Supabase","WebGL"],
     badges:[
-      { text:"OpenAI API", type:"primary" },
-      { text:"Supabase", type:"sub" },
-      { text:"WebGL", type:"sub" },
+      { text:"AI 추리", type:"primary" },
+      { text:"Unity · C#", type:"sub" },
+      { text:"OpenAI API", type:"sub" },
     ],
     media:[
       { type:"video", src:"assets/projects/dai/demo.mp4", thumbnail: "assets/projects/dai/thumb.png", label:"Demo" },
@@ -800,19 +837,26 @@ const PROJECTS = {
       {
         title:"3단계 역할별 AI 추리 처리 파이프라인",
         category:"AI",
-        desc:"<br><strong></strong><ul><li>입력 검증 AI는 플레이어 설명이 증거와 의미상 연결되는지 확인</li><li>형사 추리 AI는 제출한 증거와 플레이어 가설을 바탕으로 추리 대사와 구조화된 결론 생성</li><li>결과 평가 AI는 사건 정답과 추리 결과를 의미 기준으로 비교해 항목별 평가</li></ul>",
+        goal:"플레이어 가설을 반영하되 검증·추리·평가의 책임 구분",
+        solution:["관련성 검증 → 플레이어 가설 중심 추리 → 정답과 항목별 평가로 책임을 분리하고, 추리 확인 뒤 평가 진행", "공통 통신 클라이언트를 생성자로 주입(DI)하고, 단계별 DTO로 입력·응답 형식을 구분"],
+        codeUrl:"https://github.com/1Seong/DetectiveAI/blob/main/portfolio/ai-pipeline/README.md",
         images:[]
       },
       {
         title:"Supabase Edge Function 기반 OpenAI API 호출 구조",
         category:"백엔드",
-        desc:"<br><strong>OpenAI API 키와 시스템 프롬프트를 클라이언트에 노출하지 않도록 서버 경유 호출 구조 구현</strong><ul><li>Unity 클라이언트가 Supabase 익명 세션을 발급받고 AI 요청을 전송</li><li>Edge Function에서 인증, 입력 형식, 요청 크기, 호출 한도를 검증한 뒤 고정된 모델·프롬프트·토큰 설정으로 OpenAI API 호출</li></ul>",
+        goal:"WebGL에 API 키를 노출하지 않고 AI 요청 처리",
+        solution:["Facade 역할의 InvokeAsync<T>로 인증·HTTP·JSON 처리를 감추고, 익명 JWT로 키·프롬프트를 보관한 서버를 호출", "세마포어로 동시 세션 갱신을 직렬화해 토큰을 재사용하고, 401 응답은 인증 갱신 후 1회만 재시도"],
+        codeUrl:"https://github.com/1Seong/DetectiveAI/blob/main/portfolio/edge-client/README.md",
+        codeLabel:"클라이언트 인증·요청 샘플 · 서버 본문은 미포함",
         images:[]
       },
       {
         title:"구조화된 JSON 응답 기반 게임 상태 반영",
         category:"구조",
-        desc:"<br><strong>AI 응답을 게임 대사, 추리 결과, 점수에 안정적으로 연결하기 위해 JSON 포맷을 사용</strong><ul><li>수용된 플레이어 입력을 저장하고 최종 추리 요청 시 누적 증거 기록으로 전달</li><li>형사 추리 결과와 평가 결과를 구조화된 필드로 받아 UI에 반영</li></ul>",
+        goal:"수집한 증거·해석과 AI 결과를 게임 상태에 연결",
+        solution:["사진·물건·소리의 사실 데이터와 플레이어 해석을 EvidenceRecord로 묶어 AI에 전달", "JSON 평가 필드에 항목별 가중치·함정 주장 감점을 적용하고, ResultData 에셋의 기준 점수로 대사·결과 이미지를 선택"],
+        codeUrl:"https://github.com/1Seong/DetectiveAI/blob/main/portfolio/ai-pipeline/README.md",
         images:[]
       },
     ],
@@ -843,8 +887,9 @@ const PROJECTS = {
     meta:{ engine:"Unity", platform:"해당없음", team:"7인 팀", year:"2026.02", status:"완료", note:"넥슨 메토링 4기" },
     tags:["넥슨 메토링 4기"],
     badges:[
-      { text:"넥슨 메토링 4기", type:"primary" },
-      { text:"Prototype", type:"sub" },
+      { text:"AI 동반자", type:"primary" },
+      { text:"Unity · C#", type:"sub" },
+      { text:"메토링 수상", type:"sub" },
     ],
     media:[
       { type:"video", src:"assets/projects/soul/demo.mp4", thumbnail: "assets/projects/soul/thumbnail.png",label:"Demo" },
@@ -874,8 +919,8 @@ const PROJECTS = {
     tags:["C++","Win32 API","Codex","Size-Limited"],
     badges:[
       { text:"1.44MB", type:"primary" },
-      { text:"Codex", type:"sub" },
-      { text:"C++", type:"sub" },
+      { text:"C++ · Win32", type:"sub" },
+      { text:"훅 액션", type:"sub" },
     ],
     media:[
       { type:"video", src:"assets/projects/hellpit/demo.mp4", thumbnail: "assets/projects/hellpit/thumbnail.png", label:"Demo" },
@@ -890,25 +935,32 @@ const PROJECTS = {
       {
         title:"Win32 기반 경량 게임 루프와 소프트웨어 렌더링",
         category:"구조",
-        desc:"<br><strong>외부 엔진 없이 Win32 API와 C++ 코드만으로 입력, 업데이트, 렌더링, 오디오 흐름을 구성</strong><ul><li>320x180 내부 버퍼를 기준으로 픽셀 렌더링을 수행</li></ul>",
+        goal:"외부 엔진 없이 작은 실행 파일에 플레이 루프 구성",
+        solution:["Game Loop 패턴의 시간 누적기로 입력·120Hz 고정 갱신·렌더링을 분리하고, 긴 프레임의 누적 시간을 제한", "CPU의 320×180 픽셀 버퍼를 StretchDIBits로 출력하고, 창 크기와 내부 해상도의 입력 좌표를 변환"],
+        codeUrl:"https://github.com/1Seong/hell-pit/blob/main/portfolio/runtime/README.md",
         images:[]
       },
       {
         title:"훅 기반 이동·전투 액션 시스템",
         category:"게임플레이",
-        desc:"<br><strong></strong><ul><li>훅 대상에 따라 지형 이동, 적 처치, 오브젝트 상호작용, 상점 포탈 진입으로 동작을 분기</li><li>훅 실패 쿨타임, 대시 타이밍, 콤보 유지 규칙을 통해 반복 플레이의 긴장감을 구성</li></ul>",
+        goal:"같은 훅 조작으로 이동·전투·상호작용 연결",
+        solution:["enum 기반 FSM으로 대기·비행·지형 당기기·전투 대시·포탈 진입을 나누고, 충돌 대상에 따라 상태 전환", "대시 시작·목표 좌표를 고정해 보간하고, 분리벽을 가로지르는 경로는 취소해 비정상 이동 방지"],
+        codeUrl:"https://github.com/1Seong/hell-pit/blob/main/portfolio/hook-action/README.md",
         images:[]
       },
       {
         title:"용량 제약을 고려한 콘텐츠 구현",
         category:"최적화",
-        desc:"<br><strong></strong><ul><li>벽 함정, 투사체, 아이템 등을 struct와 배열 중심 경량 데이터 구조로 관리</li><li>저장 데이터와 업적 상태를 ini 기반으로 기록해 별도 리소스 의존성을 줄임</li></ul>",
+        goal:"1.44MB 제약 안에서 콘텐츠·진행 기록 관리",
+        solution:["고정 용량 Object Pool 방식으로 struct 배열의 비활성 슬롯을 재사용하고, 화면 밖 지형을 회수해 다음 생성에 활용", "챕터별 방문 등의 bool 상태는 비트마스크로 묶어 INI에 저장하고, 옵션·업적·체크포인트도 함께 관리"],
+        codeUrl:"https://github.com/1Seong/hell-pit/blob/main/portfolio/lightweight-data/README.md",
         images:[]
       },
       {
         title:"Codex 활용 개발 워크플로우",
         category:"AI",
-        desc:"<br><strong>Codex를 기능 구현과 반복 개선 보조 도구로 활용해 제한된 기간 안에 플레이 가능한 빌드를 완성</strong><ul><li>게임 시스템 확장, 버그 수정, 코드 정리 과정에서 AI 제안을 검토하고 프로젝트 요구에 맞게 반영</li></ul>",
+        goal:"제한된 개발 기간 안에 플레이 가능한 빌드 완성",
+        solution:["Codex로 구현 대안·수정안을 만들고, 직접 플레이하며 기능·버그·용량 제약을 검토해 반복 반영"],
         images:[]
       },
     ],
@@ -966,4 +1018,4 @@ const PROJECTS = {
 };
 
 // Link slots shown in Project Overview. Missing links are hidden.
-const DETAIL_LINK_SLOTS = ["Document", "GitHub", "Game Build", "QA Log"];
+const DETAIL_LINK_SLOTS = ["팀 문서", "GitHub", "Game Build", "Steam", "QA Log"];
