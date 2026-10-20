@@ -18,8 +18,8 @@ const SKILLS = [
   { category: "Main Stack", items: [{ name:"Unity 6 / URP", icon:"" }, { name:"C#", icon:"" }, { name:"C++", icon:"" }] },
   { category: "Sub Stack", items: [{ name:"PostgreSQL", icon:"" }] },
   { category: "Tools", items: [{ name:"Git", icon:"" }, { name:"Supabase", icon:"" }, { name:"Codex", icon:"" }, { name:"OpenAI API", icon:"" }] },
-  { category: "Architecture / Libraries", items: [{ name:"Design Pattern", icon:"" }, { name:"MVC", icon:"" }, { name:"UniTask", icon:"" }, { name:"DOTween", icon:"" }] },
-  { category: "Platform", items: [{ name:"PC / Steam", icon:"" }, { name:"Android", icon:"" }] },
+  { category: "Architecture / Libraries", items: [{ name:"UniTask", icon:"" }, { name:"DOTween", icon:"" }] },
+  { category: "Platform", items: [{ name:"Windows", icon:"" }, { name:"Android", icon:"" }] },
 ];
 const BOOKS = [
   // 예시 형식:
@@ -371,10 +371,24 @@ const PROJECTS = {
         codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/mobile-rendering/README.md",
         codeLabel:"GitHub 렌더링 설정 발췌",
         category:"최적화",
-        desc:"<br><strong>Android 실기 환경에서 성능을 확인하고, 2D 타일맵 기반 게임에 불필요한 3D 렌더링 비용을 줄임</strong><ul><li>모바일 기기를 노트북과 연결해 Unity Profiler로 실기 프레임과 렌더링 비용을 점검</li><li>게임이 2D 타일맵 중심으로 구성된 점을 고려해 불필요한 조명·그림자 렌더링을 비활성화</li><li>모바일 환경에서 화면 전환과 퍼즐 조작이 안정적으로 유지되도록 렌더링 설정과 UI 표시를 점검</li></ul>",
+        desc:"<br><strong>Android 실기에서 프레임 시간을 점검하고, 2D 타일맵 게임에 맞게 렌더링 설정을 경량화</strong><ul><li>모바일 기기를 노트북과 연결해 Unity Profiler로 실기 프레임과 렌더링 지표를 점검</li><li>게임이 2D 타일맵 중심으로 구성된 점을 고려해 불필요한 조명·그림자 렌더링을 비활성화</li><li>모바일 환경에서 화면 전환과 퍼즐 조작이 안정적으로 유지되도록 렌더링 설정과 UI 표시를 점검</li></ul>",
         images:[],
         // 전후 사진: src에 이미지 경로를 입력하면 해당 사진만 표시합니다.
-        comparison: { before: { src:"", alt:"", caption:"" }, after: { src:"", alt:"", caption:"" } }
+        comparison: {
+          layout:"stacked",
+          before: {
+            src:"assets/projects/square/profiler-mobile-before.png",
+            crop:{ width:3071, height:435 },
+            alt:"최적화 전 모바일 실기 Unity Profiler: 목표 프레임 시간 초과 경고와 CPU Usage 타임라인",
+            caption:"모바일 실기 연결 캡처. 목표 60 FPS의 프레임 시간을 초과한 상태."
+          },
+          after: {
+            src:"assets/projects/square/profiler-mobile-after.png",
+            crop:{ width:2705, height:430 },
+            alt:"최적화 후 모바일 실기 Unity Profiler: 16ms 기준선 부근의 CPU Usage 타임라인",
+            caption:"모바일 실기 연결 캡처. CPU Usage 타임라인이 16ms 기준선 부근에 분포하며 대기 시간을 포함함."
+          }
+        }
       }
     ],
     retrospective:{
@@ -406,16 +420,16 @@ const PROJECTS = {
       linkMap:{ Document:"Google Drive" },
       optimizations:[
         {
-          measurement:"Unity Profiler를 Android 기기에 연결하여 실기 프레임과 렌더링 비용을 측정",
-          cause:"2D 화면에 필요한 수준으로 렌더링 비용을 줄일 필요",
+          measurement:"Android 실기 Profiler에서 목표 60 FPS의 프레임 시간(16.7ms)을 초과하는 구간 확인",
+          cause:"2D 타일맵 화면에 불필요한 그림자·깊이/불투명 텍스처 처리가 포함된 렌더링 설정",
           improvement:"Render Scale 0.65, 그림자·깊이/불투명 텍스처 해제, SRP Batcher 사용",
-          result:"모바일용 렌더링 비용 축소 · 전후 측정 자료는 미보관"
+          result:"설정 조정 후 실기 캡처에서 CPU Usage 타임라인이 16ms 기준선 부근에 분포하는 구간 확인(대기 시간 포함)"
         }
       ],
       feedbackIterations:[
         // source / sourceUrl: 실제 피드백 출처를 입력한 경우에만 카드 우측 하단에 표시합니다.
-        { feedback:"어려운 맵에서 진행을 보조해 줄 힌트가 있으면 좋겠다", improvement:"스테이지별 힌트 시스템 도입", source:"", sourceUrl:"" },
-        { feedback:"스테이지 수가 적어 플레이타임이 다소 아쉽다", improvement:"맵툴 기반 제작 흐름으로 스테이지 수를 2배로 확장", source:"", sourceUrl:"" }
+        { feedback:"어려운 맵에서 진행을 보조해 줄 힌트가 있으면 좋겠다", improvement:"스테이지별 힌트 시스템 도입", source:"2025 UNICON 피드백 中", sourceUrl:"" },
+        { feedback:"스테이지 수가 적어 플레이타임이 다소 아쉽다", improvement:"맵툴 기반 제작 흐름으로 스테이지 수를 2배로 확장", source:"2025 UNICON 피드백 中", sourceUrl:"" }
       ]
     },
   },
@@ -804,8 +818,8 @@ const PROJECTS = {
       linkMap:{ Document:"Google Drive", GitHub:"GitHub", "Game Build":"Game Build" },
       optimizations:[],
       feedbackIterations:[
-        { feedback:"레시피북의 조작 가이드가 부족해서 처음 사용 방법을 알기 어렵다", improvement:"레시피북 첫 페이지에 이용 설명 추가", source:"", sourceUrl:"" },
-        { feedback:"요리 완성시 만들어진 결과물을 바로 알 수가 없다", improvement:"완성된 요리를 알리는 팝업 UI 추가", source:"", sourceUrl:"" }
+        { feedback:"레시피북의 조작 가이드가 부족해서 처음 사용 방법을 알기 어렵다", improvement:"레시피북 첫 페이지에 이용 설명 추가", source:"PlayX4 IndieSeed 피드백 中", sourceUrl:"" },
+        { feedback:"요리 완성시 만들어진 결과물을 바로 알 수가 없다", improvement:"완성된 요리를 알리는 팝업 UI 추가", source:"PlayX4 IndieSeed 피드백 中", sourceUrl:"" }
       ]
     },
   },

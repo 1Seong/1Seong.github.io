@@ -459,8 +459,13 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .milestone-source { color: inherit; text-decoration: none; }
 .milestone-source:hover { color: var(--gold); }
 .optimization-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; padding: 1rem; border-top: 1px solid var(--rule); }
+.optimization-comparison.stacked { grid-template-columns: minmax(0, 1fr); }
 .optimization-comparison figure { min-width: 0; margin: 0; }
+.optimization-comparison a { display: block; cursor: zoom-in; }
+.optimization-comparison a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 .optimization-comparison img { display: block; width: 100%; aspect-ratio: 16/10; object-fit: contain; background: var(--navy-3); border: 1px solid var(--rule); border-radius: var(--radius); }
+.optimization-comparison .optimization-crop { overflow: hidden; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--navy-3); }
+.optimization-comparison .optimization-crop img { height: auto; aspect-ratio: auto; border: 0; border-radius: 0; }
 .optimization-comparison figcaption { margin-top: .55rem; font-size: .82rem; line-height: 1.6; color: var(--cream-2); }
 .optimization-comparison figcaption strong { display: block; color: var(--cream); margin-bottom: .15rem; }
 @media(max-width:680px) { .sub-project-grid, .optimization-comparison { grid-template-columns: 1fr; } }
@@ -1822,14 +1827,22 @@ function showDetail(id){
     const comparison=opt.comparison || {};
     const images=[['Before', comparison.before], ['After', comparison.after]]
       .filter(([,image])=>image?.src)
-      .map(([label,image])=>`<figure><img src="${image.src}" alt="${image.alt || `${opt.title} — ${label}`}" loading="lazy"><figcaption><strong>${label}</strong>${image.caption || ''}</figcaption></figure>`).join('');
+      .map(([label,image])=>{
+        // Crop only the displayed top region; the link keeps the original evidence intact.
+        const crop=image.crop;
+        const cropped=Number.isFinite(crop?.width) && crop.width>0
+          && Number.isFinite(crop?.height) && crop.height>0;
+        const cropAttributes=cropped
+          ? ` class="optimization-crop" style="aspect-ratio:${crop.width}/${crop.height}"` : '';
+        return `<figure><a${cropAttributes} href="${escapeHTML(image.src)}" target="_blank" rel="noopener" title="원본 이미지 보기" aria-label="${escapeHTML(`${opt.title} · ${label} 원본 이미지 보기`)}"><img src="${escapeHTML(image.src)}" alt="${escapeHTML(image.alt || `${opt.title} — ${label}`)}" loading="lazy"></a><figcaption><strong>${label}</strong>${escapeHTML(image.caption || '')}</figcaption></figure>`;
+      }).join('');
     const flow=flowCard(opt.title, [
       { label:'측정', text:detail.measurement || bullets[0] || getStrongText(opt.desc) },
       { label:'원인', text:detail.cause || bullets[1] || '반복 비용과 상태 복잡도가 커지는 지점을 확인' },
       { label:'개선', text:detail.improvement || bullets[2] || getStrongText(opt.desc) },
       { label:'결과', text:detail.result || '동일 기능을 더 예측 가능한 흐름으로 정리' },
     ], '', opt);
-    return images ? flow.replace(/<\/div>$/, `<div class="optimization-comparison">${images}</div></div>`) : flow;
+    return images ? flow.replace(/<\/div>$/, `<div class="optimization-comparison${comparison.layout==='stacked'?' stacked':''}">${images}</div></div>`) : flow;
   }
 
   function troubleshootingCard(item){
