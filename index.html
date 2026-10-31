@@ -564,15 +564,6 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .detail-eyebrow { font-size: .68rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: .75rem; }
 .detail-title { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 700; line-height: 1.05; letter-spacing: -.02em; color: var(--white); margin-bottom: .4rem; }
 .detail-subtitle { font-size: .9rem; color: var(--cream-3); margin-bottom: 2.5rem; }
-/* ── 상세 첫 화면 요약: 목표 + 역할·팀·플랫폼 (영상보다 먼저 읽히도록 제목 바로 아래) ── */
-.detail-quick { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.25rem 2.5rem; align-items: center; margin: -1.25rem 0 2rem; padding: 1.1rem 1.4rem; background: var(--navy-2); border: 1px solid var(--rule-mid); border-left: 3px solid var(--gold); border-radius: var(--radius); }
-.detail-quick-k { display: block; font-size: .64rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: .3rem; }
-.detail-quick-goal { font-size: 1.02rem; font-weight: 600; line-height: 1.55; color: var(--cream); }
-.detail-quick-facts { list-style: none; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: .3rem .8rem; font-size: .84rem; align-items: baseline; }
-.detail-quick-facts dt { font-size: .64rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--cream-3); white-space: nowrap; }
-.detail-quick-facts dd { color: var(--cream-2); font-weight: 500; }
-.detail-quick:not(:has(.detail-quick-goal)) { grid-template-columns: 1fr; }
-@media(max-width:760px){ .detail-quick { grid-template-columns: 1fr; margin-top: -1.5rem; padding: 1rem 1.1rem; } .detail-quick-goal { font-size: .96rem; } }
 .detail-media { width: 100%; aspect-ratio: 16/9; background: var(--navy-3); border: 1px solid var(--rule-mid); overflow: hidden; position: relative; margin-bottom: 1rem; box-shadow: 0 22px 70px rgba(26,20,64,.12); }
 .detail-media-slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .4s ease; }
 .detail-media-slide.active { opacity: 1; pointer-events: auto; }
@@ -1245,7 +1236,6 @@ footer { background: var(--nav-bg); padding: 0; }
     <div class="detail-eyebrow" id="d-eyebrow"></div>
     <h2 class="detail-title" id="d-title"></h2>
     <div class="detail-subtitle" id="d-subtitle"></div>
-    <div class="detail-quick" id="d-quick" hidden></div>
     <div class="detail-media" id="d-media"></div>
     <div class="detail-media-nav">
       <button class="slider-btn" id="d-prev"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
@@ -1724,29 +1714,16 @@ function renderTechnicalDecisions(p) {
   `;
 }
 
-// 상세 첫 화면 요약. Overview에서 옮겨 온 목표와, 역할·팀·플랫폼을 한 블록으로 보여 준다.
-// 목표도 사실 정보도 없으면 블록째 숨긴다.
+// 목표가 없으면 빈 문자열을 돌려주고, Overview의 Goal 블록을 숨긴다.
 function getProjectGoal(p){
   if(typeof p.goal === 'string') return p.goal;
   if(Array.isArray(p.goal) && p.goal.length) return p.goal[0];
   return '';
 }
-function renderDetailQuick(p){
-  const el=document.getElementById('d-quick');
-  if(!el) return;
-  const goal=getProjectGoal(p);
-  const roles=Array.isArray(p.role) ? p.role.map(r=>r.name).filter(Boolean).join(' · ') : '';
-  const facts=[['Role',roles],['Team',p.meta?.team],['Platform',p.meta?.platform]]
-    .filter(([,v])=>v && v!=='해당없음');
-  if(!goal && !facts.length){ el.hidden=true; el.innerHTML=''; return; }
-  el.innerHTML=`
-    ${goal ? `<div><span class="detail-quick-k">Goal</span><p class="detail-quick-goal">${escapeHTML(goal)}</p></div>` : ''}
-    ${facts.length ? `<dl class="detail-quick-facts">${facts.map(([k,v])=>`<dt>${k}</dt><dd>${escapeHTML(v)}</dd>`).join('')}</dl>` : ''}`;
-  el.hidden=false;
-}
 
 function renderDetailOverview(p) {
   const detail=p.detail || {};
+  const goal=getProjectGoal(p);
   const techStack = Array.isArray(detail.techStack) && detail.techStack.length
     ? detail.techStack
     : [p.meta.engine, ...(p.tags||[])].filter(Boolean);
@@ -1791,6 +1768,10 @@ function renderDetailOverview(p) {
           <div class="detail-overview-label">My Role</div>
           ${roleHTML}
         </div>
+        ${goal ? `<div class="detail-overview-hero">
+          <div class="detail-overview-kicker">Goal</div>
+          <p class="detail-overview-goal">${escapeHTML(goal)}</p>
+        </div>` : ''}
         <div class="detail-overview-group">
           <div class="detail-overview-label">Links</div>
           <div class="detail-overview-links">${linksHTML}</div>
@@ -1812,7 +1793,6 @@ function showDetail(id){
   document.getElementById('d-eyebrow').textContent=p.meta.year+' · '+p.meta.engine;
   document.getElementById('d-title').textContent=p.title;
   document.getElementById('d-subtitle').textContent=p.subtitle;
-  renderDetailQuick(p);
 
   const dm=document.getElementById('d-media'); dm.innerHTML='';
   const dd=document.getElementById('d-dots'); dd.innerHTML='';
