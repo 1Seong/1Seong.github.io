@@ -1094,11 +1094,10 @@ footer { background: var(--nav-bg); padding: 0; }
 }
 #section-light.visible { opacity: 1; }
 
-/* ── 프로젝트 scale up + 카드 light ── */
+/* ── 프로젝트 카드 light ──
+   포커스 카드만 은은한 배경 빛으로 표시한다. 나머지 카드를 흐리게(opacity)·작게(scale) 하지 않는다:
+   화면에 걸린 카드를 모두 읽을 수 있어야 훑어보기 쉽다. */
 .project-card {
-  transform: scale(0.97);
-  opacity: .6;
-  transition: transform .5s cubic-bezier(.22,1,.36,1), opacity .5s ease;
   position: relative; overflow: visible;
 }
 .project-card::after {
@@ -1109,10 +1108,6 @@ footer { background: var(--nav-bg); padding: 0; }
   opacity: 0;
   transition: opacity .5s ease;
   pointer-events: none;
-}
-.project-card.in-view {
-  transform: scale(1);
-  opacity: 1;
 }
 .project-card.in-view::after { opacity: 1; }
 

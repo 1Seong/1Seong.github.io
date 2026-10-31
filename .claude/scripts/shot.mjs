@@ -85,6 +85,8 @@ for (const id of ids) {
     ? '#list-view > section:not([hidden])'
     : '#detail-view .detail-section');
   const els = await page.$$(sel);
+  // 화면보다 긴 요소를 이어 찍을 때 고정 메뉴바가 중간에 끼지 않도록 섹션 촬영 동안만 고정을 푼다
+  const unpin = await page.addStyleTag({ content: '#nav{position:absolute!important}' });
   for (const [i, el] of els.entries()) {
     if (!(await el.isVisible())) continue;
     await el.scrollIntoViewIfNeeded();
@@ -95,6 +97,7 @@ for (const id of ids) {
     const f = `${base}-${name.replace(/[^\w-]/g, '')}${sfx}.png`;
     await el.screenshot({ path: path.join(dir, f) }); saved.push(f);
   }
+  await unpin.evaluate((n) => n.remove());
 }
 await browser.close();
 console.log(`${saved.length}장 → ${dir}/`);
