@@ -40,9 +40,8 @@ description: 내용 세션 전용. 포트폴리오 상세 페이지의 codeUrl�
 
 1. `add_repo`에 `owner`, `repo`, `access:"push"`를 넘겨 첨부한 뒤, 안내받은 경로(`/home/user/<repo>`)에 clone한다.
    Unity 저장소는 크므로 `--depth 1 --filter=blob:none --sparse`로 받고 `git sparse-checkout set portfolio`를 쓴다.
-2. 작업 브랜치를 만들어 커밋한다. 메시지 예시는 `docs: clarify undo snapshot scope in gameplay sample`이다. 같은 저장소의 `git log`에서 톤을 확인한다.
-3. 브랜치를 push한다. `main`에 반영하거나 PR을 만드는 것은 사용자가 요청할 때만 한다.
-   `codeUrl`은 `main`을 가리키므로, 반영 전에는 포폴 링크가 바뀌지 않는다는 점을 보고에 적는다.
+2. 커밋한다. 메시지 예시는 `docs: clarify undo snapshot scope in gameplay sample`이다. 같은 저장소의 `git log`에서 톤을 확인한다.
+3. PR 없이 `main`에 바로 push한다. `git fetch origin main && git rebase origin/main && git push origin HEAD:main` 순서로 한다. force push는 하지 않는다.
 4. 팀원 저장소(`roxasventus/...`)는 push하지 않는다. 수정한 파일 내용이나 diff를 사용자에게 전달한다.
 
 ## 4. 포폴 쪽 동기화와 검증
@@ -52,5 +51,5 @@ description: 내용 세션 전용. 포트폴리오 상세 페이지의 codeUrl�
   ```bash
   node .claude/scripts/check-portfolio.mjs --remote
   ```
-  `--remote`는 각 저장소의 기본 브랜치 HEAD를 기준으로 하므로, 아직 main에 반영하지 않은 새 파일은 "없음"으로 나올 수 있다.
+  `--remote`는 각 저장소의 기본 브랜치 HEAD를 기준으로 한다. 따라서 프로젝트 저장소를 push한 **뒤에** 실행한다.
 - 보고에는 항목별로 무엇을 왜 고쳤는지, 원본과 대조한 커밋, 사용자가 판단할 점(예: 담당 범위 표현)을 적는다.

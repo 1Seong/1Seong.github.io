@@ -69,7 +69,7 @@ portfolio/
 - 읽기: `bash .claude/scripts/fetch-repo.sh owner/repo [경로...]` → `/tmp/repos/owner__repo`
   (blobless 얕은 clone이며, 원본 파일은 `git -C <dir> show HEAD:<path>`로 읽는다)
 - 쓰기: `add_repo`에 `access:"push"`를 넘긴 뒤 `/home/user/<repo>`에 따로 clone해서 작업한다.
-  - 작업 브랜치에 push한다. `main` 반영이나 PR 생성은 사용자가 요청할 때만 한다.
+  - PR 없이 `main`에 바로 push한다. 방법은 `CLAUDE.md`의 Git 절(rebase 후 push)을 따른다.
   - 팀원 저장소(`roxasventus/...`)는 push하지 않는다. diff를 사용자에게 전달한다.
 - 커밋 메시지는 대상 저장소의 `git log` 톤을 따른다.
 

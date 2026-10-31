@@ -65,7 +65,14 @@ node .claude/scripts/check-portfolio.mjs --render --mobile --only=<id>   # 모�
 
 ## Git
 
-- 세션마다 지정된 작업 브랜치에서 커밋하고 push한다. 두 역할의 브랜치는 사용자가 `main`으로 머지한다.
-- 시작할 때 `git fetch origin main`으로 상대 세션의 변경이 머지됐는지 확인한다. 데이터 계약이 바뀌었으면 반영한다.
-- 머지 충돌이 나면 파일 소유권 표에 따라 소유 역할의 변경을 우선한다.
+- **혼자 쓰는 저장소이므로 PR 없이 `main`에 바로 push한다** (사용자 승인 사항).
+  이 저장소와 본인 소유의 프로젝트 저장소(`1Seong/*`)에 모두 적용한다.
+  세션에 작업 브랜치가 지정돼 있으면 그 브랜치에도 같은 커밋을 push한다.
+- 두 세션이 동시에 `main`에 push할 수 있다. push 직전에는 항상 다음을 실행한다.
+  ```bash
+  git fetch origin main && git rebase origin/main
+  git push origin HEAD:main
+  ```
+  force push는 하지 않는다. rebase 충돌이 나면 파일 소유권 표에 따라 해결하고, 판단이 어려우면 멈추고 사용자에게 묻는다.
+- 시작할 때도 `git fetch origin main`으로 상대 세션의 변경을 받는다. `schema:` 커밋이 있으면 데이터 계약 변경을 확인한다.
 - `_config.yml`은 Pages 빌드에서 `CLAUDE.md`를 제외한다. `.claude/`는 점 폴더라 기본으로 제외된다.

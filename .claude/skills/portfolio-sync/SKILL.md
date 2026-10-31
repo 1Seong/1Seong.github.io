@@ -43,5 +43,5 @@ node .claude/scripts/check-portfolio.mjs --remote --render
 ```
 
 - 오류가 0개여야 한다. 바뀐 상세 페이지의 스크린샷(`/tmp/portfolio-render/detail-<id>.png`)을 직접 열어 문장 길이와 줄바꿈을 확인한다.
-- 커밋하고 지정된 브랜치에 push한다.
+- 커밋하고 `CLAUDE.md`의 Git 절에 따라 `main`에 바로 push한다.
 - 사용자에게는 바뀐 항목, 각 문장의 근거(원본 파일), 확인이 필요한 점을 짧게 보고한다.
