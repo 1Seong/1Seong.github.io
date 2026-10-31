@@ -26,6 +26,7 @@
 | `portfolio-data.js` — 스키마(필드 추가·이름 변경) | 디자인 | 아래 "데이터 계약"을 함께 갱신해야 한다 |
 | `index.html` (CSS, 마크업, 렌더 함수) | 디자인 | |
 | `assets/projects/**` | 내용 | 디자인용 장식 이미지는 `assets/` 아래 별도 폴더에 둔다 |
+| `assets/vendor/**` | 디자인 | 로컬 아이콘 서브셋 등. `build-icons.sh`로 생성하며 직접 고치지 않는다 |
 | 각 프로젝트 저장소의 `portfolio/**` | 내용 | |
 | `CLAUDE.md`, `.claude/**` | 공통 | 규칙을 바꾸면 커밋 메시지에 남긴다 |
 
@@ -58,6 +59,9 @@ node .claude/scripts/check-portfolio.mjs --remote              # + codeUrl 대�
 node .claude/scripts/check-portfolio.mjs --render              # + 메인/상세 렌더 오류, 스크린샷 /tmp/portfolio-render/
 node .claude/scripts/check-portfolio.mjs --render --mobile --only=<id>   # 모바일 뷰포트, 한 프로젝트만
 ```
+
+- `--render`는 끝에 "한눈에 보기" 지표(페이지 길이, Projects·Overview 시작 위치)를 출력한다.
+- 화면 단위 스크린샷과 변경 전후 비교는 `node .claude/scripts/shot.mjs`를 쓴다(사용법은 파일 머리말).
 
 - `portfolio-data.js`나 `index.html`을 편집하면 PostToolUse 훅이 빠른 검사를 자동으로 실행한다. 오류(✖)가 나오면 다음 작업 전에 고친다.
 - 현재 남아 있는 경고 4개는 기존 상태이며 의도된 것일 수 있다. 요청이 없으면 고치지 않는다.

@@ -123,6 +123,15 @@ for (const [id, p] of Object.entries(D.PROJECTS)) {
 
 (D.BOOKS || []).forEach((b, i) => checkAsset(`BOOKS[${i}] "${b.title}"`, b.cover));
 
+// 아이콘: 쓰는 ti-* 클래스가 로컬 서브셋 CSS에 모두 있는지 (없으면 빈 네모로 보임)
+const iconCss = path.join(ROOT, 'assets/vendor/tabler-icons/tabler-icons-subset.css');
+if (html.includes('tabler-icons-subset.css')) {
+  const have = fs.existsSync(iconCss) ? new Set([...fs.readFileSync(iconCss, 'utf8').matchAll(/\.(ti-[a-z0-9-]+):before/g)].map((m) => m[1])) : new Set();
+  const used = new Set([...(html + fs.readFileSync(dataPath, 'utf8')).matchAll(/\bti-[a-z0-9]+(?:-[a-z0-9]+)*/g)].map((m) => m[0]));
+  const miss = [...used].filter((i) => !have.has(i));
+  if (miss.length) err(`아이콘 서브셋에 없음: ${miss.join(', ')} → bash .claude/scripts/build-icons.sh 실행`);
+}
+
 // 원본 자리표시 문구가 실제 데이터로 남았는지 (주석은 vm 실행 시 제외되므로 실제 값만 걸림)
 const placeholder = /^(책 제목|수상명|활동명|카테고리명|구현 항목 \d)$/;
 JSON.stringify(D, (k, v) => {
@@ -182,16 +191,27 @@ if (args.has('--render')) {
     const page = await browser.newPage({ viewport: MOBILE ? { width: 390, height: 844 } : { width: 1440, height: 900 }, ...(MOBILE ? { isMobile: true, hasTouch: true, deviceScaleFactor: 2 } : {}) });
     const sfx = MOBILE ? '-mobile' : '';
     const pageErrors = [];
+    const metrics = [];
     page.on('pageerror', (e) => pageErrors.push(e.message));
     // 외부 폰트/CDN은 샌드박스에서 막힐 수 있으므로 로컬 리소스 실패만 오류로 본다.
     // 영상은 상세 화면 전환 시 로드가 취소(ERR_ABORTED)되는 것이 정상이므로 제외한다.
+    const externalFailed = new Set();
     page.on('requestfailed', (r) => {
-      if (r.url().startsWith('file:') && !/ABORTED/.test(r.failure()?.errorText || ''))
-        pageErrors.push(`로컬 리소스 로드 실패: ${r.url()}`);
+      if (/ABORTED/.test(r.failure()?.errorText || '')) return;
+      if (r.url().startsWith('file:')) pageErrors.push(`로컬 리소스 로드 실패: ${r.url()}`);
+      else externalFailed.add(new URL(r.url()).host);
     });
     await page.goto('file://' + path.join(ROOT, 'index.html'));
     await page.waitForTimeout(800);
     await page.screenshot({ path: `${outDir}/home${sfx}.png`, fullPage: true });
+    // 한눈에 보기 지표: 페이지 길이, 프로젝트가 몇 화면째에 나오는지
+    const vh = MOBILE ? 844 : 900;
+    const m = await page.evaluate(() => {
+      const top = (s) => { const e = document.querySelector(s); return e ? Math.round(e.getBoundingClientRect().top + scrollY) : null; };
+      return { height: document.documentElement.scrollHeight, projects: top('#projects'), firstCard: top('.project-card') };
+    });
+    const screens = (y) => (y == null ? '-' : `${y}px (${(y / vh + 1).toFixed(1)}번째 화면)`);
+    metrics.push(`홈 길이 ${m.height}px (${(m.height / vh).toFixed(1)}화면) · Projects 시작 ${screens(m.projects)} · 첫 프로젝트 카드 ${screens(m.firstCard)}`);
     for (const id of D.PROJECT_ORDER) {
       const p = D.PROJECTS[id];
       if (ONLY && id !== ONLY) continue;
@@ -200,10 +220,20 @@ if (args.has('--render')) {
       if (ok !== true) pageErrors.push(`showDetail('${id}') 실패: ${ok}`);
       await page.waitForTimeout(300);
       await page.screenshot({ path: `${outDir}/detail-${id}${sfx}.png`, fullPage: true });
+      const d = await page.evaluate(() => {
+        const ov = document.querySelector('#detail-overview');
+        return { height: document.documentElement.scrollHeight, overview: ov ? Math.round(ov.getBoundingClientRect().top + scrollY) : null };
+      });
+      metrics.push(`상세 ${id}: 길이 ${d.height}px (${(d.height / vh).toFixed(1)}화면) · Overview 시작 ${screens(d.overview)}`);
     }
     await browser.close();
     pageErrors.forEach((m) => err(`렌더: ${m}`));
-    if (!QUIET) console.log(`스크린샷: ${outDir}/`);
+    if (!QUIET) {
+      console.log(`스크린샷: ${outDir}/`);
+      console.log(`\n지표 (${MOBILE ? '모바일 390x844' : '데스크톱 1440x900'})`);
+      metrics.forEach((x) => console.log('  · ' + x));
+      if (externalFailed.size) console.log(`  · 로드 실패한 외부 호스트: ${[...externalFailed].join(', ')} (샌드박스 네트워크 제한일 수 있음)`);
+    }
   }
 }
 

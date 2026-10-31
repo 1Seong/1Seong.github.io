@@ -1,0 +1,35 @@
+/* Tabler Icons v3.19.0 (MIT) — 사용 중인 아이콘 29개만 포함한 서브셋.
+   생성: bash .claude/scripts/build-icons.sh (직접 편집하지 말 것) */
+@font-face{font-family:"tabler-icons";font-style:normal;font-weight:400;font-display:block;
+src:url("tabler-icons-subset.woff2") format("woff2")}
+.ti{font-family:"tabler-icons"!important;speak:none;font-style:normal;font-weight:normal;font-variant:normal;
+text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.ti-accessible:before{content:"\eba9"}
+.ti-atom-2:before{content:"\ebdf"}
+.ti-bolt:before{content:"\ea38"}
+.ti-brand-github:before{content:"\ec1c"}
+.ti-brush:before{content:"\ebb8"}
+.ti-certificate:before{content:"\ed76"}
+.ti-code:before{content:"\ea77"}
+.ti-code-dots:before{content:"\f61a"}
+.ti-cpu:before{content:"\ef8e"}
+.ti-database:before{content:"\ea88"}
+.ti-device-floppy:before{content:"\eb62"}
+.ti-device-gamepad-2:before{content:"\f1d2"}
+.ti-flag:before{content:"\eaa6"}
+.ti-layout-cards:before{content:"\ec13"}
+.ti-lock:before{content:"\eae2"}
+.ti-notebook:before{content:"\eb96"}
+.ti-pencil:before{content:"\eb04"}
+.ti-quote:before{content:"\efbe"}
+.ti-rotate-rectangle:before{content:"\ec15"}
+.ti-server:before{content:"\eb1f"}
+.ti-settings:before{content:"\eb20"}
+.ti-sitemap:before{content:"\eb9d"}
+.ti-sparkles:before{content:"\f6d7"}
+.ti-sword:before{content:"\f030"}
+.ti-tool:before{content:"\eb40"}
+.ti-trophy:before{content:"\eb45"}
+.ti-users:before{content:"\ebf2"}
+.ti-volume:before{content:"\eb51"}
+.ti-wifi:before{content:"\eb52"}
