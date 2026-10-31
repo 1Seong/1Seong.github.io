@@ -36,7 +36,7 @@
 내용 세션은 이 절에 있는 필드만 쓴다.
 
 - 전역: `PROFILE`, `MILESTONE_SUMMARY`, `SKILLS`, `BOOKS`, `AWARDS`, `OTHER_WORKS`, `PROJECT_ORDER`, `MAIN_PROJECT_IDS`, `PROJECTS`, `DETAIL_LINK_SLOTS`
-- 홈 첫 화면의 '한눈에 보기' 패널은 `MILESTONE_SUMMARY`, `AWARDS.수상`, `AWARDS.시험및자격증`, 메인 프로젝트의 `title`·`subtitle`·첫 `primary` 배지·첫 `media` 썸네일을 그대로 보여 준다. 이 값들은 짧게 유지한다.
+- 홈 첫 화면의 '한눈에 보기' 패널은 `MILESTONE_SUMMARY`, `AWARDS.수상`, `AWARDS.시험및자격증`을 그대로 보여 준다. 이 값들은 짧게 유지한다.
 - 표시 순서는 `PROJECT_ORDER`, 메인 카드는 `MAIN_PROJECT_IDS`가 정한다. 나머지는 서브 프로젝트다.
   `showMore:false` 또는 `detail.showMore:false`이면 상세 페이지가 없다.
 - `PROJECTS.<id>`: `id, title, subtitle, meta{engine,platform,team,year}, badges[{text,type:primary|sub}], media[{type:image|video,src,thumbnail?,label}], summary, goal, keyChallenges[], role[{name,icon,desc(HTML)}], activities[]`

@@ -138,21 +138,10 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .glance-honor.cert .glance-honor-icon { background: var(--navy-3); color: var(--gold); }
 .glance-honor-t { display: block; font-size: .9rem; font-weight: 600; color: var(--cream); line-height: 1.35; }
 .glance-honor-s { display: block; font-size: .74rem; color: var(--cream-3); line-height: 1.35; }
-.glance-proj { width: 100%; display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: .7rem; align-items: center; padding: .4rem; margin: 0 -.4rem; background: none; border: 1px solid transparent; border-radius: 6px; cursor: pointer; text-align: left; font-family: var(--sans); color: inherit; transition: background .2s, border-color .2s; width: calc(100% + .8rem); }
-.glance-proj:hover, .glance-proj:focus-visible { background: var(--navy); border-color: var(--rule-mid); outline: none; }
-.glance-proj-thumb { width: 64px; height: 40px; border-radius: 4px; object-fit: cover; background: var(--navy-3); display: block; }
-.glance-proj-t { display: block; font-size: .9rem; font-weight: 600; color: var(--cream); line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.glance-proj-s { display: block; font-size: .74rem; color: var(--cream-3); line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.glance-proj-badge { font-size: .66rem; font-weight: 700; letter-spacing: .04em; color: var(--navy); background: var(--gold); border-radius: 999px; padding: .2rem .55rem; white-space: nowrap; }
-.glance-proj-arrow { color: var(--cream-3); font-size: 15px; transition: transform .2s, color .2s; }
-.glance-proj:hover .glance-proj-arrow { transform: translateX(2px); color: var(--gold); }
 @media(max-width:640px){
   .about-glance { padding: 1rem .9rem .75rem; gap: .9rem; }
   .glance-stat { min-width: 0; padding: .45rem .7rem; }
   .glance-list { gap: .3rem; }
-  .glance-proj { grid-template-columns: 48px minmax(0, 1fr) auto; gap: .6rem; padding: .3rem .4rem; }
-  .glance-proj-thumb { width: 48px; height: 30px; }
-  .glance-proj-s { display: none; }
 }
 .link-icons { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 2rem; }
 .link-icon { display: inline-flex; align-items: center; gap: .5rem; padding: .5rem 1.1rem; border: 1px solid var(--rule-mid); font-size: .73rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--cream-2); text-decoration: none; background: var(--navy-3); transition: background .2s, color .2s, border-color .2s; }
@@ -1164,8 +1153,8 @@ footer { background: var(--nav-bg); padding: 0; }
     <ul class="nav-links">
       <li><a href="#about"       onclick="showList('about');return false;">About</a></li>
       <li><a href="#skills"      onclick="showList('skills');return false;">Skills</a></li>
-      <li><a href="#awards"      onclick="showList('awards');return false;">Milestones</a></li>
       <li><a href="#projects"    onclick="showList('projects');return false;">Projects</a></li>
+      <li><a href="#awards"      onclick="showList('awards');return false;">Milestones</a></li>
       <li hidden><a href="#other-works" onclick="showList('other-works');return false;">Etc</a></li>
     </ul>
   </div>
@@ -1198,16 +1187,16 @@ footer { background: var(--nav-bg); padding: 0; }
     </section>
 
     <hr class="rule">
-    <section id="awards">
-      <div class="eyebrow">Milestones</div>
-      <div class="awards-col-grid" id="awards-col-grid"></div>
-    </section>
-
-    <hr class="rule">
 
     <section id="projects">
       <div class="eyebrow">Projects</div>
       <div class="projects-list" id="projects-list"></div>
+    </section>
+
+    <hr class="rule">
+    <section id="awards">
+      <div class="eyebrow">Milestones</div>
+      <div class="awards-col-grid" id="awards-col-grid"></div>
     </section>
 
     <hr class="rule hidden-section-rule">
@@ -1267,8 +1256,8 @@ footer { background: var(--nav-bg); padding: 0; }
     <nav class="footer-links">
       <a href="#about"       onclick="showList('about');return false;">About</a>
       <a href="#skills"      onclick="showList('skills');return false;">Skills</a>
-      <a href="#awards"      onclick="showList('awards');return false;">Milestones</a>
       <a href="#projects"    onclick="showList('projects');return false;">Projects</a>
+      <a href="#awards"      onclick="showList('awards');return false;">Milestones</a>
       <a href="#other-works" hidden onclick="showList('other-works');return false;">Etc</a>
     </nav>
     <div class="footer-copy" id="footer-copy"></div>
@@ -1329,27 +1318,9 @@ function buildAboutGlance(){
       </li>`).join('')}</ul></div>`);
   }
 
-  const projs=MAIN_PROJECT_IDS.map(id=>PROJECTS[id]).filter(Boolean);
-  if(projs.length){
-    parts.push(`<div><div class="glance-label">Featured Projects</div><ul class="glance-list">${projs.map(p=>{
-      const thumb=(p.media||[]).map(m=>m.thumbnail || (m.type==='image' ? m.src : '')).find(Boolean);
-      const badge=(p.badges||[]).find(b=>b.type==='primary');
-      return `<li><button type="button" class="glance-proj" data-id="${escapeHTML(p.id)}" aria-label="${escapeHTML(p.title)} 프로젝트 보기">
-        ${thumb ? `<img class="glance-proj-thumb" src="${escapeHTML(thumb)}" alt="" loading="lazy">` : '<span class="glance-proj-thumb"></span>'}
-        <span style="min-width:0"><span class="glance-proj-t">${escapeHTML(p.title)}</span><span class="glance-proj-s">${escapeHTML(p.subtitle||'')}</span></span>
-        ${badge ? `<span class="glance-proj-badge">${escapeHTML(badge.text)}</span>` : '<i class="ti ti-chevron-right glance-proj-arrow" aria-hidden="true"></i>'}
-      </button></li>`;}).join('')}</ul></div>`);
-  }
-
   if(!parts.length){ el.hidden=true; return; }
   el.innerHTML=parts.join('');
   el.hidden=false;
-  el.querySelectorAll('.glance-proj').forEach(b=>b.addEventListener('click',()=>{
-    const id=b.dataset.id;
-    if(canShowProjectDetail(id)) { showDetail(id); return; }
-    const card=document.querySelector(`.proj-show-more[data-id="${id}"]`)?.closest('.project-card, .sub-project-card');
-    (card || document.getElementById('projects'))?.scrollIntoView({behavior:'smooth', block:'start'});
-  }));
 }
 
 function buildSkills(){
@@ -2186,7 +2157,7 @@ window._cardObserver = null; // buildProjects에서 참조 방지용
 buildAbout();buildSkills();buildAwards();buildProjects();buildOtherWorks();buildBooks();
 
 // 섹션: 뷰포트 중심에 가장 가까운 섹션 하나에만 라이트 효과
-const sections = Array.from(document.querySelectorAll('#about, #skills, #awards, #projects'));
+const sections = Array.from(document.querySelectorAll('#about, #skills, #projects, #awards'));
 sections.forEach(el => el.classList.add('section-highlight'));
 
 // 프로젝트 카드: 뷰포트 중심에 가장 가까운 카드 하나만 scale up
