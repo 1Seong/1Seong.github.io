@@ -1,0 +1,3 @@
+# GitHub Pages(Jekyll) 빌드에서 에이전트 설정 문서를 공개하지 않는다. (.claude/ 는 점 폴더라 기본 제외)
+exclude:
+  - CLAUDE.md

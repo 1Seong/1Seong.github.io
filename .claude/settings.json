@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(node .claude/scripts/check-portfolio.mjs:*)",
+      "Bash(bash .claude/scripts/fetch-repo.sh:*)",
+      "Bash(git -C /tmp/repos/:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Edit(/portfolio-data.js)",
+      "Edit(/CLAUDE.md)",
+      "mcp__github__get_file_contents",
+      "mcp__github__list_commits",
+      "mcp__github__get_commit",
+      "mcp__github__list_branches",
+      "mcp__github__search_code"
+    ],
+    "ask": [
+      "Edit(/index.html)",
+      "Write(/index.html)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/check-on-edit.mjs\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
