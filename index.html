@@ -488,12 +488,13 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .optimization-comparison figcaption { margin-top: .55rem; font-size: .82rem; line-height: 1.6; color: var(--cream-2); }
 .optimization-comparison figcaption strong { display: block; color: var(--cream); margin-bottom: .15rem; }
 @media(max-width:680px) { .sub-project-grid, .optimization-comparison { grid-template-columns: 1fr; } }
-.project-card { display: grid; grid-template-columns: 58% 1fr; gap: 4rem; align-items: center; padding: 5.75rem 0; border-bottom: 1px solid var(--rule); }
+/* 여백은 카드끼리 구분될 만큼만 둔다 (5.75rem → 3rem): 메인 4개를 적은 스크롤로 비교할 수 있게 */
+.project-card { display: grid; grid-template-columns: 58% 1fr; gap: 3.5rem; align-items: center; padding: 3rem 0; border-bottom: 1px solid var(--rule); }
 .project-card:first-child { border-top: 1px solid var(--rule); }
 .project-card.reverse { direction: rtl; }
 .project-card.reverse > * { direction: ltr; }
 @media(max-width:680px){
-  .project-card, .project-card.reverse { grid-template-columns: 1fr; direction: ltr; gap: 2rem; padding: 3rem 0; }
+  .project-card, .project-card.reverse { grid-template-columns: 1fr; direction: ltr; gap: 1.25rem; padding: 2.25rem 0; }
   .projects-sub-head { align-items: start; flex-direction: column; }
   .sub-project-card .proj-title { font-size: 1.25rem; }
 
