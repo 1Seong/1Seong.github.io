@@ -73,6 +73,10 @@ node .claude/scripts/check-portfolio.mjs --render --mobile --only=<id>   # 모�
 - **혼자 쓰는 저장소이므로 PR 없이 `main`에 바로 push한다** (사용자 승인 사항).
   이 저장소와 본인 소유의 프로젝트 저장소(`1Seong/*`)에 모두 적용한다.
   세션에 작업 브랜치가 지정돼 있으면 그 브랜치에도 같은 커밋을 push한다.
+- **`main` push는 사용자 승인 후에만 한다.** 작업이 끝나면 커밋을 **세션 작업 브랜치에만** push하고(미리보기용),
+  변경 요약(커밋 목록·바뀐 점·검사 결과)을 짧게 알린 뒤 멈춘다. 스크린샷은 요청이 있을 때만 보낸다.
+  사용자는 그 브랜치를 받아 로컬에서 `index.html`을 열어 검토한다. "push"(또는 "main 반영")라고 승인하면 아래 절차로 `main`에 push한다.
+  승인은 그 커밋 묶음에만 유효하다. 작업 브랜치가 없는 세션은 로컬 커밋까지만 하고 승인을 기다린다.
 - 두 세션이 동시에 `main`에 push할 수 있다. push 직전에는 항상 다음을 실행한다.
   ```bash
   git fetch origin main && git rebase origin/main
