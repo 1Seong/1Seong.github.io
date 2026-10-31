@@ -17,12 +17,12 @@ description: 내용 세션 전용. 연결된 게임 프로젝트 저장소(GitHu
 
 ```bash
 bash .claude/scripts/fetch-repo.sh <owner/repo> [Assets/Scripts ...]
-git -C /tmp/repos/<owner__repo> ls-tree -r --name-only HEAD | grep -i <키워드>
-git -C /tmp/repos/<owner__repo> show HEAD:<path>
+git -C <TMP>/repos/<owner__repo> ls-tree -r --name-only HEAD | grep -i <키워드>   # <TMP>/repos/... 는 fetch-repo.sh가 출력한 경로
+git -C <TMP>/repos/<owner__repo> show HEAD:<path>
 ```
 
 - 기존 샘플(`portfolio/<topic>/README.md`, `coverage.md`)을 먼저 읽는다. 이미 정리된 설명이 가장 정확한 출처다.
-- 커밋 작성자로 본인 기여 범위를 확인할 수 있다. 얕은 clone이라 이력이 필요하면 `git -C <dir> fetch --depth=200 origin HEAD` 또는 `mcp__github__list_commits`(author 필터)를 쓴다.
+- 커밋 작성자로 본인 기여 범위를 확인할 수 있다. 얕은 clone이라 이력이 필요하면 `git -C <dir> fetch --depth=200 origin HEAD` 후 `git -C <dir> log --author=<이름>`을 쓰거나, `gh api "repos/<owner>/<repo>/commits?author=<login>"`으로 조회한다.
 - 문장마다 근거가 되는 원본 파일과 함수를 확인한다. 근거가 없는 주장(성능 수치, 패턴명, 담당 범위)은 쓰지 않는다. 대신 사용자에게 확인을 요청한다.
 
 ## 3. 작성
@@ -42,6 +42,6 @@ git -C /tmp/repos/<owner__repo> show HEAD:<path>
 node .claude/scripts/check-portfolio.mjs --remote --render
 ```
 
-- 오류가 0개여야 한다. 바뀐 상세 페이지의 스크린샷(`/tmp/portfolio-render/detail-<id>.png`)을 직접 열어 문장 길이와 줄바꿈을 확인한다.
-- 커밋하고 `CLAUDE.md`의 Git 절에 따라 `main`에 바로 push한다.
+- 오류가 0개여야 한다. 바뀐 상세 페이지의 스크린샷(`<TMP>/portfolio-render/detail-<id>.png`)을 직접 열어 문장 길이와 줄바꿈을 확인한다.
+- 커밋하고 `CLAUDE.md`의 Git 절에 따라 작업 브랜치에 push한 뒤, 사용자 승인을 받아 `main`에 push한다.
 - 사용자에게는 바뀐 항목, 각 문장의 근거(원본 파일), 확인이 필요한 점을 짧게 보고한다.

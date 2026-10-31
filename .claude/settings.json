@@ -4,17 +4,16 @@
     "allow": [
       "Bash(node .claude/scripts/check-portfolio.mjs:*)",
       "Bash(bash .claude/scripts/fetch-repo.sh:*)",
-      "Bash(git -C /tmp/repos/:*)",
+      "Bash(node .claude/scripts/shot.mjs:*)",
+      "Bash(git -C C:/Users/PC/AppData/Local/Temp/repos/:*)",
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
       "Bash(git show:*)",
-      "Edit(/portfolio-data.js)",
-      "mcp__github__get_file_contents",
-      "mcp__github__list_commits",
-      "mcp__github__get_commit",
-      "mcp__github__list_branches",
-      "mcp__github__search_code"
+      "Bash(gh repo view:*)",
+      "Bash(gh repo clone:*)",
+      "Bash(gh search code:*)",
+      "Edit(/portfolio-data.js)"
     ]
   },
   "hooks": {

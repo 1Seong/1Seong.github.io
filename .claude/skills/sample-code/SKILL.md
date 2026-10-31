@@ -38,10 +38,10 @@ description: 내용 세션 전용. 포트폴리오 상세 페이지의 codeUrl�
 
 ## 3. 반영 (프로젝트 저장소에 push)
 
-1. `add_repo`에 `owner`, `repo`, `access:"push"`를 넘겨 첨부한 뒤, 안내받은 경로(`/home/user/<repo>`)에 clone한다.
-   Unity 저장소는 크므로 `--depth 1 --filter=blob:none --sparse`로 받고 `git sparse-checkout set portfolio`를 쓴다.
+1. `C:/Users/PC/Documents/repos/<repo>`의 로컬 clone에서 작업한다. 있으면 `git -C <clone> pull --rebase`로 최신화하고,
+   없으면 `gh repo clone <owner>/<repo> C:/Users/PC/Documents/repos/<repo> -- --filter=blob:none --sparse` 후 `git sparse-checkout set portfolio`를 쓴다(Unity 저장소는 크다).
 2. 커밋한다. 메시지 예시는 `docs: clarify undo snapshot scope in gameplay sample`이다. 같은 저장소의 `git log`에서 톤을 확인한다.
-3. PR 없이 `main`에 바로 push한다. `git fetch origin main && git rebase origin/main && git push origin HEAD:main` 순서로 한다. force push는 하지 않는다.
+3. PR 없이 `main`에 push하되, `CLAUDE.md`의 Git 절대로 **사용자 승인 후** `git fetch origin main && git rebase origin/main && git push origin HEAD:main` 순서로 한다. force push는 하지 않는다.
 4. 팀원 저장소(`roxasventus/...`)는 push하지 않는다. 수정한 파일 내용이나 diff를 사용자에게 전달한다.
 
 ## 4. 포폴 쪽 동기화와 검증

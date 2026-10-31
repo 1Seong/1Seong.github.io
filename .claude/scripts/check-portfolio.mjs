@@ -15,6 +15,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { TMP, loadChromium, launchBrowser, fileUrl } from './local-env.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const args = new Set(process.argv.slice(2));
@@ -164,7 +165,7 @@ if (args.has('--remote') && codeUrls.length) {
 }
 
 function cloneSparse(owner, repo, ref) {
-  const dir = path.join('/tmp/repos', `${owner}__${repo}`);
+  const dir = path.join(TMP, 'repos', `${owner}__${repo}`);
   const env = { ...process.env, GIT_LFS_SKIP_SMUDGE: '1' };
   if (fs.existsSync(path.join(dir, '.git'))) {
     execFileSync('git', ['-C', dir, 'fetch', '-q', '--depth', '1', '--filter=blob:none', 'origin', ref], { env, stdio: 'pipe' });
@@ -180,14 +181,12 @@ function cloneSparse(owner, repo, ref) {
 
 // ---------- 4. --render: 실제 렌더링 확인 ----------
 if (args.has('--render')) {
-  const { createRequire } = await import('node:module');
-  const require = createRequire(import.meta.url);
-  let chromium;
-  try { ({ chromium } = require('playwright')); } catch { warn('playwright 없음 — 렌더 검사 생략'); }
+  const chromium = loadChromium();
+  if (!chromium) warn('playwright 없음 — 렌더 검사 생략 (npm i --prefix ~/.portfolio-tools playwright)');
   if (chromium) {
-    const outDir = '/tmp/portfolio-render';
+    const outDir = `${TMP}/portfolio-render`;
     fs.mkdirSync(outDir, { recursive: true });
-    const browser = await chromium.launch();
+    const browser = await launchBrowser(chromium);
     const page = await browser.newPage({ viewport: MOBILE ? { width: 390, height: 844 } : { width: 1440, height: 900 }, ...(MOBILE ? { isMobile: true, hasTouch: true, deviceScaleFactor: 2 } : {}) });
     const sfx = MOBILE ? '-mobile' : '';
     const pageErrors = [];
@@ -201,7 +200,7 @@ if (args.has('--render')) {
       if (r.url().startsWith('file:')) pageErrors.push(`로컬 리소스 로드 실패: ${r.url()}`);
       else externalFailed.add(new URL(r.url()).host);
     });
-    await page.goto('file://' + path.join(ROOT, 'index.html'));
+    await page.goto(fileUrl(path.join(ROOT, 'index.html')));
     await page.waitForTimeout(800);
     await page.screenshot({ path: `${outDir}/home${sfx}.png`, fullPage: true });
     // 한눈에 보기 지표: 페이지 길이, 프로젝트가 몇 화면째에 나오는지

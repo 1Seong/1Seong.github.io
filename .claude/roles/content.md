@@ -66,10 +66,12 @@ portfolio/
 
 ## 저장소 접근
 
-- 읽기: `bash .claude/scripts/fetch-repo.sh owner/repo [경로...]` → `/tmp/repos/owner__repo`
+- 읽기: `bash .claude/scripts/fetch-repo.sh owner/repo [경로...]` → `<TMP>/repos/owner__repo` (출력된 경로를 그대로 쓴다)
   (blobless 얕은 clone이며, 원본 파일은 `git -C <dir> show HEAD:<path>`로 읽는다)
-- 쓰기: `add_repo`에 `access:"push"`를 넘긴 뒤 `/home/user/<repo>`에 따로 clone해서 작업한다.
-  - PR 없이 `main`에 바로 push한다. 방법은 `CLAUDE.md`의 Git 절(rebase 후 push)을 따른다.
+- 쓰기: `C:/Users/PC/Documents/repos/<repo>`의 로컬 clone에서 작업한다. 일반 `git push`로 올린다(gh 로그인으로 인증됨).
+  - 없으면 `gh repo clone 1Seong/<repo> C:/Users/PC/Documents/repos/<repo> -- --filter=blob:none --sparse` 후 `git sparse-checkout set portfolio`.
+  - 있으면 작업 전에 `git -C <clone> pull --rebase`로 최신화한다.
+  - PR 없이 `main`에 push하되, `CLAUDE.md`의 Git 절(사용자 승인 후 rebase → push)을 따른다.
   - 팀원 저장소(`roxasventus/...`)는 push하지 않는다. diff를 사용자에게 전달한다.
 - 커밋 메시지는 대상 저장소의 `git log` 톤을 따른다.
 

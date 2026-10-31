@@ -14,7 +14,7 @@ node .claude/scripts/shot.mjs --label=review --page=all      # 첫 화면 + 섹�
 node .claude/scripts/shot.mjs --label=review --page=all --mobile
 ```
 
-- 스크린샷은 `/tmp/portfolio-shots/review/`에 있다. `*-fold*.png`(첫 화면)부터 본다.
+- 스크린샷은 `<TMP>/portfolio-shots/review/`에 있다(`<TMP>`는 `CLAUDE.md`의 검증 절 참고). `*-fold*.png`(첫 화면)부터 본다.
 - 지표 중 **홈 길이, Projects 시작 위치, 상세 Overview 시작 위치**를 기록하고, 이전 리뷰 값이 있으면 비교한다.
 - 외부 호스트 로드 실패는 샌드박스 제한일 수 있다. 다만 그 리소스가 없을 때 화면이 어떻게 보이는지는 실제 위험이므로 같이 적는다.
 

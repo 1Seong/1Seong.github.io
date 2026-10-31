@@ -40,14 +40,14 @@ node .claude/scripts/check-portfolio.mjs --render --mobile                     #
 node .claude/scripts/check-portfolio.mjs --render --only=eulerian_aurora       # 한 상세 페이지만
 ```
 
-- 스크린샷은 `/tmp/portfolio-render/`에 저장된다. 고친 화면은 **변경 전후**를 직접 열어 비교한다. 긴 이미지는 PIL로 잘라서 본다.
+- 스크린샷은 `<TMP>/portfolio-render/`에 저장된다(`<TMP>`는 `CLAUDE.md`의 검증 절 참고). 고친 화면은 **변경 전후**를 직접 열어 비교한다. 긴 이미지는 PIL로 잘라서 본다.
 - 렌더 검사 끝의 **지표**(홈·상세 길이, Projects가 몇 번째 화면에 나오는지)를 변경 전후로 비교한다. "한눈에 보기" 개선의 근거로 쓴다.
 - 변경 전후 비교는 `shot.mjs`로 한다. 첫 화면과 섹션 단위로 찍어 PIL로 자를 필요가 없다.
   ```bash
   node .claude/scripts/shot.mjs --label=before [--page=<id>|all] [--mobile] [--selector=#skills]
   # (수정)
   node .claude/scripts/shot.mjs --label=after  ...같은 옵션...
-  node .claude/scripts/shot.mjs --compare before after   # → /tmp/portfolio-shots/compare/
+  node .claude/scripts/shot.mjs --compare before after   # → <TMP>/portfolio-shots/compare/
   ```
 - 아이콘은 CDN이 아니라 로컬 서브셋(`assets/vendor/tabler-icons/`)이다. 새 `ti-*` 아이콘을 쓰면 `bash .claude/scripts/build-icons.sh`를 다시 실행한다. 빠뜨리면 빠른 검사가 오류로 알려 준다.
 - 큰 개선 작업 전후에는 `portfolio-design-review` 스킬로 같은 기준의 리뷰를 돌린다.

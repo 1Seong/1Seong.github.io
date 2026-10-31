@@ -57,9 +57,16 @@
 ```bash
 node .claude/scripts/check-portfolio.mjs                       # 구조, asset, 카테고리 (빠름)
 node .claude/scripts/check-portfolio.mjs --remote              # + codeUrl 대상 파일 실존
-node .claude/scripts/check-portfolio.mjs --render              # + 메인/상세 렌더 오류, 스크린샷 /tmp/portfolio-render/
+node .claude/scripts/check-portfolio.mjs --render              # + 메인/상세 렌더 오류, 스크린샷 <TMP>/portfolio-render/
 node .claude/scripts/check-portfolio.mjs --render --mobile --only=<id>   # 모바일 뷰포트, 한 프로젝트만
 ```
+
+- 로컬 환경(Windows)에서 쓰는 경로와 도구:
+  - `<TMP>`는 node의 `os.tmpdir()`다. 이 PC에서는 `C:/Users/PC/AppData/Local/Temp`(Git Bash의 `/tmp`와 같은 곳)이고, 스크립트가 실제 경로를 출력한다.
+    `fetch-repo.sh`, `--remote`, 스크린샷이 모두 이 아래(`repos/`, `portfolio-render/`, `portfolio-shots/`)를 쓴다.
+  - playwright는 저장소 밖 `~/.portfolio-tools`에 설치한다(`npm i --prefix ~/.portfolio-tools playwright`). 모든 worktree가 함께 쓴다.
+    브라우저는 설치된 Chrome(없으면 Edge)을 쓰므로 `playwright install`은 필요 없다. 저장소 루트에서 `npm i`를 하면 멈추니 하지 않는다.
+  - GitHub 조회는 `gh` CLI(로그인 계정 `1Seong`)나 `git`으로 한다.
 
 - `--render`는 끝에 "한눈에 보기" 지표(페이지 길이, Projects·Overview 시작 위치)를 출력한다.
 - 화면 단위 스크린샷과 변경 전후 비교는 `node .claude/scripts/shot.mjs`를 쓴다(사용법은 파일 머리말).

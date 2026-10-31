@@ -12,7 +12,7 @@ node .claude/scripts/check-portfolio.mjs --remote --render
 ```
 
 - `✖`는 실제 문제다. `⚠`는 의도된 상태일 수 있다. `CLAUDE.md`의 "현재 남아 있는 경고"와 비교해 새로 생긴 것만 강조한다.
-- `/tmp/portfolio-render/home.png`와 `detail-*.png`를 열어 텍스트 넘침, 빈 섹션, 깨진 이미지가 있는지 본다. 이미지가 길면 PIL로 잘라서 본다.
+- `<TMP>/portfolio-render/home.png`와 `detail-*.png`를 열어 텍스트 넘침, 빈 섹션, 깨진 이미지가 있는지 본다. 이미지가 길면 PIL로 잘라서 본다.
 - 외부 폰트나 CDN 로드 실패는 샌드박스 네트워크 때문일 수 있으므로 무시한다.
 
 ## 2. 수동 검토 (자동 검사가 못 잡는 것)

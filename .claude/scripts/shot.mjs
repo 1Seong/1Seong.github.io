@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 디자인 리뷰용 스크린샷 도우미. 결과는 /tmp/portfolio-shots/<label>/ 에 저장된다.
+// 디자인 리뷰용 스크린샷 도우미. 결과는 <TMP>/portfolio-shots/<label>/ 에 저장된다 (<TMP>는 local-env.mjs 참고).
 //
 // 촬영
 //   node .claude/scripts/shot.mjs                         # 홈: 첫 화면 + 섹션별 (데스크톱 1440x900)
@@ -20,16 +20,16 @@
 //   node .claude/scripts/shot.mjs --compare before after
 import fs from 'node:fs';
 import path from 'node:path';
-import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
+import { TMP, loadChromium, launchBrowser, fileUrl } from './local-env.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const OUT = '/tmp/portfolio-shots';
+const OUT = `${TMP}/portfolio-shots`;
 const argv = process.argv.slice(2);
 const opt = (k) => argv.find((a) => a.startsWith(`--${k}=`))?.slice(k.length + 3);
 const has = (k) => argv.includes(`--${k}`);
-const require = createRequire(import.meta.url);
-const { chromium } = require('playwright');
+const chromium = loadChromium();
+if (!chromium) { console.error('playwright 없음 — npm i --prefix ~/.portfolio-tools playwright'); process.exit(1); }
 
 if (has('compare')) {
   const [a, b] = argv.filter((x) => !x.startsWith('--'));
@@ -44,14 +44,14 @@ const label = opt('label') || 'now';
 const dir = path.join(OUT, label);
 fs.mkdirSync(dir, { recursive: true });
 
-const browser = await chromium.launch();
+const browser = await launchBrowser(chromium);
 const page = await browser.newPage({
   viewport: MOBILE ? { width: 390, height: 844 } : { width: 1440, height: 900 },
   ...(MOBILE ? { isMobile: true, hasTouch: true, deviceScaleFactor: 2 } : {}),
 });
 const failed = new Set();
 page.on('requestfailed', (r) => { if (!/ABORTED/.test(r.failure()?.errorText || '')) failed.add(new URL(r.url()).host || 'file'); });
-await page.goto('file://' + path.join(ROOT, 'index.html'));
+await page.goto(fileUrl(path.join(ROOT, 'index.html')));
 await page.waitForTimeout(800);
 
 const target = opt('page') || 'home';
@@ -109,7 +109,7 @@ async function compare(a, b) {
   fs.mkdirSync(dc, { recursive: true });
   const files = fs.readdirSync(da).filter((f) => f.endsWith('.png') && fs.existsSync(path.join(db, f)));
   if (!files.length) { console.error(`${a}와 ${b}에 같은 이름의 스크린샷이 없음`); process.exit(1); }
-  const browser = await chromium.launch();
+  const browser = await launchBrowser(chromium);
   const page = await browser.newPage();
   for (const f of files) {
     const uri = (d) => 'data:image/png;base64,' + fs.readFileSync(path.join(d, f)).toString('base64');
