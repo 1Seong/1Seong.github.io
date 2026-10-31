@@ -10,16 +10,11 @@
       "Bash(git log:*)",
       "Bash(git show:*)",
       "Edit(/portfolio-data.js)",
-      "Edit(/CLAUDE.md)",
       "mcp__github__get_file_contents",
       "mcp__github__list_commits",
       "mcp__github__get_commit",
       "mcp__github__list_branches",
       "mcp__github__search_code"
-    ],
-    "ask": [
-      "Edit(/index.html)",
-      "Write(/index.html)"
     ]
   },
   "hooks": {

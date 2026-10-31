@@ -1,11 +1,11 @@
 ---
 name: sample-code
-description: 포트폴리오 상세 페이지의 codeUrl이 가리키는 프로젝트 저장소의 샘플 코드 문서(portfolio/<topic>/README.md)를 새로 만들거나 다듬는다. 원본 코드와 대조해 발췌를 정확하게 맞추고, 주석·도식·생략 내용을 정리하며, portfolio/README.md·coverage.md·codeUrl을 동기화한다. "샘플 코드 다듬어줘", "코드 링크 정리", "이 기능 샘플 만들어줘"처럼 요청할 때 사용한다.
+description: 내용 세션 전용. 포트폴리오 상세 페이지의 codeUrl이 가리키는 프로젝트 저장소의 샘플 코드 문서(portfolio/<topic>/README.md)를 새로 만들거나 다듬는다. 원본 코드와 대조해 발췌를 정확하게 맞추고, 주석·도식·생략 내용을 정리하며, portfolio/README.md·coverage.md·codeUrl을 동기화한다. "샘플 코드 다듬어줘", "코드 링크 정리", "이 기능 샘플 만들어줘"처럼 요청할 때 사용한다.
 ---
 
 # sample-code — 샘플 코드 문서 작성·정리
 
-먼저 `CLAUDE.md`의 "샘플 코드 문서 규칙"을 읽는다. 기존 36개 문서가 모두 같은 양식을 쓰므로 새 문서도 그대로 맞춘다.
+먼저 `.claude/roles/content.md`의 "샘플 코드 문서 규칙"을 읽는다. 기존 36개 문서가 모두 같은 양식을 쓰므로 새 문서도 그대로 맞춘다.
 
 ## 1. 대상과 원본 확보
 

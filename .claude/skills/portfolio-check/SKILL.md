@@ -11,7 +11,7 @@ description: 포트폴리오 전체를 점검한다. 데이터 구조, 누락된
 node .claude/scripts/check-portfolio.mjs --remote --render
 ```
 
-- `✖`는 실제 문제다. `⚠`는 의도된 상태일 수 있다. CLAUDE.md의 "현재 남아 있는 경고"와 비교해 새로 생긴 것만 강조한다.
+- `✖`는 실제 문제다. `⚠`는 의도된 상태일 수 있다. `CLAUDE.md`의 "현재 남아 있는 경고"와 비교해 새로 생긴 것만 강조한다.
 - `/tmp/portfolio-render/home.png`와 `detail-*.png`를 열어 텍스트 넘침, 빈 섹션, 깨진 이미지가 있는지 본다. 이미지가 길면 PIL로 잘라서 본다.
 - 외부 폰트나 CDN 로드 실패는 샌드박스 네트워크 때문일 수 있으므로 무시한다.
 
@@ -30,7 +30,7 @@ node .claude/scripts/check-portfolio.mjs --remote --render
   git -C <dir> log --oneline <sha>..HEAD -- <path>
   ```
   얕은 clone에 해당 SHA가 없으면 깊이를 늘린다.
-- **문체 일탈**: CLAUDE.md 문체 규칙에서 벗어난 항목을 찾는다(마침표, 길이 초과, 근거 없는 수치).
+- **문체 일탈**: `content.md`의 문체 규칙에서 벗어난 항목을 찾는다(마침표, 길이 초과, 근거 없는 수치).
 
 ## 3. 보고
 

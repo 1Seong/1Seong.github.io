@@ -4,6 +4,8 @@
 //   node .claude/scripts/check-portfolio.mjs            # 데이터 구조 + 로컬 asset 검사 (빠름)
 //   node .claude/scripts/check-portfolio.mjs --remote   # + codeUrl 대상 파일이 실제 저장소에 있는지 확인
 //   node .claude/scripts/check-portfolio.mjs --render   # + 헤드리스 브라우저로 메인/상세 페이지 렌더링 오류 확인
+//        --mobile        렌더 시 390x844 모바일 뷰포트 사용 (파일명에 -mobile)
+//        --only=<id>     렌더할 상세 페이지를 한 프로젝트로 제한
 //   node .claude/scripts/check-portfolio.mjs --quiet    # 문제가 있을 때만 출력 (훅용)
 //
 // 종료 코드: 0 = 오류 없음(경고는 허용), 1 = 오류 있음
@@ -17,6 +19,8 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const args = new Set(process.argv.slice(2));
 const QUIET = args.has('--quiet');
+const MOBILE = args.has('--mobile');
+const ONLY = [...args].find((a) => a.startsWith('--only='))?.slice(7);
 const errors = [];
 const warnings = [];
 const err = (m) => errors.push(m);
@@ -175,7 +179,8 @@ if (args.has('--render')) {
     const outDir = '/tmp/portfolio-render';
     fs.mkdirSync(outDir, { recursive: true });
     const browser = await chromium.launch();
-    const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+    const page = await browser.newPage({ viewport: MOBILE ? { width: 390, height: 844 } : { width: 1440, height: 900 }, ...(MOBILE ? { isMobile: true, hasTouch: true, deviceScaleFactor: 2 } : {}) });
+    const sfx = MOBILE ? '-mobile' : '';
     const pageErrors = [];
     page.on('pageerror', (e) => pageErrors.push(e.message));
     // 외부 폰트/CDN은 샌드박스에서 막힐 수 있으므로 로컬 리소스 실패만 오류로 본다.
@@ -186,14 +191,15 @@ if (args.has('--render')) {
     });
     await page.goto('file://' + path.join(ROOT, 'index.html'));
     await page.waitForTimeout(800);
-    await page.screenshot({ path: `${outDir}/home.png`, fullPage: true });
+    await page.screenshot({ path: `${outDir}/home${sfx}.png`, fullPage: true });
     for (const id of D.PROJECT_ORDER) {
       const p = D.PROJECTS[id];
+      if (ONLY && id !== ONLY) continue;
       if (!p || p.showMore === false || p.detail?.showMore === false) continue;
       const ok = await page.evaluate((pid) => { try { showDetail(pid); return true; } catch (e) { return String(e); } }, id);
       if (ok !== true) pageErrors.push(`showDetail('${id}') 실패: ${ok}`);
       await page.waitForTimeout(300);
-      await page.screenshot({ path: `${outDir}/detail-${id}.png`, fullPage: true });
+      await page.screenshot({ path: `${outDir}/detail-${id}${sfx}.png`, fullPage: true });
     }
     await browser.close();
     pageErrors.forEach((m) => err(`렌더: ${m}`));
