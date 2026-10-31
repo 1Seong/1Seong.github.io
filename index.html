@@ -105,7 +105,15 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 }
 #about-grid:not(:has(.about-glance:not([hidden]))) { grid-template-columns: 180px 1fr; max-width: 720px; gap: 4rem; }
 @media(max-width:1000px){ #about-grid { grid-template-columns: 180px minmax(0, 1fr); } .about-glance { grid-column: 1 / -1; } }
-@media(max-width:640px){ #about-grid { grid-template-columns: 1fr; gap: 2rem; } }
+@media(max-width:640px){
+  /* 모바일: 사진을 줄여 이름 옆에 두고, 패널을 압축해 첫 화면 안에 한눈에 보기가 들어오게 한다 */
+  #about-grid { grid-template-columns: 84px minmax(0, 1fr); gap: 1.5rem 1.1rem; }
+  #about-grid .about-photo { width: 84px; height: 84px; border-width: 2px; box-shadow: 0 0 0 4px var(--navy-2), 0 0 0 5px rgba(80,64,200,0.2); }
+  #about-grid .about-tag { margin-bottom: .7rem; }
+  #about-grid .about-name-en { margin-bottom: 1rem; }
+  #about-grid .about-divider { margin-bottom: 1rem; }
+  #about-grid .about-meta { line-height: 1.8; }
+}
 
 .about-photo { width: 180px; height: 180px; border-radius: 50%; background: var(--navy-3); border: 3px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--cream-3); font-size: .72rem; letter-spacing: .08em; overflow: hidden; flex-shrink: 0; box-shadow: 0 0 0 6px var(--navy-2), 0 0 0 7px rgba(80,64,200,0.2); }
 .about-photo img { width: 100%; height: 100%; object-fit: cover; }
@@ -138,6 +146,14 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .glance-proj-badge { font-size: .66rem; font-weight: 700; letter-spacing: .04em; color: var(--navy); background: var(--gold); border-radius: 999px; padding: .2rem .55rem; white-space: nowrap; }
 .glance-proj-arrow { color: var(--cream-3); font-size: 15px; transition: transform .2s, color .2s; }
 .glance-proj:hover .glance-proj-arrow { transform: translateX(2px); color: var(--gold); }
+@media(max-width:640px){
+  .about-glance { padding: 1rem .9rem .75rem; gap: .9rem; }
+  .glance-stat { min-width: 0; padding: .45rem .7rem; }
+  .glance-list { gap: .3rem; }
+  .glance-proj { grid-template-columns: 48px minmax(0, 1fr) auto; gap: .6rem; padding: .3rem .4rem; }
+  .glance-proj-thumb { width: 48px; height: 30px; }
+  .glance-proj-s { display: none; }
+}
 .link-icons { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 2rem; }
 .link-icon { display: inline-flex; align-items: center; gap: .5rem; padding: .5rem 1.1rem; border: 1px solid var(--rule-mid); font-size: .73rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--cream-2); text-decoration: none; background: var(--navy-3); transition: background .2s, color .2s, border-color .2s; }
 .link-icon:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
