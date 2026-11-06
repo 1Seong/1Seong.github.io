@@ -12,6 +12,10 @@
 | 점검 | `portfolio-check` |
 | 샘플 코드 품질을 더 엄밀하게 보고 싶을 때 | `engineering:code-review` (보조) |
 
+내용 수정을 마치면 서브에이전트 `content-reviewer`(`.claude/agents/content-reviewer.md`)에 독립 검토를 맡긴다.
+채용 담당자 설득력, 문체·일관성, 샘플 코드 품질을 읽기 전용으로 보고하고, 치명 0건이면 통과다.
+지적 사항은 사용자 승인을 받아 이 세션에서 고친다.
+
 ## 프로젝트 ↔ 저장소 매핑
 
 | id | 제목 | 저장소 | assets |
