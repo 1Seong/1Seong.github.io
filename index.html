@@ -755,24 +755,11 @@ a.feedback-citation:hover { color: var(--gold); }
   .feedback-flow-card .flow-cell:first-child::after { display: none; }
 }
 
-/* 사이드바 */
-.detail-sidebar { position: fixed; top: calc(var(--nav-h) + 2rem); right: -1.45rem; width: 238px; z-index: 20; pointer-events: none; }
-.sidebar-block { margin-bottom: 0; padding: 1.05rem 3.2rem 1.15rem 1.05rem; border: 1px solid var(--rule-mid); background: rgba(237,233,251,.92); border-radius: var(--radius); box-shadow: 0 18px 60px rgba(20,16,55,.12); backdrop-filter: blur(12px); pointer-events: auto; }
-.sidebar-block:last-child { border-bottom: 1px solid var(--rule-mid); }
-.sidebar-label { font-size: 1.08rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--nav-bg); margin-bottom: .8rem; }
-.sidebar-value { font-size: .82rem; color: var(--cream-2); line-height: 2; }
-.sidebar-link { display: flex; align-items: center; gap: .5rem; font-size: .78rem; font-weight: 500; color: var(--cream-2); text-decoration: none; padding: .5rem .75rem; border: 1px solid var(--rule-mid); background: var(--navy-3); margin-bottom: .4rem; border-radius: var(--radius); transition: background .2s, color .2s, border-color .2s; }
-.sidebar-link:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
-.sidebar-link svg { width: 12px; height: 12px; stroke: currentColor; fill: none; }
-.detail-toc { display: grid; gap: .1rem; }
-.detail-toc a { display: block; color: var(--cream-3); text-decoration: none; font-size: .94rem; font-weight: 500; letter-spacing: 0; text-transform: none; line-height: 1.42; padding: .5rem 0; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
-.detail-toc a:hover { color: var(--gold); border-color: var(--rule-mid); }
-@media(max-width:1180px){
-  .detail-sidebar { position: static; width: auto; margin-bottom: 1.5rem; }
-  .sidebar-block { padding: 1rem 1rem 1.1rem; }
-  .detail-body { display: flex; flex-direction: column; }
-  .detail-body #d-main { width: 100%; max-width: none; }
-  .detail-sidebar { order: -1; }
+/* 상세 목차: 메인 페이지와 같은 우측 레일(.home-toc)을 쓴다. 라벨이 길어서 이름 표시는 1600px 이상에서만 */
+.detail-section { scroll-margin-top: calc(var(--nav-h) + 1.25rem); }
+@media(min-width:1360px) and (max-width:1599px){
+  .detail-rail span { position: absolute; right: calc(100% + .6rem); padding: .25rem .5rem; border-radius: 4px; background: var(--nav-bg); color: var(--nav-ink); white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .15s; }
+  .detail-rail a:hover span, .detail-rail a:focus-visible span { opacity: 1; }
 }
 
 footer { background: var(--nav-bg); padding: 0; }
@@ -1796,13 +1783,11 @@ function showDetail(id){
   main.innerHTML = sections.join('');
   const tocLinks=Array.from(main.querySelectorAll('.detail-section[id]')).map(section=>{
     const label=section.querySelector('.detail-section-label')?.textContent || section.id;
-    return `<a href="#${section.id}">${label}</a>`;
+    return `<a href="#${section.id}" data-sec="${section.id}"><span>${escapeHTML(label)}</span></a>`;
   }).join('');
-  document.getElementById('d-sidebar').innerHTML=`
-    <div class="sidebar-block">
-      <div class="sidebar-label">Contents</div>
-      <nav class="detail-toc">${tocLinks}</nav>
-    </div>`;
+  document.getElementById('d-sidebar').innerHTML=tocLinks
+    ? `<nav class="home-toc detail-rail" id="d-toc" aria-label="목차">${tocLinks}</nav>`
+    : '';
 
   // 피드백 바 애니메이션
   requestAnimationFrame(()=>{
@@ -1987,8 +1972,13 @@ function onScroll(){
     const isDetail = document.getElementById('detail-view').classList.contains('visible');
 
     if(isDetail){
-      // 상세 페이지: 하이라이트 없음
+      // 상세 페이지: 하이라이트 없음. 목차는 화면 위쪽 40% 선을 지난 마지막 섹션을 현재 섹션으로 표시
       lightEl.classList.remove('visible');
+      const line = window.innerHeight * .4;
+      const dLinks = Array.from(document.querySelectorAll('#d-toc a'));
+      let current = dLinks[0];
+      dLinks.forEach(a => { const el = document.getElementById(a.dataset.sec); if(el && el.getBoundingClientRect().top <= line) current = a; });
+      dLinks.forEach(a => a.classList.toggle('active', a === current));
     } else {
       _prevDetail = null;
 
