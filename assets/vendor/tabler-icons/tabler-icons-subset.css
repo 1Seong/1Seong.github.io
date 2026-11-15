@@ -1,7 +1,7 @@
-/* Tabler Icons v3.19.0 (MIT) — 사용 중인 아이콘 45개만 포함한 서브셋.
+/* Tabler Icons v3.19.0 (MIT) — 사용 중인 아이콘 46개만 포함한 서브셋.
    생성: bash .claude/scripts/build-icons.sh (직접 편집하지 말 것) */
 @font-face{font-family:"tabler-icons";font-style:normal;font-weight:400;font-display:block;
-src:url("tabler-icons-subset.woff2?v=d4bed182") format("woff2")}
+src:url("tabler-icons-subset.woff2?v=f501d8c6") format("woff2")}
 .ti{font-family:"tabler-icons"!important;speak:none;font-style:normal;font-weight:normal;font-variant:normal;
 text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 .ti-accessible:before{content:"\eba9"}
@@ -49,3 +49,4 @@ text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-fo
 .ti-volume:before{content:"\eb51"}
 .ti-wifi:before{content:"\eb52"}
 .ti-x:before{content:"\eb55"}
+.ti-zoom-in:before{content:"\eb56"}

@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <!-- 아이콘: 사용 중인 Tabler 아이콘만 담은 로컬 서브셋 (재생성: bash .claude/scripts/build-icons.sh) -->
-<link rel="stylesheet" href="assets/vendor/tabler-icons/tabler-icons-subset.css?v=6574c5bf">
+<link rel="stylesheet" href="assets/vendor/tabler-icons/tabler-icons-subset.css?v=a4d36268">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -766,10 +766,9 @@ a.feedback-citation:hover { color: var(--gold); }
 .sd-list { display: flex; flex-direction: column; }
 .sd-case { padding: 3.75rem 0; border-top: 1px solid var(--rule); }
 .sd-case:first-child { padding-top: .75rem; border-top: none; }
-.sd-eyebrow { display: flex; align-items: center; gap: .6rem; margin-bottom: .85rem; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-.sd-num { color: var(--gold); font-variant-numeric: tabular-nums; }
-.sd-cat { display: inline-flex; align-items: center; gap: .6rem; color: var(--cream-3); }
-.sd-cat::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: .7; }
+.sd-eyebrow { margin-bottom: .8rem; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--cream-3); }
+.sd-title-row { display: flex; align-items: baseline; gap: .95rem; }
+.sd-num { flex: none; padding-right: .95rem; border-right: 1px solid var(--rule-mid); font-size: clamp(1.4rem, 2.1vw, 1.85rem); font-weight: 600; line-height: 1.28; letter-spacing: -.02em; color: var(--gold); font-variant-numeric: tabular-nums; }
 .sd-title { font-size: clamp(1.4rem, 2.1vw, 1.85rem); font-weight: 700; line-height: 1.28; letter-spacing: -.02em; color: var(--white); }
 .sd-context { max-width: 46ch; margin-top: .75rem; font-size: 1.04rem; line-height: 1.7; color: var(--cream-2); }
 .sd-split { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 3.5rem; align-items: center; }
@@ -782,6 +781,10 @@ a.feedback-citation:hover { color: var(--gold); }
 .sd-zoom { cursor: zoom-in; transition: transform .25s ease, box-shadow .25s ease; }
 .sd-zoom:hover, .sd-zoom:focus-visible { transform: translateY(-3px); box-shadow: 0 1px 2px rgba(20,16,55,.06), 0 36px 70px -28px rgba(20,16,55,.5); outline: none; }
 .sd-frame img, .sd-frame video { display: block; width: 100%; height: auto; }
+.sd-zoom { position: relative; }
+.sd-zoom-badge { position: absolute; right: .8rem; bottom: .8rem; display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: rgba(20,16,55,.62); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 0 0 1px rgba(255,255,255,.18); color: #fff; font-size: 18px; transition: transform .2s ease, background .2s ease; pointer-events: none; }
+.sd-zoom:hover .sd-zoom-badge, .sd-zoom:focus-visible .sd-zoom-badge { transform: scale(1.08); background: var(--gold); }
+.sd-figure.thumb .sd-zoom-badge { right: .55rem; bottom: .55rem; width: 1.85rem; height: 1.85rem; font-size: 15px; }
 .sd-figure.primary .sd-frame img, .sd-figure.primary .sd-frame video { aspect-ratio: 16 / 10; object-fit: cover; }
 .sd-figure.thumb .sd-frame img { aspect-ratio: 16 / 10; object-fit: cover; }
 .sd-figure.diagram .sd-frame { background: var(--navy-2); box-shadow: inset 0 0 0 1px var(--rule-mid); }
@@ -793,7 +796,8 @@ a.feedback-citation:hover { color: var(--gold); }
 .sd-points li { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); padding: 1rem 0; border-bottom: 1px solid var(--rule); }
 .sd-point-num { padding-top: .2rem; font-size: .74rem; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
 .sd-points p { font-size: .95rem; line-height: 1.65; color: var(--cream); }
-.sd-points.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1.5rem; border-top: none; }
+.sd-points.cols { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 1rem; margin-top: 1.5rem; border-top: none; }
+.sd-split + .sd-points.cols { margin-top: 2.5rem; }
 .sd-points.cols li { grid-template-columns: minmax(0, 1fr); gap: .55rem; padding: 1.3rem 1.4rem 1.4rem; border: 1px solid var(--rule-mid); border-radius: 14px; background: var(--navy-2); }
 .sd-actions { margin-top: 1.6rem; }
 .sd-code { display: inline-flex; align-items: center; gap: .5rem; padding: .55rem 1rem; border: 1px solid var(--rule-mid); border-radius: 999px; background: var(--navy); font-size: .8rem; font-weight: 600; color: var(--cream); text-decoration: none; transition: border-color .2s, color .2s; }
@@ -816,12 +820,20 @@ a.feedback-citation:hover { color: var(--gold); }
 .sd-lightbox::backdrop { background: rgba(14,10,40,.8); }
 .sd-lightbox img { display: block; max-width: 100%; max-height: 88vh; margin: 0 auto; border-radius: 10px; background: var(--navy); }
 .sd-lightbox-close { position: absolute; top: -2.4rem; right: 0; width: 2rem; height: 2rem; border: none; border-radius: 50%; background: rgba(255,255,255,.14); color: #fff; font-size: 18px; cursor: pointer; }
-@media(max-width:1100px){ .sd-split, .sd-split.is-reverse { gap: 2.5rem; } }
+@media(max-width:1100px){
+  .sd-split, .sd-split.is-reverse { gap: 2.5rem; }
+  .sd-points.cols { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+}
 @media(max-width:860px){
   .sd-case { padding: 2.75rem 0; }
   .sd-split, .sd-split.is-reverse { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; }
   .sd-split.is-reverse .sd-media { order: 0; }
   .sd-context { font-size: .98rem; }
+  .sd-points.cols { display: block; border-top: 1px solid var(--rule); }
+  .sd-points.cols li { grid-template-columns: 2.4rem minmax(0, 1fr); gap: 0; padding: 1rem 0; border: none; border-bottom: 1px solid var(--rule); border-radius: 0; background: none; }
+  .sd-split + .sd-points.cols { margin-top: 1.75rem; }
+  .sd-num { padding-right: .75rem; }
+  .sd-title-row { gap: .75rem; }
   .sd-flow { grid-template-columns: minmax(0, 1fr); }
   .sd-step:first-child { border-radius: 14px 14px 0 0; }
   .sd-step:last-child { border-radius: 0 0 14px 14px; }
@@ -1567,7 +1579,7 @@ function sdFigure(item, cls){
     return `<figure class="sd-figure ${cls}"><div class="sd-frame"><video src="${escapeHTML(item.src)}" muted loop playsinline controls preload="metadata"${item.thumbnail ? ` poster="${escapeHTML(item.thumbnail)}"` : ''}></video></div>${caption}</figure>`;
   }
   const alt = escapeHTML(item.alt || item.caption || '');
-  return `<figure class="sd-figure ${cls}"><button type="button" class="sd-frame sd-zoom" data-src="${escapeHTML(item.src)}" data-alt="${alt}" aria-label="크게 보기"><img src="${escapeHTML(item.src)}" alt="${alt}" loading="lazy"></button>${caption}</figure>`;
+  return `<figure class="sd-figure ${cls}"><button type="button" class="sd-frame sd-zoom" data-src="${escapeHTML(item.src)}" data-alt="${alt}" aria-label="크게 보기"><img src="${escapeHTML(item.src)}" alt="${alt}" loading="lazy"><span class="sd-zoom-badge" aria-hidden="true"><i class="ti ti-zoom-in"></i></span></button>${caption}</figure>`;
 }
 
 function renderSystemDesign(cases, isDemo, CATS, DEFAULT){
@@ -1591,11 +1603,14 @@ function renderSystemDesign(cases, isDemo, CATS, DEFAULT){
     ].filter(Boolean);
 
     const head = `<div class="sd-head">
-        <div class="sd-eyebrow"><span class="sd-num">${String(i + 1).padStart(2, '0')}</span>${cat.label ? `<span class="sd-cat">${escapeHTML(cat.label)}</span>` : ''}</div>
-        <h3 class="sd-title">${escapeHTML(c.title)}</h3>
+        ${cat.label ? `<div class="sd-eyebrow">${escapeHTML(cat.label)}</div>` : ''}
+        <div class="sd-title-row"><span class="sd-num">${String(i + 1).padStart(2, '0')}</span><h3 class="sd-title">${escapeHTML(c.title)}</h3></div>
         ${c.context ? `<p class="sd-context">${escapeHTML(c.context)}</p>` : ''}
       </div>`;
-    const points = decisions.length ? `<ol class="sd-points${variant === 'split' ? '' : ' cols'}">${decisions.map((d, k) => `<li><span class="sd-point-num">${String(k + 1).padStart(2, '0')}</span><p>${escapeHTML(d)}</p></li>`).join('')}</ol>` : '';
+    // 요점이 3개를 넘으면 텍스트 칸이 미디어보다 길어지므로, split 아래 전체 폭 카드 그리드로 뺀다.
+    const pointsBelow = variant !== 'split' || decisions.length > 3;
+    const cols = decisions.length <= 3 ? decisions.length : decisions.length === 4 ? 2 : 3;
+    const points = decisions.length ? `<ol class="sd-points${pointsBelow ? ' cols' : ''}" style="--cols:${cols}">${decisions.map((d, k) => `<li><span class="sd-point-num">${String(k + 1).padStart(2, '0')}</span><p>${escapeHTML(d)}</p></li>`).join('')}</ol>` : '';
     const code = sdCodeLink(c);
     const actions = code ? `<div class="sd-actions">${code}</div>` : '';
     const flow = steps.length ? `<ol class="sd-flow" style="--n:${steps.length}">${steps.map(([k, icon, v, cls]) => `<li class="sd-step ${cls || ''}"><div class="sd-step-k"><i class="ti ${icon}" aria-hidden="true"></i>${k}</div><p>${escapeHTML(v)}</p></li>`).join('')}</ol>` : '';
@@ -1603,7 +1618,9 @@ function renderSystemDesign(cases, isDemo, CATS, DEFAULT){
     let body;
     if(variant === 'split'){
       const media = `<div class="sd-media">${sdFigure(primary[0], 'primary ' + primary[1])}${rest.length ? `<div class="sd-media-rest">${rest.map(([m, kind]) => sdFigure(m, 'thumb ' + kind)).join('')}</div>` : ''}</div>`;
-      body = `<div class="sd-split${i % 2 ? '' : ' is-reverse'}">${media}<div class="sd-copy">${head}${points}${actions}</div></div>`;
+      body = pointsBelow
+        ? `<div class="sd-split${i % 2 ? '' : ' is-reverse'}">${media}<div class="sd-copy">${head}${actions}</div></div>${points}`
+        : `<div class="sd-split${i % 2 ? '' : ' is-reverse'}">${media}<div class="sd-copy">${head}${points}${actions}</div></div>`;
     } else if(variant === 'full'){
       body = `${head}${sdFigure(diagram, 'diagram full')}${points}${actions}`;
     } else {
