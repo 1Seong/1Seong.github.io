@@ -20,7 +20,7 @@ v1에서 따로 두었던 Architecture 섹션은 없앤다. 전체 구조도도 
 | 3 | Optimization | 일단 그대로. 나중에 사례로 합칠지 결정 |
 | 4 | Retrospective, Feedback, Other | 그대로 |
 
-섹션 이름 후보: `System Design`(추천), `Architecture Decisions`, `Core Systems`.
+섹션 이름: **`System Design`** (확정).
 
 ## 스키마 (선택 필드, 없으면 기존 섹션을 그대로 렌더)
 
@@ -77,6 +77,5 @@ size: "full"                              size: "side" (기본)
 
 ## 결정이 필요한 것
 
-1. 섹션 이름
-2. Optimization을 사례로 합칠지
-3. 서브 프로젝트도 이 구조로 바꿀지 (추천: 메인 4개 먼저, 서브는 기존 구조 유지 가능)
+1. Optimization을 사례로 합칠지
+2. 서브 프로젝트도 이 구조로 바꿀지 (추천: 메인 4개 먼저, 서브는 기존 구조 유지 가능)
