@@ -1,10 +1,11 @@
-/* Tabler Icons v3.19.0 (MIT) — 사용 중인 아이콘 43개만 포함한 서브셋.
+/* Tabler Icons v3.19.0 (MIT) — 사용 중인 아이콘 45개만 포함한 서브셋.
    생성: bash .claude/scripts/build-icons.sh (직접 편집하지 말 것) */
 @font-face{font-family:"tabler-icons";font-style:normal;font-weight:400;font-display:block;
-src:url("tabler-icons-subset.woff2?v=f7c09377") format("woff2")}
+src:url("tabler-icons-subset.woff2?v=d4bed182") format("woff2")}
 .ti{font-family:"tabler-icons"!important;speak:none;font-style:normal;font-weight:normal;font-variant:normal;
 text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 .ti-accessible:before{content:"\eba9"}
+.ti-alert-circle:before{content:"\ea05"}
 .ti-atom-2:before{content:"\ebdf"}
 .ti-bolt:before{content:"\ea38"}
 .ti-brand-android:before{content:"\ec16"}
@@ -35,6 +36,7 @@ text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-fo
 .ti-point:before{content:"\eb0c"}
 .ti-quote:before{content:"\efbe"}
 .ti-rotate-rectangle:before{content:"\ec15"}
+.ti-search:before{content:"\eb1c"}
 .ti-server:before{content:"\eb1f"}
 .ti-settings:before{content:"\eb20"}
 .ti-sitemap:before{content:"\eb9d"}

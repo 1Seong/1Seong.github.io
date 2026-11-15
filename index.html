@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <!-- 아이콘: 사용 중인 Tabler 아이콘만 담은 로컬 서브셋 (재생성: bash .claude/scripts/build-icons.sh) -->
-<link rel="stylesheet" href="assets/vendor/tabler-icons/tabler-icons-subset.css?v=879dd359">
+<link rel="stylesheet" href="assets/vendor/tabler-icons/tabler-icons-subset.css?v=6574c5bf">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -760,66 +760,74 @@ a.feedback-citation:hover { color: var(--gold); }
 .home-toc a.sub { padding: .22rem 0; font-size: .62rem; font-weight: 600; letter-spacing: .06em; text-transform: none; }
 .home-toc a.sub::before { width: 5px; height: 5px; margin: 0 2px; border-width: 1px; }
 
-/* ── System Design 사례: 카드 한 장 = 왼쪽 메타 칸(번호·분류·코드) + 오른쪽 본문.
-   본문은 Context → Decisions(+미디어) → Issue(가로 3칸) → Result 순으로 라벨을 붙여 위계를 만든다 ── */
+/* ── System Design 사례: 슬라이드 한 장처럼 큰 미디어 + 핵심 텍스트를 좌우로 나누고(사례마다 좌우 교대),
+   문제 → 원인 → 해결 → 결과는 한 줄 흐름 스트립 하나로 통일한다 ── */
 .sd-demo-note { margin: -.5rem 0 1.5rem; padding: .6rem .85rem; border: 1px dashed var(--rule-mid); border-radius: 6px; font-size: .8rem; line-height: 1.6; color: var(--cream-3); }
-.sd-list { display: flex; flex-direction: column; gap: 1.75rem; }
-.sd-case { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 2.5rem; padding: 2.25rem 2.5rem 2.5rem 2rem; background: var(--navy-2); border: 1px solid var(--rule-mid); border-radius: 12px; }
-.sd-side-meta { position: sticky; top: calc(var(--nav-h) + 1.5rem); align-self: start; display: flex; flex-direction: column; align-items: flex-start; gap: .55rem; }
-.sd-num { font-size: 2.75rem; font-weight: 300; line-height: 1; letter-spacing: -.03em; color: var(--gold); font-variant-numeric: tabular-nums; margin-bottom: .35rem; }
-.sd-cat { display: inline-flex; align-items: center; gap: .35rem; font-size: .78rem; font-weight: 600; color: var(--cream-2); }
-.sd-cat i { font-size: 15px; color: var(--gold); }
-.sd-code { display: inline-flex; align-items: center; gap: .35rem; font-size: .76rem; color: var(--cream-3); text-decoration: none; border-bottom: 1px solid var(--rule-mid); transition: color .2s, border-color .2s; }
-.sd-code i { font-size: 14px; }
-.sd-code:hover { color: var(--gold); border-color: var(--gold); }
-.sd-main { min-width: 0; }
-.sd-title { font-size: 1.6rem; font-weight: 700; line-height: 1.3; letter-spacing: -.015em; color: var(--white); margin-bottom: .7rem; }
-.sd-context { max-width: 60ch; margin-bottom: 2rem; font-size: 1.04rem; line-height: 1.75; color: var(--cream-2); }
-.sd-label { display: flex; align-items: center; gap: .7rem; margin-bottom: .85rem; font-size: .64rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
-.sd-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
-.sd-label.warn { color: #93600e; }
-.sd-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
-.sd-case.has-aside .sd-body { grid-template-columns: minmax(0, 1fr) minmax(0, 380px); align-items: start; }
-.sd-decisions { list-style: none; counter-reset: sd; display: flex; flex-direction: column; gap: .9rem; }
-.sd-decisions li { counter-increment: sd; display: grid; grid-template-columns: 2rem minmax(0, 1fr); font-size: .93rem; line-height: 1.7; color: var(--cream); }
-.sd-decisions li::before { content: counter(sd); width: 1.35rem; height: 1.35rem; margin-top: .2rem; border-radius: 50%; display: grid; place-items: center; background: var(--gold); color: #fff; font-size: .68rem; font-weight: 700; }
-.sd-issue { margin-top: 2.25rem; }
-.sd-issue-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid rgba(201,138,26,.3); border-radius: 8px; background: rgba(201,138,26,.05); }
-.sd-issue-cell { padding: .9rem 1.1rem 1rem; }
-.sd-issue-cell + .sd-issue-cell { border-left: 1px solid rgba(201,138,26,.22); }
-.sd-issue-cell dt { margin-bottom: .3rem; font-size: .72rem; font-weight: 700; color: #93600e; }
-.sd-issue-cell dd { font-size: .86rem; line-height: 1.65; color: var(--cream-2); }
-.sd-result { margin-top: 1.75rem; }
-.sd-result p { display: flex; gap: .65rem; align-items: baseline; padding: .9rem 1.1rem; border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; background: var(--navy); font-size: .95rem; font-weight: 600; line-height: 1.6; color: var(--cream); }
-.sd-result i { color: var(--gold); font-size: 17px; transform: translateY(2px); }
-.sd-aside { position: sticky; top: calc(var(--nav-h) + 1.5rem); display: flex; flex-direction: column; gap: 1.25rem; }
+.sd-list { display: flex; flex-direction: column; }
+.sd-case { padding: 3.75rem 0; border-top: 1px solid var(--rule); }
+.sd-case:first-child { padding-top: .75rem; border-top: none; }
+.sd-eyebrow { display: flex; align-items: center; gap: .6rem; margin-bottom: .85rem; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.sd-num { color: var(--gold); font-variant-numeric: tabular-nums; }
+.sd-cat { display: inline-flex; align-items: center; gap: .6rem; color: var(--cream-3); }
+.sd-cat::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: .7; }
+.sd-title { font-size: clamp(1.4rem, 2.1vw, 1.85rem); font-weight: 700; line-height: 1.28; letter-spacing: -.02em; color: var(--white); }
+.sd-context { max-width: 46ch; margin-top: .75rem; font-size: 1.04rem; line-height: 1.7; color: var(--cream-2); }
+.sd-split { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 3.5rem; align-items: center; }
+.sd-split.is-reverse { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+.sd-split.is-reverse .sd-media { order: 2; }
+.sd-media { display: flex; flex-direction: column; gap: .75rem; min-width: 0; }
+.sd-media-rest { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
 .sd-figure { margin: 0; }
-.sd-frame { display: block; width: 100%; padding: 0; border: 1px solid var(--rule-mid); border-radius: 8px; background: var(--navy); overflow: hidden; }
-.sd-zoom { cursor: zoom-in; transition: border-color .2s, box-shadow .2s; }
-.sd-zoom:hover, .sd-zoom:focus-visible { border-color: var(--gold); box-shadow: 0 10px 30px rgba(20,16,55,.1); outline: none; }
+.sd-frame { display: block; width: 100%; padding: 0; border: none; border-radius: 14px; overflow: hidden; background: var(--navy-3); box-shadow: 0 1px 2px rgba(20,16,55,.06), 0 28px 60px -28px rgba(20,16,55,.45); }
+.sd-zoom { cursor: zoom-in; transition: transform .25s ease, box-shadow .25s ease; }
+.sd-zoom:hover, .sd-zoom:focus-visible { transform: translateY(-3px); box-shadow: 0 1px 2px rgba(20,16,55,.06), 0 36px 70px -28px rgba(20,16,55,.5); outline: none; }
 .sd-frame img, .sd-frame video { display: block; width: 100%; height: auto; }
-.sd-figure.media .sd-frame img, .sd-figure.media .sd-frame video { aspect-ratio: 16 / 9; object-fit: cover; }
-.sd-figure.full { margin-bottom: 2.25rem; }
-.sd-figure.diagram .sd-frame img { padding: 1.5rem; box-sizing: border-box; object-fit: contain; }
-.sd-figure.full .sd-frame img { max-height: 520px; }
-.sd-figure figcaption { margin-top: .55rem; font-size: .76rem; line-height: 1.5; color: var(--cream-3); }
+.sd-figure.primary .sd-frame img, .sd-figure.primary .sd-frame video { aspect-ratio: 16 / 10; object-fit: cover; }
+.sd-figure.thumb .sd-frame img { aspect-ratio: 16 / 10; object-fit: cover; }
+.sd-figure.diagram .sd-frame { background: var(--navy-2); box-shadow: inset 0 0 0 1px var(--rule-mid); }
+.sd-figure.diagram .sd-frame img { aspect-ratio: auto; padding: 2rem; box-sizing: border-box; object-fit: contain; }
+.sd-figure.full { margin: 2.25rem 0 0; }
+.sd-figure.full .sd-frame img { max-height: 560px; }
+.sd-figure figcaption { margin-top: .7rem; font-size: .78rem; line-height: 1.5; color: var(--cream-3); }
+.sd-points { list-style: none; margin-top: 1.75rem; border-top: 1px solid var(--rule); }
+.sd-points li { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); padding: 1rem 0; border-bottom: 1px solid var(--rule); }
+.sd-point-num { padding-top: .2rem; font-size: .74rem; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
+.sd-points p { font-size: .95rem; line-height: 1.65; color: var(--cream); }
+.sd-points.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1.5rem; border-top: none; }
+.sd-points.cols li { grid-template-columns: minmax(0, 1fr); gap: .55rem; padding: 1.3rem 1.4rem 1.4rem; border: 1px solid var(--rule-mid); border-radius: 14px; background: var(--navy-2); }
+.sd-actions { margin-top: 1.6rem; }
+.sd-code { display: inline-flex; align-items: center; gap: .5rem; padding: .55rem 1rem; border: 1px solid var(--rule-mid); border-radius: 999px; background: var(--navy); font-size: .8rem; font-weight: 600; color: var(--cream); text-decoration: none; transition: border-color .2s, color .2s; }
+.sd-code i { font-size: 15px; }
+.sd-code::after { content: '\2197'; font-size: .9em; color: var(--cream-3); transition: color .2s; }
+.sd-code:hover, .sd-code:hover::after { border-color: var(--gold); color: var(--gold); }
+.sd-flow { list-style: none; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); margin-top: 2.75rem; border: 1px solid var(--rule-mid); border-radius: 14px; background: var(--navy-2); }
+.sd-step { position: relative; padding: 1.2rem 1.4rem 1.35rem; }
+.sd-step:first-child { border-radius: 14px 0 0 14px; }
+.sd-step:last-child { border-radius: 0 14px 14px 0; }
+.sd-step + .sd-step { border-left: 1px solid var(--rule-mid); }
+.sd-step + .sd-step::before { content: ''; position: absolute; left: -7px; top: 1.4rem; width: 12px; height: 12px; background: var(--navy-2); border-top: 1px solid var(--rule-mid); border-right: 1px solid var(--rule-mid); transform: rotate(45deg); }
+.sd-step-k { display: flex; align-items: center; gap: .4rem; margin-bottom: .45rem; font-size: .74rem; font-weight: 700; letter-spacing: .02em; color: var(--cream-3); }
+.sd-step-k i { font-size: 16px; }
+.sd-step p { font-size: .88rem; line-height: 1.6; color: var(--cream-2); }
+.sd-step.is-result { background: rgba(80,64,200,.08); }
+.sd-step.is-result .sd-step-k { color: var(--gold); }
+.sd-step.is-result p { font-weight: 600; color: var(--cream); }
 .sd-lightbox { max-width: min(1200px, 94vw); max-height: 92vh; padding: 0; border: none; background: transparent; overflow: visible; }
-.sd-lightbox::backdrop { background: rgba(14,10,40,.78); }
-.sd-lightbox img { display: block; max-width: 100%; max-height: 88vh; margin: 0 auto; border-radius: 6px; background: var(--navy); }
+.sd-lightbox::backdrop { background: rgba(14,10,40,.8); }
+.sd-lightbox img { display: block; max-width: 100%; max-height: 88vh; margin: 0 auto; border-radius: 10px; background: var(--navy); }
 .sd-lightbox-close { position: absolute; top: -2.4rem; right: 0; width: 2rem; height: 2rem; border: none; border-radius: 50%; background: rgba(255,255,255,.14); color: #fff; font-size: 18px; cursor: pointer; }
-@media(max-width:1100px){
-  .sd-case.has-aside .sd-body { grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 2rem; }
-}
+@media(max-width:1100px){ .sd-split, .sd-split.is-reverse { gap: 2.5rem; } }
 @media(max-width:860px){
-  .sd-case { grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 1.4rem 1.2rem 1.6rem; }
-  .sd-side-meta { position: static; flex-direction: row; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; }
-  .sd-num { font-size: 1.7rem; margin: 0 .2rem 0 0; }
-  .sd-title { font-size: 1.22rem; }
-  .sd-context { font-size: .96rem; margin-bottom: 1.5rem; }
-  .sd-case.has-aside .sd-body { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
-  .sd-aside { position: static; order: -1; }
-  .sd-issue-grid { grid-template-columns: minmax(0, 1fr); }
-  .sd-issue-cell + .sd-issue-cell { border-left: none; border-top: 1px solid rgba(201,138,26,.22); }
+  .sd-case { padding: 2.75rem 0; }
+  .sd-split, .sd-split.is-reverse { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; }
+  .sd-split.is-reverse .sd-media { order: 0; }
+  .sd-context { font-size: .98rem; }
+  .sd-flow { grid-template-columns: minmax(0, 1fr); }
+  .sd-step:first-child { border-radius: 14px 14px 0 0; }
+  .sd-step:last-child { border-radius: 0 0 14px 14px; }
+  .sd-step + .sd-step { border-left: none; border-top: 1px solid var(--rule-mid); }
+  .sd-step + .sd-step::before { left: 1.4rem; top: -7px; transform: rotate(135deg); }
+  .sd-figure.diagram .sd-frame img { padding: 1rem; }
 }
 
 @media(min-width:1360px) and (max-width:1599px){
@@ -1565,36 +1573,44 @@ function sdFigure(item, cls){
 function renderSystemDesign(cases, isDemo, CATS, DEFAULT){
   const cards = cases.map((c, i) => {
     const cat = (c.category && CATS[c.category]) || DEFAULT;
-    const diagram = c.diagram?.src ? c.diagram : null;
+    const diagram = c.diagram?.src ? { ...c.diagram, type: 'image' } : null;
     const full = diagram && diagram.size === 'full';
-    const asideHTML = [
-      ...(c.media || []).slice(0, 2).map(m => sdFigure(m, 'media')),
-      diagram && !full ? sdFigure({ ...diagram, type: 'image' }, 'diagram') : '',
-    ].join('');
+    const visuals = [
+      ...(c.media || []).filter(m => m?.src).slice(0, 2).map(m => [m, 'media']),
+      ...(diagram && !full ? [[diagram, 'diagram']] : []),
+    ];
+    const [primary, ...rest] = visuals;
+    const variant = full ? 'full' : primary ? 'split' : 'text';
     const decisions = Array.isArray(c.decisions) ? c.decisions.filter(Boolean) : [];
-    const issue = c.issue && (c.issue.problem || c.issue.cause || c.issue.fix) ? c.issue : null;
+    const issue = c.issue || {};
+    const steps = [
+      issue.problem && ['문제', 'ti-alert-circle', issue.problem],
+      issue.cause && ['원인', 'ti-search', issue.cause],
+      issue.fix && ['해결', 'ti-tool', issue.fix],
+      c.result && ['결과', 'ti-circle-check', c.result, 'is-result'],
+    ].filter(Boolean);
+
+    const head = `<div class="sd-head">
+        <div class="sd-eyebrow"><span class="sd-num">${String(i + 1).padStart(2, '0')}</span>${cat.label ? `<span class="sd-cat">${escapeHTML(cat.label)}</span>` : ''}</div>
+        <h3 class="sd-title">${escapeHTML(c.title)}</h3>
+        ${c.context ? `<p class="sd-context">${escapeHTML(c.context)}</p>` : ''}
+      </div>`;
+    const points = decisions.length ? `<ol class="sd-points${variant === 'split' ? '' : ' cols'}">${decisions.map((d, k) => `<li><span class="sd-point-num">${String(k + 1).padStart(2, '0')}</span><p>${escapeHTML(d)}</p></li>`).join('')}</ol>` : '';
+    const code = sdCodeLink(c);
+    const actions = code ? `<div class="sd-actions">${code}</div>` : '';
+    const flow = steps.length ? `<ol class="sd-flow" style="--n:${steps.length}">${steps.map(([k, icon, v, cls]) => `<li class="sd-step ${cls || ''}"><div class="sd-step-k"><i class="ti ${icon}" aria-hidden="true"></i>${k}</div><p>${escapeHTML(v)}</p></li>`).join('')}</ol>` : '';
+
+    let body;
+    if(variant === 'split'){
+      const media = `<div class="sd-media">${sdFigure(primary[0], 'primary ' + primary[1])}${rest.length ? `<div class="sd-media-rest">${rest.map(([m, kind]) => sdFigure(m, 'thumb ' + kind)).join('')}</div>` : ''}</div>`;
+      body = `<div class="sd-split${i % 2 ? '' : ' is-reverse'}">${media}<div class="sd-copy">${head}${points}${actions}</div></div>`;
+    } else if(variant === 'full'){
+      body = `${head}${sdFigure(diagram, 'diagram full')}${points}${actions}`;
+    } else {
+      body = `${head}${points}${actions}`;
+    }
     return `
-      <article class="sd-case${asideHTML ? ' has-aside' : ''}" id="sd-case-${i + 1}" data-toc="${escapeHTML(c.title)}">
-        <div class="sd-side-meta">
-          <span class="sd-num">${String(i + 1).padStart(2, '0')}</span>
-          ${cat.label ? `<span class="sd-cat"><i class="ti ${cat.icon}" aria-hidden="true"></i>${escapeHTML(cat.label)}</span>` : ''}
-          ${sdCodeLink(c)}
-        </div>
-        <div class="sd-main">
-          <h3 class="sd-title">${escapeHTML(c.title)}</h3>
-          ${c.context ? `<p class="sd-context">${escapeHTML(c.context)}</p>` : ''}
-          ${full ? sdFigure({ ...diagram, type: 'image' }, 'diagram full') : ''}
-          ${decisions.length || asideHTML ? `<div class="sd-body">
-            <div>${decisions.length ? `<div class="sd-label">Decisions</div><ol class="sd-decisions">${decisions.map(d => `<li>${escapeHTML(d)}</li>`).join('')}</ol>` : ''}</div>
-            ${asideHTML ? `<div class="sd-aside">${asideHTML}</div>` : ''}
-          </div>` : ''}
-          ${issue ? `<div class="sd-issue">
-            <div class="sd-label warn">Issue</div>
-            <dl class="sd-issue-grid">${[['문제', issue.problem], ['원인', issue.cause], ['해결', issue.fix]].filter(([, v]) => v).map(([k, v]) => `<div class="sd-issue-cell"><dt>${k}</dt><dd>${escapeHTML(v)}</dd></div>`).join('')}</dl>
-          </div>` : ''}
-          ${c.result ? `<div class="sd-result"><div class="sd-label">Result</div><p><i class="ti ti-circle-check" aria-hidden="true"></i>${escapeHTML(c.result)}</p></div>` : ''}
-        </div>
-      </article>`;
+      <article class="sd-case is-${variant}" id="sd-case-${i + 1}" data-toc="${escapeHTML(c.title)}">${body}${flow}</article>`;
   }).join('');
   return `<div class="detail-section" id="detail-system-design">
     <div class="detail-section-label">System Design</div>
