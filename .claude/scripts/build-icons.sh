@@ -22,10 +22,10 @@ tar xzf "$WORK/t.tgz" -C "$WORK"
 ICONS="$(grep -ohE '\bti-[a-z0-9]+(-[a-z0-9]+)*' "$ROOT/index.html" "$ROOT/portfolio-data.js" | sort -u)"
 mkdir -p "$OUT"
 
-python3 - "$WORK/package/dist" "$OUT" "$VERSION" $ICONS <<'PY'
-import re, sys, os
+python3 - "$WORK/package/dist" "$OUT" "$VERSION" "${INDEX_HTML:-$ROOT/index.html}" $ICONS <<'PY'
+import re, sys, os, hashlib
 from fontTools import subset
-dist, out, ver, *icons = sys.argv[1:]
+dist, out, ver, index_html, *icons = sys.argv[1:]
 css = open(os.path.join(dist, 'tabler-icons.css'), encoding='utf8').read()
 glyphs = dict(re.findall(r'\.(ti-[a-z0-9-]+):before\s*\{\s*content:\s*"\\([0-9a-f]+)"', css))
 missing = [i for i in icons if i not in glyphs]
@@ -37,18 +37,26 @@ font = subset.load_font(os.path.join(dist, 'fonts', 'tabler-icons.ttf'), opts)
 for t in ('GSUB', 'GPOS', 'GDEF'):  # 원본의 리거처 테이블이 fontTools에서 깨져 읽히므로 제외 (코드포인트로만 사용)
     if t in font: del font[t]
 s = subset.Subsetter(opts); s.populate(unicodes=[int(glyphs[i], 16) for i in used]); s.subset(font)
-subset.save_font(font, os.path.join(out, 'tabler-icons-subset.woff2'), opts)
+woff2 = os.path.join(out, 'tabler-icons-subset.woff2')
+subset.save_font(font, woff2, opts)
+# 파일 이름은 그대로라서 브라우저가 옛 폰트·CSS를 섞어 쓰면 새 아이콘이 빈칸이 된다. 내용 해시를 ?v=로 붙인다.
+fver = hashlib.sha1(open(woff2, 'rb').read()).hexdigest()[:8]
 rules = '\n'.join(f'.{i}:before{{content:"\\{glyphs[i]}"}}' for i in used)
-open(os.path.join(out, 'tabler-icons-subset.css'), 'w', encoding='utf8').write(
-f'''/* Tabler Icons v{ver} (MIT) — 사용 중인 아이콘 {len(used)}개만 포함한 서브셋.
+css_text = f'''/* Tabler Icons v{ver} (MIT) — 사용 중인 아이콘 {len(used)}개만 포함한 서브셋.
    생성: bash .claude/scripts/build-icons.sh (직접 편집하지 말 것) */
 @font-face{{font-family:"tabler-icons";font-style:normal;font-weight:400;font-display:block;
-src:url("tabler-icons-subset.woff2") format("woff2")}}
+src:url("tabler-icons-subset.woff2?v={fver}") format("woff2")}}
 .ti{{font-family:"tabler-icons"!important;speak:none;font-style:normal;font-weight:normal;font-variant:normal;
 text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}}
 {rules}
-''')
-print(f'아이콘 {len(used)}개 → {out}')
+'''
+open(os.path.join(out, 'tabler-icons-subset.css'), 'w', encoding='utf8').write(css_text)
+# index.html의 CSS 링크에도 CSS 내용 해시를 붙인다. (INDEX_HTML로 다른 경로에 쓸 수 있다)
+cver = hashlib.sha1(css_text.encode('utf8')).hexdigest()[:8]
+html = open(index_html, encoding='utf8', newline='').read()
+html, n = re.subn(r'tabler-icons-subset\.css(\?v=[0-9a-f]+)?"', f'tabler-icons-subset.css?v={cver}"', html)
+open(index_html, 'w', encoding='utf8', newline='').write(html)
+print(f'아이콘 {len(used)}개 → {out} (woff2 v={fver}, css v={cver}, index.html 링크 {n}곳)')
 PY
 cp "$WORK/package/LICENSE" "$OUT/LICENSE"
 ls -la "$OUT"
