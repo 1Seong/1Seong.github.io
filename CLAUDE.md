@@ -37,7 +37,7 @@
 
 - 전역: `PROFILE`, `MILESTONE_SUMMARY`, `SKILLS`, `BOOKS`, `AWARDS`, `OTHER_WORKS`, `PROJECT_ORDER`, `MAIN_PROJECT_IDS`, `PROJECTS`, `DETAIL_LINK_SLOTS`
 - 홈 첫 화면의 '한눈에 보기' 패널은 `MILESTONE_SUMMARY`, `AWARDS.수상`, `AWARDS.시험및자격증`을 그대로 보여 준다. 이 값들은 짧게 유지한다.
-- Activities 섹션(`#awards`)은 `AWARDS.대외활동`·`수상`·`시험및자격증`을 한 타임라인에 `date` 내림차순으로 합쳐 보여 준다.
+- Activities 섹션(`#awards`)은 `AWARDS.대외활동`을 연도별 타임라인으로, `수상`·`시험및자격증`을 옆의 별도 목록으로 보여 준다(모두 `date` 내림차순).
   `date`는 `YYYY.MM` 또는 `YYYY.MM.DD ~ YYYY.MM.DD`로 시작해야 한다(앞 4자리가 연도 표시). `url`·`validity`는 선택. `MILESTONE_SUMMARY`가 비면 요약 줄을 숨긴다.
 - 표시 순서는 `PROJECT_ORDER`, 메인 카드는 `MAIN_PROJECT_IDS`가 정한다. 나머지는 서브 프로젝트다.
   `showMore:false` 또는 `detail.showMore:false`이면 상세 페이지가 없다.
