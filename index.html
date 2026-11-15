@@ -760,53 +760,68 @@ a.feedback-citation:hover { color: var(--gold); }
 .home-toc a.sub { padding: .22rem 0; font-size: .62rem; font-weight: 600; letter-spacing: .06em; text-transform: none; }
 .home-toc a.sub::before { width: 5px; height: 5px; margin: 0 2px; border-width: 1px; }
 
-/* ── System Design 사례: 카드 대신 구분선과 여백으로 나누고, 본문 폭을 읽기 좋은 길이로 제한 ── */
+/* ── System Design 사례: 카드 한 장 = 왼쪽 메타 칸(번호·분류·코드) + 오른쪽 본문.
+   본문은 Context → Decisions(+미디어) → Issue(가로 3칸) → Result 순으로 라벨을 붙여 위계를 만든다 ── */
 .sd-demo-note { margin: -.5rem 0 1.5rem; padding: .6rem .85rem; border: 1px dashed var(--rule-mid); border-radius: 6px; font-size: .8rem; line-height: 1.6; color: var(--cream-3); }
-.sd-case { padding: 2.4rem 0; border-top: 1px solid var(--rule); }
-.sd-case:first-child { padding-top: .25rem; border-top: none; }
-.sd-head { display: flex; gap: 1rem; align-items: baseline; margin-bottom: 1.35rem; }
-.sd-num { flex-shrink: 0; font-size: .8rem; font-weight: 700; letter-spacing: .08em; color: var(--gold); font-variant-numeric: tabular-nums; }
-.sd-title { font-size: 1.32rem; font-weight: 700; line-height: 1.35; letter-spacing: -.01em; color: var(--white); }
-.sd-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem 1.1rem; margin-top: .4rem; font-size: .78rem; color: var(--cream-3); }
-.sd-meta i { margin-right: .3rem; font-size: 14px; vertical-align: -2px; }
-.sd-code { color: var(--cream-2); text-decoration: none; border-bottom: 1px solid var(--rule-mid); transition: color .2s, border-color .2s; }
+.sd-list { display: flex; flex-direction: column; gap: 1.75rem; }
+.sd-case { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 2.5rem; padding: 2.25rem 2.5rem 2.5rem 2rem; background: var(--navy-2); border: 1px solid var(--rule-mid); border-radius: 12px; }
+.sd-side-meta { position: sticky; top: calc(var(--nav-h) + 1.5rem); align-self: start; display: flex; flex-direction: column; align-items: flex-start; gap: .55rem; }
+.sd-num { font-size: 2.75rem; font-weight: 300; line-height: 1; letter-spacing: -.03em; color: var(--gold); font-variant-numeric: tabular-nums; margin-bottom: .35rem; }
+.sd-cat { display: inline-flex; align-items: center; gap: .35rem; font-size: .78rem; font-weight: 600; color: var(--cream-2); }
+.sd-cat i { font-size: 15px; color: var(--gold); }
+.sd-code { display: inline-flex; align-items: center; gap: .35rem; font-size: .76rem; color: var(--cream-3); text-decoration: none; border-bottom: 1px solid var(--rule-mid); transition: color .2s, border-color .2s; }
+.sd-code i { font-size: 14px; }
 .sd-code:hover { color: var(--gold); border-color: var(--gold); }
-.sd-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.25rem; }
-.sd-case.has-aside .sd-body { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); align-items: start; }
-.sd-text { max-width: 62ch; }
-.sd-context { margin-bottom: 1.15rem; font-size: 1rem; line-height: 1.75; color: var(--cream); }
-.sd-decisions { list-style: none; counter-reset: sd; display: flex; flex-direction: column; gap: .65rem; }
-.sd-decisions li { counter-increment: sd; display: grid; grid-template-columns: 1.75rem minmax(0, 1fr); font-size: .9rem; line-height: 1.7; color: var(--cream-2); }
-.sd-decisions li::before { content: counter(sd); width: 1.2rem; height: 1.2rem; margin-top: .25rem; box-sizing: border-box; border: 1px solid var(--rule-mid); border-radius: 50%; display: grid; place-items: center; font-size: .66rem; font-weight: 700; color: var(--gold); }
-.sd-issue { margin-top: 1.5rem; padding: .85rem 1rem .9rem; border-left: 3px solid #c98a1a; background: rgba(201,138,26,.06); border-radius: 0 6px 6px 0; }
-.sd-issue-label { margin-bottom: .45rem; font-size: .64rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #93600e; }
-.sd-issue dl { display: flex; flex-direction: column; gap: .3rem; }
-.sd-issue dl div { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: .5rem; font-size: .85rem; line-height: 1.6; }
-.sd-issue dt { font-weight: 600; color: var(--cream-3); }
-.sd-issue dd { color: var(--cream-2); }
-.sd-result { display: flex; gap: .5rem; align-items: baseline; margin-top: 1.15rem; font-size: .9rem; font-weight: 600; line-height: 1.6; color: var(--cream); }
-.sd-result i { color: var(--gold); font-size: 16px; transform: translateY(2px); }
+.sd-main { min-width: 0; }
+.sd-title { font-size: 1.6rem; font-weight: 700; line-height: 1.3; letter-spacing: -.015em; color: var(--white); margin-bottom: .7rem; }
+.sd-context { max-width: 60ch; margin-bottom: 2rem; font-size: 1.04rem; line-height: 1.75; color: var(--cream-2); }
+.sd-label { display: flex; align-items: center; gap: .7rem; margin-bottom: .85rem; font-size: .64rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+.sd-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+.sd-label.warn { color: #93600e; }
+.sd-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+.sd-case.has-aside .sd-body { grid-template-columns: minmax(0, 1fr) minmax(0, 380px); align-items: start; }
+.sd-decisions { list-style: none; counter-reset: sd; display: flex; flex-direction: column; gap: .9rem; }
+.sd-decisions li { counter-increment: sd; display: grid; grid-template-columns: 2rem minmax(0, 1fr); font-size: .93rem; line-height: 1.7; color: var(--cream); }
+.sd-decisions li::before { content: counter(sd); width: 1.35rem; height: 1.35rem; margin-top: .2rem; border-radius: 50%; display: grid; place-items: center; background: var(--gold); color: #fff; font-size: .68rem; font-weight: 700; }
+.sd-issue { margin-top: 2.25rem; }
+.sd-issue-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid rgba(201,138,26,.3); border-radius: 8px; background: rgba(201,138,26,.05); }
+.sd-issue-cell { padding: .9rem 1.1rem 1rem; }
+.sd-issue-cell + .sd-issue-cell { border-left: 1px solid rgba(201,138,26,.22); }
+.sd-issue-cell dt { margin-bottom: .3rem; font-size: .72rem; font-weight: 700; color: #93600e; }
+.sd-issue-cell dd { font-size: .86rem; line-height: 1.65; color: var(--cream-2); }
+.sd-result { margin-top: 1.75rem; }
+.sd-result p { display: flex; gap: .65rem; align-items: baseline; padding: .9rem 1.1rem; border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; background: var(--navy); font-size: .95rem; font-weight: 600; line-height: 1.6; color: var(--cream); }
+.sd-result i { color: var(--gold); font-size: 17px; transform: translateY(2px); }
 .sd-aside { position: sticky; top: calc(var(--nav-h) + 1.5rem); display: flex; flex-direction: column; gap: 1.25rem; }
 .sd-figure { margin: 0; }
-.sd-frame { display: block; width: 100%; padding: 0; border: 1px solid var(--rule-mid); border-radius: var(--radius); background: var(--navy-2); overflow: hidden; }
+.sd-frame { display: block; width: 100%; padding: 0; border: 1px solid var(--rule-mid); border-radius: 8px; background: var(--navy); overflow: hidden; }
 .sd-zoom { cursor: zoom-in; transition: border-color .2s, box-shadow .2s; }
-.sd-zoom:hover, .sd-zoom:focus-visible { border-color: var(--gold); box-shadow: 0 10px 30px rgba(20,16,55,.08); outline: none; }
+.sd-zoom:hover, .sd-zoom:focus-visible { border-color: var(--gold); box-shadow: 0 10px 30px rgba(20,16,55,.1); outline: none; }
 .sd-frame img, .sd-frame video { display: block; width: 100%; height: auto; }
 .sd-figure.media .sd-frame img, .sd-figure.media .sd-frame video { aspect-ratio: 16 / 9; object-fit: cover; }
-.sd-figure.full { margin-bottom: 1.85rem; }
-.sd-figure.diagram .sd-frame img { padding: 1.25rem; box-sizing: border-box; object-fit: contain; }
+.sd-figure.full { margin-bottom: 2.25rem; }
+.sd-figure.diagram .sd-frame img { padding: 1.5rem; box-sizing: border-box; object-fit: contain; }
 .sd-figure.full .sd-frame img { max-height: 520px; }
 .sd-figure figcaption { margin-top: .55rem; font-size: .76rem; line-height: 1.5; color: var(--cream-3); }
 .sd-lightbox { max-width: min(1200px, 94vw); max-height: 92vh; padding: 0; border: none; background: transparent; overflow: visible; }
 .sd-lightbox::backdrop { background: rgba(14,10,40,.78); }
 .sd-lightbox img { display: block; max-width: 100%; max-height: 88vh; margin: 0 auto; border-radius: 6px; background: var(--navy); }
 .sd-lightbox-close { position: absolute; top: -2.4rem; right: 0; width: 2rem; height: 2rem; border: none; border-radius: 50%; background: rgba(255,255,255,.14); color: #fff; font-size: 18px; cursor: pointer; }
+@media(max-width:1100px){
+  .sd-case.has-aside .sd-body { grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 2rem; }
+}
 @media(max-width:860px){
+  .sd-case { grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 1.4rem 1.2rem 1.6rem; }
+  .sd-side-meta { position: static; flex-direction: row; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; }
+  .sd-num { font-size: 1.7rem; margin: 0 .2rem 0 0; }
+  .sd-title { font-size: 1.22rem; }
+  .sd-context { font-size: .96rem; margin-bottom: 1.5rem; }
   .sd-case.has-aside .sd-body { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
   .sd-aside { position: static; order: -1; }
-  .sd-title { font-size: 1.15rem; }
-  .sd-case { padding: 2rem 0; }
+  .sd-issue-grid { grid-template-columns: minmax(0, 1fr); }
+  .sd-issue-cell + .sd-issue-cell { border-left: none; border-top: 1px solid rgba(201,138,26,.22); }
 }
+
 @media(min-width:1360px) and (max-width:1599px){
   .detail-rail span { position: absolute; right: calc(100% + .6rem); padding: .25rem .5rem; border-radius: 4px; background: var(--nav-bg); color: var(--nav-ink); white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .15s; }
   .detail-rail a:hover span, .detail-rail a:focus-visible span { opacity: 1; }
@@ -1560,28 +1575,24 @@ function renderSystemDesign(cases, isDemo, CATS, DEFAULT){
     const issue = c.issue && (c.issue.problem || c.issue.cause || c.issue.fix) ? c.issue : null;
     return `
       <article class="sd-case${asideHTML ? ' has-aside' : ''}" id="sd-case-${i + 1}" data-toc="${escapeHTML(c.title)}">
-        <header class="sd-head">
+        <div class="sd-side-meta">
           <span class="sd-num">${String(i + 1).padStart(2, '0')}</span>
-          <div class="sd-head-text">
-            <h3 class="sd-title">${escapeHTML(c.title)}</h3>
-            <div class="sd-meta">
-              ${cat.label ? `<span><i class="ti ${cat.icon}" aria-hidden="true"></i>${escapeHTML(cat.label)}</span>` : ''}
-              ${sdCodeLink(c)}
-            </div>
-          </div>
-        </header>
-        ${full ? sdFigure({ ...diagram, type: 'image' }, 'diagram full') : ''}
-        <div class="sd-body">
-          <div class="sd-text">
-            ${c.context ? `<p class="sd-context">${escapeHTML(c.context)}</p>` : ''}
-            ${decisions.length ? `<ol class="sd-decisions">${decisions.map(d => `<li>${escapeHTML(d)}</li>`).join('')}</ol>` : ''}
-            ${issue ? `<div class="sd-issue">
-              <div class="sd-issue-label">Issue</div>
-              <dl>${[['문제', issue.problem], ['원인', issue.cause], ['해결', issue.fix]].filter(([, v]) => v).map(([k, v]) => `<div><dt>${k}</dt><dd>${escapeHTML(v)}</dd></div>`).join('')}</dl>
-            </div>` : ''}
-            ${c.result ? `<p class="sd-result"><i class="ti ti-circle-check" aria-hidden="true"></i>${escapeHTML(c.result)}</p>` : ''}
-          </div>
-          ${asideHTML ? `<div class="sd-aside">${asideHTML}</div>` : ''}
+          ${cat.label ? `<span class="sd-cat"><i class="ti ${cat.icon}" aria-hidden="true"></i>${escapeHTML(cat.label)}</span>` : ''}
+          ${sdCodeLink(c)}
+        </div>
+        <div class="sd-main">
+          <h3 class="sd-title">${escapeHTML(c.title)}</h3>
+          ${c.context ? `<p class="sd-context">${escapeHTML(c.context)}</p>` : ''}
+          ${full ? sdFigure({ ...diagram, type: 'image' }, 'diagram full') : ''}
+          ${decisions.length || asideHTML ? `<div class="sd-body">
+            <div>${decisions.length ? `<div class="sd-label">Decisions</div><ol class="sd-decisions">${decisions.map(d => `<li>${escapeHTML(d)}</li>`).join('')}</ol>` : ''}</div>
+            ${asideHTML ? `<div class="sd-aside">${asideHTML}</div>` : ''}
+          </div>` : ''}
+          ${issue ? `<div class="sd-issue">
+            <div class="sd-label warn">Issue</div>
+            <dl class="sd-issue-grid">${[['문제', issue.problem], ['원인', issue.cause], ['해결', issue.fix]].filter(([, v]) => v).map(([k, v]) => `<div class="sd-issue-cell"><dt>${k}</dt><dd>${escapeHTML(v)}</dd></div>`).join('')}</dl>
+          </div>` : ''}
+          ${c.result ? `<div class="sd-result"><div class="sd-label">Result</div><p><i class="ti ti-circle-check" aria-hidden="true"></i>${escapeHTML(c.result)}</p></div>` : ''}
         </div>
       </article>`;
   }).join('');
