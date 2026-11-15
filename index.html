@@ -136,6 +136,7 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .glance-honor { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: .65rem; align-items: center; }
 .glance-honor-icon { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--gold); color: var(--navy); font-size: 15px; }
 .glance-honor.cert .glance-honor-icon { background: var(--navy-3); color: var(--gold); }
+.glance-honor.award + .glance-honor.cert { border-top: 1px solid var(--rule-mid); padding-top: .55rem; margin-top: .15rem; }
 .glance-honor-t { display: block; font-size: .9rem; font-weight: 600; color: var(--cream); line-height: 1.35; }
 .glance-honor-s { display: block; font-size: .74rem; color: var(--cream-3); line-height: 1.35; }
 @media(max-width:640px){
@@ -1293,6 +1294,11 @@ function buildAbout(){
 
 // 히어로 오른쪽 '한눈에 보기' — 새 데이터 필드 없이 MILESTONE_SUMMARY, AWARDS, MAIN_PROJECT_IDS에서 만든다.
 // 항목이 하나도 없으면 블록째 숨긴다.
+// org · date 표기에서 줄바꿈은 org 안에서만 일어나게 한다. 기간은 '~' 앞에서만 꺾인다.
+function joinDateRange(date){
+  return (date||'').replace(/\s*~\s*/g, ' ~ ');
+}
+
 function buildAboutGlance(){
   const el=document.getElementById('about-glance');
   if(!el) return;
@@ -1314,7 +1320,7 @@ function buildAboutGlance(){
     parts.push(`<div><div class="glance-label">Awards &amp; Certificates</div><ul class="glance-list">${honors.map(h=>`
       <li class="glance-honor ${h.kind}">
         <span class="glance-honor-icon"><i class="ti ${h.icon}" aria-hidden="true"></i></span>
-        <span><span class="glance-honor-t">${escapeHTML(h.title)}</span><span class="glance-honor-s">${escapeHTML([h.org, h.date].filter(Boolean).join(' · '))}</span></span>
+        <span><span class="glance-honor-t">${escapeHTML(h.title)}</span><span class="glance-honor-s">${escapeHTML([h.org, joinDateRange(h.date)].filter(Boolean).join(' · '))}</span></span>
       </li>`).join('')}</ul></div>`);
   }
 
@@ -1403,7 +1409,7 @@ function buildAwards(){
         <div class="milestone-dot"><i class="ti ${meta.icon}" aria-hidden="true"></i></div>
         <div class="milestone-body">
           <div class="milestone-node-title">${item.url ? `<a class="milestone-source" href="${item.url}" target="_blank" rel="noopener">${item.title}</a>` : item.title}</div>
-          <div class="milestone-node-org">${item.org} · ${item.date}</div>
+          <div class="milestone-node-org">${item.org} · ${joinDateRange(item.date)}</div>
           ${item.validity ? `<div class="milestone-validity">${item.validity}</div>` : ''}
         </div>
         <div class="milestone-badge">${meta.label}</div>
