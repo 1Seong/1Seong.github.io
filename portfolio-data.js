@@ -43,6 +43,7 @@ const AWARDS = {
   // 시험및자격증: [{ date:"2024.11", title:"TOPCIT 500점", org:"정보통신기획평가원" }],
   수상: [
     { date:"2026.02", title:"최우수상 - 메토링 4기", org:"NEXON" },
+    { date:"2023.10", title:"미군 합동근무 공로훈장 (JSCM)", org:"미국 국방부" },
   ],
   대외활동: [
     { date:"2026.05.23 ~ 2026.09.04", title:"1.44MB 게임 개발 공모전 출품 — Hell Pit", org:"2P GAME ARCADE", url:"https://2pgarcade.com/contest-144mb.html" },
