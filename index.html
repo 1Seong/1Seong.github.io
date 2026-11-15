@@ -176,7 +176,7 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .cup:hover .cwl2 { animation-duration: 5s; }
 .cup-items { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 11px 10px; }
 .cup-item { display: flex; align-items: center; gap: 7px; font-size: .82rem; font-weight: 500; padding: 6px 6px; border-radius: 4px; }
-.cup-badge { width: 20px; height: 20px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 800; flex-shrink: 0; letter-spacing: -.02em; }
+.cup-icon { width: 20px; flex-shrink: 0; font-size: 18px; line-height: 1; text-align: center; opacity: .9; }
 .cup-cat { position: absolute; top: 13px; left: 13px; right: 13px; font-size: .6rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; display: flex; align-items: center; gap: 5px; z-index: 3; }
 .cup-cat-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
 
@@ -1079,6 +1079,20 @@ function buildAboutGlance(){
   el.hidden=false;
 }
 
+// 기술 이름 → Tabler 아이콘. 브랜드 아이콘이 없는 항목은 성격이 비슷한 일반 아이콘을 쓴다.
+// 새 아이콘을 추가하면 bash .claude/scripts/build-icons.sh로 서브셋을 다시 만든다.
+const SKILL_ICONS = [
+  [/unity/i, 'ti-brand-unity'], [/c#/i, 'ti-brand-c-sharp'], [/c\+\+/i, 'ti-brand-cpp'],
+  [/postgres|sql/i, 'ti-database'], [/^git$/i, 'ti-brand-git'], [/github/i, 'ti-brand-github'],
+  [/supabase/i, 'ti-brand-supabase'], [/jira/i, 'ti-layout-kanban'],
+  [/claude/i, 'ti-terminal-2'], [/codex|openai|gpt/i, 'ti-brand-openai'], [/agent|loop/i, 'ti-infinity'],
+  [/windows/i, 'ti-brand-windows'], [/android/i, 'ti-brand-android'],
+];
+function skillIcon(name){
+  const hit = SKILL_ICONS.find(([re]) => re.test(name || ''));
+  return hit ? hit[1] : 'ti-point';
+}
+
 function buildSkills(){
   const ITEM_H=34, PAD_B=10, CAT_H=44, MIN_CUP_H=180;
   const THEMES={
@@ -1102,7 +1116,7 @@ function buildSkills(){
     const itemsHTML=cat.items.map(it=>{
       const badge=it.icon
         ? `<img src="${it.icon}" alt="${it.name}" style="width:18px;height:18px;object-fit:contain;flex-shrink:0">`
-        : `<div class="cup-badge" style="background:${t.badgeBg};color:${t.badgeColor}">${it.name.replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase()}</div>`;
+        : `<i class="ti ${skillIcon(it.name)} cup-icon" style="color:${t.badgeColor}" aria-hidden="true"></i>`;
       return `<div class="cup-item" style="color:${t.itemColor}">${badge}${it.name}</div>`;
     }).join('');
 
