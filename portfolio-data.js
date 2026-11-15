@@ -10,15 +10,14 @@ const PROFILE = {
     { label: "GitHub",  icon: "github",  url: "https://github.com/1Seong" },
     //{ label: "Steam",   icon: "steam",   url: "https://steamcommunity.com/profiles/76561198190444966/" },
     { label: "공부 정리 노션",  icon: "notion",  url: "https://www.notion.so/9516adf7733d404ebc914550ff4af2a2" },
-    { label: "알고리즘 문제풀이 회고록", icon: "log", url: "https://docs.google.com/spreadsheets/d/15jzOT1EcCLq-PmLsfNGJwK5ABmyuKudDGDV3rOjn0R4/edit?gid=1741200533#gid=1741200533" },
   ],
 };
-const MILESTONE_SUMMARY = [{ value: "8회", label: "팀 프로젝트" }];
+const MILESTONE_SUMMARY = [];
 const SKILLS = [
   { category: "Main Stack", items: [{ name:"Unity 6 / URP", icon:"" }, { name:"C#", icon:"" }, { name:"C++", icon:"" }] },
   { category: "Sub Stack", items: [{ name:"PostgreSQL", icon:"" }] },
-  { category: "Tools", items: [{ name:"Git", icon:"" }, { name:"Supabase", icon:"" }, { name:"Codex", icon:"" }, { name:"OpenAI API", icon:"" }] },
-  { category: "Architecture / Libraries", items: [{ name:"UniTask", icon:"" }, { name:"DOTween", icon:"" }] },
+  { category: "Tools", items: [{ name:"Git", icon:"" }, { name:"Supabase", icon:"" }, { name:"Jira", icon:"" }] },
+  { category: "AI Workflow", items: [{ name:"Claude Code", icon:"" }, { name:"Codex", icon:"" }, { name:"AI Agent Loop", icon:"" }] },
   { category: "Platform", items: [{ name:"Windows", icon:"" }, { name:"Android", icon:"" }] },
 ];
 const BOOKS = [
@@ -43,8 +42,8 @@ const AWARDS = {
   // 시험및자격증: [{ date:"2024.11", title:"TOPCIT 500점", org:"정보통신기획평가원" }],
   수상: [
     { date:"2026.02", title:"최우수상 - 메토링 4기", org:"NEXON" },
-    //  (줄바꿈 없는 공백): 줄이 넘치면 "유엔군사령부" 앞에서만 줄바꿈되게 한다
-    { date:"2023.10", title:"미군 합동근무 공로훈장 (JSCM)", org:"미국 국방부 · 유엔군사령부 근무" },
+    // \u00a0(줄바꿈 없는 공백): 줄이 넘치면 "유엔군사령부" 앞에서만 줄바꿈되게 한다
+    { date:"2023.10", title:"미군 합동근무 공로훈장 (JSCM)", org:"미국\u00a0국방부\u00a0· 유엔군사령부\u00a0카투사\u00a0근무" },
   ],
   대외활동: [
     { date:"2026.05.23 ~ 2026.09.04", title:"1.44MB 게임 개발 공모전 출품 — Hell Pit", org:"2P GAME ARCADE", url:"https://2pgarcade.com/contest-144mb.html" },
@@ -52,6 +51,7 @@ const AWARDS = {
     { date:"2025.11", title:"게임 전시(챌린저) - UNICON 2025", org:"UNIDEV" },
     { date:"2025.01", title:"UNIJAM", org:"UNIDEV" },
     { date:"2026.05", title:"게임 전시 - PlayX4 IndieSeed", org:"경기콘텐츠진흥원 외" },
+    { date:"2026.11", title:"게임 전시 - 게임개발동아리 창립제", org:"중앙대학교" },
     { date:"2024.11", title:"게임 전시 - 게임개발동아리 창립제", org:"중앙대학교" },
     { date:"2026.03", title:"게임 전시 - 동아리박람회", org:"중앙대학교" },
     { date:"2026.08", title:"게임 전시 - UNICON 2026", org:"UNIDEV" },
