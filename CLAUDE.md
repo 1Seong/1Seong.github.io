@@ -82,6 +82,10 @@ node .claude/scripts/check-portfolio.mjs --render --mobile --only=<id>   # 모�
 - 현재 남아 있는 경고 6개는 기존 상태이며 의도된 것일 수 있다. 요청이 없으면 고치지 않는다.
   (necromancer·soulmate·runepago 숨김, soulmate/runepago goal 없음, necromancer linkMap "Google Drive")
 
+- 검토 서브에이전트(읽기 전용, `.claude/agents/`):
+  - `content-reviewer`: 내용 세션이 문구·샘플 코드를 고친 뒤 독립 검토
+  - `recruiter-reviewer`: 지원 전이나 큰 변경 뒤, 완성된 화면을 채용 심사자 시점에서 최종 검토(내용·디자인 모두). 발견마다 고칠 세션을 붙여 준다
+
 ## Git
 
 - **혼자 쓰는 저장소이므로 PR 없이 `main`에 바로 push한다** (사용자 승인 사항).
