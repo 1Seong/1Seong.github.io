@@ -96,13 +96,84 @@ const OTHER_WORKS = [
     items: ["간단한 컴파일러 및 파서 구현"],
   },
 ];
-const PROJECT_ORDER = ["eulerian_aurora", "square_erauqs", "save_the_world", "omakhase", "detective_ai", "hell_pit"];
+const PROJECT_ORDER = ["unity_loop", "eulerian_aurora", "square_erauqs", "save_the_world", "omakhase", "detective_ai", "hell_pit"];
 // 표시하지 않는 프로젝트(데이터는 보존): necromancer_survivors, soulmate_system, runepago
 // 프로젝트 순서 변경 시 배열 순서만 바꾸면 됩니다.
-const MAIN_PROJECT_IDS = ["eulerian_aurora", "square_erauqs", "save_the_world", "omakhase"];
+const MAIN_PROJECT_IDS = ["unity_loop", "eulerian_aurora", "square_erauqs", "save_the_world", "omakhase"];
 const SUB_PROJECT_IDS = PROJECT_ORDER.filter(id => !MAIN_PROJECT_IDS.includes(id));
 
 const PROJECTS = {
+  // 근거: 1Seong/UnityLoopInner (비공개) CLAUDE.md, docs/STATUS.md(2026-11-17), docs/DECISIONS.md, .claude/skills/issue/SKILL.md
+  // 공개 샘플 저장소·데모 영상·구조도는 아직 없다. 서버(I5) 보류, Unity 릴리스·비대화형(I6) 시작 전이므로 완성된 것처럼 쓰지 않는다.
+  unity_loop: {
+    id:"unity_loop",
+    title:"UnityLoop",
+    subtitle:"Jira–Unity AI 개발 파이프라인",
+    meta:{ engine:"Claude Code", platform:"Windows · GitHub Actions", team:"개인", year:"2026.11 ~" },
+    tags:["Claude Code","Python","Jira","GitHub Actions"],
+    badges:[
+      { text:"AI 개발 파이프라인", type:"primary" },
+      { text:"Claude Code · Python", type:"sub" },
+      { text:"Jira · CI", type:"sub" },
+    ],
+    media:[
+      { type:"video", src:"", label:"데모 영상 준비 중" },
+    ],
+    summary:"사람이 고른 Jira 이슈 하나를 계획·구현·검증·PR·CI·수락·머지까지 잇는 Claude Code 이너 루프. 서버 배포와 Unity 빌드 릴리스 단계는 아직 구현하지 않음.",
+    role:[
+      { name:"파이프라인 설계·구현", icon:"ti-cpu", desc:"/issue 절차와 단계별 서브에이전트 설계<br>Jira·GitHub·CI 연동 스크립트<br>훅 기반 쓰기·셸 가드와 하네스 시험" },
+    ],
+    activities:null,
+    goal:"이슈 구현은 에이전트가 맡고, 수락과 머지는 사람이 결정하는 개발 루프 구축",
+    contributions:[],
+    designCases:[
+      {
+        title:"이슈 단위 단계 흐름과 판정 분리",
+        category:"구조",
+        context:"비용 문제로 Agent SDK 바깥 루프를 멈추고, Claude Code 세션 안에서 도는 이너 루프로 전환",
+        decisions:[
+          "fetch → plan → implement → verify → evaluate → PR → CI → 수락 → merge 순서와 재시도 횟수를 state.py가 관리",
+          "판정은 스크립트 종료 코드(통과·재시도·차단)로만 내리고, 메인 세션은 결과를 옮기기만 하도록 역할 분리",
+          "실패하면 실패 파일 위치와 확인한 사실만 붙여 구현 단계로 되돌리고, 고치는 방법은 지시하지 않음",
+        ],
+        result:"샌드박스 이슈 SAN-3를 PR 머지와 Jira 완료까지 처리",
+      },
+      {
+        title:"훅 기반 쓰기 범위와 외부 쓰기 가드",
+        category:"AI",
+        context:"에이전트가 범위 밖 파일을 고치거나 외부 시스템을 바꾸는 사고 방지",
+        decisions:[
+          "서브에이전트별 쓰기 범위를 ownership.json으로 정하고, 편집·셸·읽기·MCP·스킬 훅이 범위 밖 요청을 차단",
+          "Jira·GitHub 쓰기와 push는 scripts/의 스크립트만 하고 사람 확인을 거치며, 에이전트에는 쓰기 도구 미부여",
+          "에이전트가 쓰는 외부 스킬은 해시와 함께 고정 복사하고, 하네스 시험으로 훅 판정과 해시를 함께 검사",
+        ],
+      },
+      {
+        title:"CI 검증과 실패 원인 분류",
+        category:"빌드",
+        context:"에이전트가 만든 변경을 사람 수락 전에 자동 검증하고, 재시도가 필요한 실패만 되돌림",
+        decisions:[
+          "PR마다 GameCI unity-test-runner로 EditMode 테스트를 돌리는 GitHub Actions 워크플로를 템플릿으로 생성",
+          "평가 에이전트가 수락 기준별로 판정하고, 화면 확인이 필요한 기준은 사람 확인 항목으로 분류하는 규칙",
+        ],
+        issue:{
+          problem:"SAN-3 CI가 코드와 무관하게 두 번 실패",
+          cause:"CI 실패를 모두 재구현으로 보내던 절차",
+          fix:"실패 로그에서 디스크·Unity 로그인 등 인프라 원인을 찾아 사람에게 넘김",
+        },
+      },
+    ],
+    troubleshooting:[],
+    optimizations:[],
+    retrospective:null,
+    feedback:null,
+    other_contributions:null,
+    links:[],
+    detail:{
+      techStack:["Claude Code", "Python", "Jira", "GitHub Actions", "GameCI", "Unity CLI"],
+      linkMap:{},
+    },
+  },
   eulerian_aurora: {
     id:"eulerian_aurora",
     title:"Eulerian Aurora",
