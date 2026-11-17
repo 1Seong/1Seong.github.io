@@ -113,8 +113,8 @@ const PROJECTS = {
     meta:{ engine:"Claude Code", platform:"Windows · GitHub Actions", team:"개인", year:"2026.11 ~" },
     tags:[],
     badges:[
-      { text:"AI 개발 파이프라인", type:"primary" },
-      { text:"Claude Code · Python", type:"sub" },
+      { text:"1인 설계·구현", type:"primary" },
+      { text:"Claude Code", type:"sub" },
       { text:"Jira · CI", type:"sub" },
     ],
     media:[
@@ -183,9 +183,9 @@ const PROJECTS = {
     meta:{ engine:"Unity", platform:"PC(Windows)", team:"3인 팀", year:"2026.01 ~"},
     tags:null,
     badges:[
-      { text:"UGC 퍼즐", type:"primary" },
-      { text:"Unity · C#", type:"sub" },
-      { text:"Supabase", type:"sub" },
+      { text:"풀스택", type:"primary" },
+      { text:"Supabase · PostgreSQL", type:"sub" },
+      { text:"UGC 맵 에디터", type:"sub" },
     ],
     media:[
       { type:"video", src:"assets/projects/aurora/trailer.mp4", thumbnail: "assets/projects/aurora/trailerthumb.png", label:"Trailer" },
@@ -333,9 +333,9 @@ const PROJECTS = {
     meta:{ engine:"Unity", platform:"PC(Windows/Mac) / Android", team:"5인 팀", year:"2025.01 ~ 2026.09"},
     tags:[],
     badges:[
-      { text:"Steam 출시", type:"primary" },
-      { text:"Unity · C#", type:"sub" },
-      { text:"시점 전환 퍼즐", type:"sub" },
+      { text:"리드 프로그래머", type:"primary" },
+      { text:"Steam 출시", type:"sub" },
+      { text:"Android 이식", type:"sub" },
     ],
     media:[
       { type:"video", src:"assets/projects/square/trailer.mp4", thumbnail: "assets/projects/square/1.png", label:"Trailer" },
@@ -517,9 +517,8 @@ const PROJECTS = {
     meta:{ engine:"Unity", platform:"PC(Windows)", team:"3인 팀", year:"2025.06 ~ 2025.12"},
     tags:[],
     badges:[
-      { text:"스토리 방탈출", type:"primary" },
-      { text:"Unity · C#", type:"sub" },
-      { text:"Shader Graph", type:"sub" },
+      { text:"클라이언트 단독", type:"primary" },
+      { text:"Shader Graph 연출", type:"sub" },
     ],
     media:[
       { type:"video", src:"assets/projects/stw/trailer.mp4", thumbnail: "assets/projects/stw/thumbnail.jpg",label:"Trailer" },
@@ -779,8 +778,7 @@ const PROJECTS = {
     meta:{ engine:"Unity", platform:"PC(Windows)", team:"5인 팀", year:"2025.02 ~ 2026.06"},
     tags:[],
     badges:[
-      { text:"식당 경영", type:"primary" },
-      { text:"Unity · C#", type:"sub" },
+      { text:"구조 설계 · UI", type:"primary" },
       { text:"PlayX4 전시", type:"sub" },
     ],
     media:[
@@ -907,9 +905,9 @@ const PROJECTS = {
     meta:{ engine:"Unity", platform:"WebGL", team:"3인 팀", year:"2026.07 ~ 2026.08" },
     tags:["OpenAI API","Supabase","WebGL"],
     badges:[
-      { text:"AI 추리", type:"primary" },
-      { text:"Unity · C#", type:"sub" },
+      { text:"풀스택", type:"primary" },
       { text:"OpenAI API", type:"sub" },
+      { text:"Supabase", type:"sub" },
     ],
     media:[
       { type:"video", src:"assets/projects/dai/demo.mp4", thumbnail: "assets/projects/dai/thumb.png", label:"Demo" },
@@ -1008,9 +1006,9 @@ const PROJECTS = {
     meta:{ engine:"Win32 API", platform:"PC(Windows)", team:"개인", year:"2026.08" },
     tags:["C++","Win32 API","Codex","Size-Limited"],
     badges:[
-      { text:"1.44MB", type:"primary" },
+      { text:"1인 개발", type:"primary" },
+      { text:"공모전 출품", type:"sub" },
       { text:"C++ · Win32", type:"sub" },
-      { text:"훅 액션", type:"sub" },
     ],
     media:[
       { type:"video", src:"assets/projects/hellpit/demo.mp4", thumbnail: "assets/projects/hellpit/thumbnail.png", label:"Demo" },
