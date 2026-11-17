@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 600" font-family="'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif">
-  <!-- UnityLoop 이너 루프 전체 흐름. 근거: 1Seong/UnityLoopInner .claude/skills/issue/SKILL.md, CLAUDE.md, docs/STATUS.md(2026-11-17).
+  <!-- UnityLoop Inner 전체 흐름. 근거: 1Seong/UnityLoopInner .claude/skills/issue/SKILL.md, CLAUDE.md, docs/STATUS.md(2026-11-17).
        클라이언트 등급 경로만 그린다(security_review는 server 등급에서만 실행). 배포 단계는 미구현이라 점선으로 둔다. -->
   <defs>
     <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">

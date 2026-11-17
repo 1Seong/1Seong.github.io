@@ -104,10 +104,11 @@ const SUB_PROJECT_IDS = PROJECT_ORDER.filter(id => !MAIN_PROJECT_IDS.includes(id
 
 const PROJECTS = {
   // 근거: 1Seong/UnityLoopInner (비공개) CLAUDE.md, docs/STATUS.md(2026-11-17), docs/DECISIONS.md, .claude/skills/issue/SKILL.md
+  // 1Seong/UnityLoop(Agent SDK 아우터 루프)는 비용 문제로 중단했고 실제로 쓴 적이 없어 근거로 쓰지 않는다.
   // 공개 샘플 저장소·데모 영상·구조도는 아직 없다. 서버(I5) 보류, Unity 릴리스·비대화형(I6) 시작 전이므로 완성된 것처럼 쓰지 않는다.
   unity_loop: {
     id:"unity_loop",
-    title:"UnityLoop",
+    title:"UnityLoop Inner",
     subtitle:"Jira–Unity AI 개발 파이프라인",
     meta:{ engine:"Claude Code", platform:"Windows · GitHub Actions", team:"개인", year:"2026.11 ~" },
     tags:["서브에이전트 분업","훅 기반 가드","사람 수락 게이트"],
@@ -130,14 +131,14 @@ const PROJECTS = {
       {
         title:"이슈 단위 단계 흐름과 판정 분리",
         category:"구조",
-        context:"비용 문제로 Agent SDK 바깥 루프를 멈추고, Claude Code 세션 안에서 도는 이너 루프로 전환",
+        context:"에이전트 출력에 진행이 흔들리지 않도록, 이슈마다 같은 순서와 기준으로 진행되는 흐름 필요",
         decisions:[
           "fetch → plan → implement → verify → evaluate → PR → CI → 수락 → merge 순서와 재시도 횟수를 state.py가 관리",
           "판정은 스크립트 종료 코드(통과·재시도·차단)로만 내리고, 메인 세션은 결과를 옮기기만 하도록 역할 분리",
           "실패하면 실패 파일 위치와 확인한 사실만 붙여 구현 단계로 되돌리고, 고치는 방법은 지시하지 않음",
         ],
         result:"샌드박스 이슈 SAN-3를 PR 머지와 Jira 완료까지 처리",
-        diagram:{ src:"assets/projects/uloop/architecture.svg", alt:"UnityLoop 이너 루프 전체 흐름: 이슈 읽기, 계획, 구현·검증, PR·CI, 수락·머지와 되돌림 경로, state.py와 하네스", size:"full", caption:"보라는 서브에이전트, 흰색은 스크립트, 초록은 사람 확인. 붉은 선은 구현으로 되돌리는 경로" },
+        diagram:{ src:"assets/projects/uloop/architecture.svg", alt:"UnityLoop Inner 전체 흐름: 이슈 읽기, 계획, 구현·검증, PR·CI, 수락·머지와 되돌림 경로, state.py와 하네스", size:"full", caption:"보라는 서브에이전트, 흰색은 스크립트, 초록은 사람 확인. 붉은 선은 구현으로 되돌리는 경로" },
       },
       {
         title:"훅 기반 쓰기 범위와 외부 쓰기 가드",
