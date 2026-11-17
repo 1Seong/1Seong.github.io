@@ -967,224 +967,222 @@ footer { background: var(--nav-bg); padding: 0; }
 .project-card.in-view::after { opacity: 1; }
 
 /* ══════════════════════════════════════════════════════════════════════
-   Monument Valley 테마 레이어 — 기존 팔레트(라벤더·인디고·민트·블루)는 그대로, 요소 언어만 바꾼다.
-   1) 하늘: 위는 라벤더, 아래로 갈수록 민트·블루 기운이 도는 그라데이션 + 옅은 등각 격자
-   2) 블록: 모든 판·버튼은 두께(아래 면)가 보이는 '석판'. 누르면 두께만큼 내려간다
-   3) 등각 큐브: 섹션 제목·목차·노드 표시는 세 면의 명암을 가진 육각(큐브 실루엣)
+   Monument Valley 테마 레이어 — 등각 '석판' 언어 + 눈이 편한 색
+   1) 색: 흰색 대신 옅은 회보라 면(#f4f3f8), 바탕은 그보다 한 단계 낮은 회보라(#e9e7f0).
+      글자 대비는 모두 WCAG AA 이상(본문 12:1, 보조 5:1 이상). 어두운 띠(내비·푸터)는 밝게 바꿔
+      화면 안에서 명암이 튀는 곳을 줄인다.
+   2) 블록: 판·버튼은 아래 면(두께)이 보이는 석판. 누르면 두께만큼 내려간다
+   3) 표식: 섹션 제목·목차·노드는 세 면 명암의 육각(큐브 실루엣)
    4) 색의 역할: 보라=행동·주요, 민트=성취·결과, 블루=정보·자격
    ══════════════════════════════════════════════════════════════════════ */
 :root {
-  --iso-top: #ffffff; --iso-left: #ddd8f5; --iso-right: #b9b0ea;
-  --iso-line: rgba(26,20,64,.06); --iso-window: #5040c8;
-  --accent-top: #8a7cf0; --accent-side: #3d30a8;
-  --mint: #a0f0d8; --mint-top: #d4fbef; --mint-side: #6fd2b6; --mint-ink: #1f7a64;
-  --blue: #8aa6ea; --blue-top: #dde6fb; --blue-side: #6080d0; --blue-ink: #35589f;
+  --navy: #e9e7f0; --navy-2: #f4f3f8; --navy-3: #dfdce9; --navy-4: #cfcadf;
+  --cream: #25223a; --cream-1: #2f2b48; --cream-2: #45405e; --cream-3: #625d7c; --white: #1e1b31;
+  --gold: #5446b8; --gold-light: #6a5cd0;
+  --nav-bg: #25223a;
+  --rule: rgba(37,34,58,.09); --rule-mid: rgba(37,34,58,.16);
+  --surface: #f4f3f8; --face: #dcd8e8; --face-dark: #c6c0db;
+  --iso-left: var(--face); --iso-right: var(--face-dark);
+  --accent-top: #7a6ddb; --accent-side: #3e3392;
+  --mint: #bfe6d8; --mint-top: #d3ece3; --mint-side: #93cdb9; --mint-ink: #1f6b57;
+  --blue-top: #d9e2f2; --blue-side: #a9bde0; --blue-ink: #2f5797;
   --slab-r: 12px;
-  --floor: 0 30px 50px -30px rgba(40,30,110,.38);
+  --floor: 0 26px 44px -30px rgba(37,34,58,.32);
   --cube: conic-gradient(from -60deg, var(--accent-top) 0 120deg, var(--accent-side) 120deg 240deg, var(--gold) 240deg 360deg);
-  --cube-light: conic-gradient(from -60deg, #fff 0 120deg, var(--iso-right) 120deg 240deg, var(--iso-left) 240deg 360deg);
+  --cube-light: conic-gradient(from -60deg, var(--surface) 0 120deg, var(--face-dark) 120deg 240deg, var(--face) 240deg 360deg);
   --hex: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
 }
-body { background: #f7f5ff; }
+body { background: var(--navy); }
 body::before {
   content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
-    radial-gradient(1100px 620px at 88% -8%, rgba(160,240,216,.30), transparent 62%),
-    radial-gradient(900px 640px at -12% 108%, rgba(112,96,224,.13), transparent 60%),
-    linear-gradient(180deg, #f7f5ff 0%, #f0edfd 55%, #ecf2fc 100%);
-}
-body::after {
-  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .55;
-  background:
-    repeating-linear-gradient(30deg, rgba(80,64,200,.05) 0 1px, transparent 1px 34px),
-    repeating-linear-gradient(150deg, rgba(80,64,200,.05) 0 1px, transparent 1px 34px);
-  -webkit-mask-image: radial-gradient(70% 60% at 50% 40%, transparent 30%, #000 100%);
-          mask-image: radial-gradient(70% 60% at 50% 40%, transparent 30%, #000 100%);
+    radial-gradient(1000px 560px at 90% -10%, rgba(127,191,169,.14), transparent 62%),
+    linear-gradient(180deg, #ebe9f2 0%, #e8e6ef 60%, #e5e7f0 100%);
 }
 
-/* 큐브 표식: 육각 실루엣 + 세 면 명암 */
-.nav-logo { display: inline-flex; align-items: center; }
-.nav-logo::before { content: ''; margin-right: .6rem; width: 18px; height: 21px; background: conic-gradient(from -60deg, #e2dcff 0 120deg, #7060e0 120deg 240deg, #a0f0d8 240deg 360deg); clip-path: var(--hex); }
+/* 내비: 어두운 띠 → 바탕과 같은 계열의 밝은 띠 */
+#nav { background: rgba(240,238,246,.92); border-bottom: 1px solid var(--rule-mid); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+#nav.scrolled { box-shadow: 0 6px 18px -10px rgba(37,34,58,.3); }
+.nav-logo { display: inline-flex; align-items: center; color: var(--cream); }
+.nav-logo span { color: var(--gold); }
+.nav-logo::before { content: ''; margin-right: .6rem; width: 18px; height: 21px; background: var(--cube); clip-path: var(--hex); }
 
-/* 섹션 제목: 큐브 + 가는 제목. 섹션 왼쪽 띠 조명은 하늘 배경과 겹쳐 네모 자국이 보이므로 끈다 */
+/* 섹션 제목: 큐브 + 제목. 섹션 왼쪽 띠 조명은 배경과 겹쳐 네모 자국이 보이므로 끈다 */
 #section-light { display: none; }
-.eyebrow { display: flex; align-items: center; gap: .9rem; font-size: clamp(1.7rem, 2.8vw, 2.2rem); font-weight: 300; letter-spacing: -.01em; text-transform: none; color: var(--nav-bg); margin-bottom: 2.75rem; }
-.eyebrow::before { order: -2; width: 30px; height: 35px; background: var(--cube); clip-path: var(--hex); }
-.rule { height: 1px; border: none; background: linear-gradient(90deg, transparent, var(--iso-right) 20%, var(--mint) 50%, var(--iso-right) 80%, transparent); opacity: .7; }
+.eyebrow { display: flex; align-items: center; gap: .85rem; font-size: clamp(1.6rem, 2.6vw, 2rem); font-weight: 500; letter-spacing: -.015em; text-transform: none; color: var(--cream); margin-bottom: 2.25rem; }
+.eyebrow::before { width: 26px; height: 30px; background: var(--cube); clip-path: var(--hex); }
+.rule { height: 1px; border: none; background: linear-gradient(90deg, transparent, var(--face-dark) 20%, var(--face-dark) 80%, transparent); margin: 4rem 0; }
 
 /* 목차 레일: 점 → 작은 큐브 */
-.home-toc a { font-size: .72rem; letter-spacing: .04em; text-transform: none; font-weight: 600; }
+.home-toc a { font-size: .74rem; letter-spacing: .02em; text-transform: none; font-weight: 600; }
 .home-toc a::before { width: 11px; height: 13px; border: none; border-radius: 0; background: var(--cube-light); clip-path: var(--hex); }
 .home-toc a.active::before { background: var(--cube); transform: scale(1.25); }
-.home-toc::before { left: 5px; background: linear-gradient(var(--iso-right), var(--mint)); }
+.home-toc::before { left: 5px; background: var(--face-dark); }
 
-/* ── 히어로 ── */
-#about { position: relative; }
-#about-grid { grid-template-columns: 190px minmax(0, 1fr) minmax(260px, 340px); grid-template-areas: "photo text scene" "photo glance glance"; gap: 2rem 3rem; }
-#about-grid > .about-photo { grid-area: photo; }
-#about-grid > .fade-up.fu1:not(.about-glance) { grid-area: text; }
-.hero-scene-wrap { grid-area: scene; align-self: center; position: relative; margin: -2.5rem -1rem -1rem 0; }
-.hero-scene { display: block; width: 100%; height: auto; overflow: visible; }
-.about-glance { grid-area: glance; }
-#about-grid:not(:has(.about-glance:not([hidden]))) { grid-template-columns: 190px minmax(0, 1fr) minmax(260px, 340px); max-width: none; gap: 2rem 3rem; }
-.about-photo { width: 190px; height: 236px; border-radius: 95px 95px 14px 14px; border: 6px solid #fff; box-shadow: 0 10px 0 var(--iso-left), var(--floor); background: var(--navy-3); }
-.about-tag { text-transform: none; letter-spacing: .02em; font-size: .8rem; font-weight: 600; color: var(--nav-bg); background: var(--mint); border: none; border-radius: 7px; padding: .3rem .75rem; box-shadow: 0 3px 0 var(--mint-side); }
-.about-name { font-weight: 600; letter-spacing: -.02em; }
-.about-name-en { letter-spacing: .06em; }
-.about-divider { width: 56px; height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--gold), var(--mint)); }
+/* ── 히어로: 사진 · 소개 · 한눈에 보기(오른쪽). 장식 그림 없이 정보가 먼저 ── */
+.about-photo { width: 170px; height: 210px; border-radius: 85px 85px 12px 12px; border: 5px solid var(--surface); box-shadow: 0 8px 0 var(--face), var(--floor); background: var(--navy-3); }
+#about-grid { grid-template-columns: 170px minmax(0, 1fr) minmax(300px, 380px); }
+.about-tag { text-transform: none; letter-spacing: .01em; font-size: .82rem; font-weight: 600; color: var(--mint-ink); background: var(--mint-top); border: none; border-radius: 7px; padding: .3rem .75rem; box-shadow: 0 3px 0 var(--mint-side); }
+.about-name { font-weight: 700; letter-spacing: -.02em; color: var(--cream); }
+.about-name-en { letter-spacing: .05em; color: var(--cream-3); }
+.about-divider { width: 48px; height: 3px; border-radius: 2px; background: var(--gold); }
+.about-meta, .about-meta a { color: var(--cream-2); }
 
-/* 한눈에 보기: 히어로 아래 가로 석판 */
-.about-glance { background: rgba(255,255,255,.86); border: 1px solid #fff; border-radius: var(--slab-r); padding: 1.1rem 1.3rem 1.15rem; box-shadow: 0 8px 0 var(--iso-left), var(--floor); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-.glance-label, .ag-label { text-transform: none; letter-spacing: .02em; font-size: .78rem; font-weight: 600; color: var(--cream-3); }
-.about-glance .glance-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: .7rem 1.4rem; }
-.glance-honor.award + .glance-honor.cert { border-top: none; padding-top: 0; margin-top: 0; }
-.glance-honor { grid-template-columns: 30px minmax(0, 1fr); }
-.glance-honor-icon, .ag-side .glance-honor-icon { width: 28px; height: 32px; border-radius: 0; clip-path: var(--hex); background: var(--mint); color: var(--mint-ink); font-size: 14px; }
+/* 한눈에 보기 */
+.about-glance { background: var(--surface); border: none; border-radius: var(--slab-r); padding: 1.15rem 1.3rem 1.2rem; box-shadow: 0 8px 0 var(--face), var(--floor); }
+.glance-label, .ag-label { text-transform: none; letter-spacing: .01em; font-size: .8rem; font-weight: 600; color: var(--cream-3); }
+.glance-honor.award + .glance-honor.cert { border-top-color: var(--rule-mid); }
+.glance-honor-icon, .ag-side .glance-honor-icon { width: 28px; height: 32px; border-radius: 0; clip-path: var(--hex); background: var(--mint-top); color: var(--mint-ink); font-size: 14px; }
 .glance-honor.cert .glance-honor-icon { background: var(--blue-top); color: var(--blue-ink); }
+@media(max-width:1000px){ .about-glance .glance-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .6rem 1.4rem; } .glance-honor.award + .glance-honor.cert { border-top: none; padding-top: 0; margin-top: 0; } }
 
 /* ── 석판 버튼 ── */
 .link-icon, .proj-show-more, .detail-overview-link {
   border: none; border-radius: 9px; text-transform: none; letter-spacing: .01em; font-weight: 600;
   transition: transform .15s ease, box-shadow .15s ease, background .2s, color .2s;
 }
-.link-icon { font-size: .85rem; padding: .55rem 1.05rem; background: #fff; color: var(--cream); box-shadow: 0 4px 0 var(--iso-left), 0 10px 18px -10px rgba(40,30,110,.35); }
-.link-icon:hover { background: #fff; color: var(--gold); transform: translateY(-2px); box-shadow: 0 6px 0 var(--iso-left), 0 14px 22px -12px rgba(40,30,110,.4); }
-.proj-show-more { font-size: .85rem; padding: .7rem 1.35rem; background: var(--gold); color: #fff; box-shadow: 0 4px 0 var(--accent-side), 0 12px 20px -12px rgba(61,48,168,.6); }
-.proj-show-more:hover, .sub-project-card .proj-show-more:hover { background: var(--gold-light); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 0 var(--accent-side), 0 16px 24px -12px rgba(61,48,168,.6); }
+.link-icon { font-size: .85rem; padding: .55rem 1.05rem; background: var(--surface); color: var(--cream); box-shadow: 0 4px 0 var(--face); }
+.link-icon:hover { background: var(--surface); color: var(--gold); transform: translateY(-2px); box-shadow: 0 6px 0 var(--face); }
+.proj-show-more { font-size: .85rem; padding: .68rem 1.3rem; background: var(--gold); color: #fff; box-shadow: 0 4px 0 var(--accent-side); }
+.proj-show-more:hover, .sub-project-card .proj-show-more:hover { background: var(--gold-light); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 0 var(--accent-side); }
 .link-icon:active, .proj-show-more:active, .detail-overview-link:active { transform: translateY(4px); box-shadow: 0 0 0 transparent; }
 .link-icon:focus-visible, .proj-show-more:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
 
-/* ── Skills: 어두운 컵 → 밝은 탑. 물높이는 그대로, 색은 역할별 파스텔 ── */
-.cup { border-radius: 14px 14px 10px 10px; border-color: transparent !important; box-shadow: 0 8px 0 var(--iso-left), var(--floor); }
+/* ── Skills: 밝은 탑. 물높이는 그대로, 색은 역할별(보라·블루·민트) ── */
+.cup { border-radius: 14px 14px 10px 10px; border-color: transparent !important; box-shadow: 0 8px 0 var(--face), var(--floor); overflow: visible; }
 .cup::before { content: ''; position: absolute; z-index: 4; top: -1px; left: 50%; width: 22px; height: 26px; transform: translate(-50%, -55%); background: var(--cup-cap, var(--cube)); clip-path: var(--hex); }
-.cup { overflow: visible; }
 .cup > .cup-water { border-radius: 0 0 10px 10px; overflow: hidden; }
-.cup-cat { text-transform: none; letter-spacing: .02em; font-size: .78rem; top: 20px; }
+.cup-cat { text-transform: none; letter-spacing: .01em; font-size: .8rem; top: 20px; }
 .cup-cat-dot { display: none; }
 .cup-item { font-weight: 500; font-size: .86rem; }
+/* 항목 수와 관계없이 물높이를 맞추고 항목을 위에서부터 둔다: 항목이 적은 탑 위쪽이 비어 보이지 않게 */
+.cup > .cup-water { top: 54px; height: auto !important; }
+.cup-items { top: 60px; bottom: auto; justify-content: flex-start; }
 
-/* ── 프로젝트 카드: 미디어 = 바닥 그림자 위에 놓인 창, 배지 = 작은 블록 ── */
-.proj-slider, .detail-media { border: none; border-radius: 12px; box-shadow: 0 10px 0 var(--iso-right), var(--floor); }
+/* ── 프로젝트 카드 ── */
+.proj-slider, .detail-media { border: none; border-radius: 12px; background: var(--navy-3); box-shadow: 0 8px 0 var(--face-dark), var(--floor); }
 .proj-slider:hover { border-color: transparent; }
-.slide-type-badge { border-radius: 6px; text-transform: none; letter-spacing: .02em; font-size: .72rem; background: rgba(26,20,64,.72); color: #fff; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
-.slider-dot { width: 8px; height: 9px; border: none; border-radius: 0; clip-path: var(--hex); background: var(--iso-right); }
+.proj-slide.is-diagram { background: var(--surface); }
+.slide-type-badge { border-radius: 6px; text-transform: none; letter-spacing: .01em; font-size: .72rem; background: rgba(37,34,58,.75); color: #fff; }
+.slider-dot { width: 8px; height: 9px; border: none; border-radius: 0; clip-path: var(--hex); background: var(--face-dark); }
 .slider-dot.active { width: 8px; height: 9px; border-radius: 0; background: var(--gold); transform: scale(1.35); }
 .detail-media-dots .slider-dot, .detail-media-dots .slider-dot.active { width: 11px; height: 13px; border-radius: 0; }
-.proj-index { text-transform: none; letter-spacing: .04em; font-size: .82rem; color: var(--cream-3); }
-.proj-badge { text-transform: none; letter-spacing: .01em; font-size: .74rem; font-weight: 600; border: none; border-radius: 7px; padding: .26rem .6rem; background: #fff; color: var(--cream-2); box-shadow: 0 2px 0 var(--iso-left); }
+.proj-index { text-transform: none; letter-spacing: .03em; font-size: .82rem; color: var(--cream-3); }
+.proj-badge { text-transform: none; letter-spacing: .01em; font-size: .74rem; font-weight: 600; border: none; border-radius: 7px; padding: .26rem .6rem; background: var(--surface); color: var(--cream-2); box-shadow: 0 2px 0 var(--face); }
 .proj-badge.primary { background: var(--gold); color: #fff; box-shadow: 0 2px 0 var(--accent-side); }
-.proj-badge.sub { background: var(--blue-top); color: var(--blue-ink); box-shadow: 0 2px 0 rgba(96,128,208,.45); }
-.proj-tag { text-transform: none; letter-spacing: .01em; font-size: .74rem; font-weight: 500; border: none; border-radius: 6px; background: rgba(255,255,255,.7); color: var(--cream-3); }
-.proj-title { font-weight: 600; letter-spacing: -.02em; }
+.proj-badge.sub { background: var(--blue-top); color: var(--blue-ink); box-shadow: 0 2px 0 var(--blue-side); }
+.proj-tag { text-transform: none; letter-spacing: .01em; font-size: .74rem; font-weight: 500; border: 1px solid var(--rule-mid); border-radius: 6px; background: transparent; color: var(--cream-3); }
+.proj-title { font-weight: 700; letter-spacing: -.02em; color: var(--cream); }
+.proj-subtitle, .proj-meta-line { color: var(--cream-3); }
+.proj-summary { color: var(--cream-2); }
 .project-card, .project-card:first-child { border: none; }
-.project-card + .project-card { border-top: 1px solid transparent; border-image: linear-gradient(90deg, transparent, var(--iso-left), transparent) 1; }
-.project-card::after { background: radial-gradient(60% 80% at 30% 50%, rgba(160,240,216,.16), transparent 70%); }
-.project-card.reverse::after { background: radial-gradient(60% 80% at 70% 50%, rgba(160,240,216,.16), transparent 70%); }
+.project-card + .project-card { border-top: 1px solid var(--rule-mid); }
+.project-card::after, .project-card.reverse::after { display: none; }
 .projects-sub { border-top: none; }
-.projects-sub .projects-group-label { text-transform: none; letter-spacing: -.005em; font-size: 1.3rem; font-weight: 300; color: var(--nav-bg); }
+.projects-sub .projects-group-label { text-transform: none; letter-spacing: -.01em; font-size: 1.3rem; font-weight: 500; color: var(--cream); }
 .projects-sub .projects-group-label::before { width: 20px; height: 23px; background: var(--cube-light); clip-path: var(--hex); }
-.sub-project-card { background: #fff; border: none; border-radius: var(--slab-r); box-shadow: 0 8px 0 var(--iso-left), var(--floor); }
-.sub-project-card:hover, .sub-project-card:focus-within { border-color: transparent; box-shadow: 0 8px 0 var(--iso-left), 0 36px 56px -30px rgba(40,30,110,.45); }
+.sub-project-card { background: var(--surface); border: none; border-radius: var(--slab-r); box-shadow: 0 8px 0 var(--face), var(--floor); }
+.sub-project-card:hover, .sub-project-card:focus-within { border-color: transparent; box-shadow: 0 8px 0 var(--face-dark), var(--floor); }
 .sub-project-card .proj-slider { box-shadow: none; border-radius: 8px; }
 .sub-project-card .proj-show-more { font-size: .78rem; padding: .55rem .95rem; }
 
-/* ── Activities: 레일 = 보라→민트 길, 노드 = 큐브 ── */
-.ag-year { font-size: 1.25rem; font-weight: 300; color: var(--gold); }
-.ag-year::after { background: linear-gradient(90deg, var(--iso-left), transparent); }
-.ag-list { border-left: none; background: linear-gradient(var(--iso-right), var(--mint)) no-repeat 0 0 / 2px 100%; }
-.ag-badge { left: -15px; width: 30px; height: 34px; border: none; border-radius: 0; clip-path: var(--hex); background: #fff; color: var(--gold); font-size: 14px; box-shadow: inset 0 -5px 0 var(--iso-left); }
-.ag-side { background: rgba(255,255,255,.86); border: 1px solid #fff; border-radius: var(--slab-r); box-shadow: 0 8px 0 var(--iso-left), var(--floor); }
+/* ── Activities: 레일 = 한 줄, 노드 = 작은 판 ── */
+.ag-year { font-size: 1.15rem; font-weight: 600; color: var(--gold); }
+.ag-year::after { background: var(--rule-mid); }
+.ag-list { border-left: 2px solid var(--face-dark); }
+.ag-badge { left: -15px; width: 28px; height: 32px; border: none; border-radius: 0; clip-path: var(--hex); background: var(--surface); color: var(--gold); font-size: 14px; box-shadow: inset 0 -4px 0 var(--face); }
+.ag-meta { color: var(--cream-3); }
+.ag-side { background: var(--surface); border: none; border-radius: var(--slab-r); box-shadow: 0 8px 0 var(--face), var(--floor); }
 
 /* ── 상세 페이지 ── */
 .detail-back, .detail-eyebrow { text-transform: none; letter-spacing: .02em; }
-.detail-back { font-size: .85rem; }
-.detail-title { font-weight: 600; }
+.detail-back { font-size: .85rem; color: var(--cream-2); margin-bottom: 1.75rem; }
+.detail-eyebrow { font-size: .82rem; font-weight: 600; color: var(--cream-3); margin-bottom: .5rem; }
+.detail-title { font-weight: 700; color: var(--cream); }
+.detail-subtitle { font-size: 1rem; color: var(--cream-2); margin-bottom: 2rem; }
+.detail-info-key { font-size: .74rem; text-transform: capitalize; color: var(--cream-3); }
+/* 판 안의 카드는 한 단계 낮은 면으로: 석판 위에 석판이 겹쳐 보이지 않게 */
+.detail-overview-layout .role-card, .detail-overview-layout .role-card.role-primary { background: var(--navy); box-shadow: none; }
 .detail-section, .detail-section:first-child { border: none; }
-.detail-section + .detail-section { border-top: 1px solid transparent; border-image: linear-gradient(90deg, var(--iso-left), transparent 70%) 1; }
+.detail-section + .detail-section { border-top: 1px solid var(--rule-mid); }
 .detail-section::before, .detail-section::after { display: none; }
-.detail-section-label { font-size: clamp(1.45rem, 2.4vw, 1.8rem); font-weight: 300; letter-spacing: -.01em; text-transform: none; gap: .8rem; }
-.detail-section-label::before { content: ''; flex: none; width: 24px; height: 28px; background: var(--cube); clip-path: var(--hex); }
-.detail-section-label::after { background: linear-gradient(90deg, var(--iso-left), transparent); }
-.detail-overview-layout, .contribution-summary, .role-card, .retro-card, .flow-card, .feedback-chart { border: 1px solid #fff; border-radius: var(--slab-r); background: rgba(255,255,255,.88); box-shadow: 0 8px 0 var(--iso-left), var(--floor); }
-.role-card.role-primary { background: #fff; border: 1px solid #fff; box-shadow: 0 8px 0 var(--iso-right), var(--floor); }
+.detail-section-label { font-size: clamp(1.4rem, 2.3vw, 1.7rem); font-weight: 500; letter-spacing: -.015em; text-transform: none; gap: .75rem; color: var(--cream); }
+.detail-section-label::before { content: ''; flex: none; width: 22px; height: 26px; background: var(--cube); clip-path: var(--hex); }
+.detail-section-label::after { background: var(--rule-mid); }
+.detail-overview-layout, .contribution-summary, .role-card, .retro-card, .flow-card, .feedback-chart { border: none; border-radius: var(--slab-r); background: var(--surface); box-shadow: 0 8px 0 var(--face), var(--floor); }
+.role-card.role-primary { background: var(--surface); border: none; box-shadow: 0 8px 0 var(--face-dark), var(--floor); }
 .detail-overview-kicker, .detail-overview-label, .detail-info-key, .retro-card-label { text-transform: none; letter-spacing: .02em; }
-.detail-overview-link { background: #fff; color: var(--cream); box-shadow: 0 4px 0 var(--iso-left); }
+.detail-overview-link { background: var(--navy-3); color: var(--cream); box-shadow: 0 4px 0 var(--face-dark); }
 .detail-overview-link:hover { background: var(--gold); color: #fff; box-shadow: 0 4px 0 var(--accent-side); border-color: transparent; }
 .detail-overview-chips span { border: none; border-radius: 7px; background: var(--blue-top); color: var(--blue-ink); }
-.detail-media-nav .slider-btn { border: none; border-radius: 9px; background: #fff; box-shadow: 0 4px 0 var(--iso-left); }
+.detail-media-nav .slider-btn { border: none; border-radius: 9px; background: var(--surface); box-shadow: 0 4px 0 var(--face); }
 .detail-media-nav .slider-btn:hover { background: var(--gold); color: #fff; box-shadow: 0 4px 0 var(--accent-side); }
-/* System Design: 창(미디어)과 판(요점·흐름)도 같은 석판 언어 */
-.sd-frame { box-shadow: 0 10px 0 var(--iso-right), var(--floor); }
-.sd-figure.diagram .sd-frame { background: #fff; box-shadow: 0 10px 0 var(--iso-left), var(--floor); }
+/* System Design */
+.sd-frame { background: var(--navy-3); box-shadow: 0 8px 0 var(--face-dark), var(--floor); }
+.sd-figure.diagram .sd-frame { background: var(--surface); box-shadow: 0 8px 0 var(--face), var(--floor); }
 .sd-eyebrow { text-transform: none; letter-spacing: .02em; font-size: .82rem; font-weight: 600; color: var(--blue-ink); }
-.sd-points.cols li { background: #fff; border-color: #fff; box-shadow: 0 6px 0 var(--iso-left), var(--floor); }
-.sd-flow { background: #fff; border-color: #fff; box-shadow: 0 8px 0 var(--iso-left), var(--floor); }
-.sd-step + .sd-step::before { background: #fff; }
+.sd-points.cols li { background: var(--surface); border: none; box-shadow: 0 6px 0 var(--face), var(--floor); }
+.sd-flow { background: var(--surface); border: none; box-shadow: 0 8px 0 var(--face), var(--floor); }
+.sd-step + .sd-step { border-left-color: var(--face); }
+.sd-step + .sd-step::before { background: var(--surface); border-color: var(--face); }
 .sd-step.is-result { background: var(--mint-top); }
 .sd-step.is-result .sd-step-k { color: var(--mint-ink); }
-.sd-code { background: #fff; border: none; box-shadow: 0 4px 0 var(--iso-left); }
-.sd-code:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--iso-left); }
+.sd-code { background: var(--navy-3); border: none; box-shadow: 0 4px 0 var(--face-dark); }
+.sd-code:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--face-dark); }
 
-/* 기여 카드: 보라 틴트 판 → 흰 석판, 위 색띠 제거 */
+/* 기여 카드 */
 .contribution-group-head { text-transform: none; letter-spacing: .01em; font-size: 1rem; font-weight: 600; }
-.contribution-group.core .contribution-summary, .contribution-group.additional .contribution-summary { background: #fff; border-color: #fff; }
+.contribution-group.core .contribution-summary, .contribution-group.additional .contribution-summary { background: var(--surface); border-color: transparent; }
 .contribution-group .contribution-summary::before { display: none; }
-.contribution-summary:hover { border-color: #fff; box-shadow: 0 8px 0 var(--iso-left), 0 36px 56px -30px rgba(40,30,110,.45); }
+.contribution-summary:hover { border-color: transparent; box-shadow: 0 8px 0 var(--face-dark), var(--floor); }
 .contribution-summary-media img { border-radius: var(--slab-r) var(--slab-r) 0 0; }
 .contribution-summary-icon { width: 30px; height: 34px; border-radius: 0; clip-path: var(--hex); background: var(--cube-light); color: var(--gold); }
 .contribution-badge { border: none !important; border-radius: 7px; text-transform: none; letter-spacing: .01em; }
-.code-link { border: none; border-radius: 9px; background: #fff; color: var(--cream-2); box-shadow: 0 3px 0 var(--iso-left); transition: transform .15s, box-shadow .15s, color .2s; }
-.code-link:hover, .code-link:focus-visible { background: #fff; color: var(--gold); transform: translateY(-2px); box-shadow: 0 5px 0 var(--iso-left); }
+.code-link { border: none; border-radius: 9px; background: var(--navy-3); color: var(--cream-2); box-shadow: 0 3px 0 var(--face-dark); transition: transform .15s, box-shadow .15s, color .2s; }
+.code-link:hover, .code-link:focus-visible { background: var(--navy-3); color: var(--gold); transform: translateY(-2px); box-shadow: 0 5px 0 var(--face-dark); }
 .code-link:active { transform: translateY(3px); box-shadow: none; }
 
-/* Troubleshooting·Optimization 흐름: System Design 흐름 스트립과 같은 모양(흰 판 + 홈 모양 이음새, 결과만 민트) */
+/* Troubleshooting·Optimization 흐름: System Design 흐름 스트립과 같은 모양 */
 .flow-card { overflow: visible; }
-.flow-card-title { background: transparent; padding: .95rem 1.2rem .8rem; border-bottom: 1px solid var(--iso-left); }
+.flow-card-title { background: transparent; padding: .95rem 1.2rem .8rem; border-bottom: 1px solid var(--face); }
 .flow-cell { --flow-bg: transparent; border-right: none; }
-.flow-cell + .flow-cell { border-left: 1px solid var(--iso-left); }
+.flow-cell + .flow-cell { border-left: 1px solid var(--face); }
 .flow-cell:last-child { --flow-bg: var(--mint-top); border-radius: 0 0 var(--slab-r) 0; }
 .flow-cell:first-child { border-radius: 0 0 0 var(--slab-r); }
-.flow-cell:not(:last-child)::after { content: ''; right: -7px; width: 12px; height: 12px; border: none; border-top: 1px solid var(--iso-left); border-right: 1px solid var(--iso-left); border-radius: 0; background: #fff; transform: translateY(-50%) rotate(45deg); }
-.flow-cell:nth-last-child(2)::after { background: #fff; }
+.flow-cell:not(:last-child)::after { content: ''; right: -7px; width: 12px; height: 12px; border: none; border-top: 1px solid var(--face-dark); border-right: 1px solid var(--face-dark); border-radius: 0; background: var(--surface); transform: translateY(-50%) rotate(45deg); }
 .flow-label { text-transform: none; letter-spacing: .01em; font-size: .8rem; font-weight: 700; }
 .flow-label::before { width: 9px; height: 10px; border-radius: 0; clip-path: var(--hex); }
+.flow-step-0 .flow-label { color: var(--gold); }
 .flow-step-1 .flow-label { color: var(--blue-ink); }
 .flow-step-2 .flow-label { color: var(--gold); }
 .flow-step-3 .flow-label, .flow-cell:last-child .flow-label { color: var(--mint-ink); }
 .flow-cell:last-child .flow-text { color: var(--cream); font-weight: 600; }
-.retro-card.good { background: #fff; border-color: #fff; }
-.retro-card.bad { background: #fff; border-color: #fff; }
+.retro-card.good, .retro-card.bad { background: var(--surface); border-color: transparent; }
 .retro-card.good .retro-card-label { color: var(--mint-ink); }
 .retro-card.bad .retro-card-label { color: var(--blue-ink); }
-.optimization-comparison img, .optimization-comparison .optimization-crop { border: none; border-radius: 10px; box-shadow: 0 6px 0 var(--iso-left); }
+.optimization-comparison img, .optimization-comparison .optimization-crop { border: none; border-radius: 10px; box-shadow: 0 6px 0 var(--face); }
 
-/* 푸터: 내비와 같은 큐브 표식 */
-.footer-brand { display: inline-flex; align-items: center; }
-.footer-brand::before { content: ''; width: 16px; height: 19px; margin-right: .55rem; background: conic-gradient(from -60deg, #e2dcff 0 120deg, #7060e0 120deg 240deg, #a0f0d8 240deg 360deg); clip-path: var(--hex); }
+/* 푸터: 어두운 띠 → 바탕보다 한 단계 낮은 면. 물결도 같은 계열로 */
+footer { background: var(--navy-3); border-top: 1px solid var(--rule); }
+.fwsvg1 path { fill: var(--navy-3); }
+.fwsvg2 path { fill: var(--face-dark); }
+.fwsvg3 path { fill: var(--mint); }
+.footer-brand { display: inline-flex; align-items: center; color: var(--cream); }
+.footer-brand span { color: var(--gold); }
+.footer-brand::before { content: ''; width: 16px; height: 19px; margin-right: .55rem; background: var(--cube); clip-path: var(--hex); }
+.footer-links a, .footer-copy { color: var(--cream-3); }
+.footer-links a:hover { color: var(--gold); }
+
 @media(max-width:680px){
-  .flow-cell + .flow-cell { border-left: none; border-top: 1px solid var(--iso-left); }
+  .flow-cell + .flow-cell { border-left: none; border-top: 1px solid var(--face); }
   .flow-cell:first-child, .flow-cell:last-child { border-radius: 0; }
   .flow-cell:last-child { border-radius: 0 0 var(--slab-r) var(--slab-r); }
 }
-
-/* ── 한 번의 연출: 히어로 섬이 떠오르고, 작은 큐브만 천천히 떠 있다 ── */
-@keyframes hsRise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
-@keyframes hsBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
-.hero-scene .hs-island, .hero-scene .hs-float { transform-box: fill-box; }
-.hero-scene { animation: hsRise 1.1s cubic-bezier(.2,.7,.2,1) .15s both; }
-.hero-scene .hs-float { animation: hsBob 5.5s ease-in-out infinite; }
-.hero-scene .hs-float-2 { animation-duration: 7s; animation-delay: -2s; }
-@media (prefers-reduced-motion: reduce) { .hero-scene, .hero-scene .hs-float { animation: none; } }
-
-@media(max-width:1000px){
-  #about-grid, #about-grid:not(:has(.about-glance:not([hidden]))) { grid-template-columns: 180px minmax(0, 1fr); grid-template-areas: "photo text" "glance glance"; }
-  .hero-scene-wrap { display: none; }
-}
 @media(max-width:640px){
-  #about-grid, #about-grid:not(:has(.about-glance:not([hidden]))) { grid-template-columns: 92px minmax(0, 1fr); gap: 1.5rem 1.1rem; }
-  #about-grid .about-photo { width: 92px; height: 116px; border-width: 4px; border-radius: 46px 46px 10px 10px; box-shadow: 0 6px 0 var(--iso-left), var(--floor); }
-  .eyebrow { margin-bottom: 2rem; }
-  .about-glance .glance-list { grid-template-columns: minmax(0, 1fr); }
+  #about-grid { grid-template-columns: 84px minmax(0, 1fr); }
+  #about-grid .about-photo { width: 84px; height: 104px; border-width: 3px; border-radius: 42px 42px 10px 10px; box-shadow: 0 5px 0 var(--face), var(--floor); }
+  .eyebrow { margin-bottom: 1.75rem; }
+  .rule { margin: 2.75rem 0; }
 }
 
 @media print {
@@ -1209,8 +1207,8 @@ body::after {
   <div id="list-view">
     <nav class="home-toc" id="home-toc" aria-label="목차">
       <a href="#about"    data-sec="about"    onclick="showList('about');return false;"><span>About</span></a>
-      <a href="#skills"   data-sec="skills"   onclick="showList('skills');return false;"><span>Skills</span></a>
       <a href="#projects" data-sec="projects" onclick="showList('projects');return false;"><span>Projects</span></a>
+      <a href="#skills"   data-sec="skills"   onclick="showList('skills');return false;"><span>Skills</span></a>
       <a href="#awards"   data-sec="awards"   onclick="showList('awards');return false;"><span>Activities</span></a>
     </nav>
 
@@ -1226,17 +1224,8 @@ body::after {
           <div class="about-meta" id="about-meta"></div>
           <div class="link-icons" id="link-icons"></div>
         </div>
-        <!-- 히어로 장식: 원본 도형으로 그린 등각 건축 장면. 장식이라 스크린리더에서 숨긴다 -->
-        <div class="hero-scene-wrap" aria-hidden="true"><svg class="hero-scene" viewBox="0 0 430 460" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="hs-sun"><stop offset="0" stop-color="#a0f0d8" stop-opacity=".9"/><stop offset="1" stop-color="#a0f0d8" stop-opacity="0"/></radialGradient></defs><circle class="hs-sun" cx="330.4" cy="78.8" r="78" fill="url(#hs-sun)"/><g class="hs-island"><polygon points="47.7,274.0 214.0,370.0 214.0,440.4" fill="var(--iso-left)" opacity=".85"/><polygon points="380.3,274.0 214.0,370.0 214.0,440.4" fill="var(--iso-right)" opacity=".85"/><g><polygon points="214.0,178.0 380.3,274.0 214.0,370.0 47.7,274.0" fill="var(--iso-top)"/><polygon points="47.7,274.0 214.0,370.0 214.0,386.0 47.7,290.0" fill="var(--iso-left)"/><polygon points="380.3,274.0 214.0,370.0 214.0,386.0 380.3,290.0" fill="var(--iso-right)"/></g><polyline points="241.7,194.0 75.4,290.0" stroke="var(--iso-line)" stroke-width="1" fill="none"/><polyline points="186.3,194.0 352.6,290.0" stroke="var(--iso-line)" stroke-width="1" fill="none"/><polyline points="269.4,210.0 103.2,306.0" stroke="var(--iso-line)" stroke-width="1" fill="none"/><polyline points="158.6,210.0 324.8,306.0" stroke="var(--iso-line)" stroke-width="1" fill="none"/><polyline points="297.1,226.0 130.9,322.0" stroke="var(--iso-line)" stroke-width="1" fill="none"/><polyline points="130.9,226.0 297.1,322.0" stroke="var(--iso-line)" stroke-width="1" fill="none"/><polyline points="324.8,242.0 158.6,338.0" stroke="var(--iso-line)" stroke-width="1" fill="none"/><polyline points="103.2,242.0 269.4,338.0" stroke="var(--iso-line)" stroke-width="1" fill="none"/><polyline points="352.6,258.0 186.3,354.0" stroke="var(--iso-line)" stroke-width="1" fill="none"/><polyline points="75.4,258.0 241.7,354.0" stroke="var(--iso-line)" stroke-width="1" fill="none"/><g><polygon points="214.0,56.4 258.3,82.0 214.0,107.6 169.7,82.0" fill="var(--iso-top)"/><polygon points="169.7,82.0 214.0,107.6 214.0,242.0 169.7,216.4" fill="var(--iso-left)"/><polygon points="258.3,82.0 214.0,107.6 214.0,242.0 258.3,216.4" fill="var(--iso-right)"/></g><g><polygon points="214.0,51.6 247.3,70.8 214.0,90.0 180.7,70.8" fill="#8a7cf0"/><polygon points="180.7,70.8 214.0,90.0 214.0,101.2 180.7,82.0" fill="#6250d8"/><polygon points="247.3,70.8 214.0,90.0 214.0,101.2 247.3,82.0" fill="#4434b0"/></g><path d="M180.0,70.8 a34,34 0 0 1 68,0 z" fill="#7060e0"/><path d="M214.0,36.8 a34,34 0 0 1 34,34 h-34 z" fill="#5040c8"/><path d="M184.8,174.4 v-16 a7,7 0 0 1 14,0 v16 z" fill="var(--iso-window)"/><g><polygon points="313.8,165.2 363.6,194.0 313.8,222.8 263.9,194.0" fill="var(--iso-top)"/><polygon points="263.9,194.0 313.8,222.8 313.8,302.8 263.9,274.0" fill="var(--iso-left)"/><polygon points="363.6,194.0 313.8,222.8 313.8,302.8 363.6,274.0" fill="var(--iso-right)"/></g><g><polygon points="272.2,218.0 305.4,237.2 291.6,245.2 258.3,226.0" fill="var(--iso-top)"/><polygon points="258.3,226.0 291.6,245.2 291.6,306.0 258.3,286.8" fill="var(--iso-left)"/><polygon points="305.4,237.2 291.6,245.2 291.6,306.0 305.4,298.0" fill="var(--iso-right)"/></g><g><polygon points="258.3,245.2 291.6,264.4 277.7,272.4 244.5,253.2" fill="var(--iso-top)"/><polygon points="244.5,253.2 277.7,272.4 277.7,314.0 244.5,294.8" fill="var(--iso-left)"/><polygon points="291.6,264.4 277.7,272.4 277.7,314.0 291.6,306.0" fill="var(--iso-right)"/></g><g><polygon points="244.5,272.4 277.7,291.6 263.9,299.6 230.6,280.4" fill="var(--iso-top)"/><polygon points="230.6,280.4 263.9,299.6 263.9,322.0 230.6,302.8" fill="var(--iso-left)"/><polygon points="277.7,291.6 263.9,299.6 263.9,322.0 277.7,314.0" fill="var(--iso-right)"/></g><g><polygon points="230.6,299.6 263.9,318.8 250.0,326.8 216.8,307.6" fill="var(--iso-top)"/><polygon points="216.8,307.6 250.0,326.8 250.0,330.0 216.8,310.8" fill="var(--iso-left)"/><polygon points="263.9,318.8 250.0,326.8 250.0,330.0 263.9,322.0" fill="var(--iso-right)"/></g><polygon class="hs-goal" points="313.8,186.0 327.6,194.0 313.8,202.0 299.9,194.0" fill="#a0f0d8"/><g><polygon points="130.9,197.2 143.3,204.4 130.9,211.6 118.4,204.4" fill="var(--iso-top)"/><polygon points="118.4,204.4 130.9,211.6 130.9,278.8 118.4,271.6" fill="var(--iso-left)"/><polygon points="143.3,204.4 130.9,211.6 130.9,278.8 143.3,271.6" fill="var(--iso-right)"/></g><g><polygon points="176.6,223.6 189.1,230.8 176.6,238.0 164.1,230.8" fill="var(--iso-top)"/><polygon points="164.1,230.8 176.6,238.0 176.6,305.2 164.1,298.0" fill="var(--iso-left)"/><polygon points="189.1,230.8 176.6,238.0 176.6,305.2 189.1,298.0" fill="var(--iso-right)"/></g><g><polygon points="130.9,184.4 189.1,218.0 176.6,225.2 118.4,191.6" fill="#c3d3f6"/><polygon points="118.4,191.6 176.6,225.2 176.6,238.0 118.4,204.4" fill="#8aa6ea"/><polygon points="189.1,218.0 176.6,225.2 176.6,238.0 189.1,230.8" fill="#6080d0"/></g><g><polygon points="214.0,299.6 247.3,318.8 214.0,338.0 180.7,318.8" fill="#d4fbef"/><polygon points="180.7,318.8 214.0,338.0 214.0,357.2 180.7,338.0" fill="#a0f0d8"/><polygon points="247.3,318.8 214.0,338.0 214.0,357.2 247.3,338.0" fill="#6fd2b6"/></g></g><g class="hs-float"><g><polygon points="275.0,174.8 297.1,187.6 275.0,200.4 252.8,187.6" fill="#8a7cf0"/><polygon points="252.8,187.6 275.0,200.4 275.0,226.0 252.8,213.2" fill="#6250d8"/><polygon points="297.1,187.6 275.0,200.4 275.0,226.0 297.1,213.2" fill="#4434b0"/></g></g><g class="hs-float hs-float-2"><g><polygon points="75.4,133.2 89.3,141.2 75.4,149.2 61.6,141.2" fill="#d4fbef"/><polygon points="61.6,141.2 75.4,149.2 75.4,165.2 61.6,157.2" fill="#a0f0d8"/><polygon points="89.3,141.2 75.4,149.2 75.4,165.2 89.3,157.2" fill="#6fd2b6"/></g></g></svg></div>
         <aside class="about-glance fade-up fu1" id="about-glance" aria-label="한눈에 보기" hidden></aside>
       </div>
-    </section>
-
-    <hr class="rule">
-
-    <section id="skills">
-      <div class="eyebrow">Skills &amp; Tools</div>
-      <div class="skills-grid" id="skills-grid"></div>
     </section>
 
     <hr class="rule">
@@ -1244,6 +1233,13 @@ body::after {
     <section id="projects">
       <div class="eyebrow">Projects</div>
       <div class="projects-list" id="projects-list"></div>
+    </section>
+
+    <hr class="rule">
+
+    <section id="skills">
+      <div class="eyebrow">Skills &amp; Tools</div>
+      <div class="skills-grid" id="skills-grid"></div>
     </section>
 
     <hr class="rule">
@@ -1308,8 +1304,8 @@ body::after {
     <div class="footer-brand">SW<span>.</span>CHOI</div>
     <nav class="footer-links">
       <a href="#about"       onclick="showList('about');return false;">About</a>
-      <a href="#skills"      onclick="showList('skills');return false;">Skills</a>
       <a href="#projects"    onclick="showList('projects');return false;">Projects</a>
+      <a href="#skills"      onclick="showList('skills');return false;">Skills</a>
       <a href="#awards"      onclick="showList('awards');return false;">Activities</a>
       <a href="#other-works" hidden onclick="showList('other-works');return false;">Etc</a>
     </nav>
@@ -1399,16 +1395,17 @@ function buildSkills(){
   const ITEM_H=34, PAD_B=10, CAT_H=44, MIN_CUP_H=180;
   const THEMES={
     // 밝은 탑 + 파스텔 물: 보라(주력), 블루(AI 도구), 민트(플랫폼). cap은 탑 꼭대기 큐브의 세 면
-    footer:  {bg:'#ffffff',border:'transparent',water:'#e6e1fb',wave2:'#d6cff7',catColor:'#5040c8',itemColor:'#1a1440',badgeBg:'transparent',badgeColor:'#5040c8',cap:'conic-gradient(from -60deg,#8a7cf0 0 120deg,#3d30a8 120deg 240deg,#5040c8 240deg 360deg)'},
-    tool:    {bg:'#ffffff',border:'transparent',water:'#dfe8fb',wave2:'#cbd9f7',catColor:'#35589f',itemColor:'#1a1440',badgeBg:'transparent',badgeColor:'#4878d8',cap:'conic-gradient(from -60deg,#c3d3f6 0 120deg,#6080d0 120deg 240deg,#8aa6ea 240deg 360deg)'},
-    platform:{bg:'#ffffff',border:'transparent',water:'#d8f8ee',wave2:'#c0f0e1',catColor:'#1f7a64',itemColor:'#1a1440',badgeBg:'transparent',badgeColor:'#2a9c80',cap:'conic-gradient(from -60deg,#d4fbef 0 120deg,#6fd2b6 120deg 240deg,#a0f0d8 240deg 360deg)'},
+    footer:  {bg:'#f4f3f8',border:'transparent',water:'#e2def2',wave2:'#d4cfea',catColor:'#5446b8',itemColor:'#25223a',badgeBg:'transparent',badgeColor:'#5446b8',cap:'conic-gradient(from -60deg,#7a6ddb 0 120deg,#3e3392 120deg 240deg,#5446b8 240deg 360deg)'},
+    tool:    {bg:'#f4f3f8',border:'transparent',water:'#dce3f1',wave2:'#cdd8ee',catColor:'#2f5797',itemColor:'#25223a',badgeBg:'transparent',badgeColor:'#2f5797',cap:'conic-gradient(from -60deg,#c9d6ee 0 120deg,#7f98c8 120deg 240deg,#a9bde0 240deg 360deg)'},
+    platform:{bg:'#f4f3f8',border:'transparent',water:'#d5ebe3',wave2:'#c3e2d6',catColor:'#1f6b57',itemColor:'#25223a',badgeBg:'transparent',badgeColor:'#1f6b57',cap:'conic-gradient(from -60deg,#d3ece3 0 120deg,#7fbfa9 120deg 240deg,#a8d9c7 240deg 360deg)'},
   };
   const cupTheme=['footer','footer','footer','tool','platform'];
   const g=document.getElementById('skills-grid');
 
   SKILLS.forEach((cat,idx)=>{
     const t=THEMES[cupTheme[idx]||'footer'];
-    const n=cat.items.length;
+    // 모든 탑을 가장 항목이 많은 탑 높이에 맞춘다(물높이도 같게)
+    const n=Math.max(...SKILLS.map(c=>c.items.length));
     const waterH=Math.max(44, n*ITEM_H+PAD_B+20);
     const cupH=Math.max(MIN_CUP_H, waterH+CAT_H+10);
 
