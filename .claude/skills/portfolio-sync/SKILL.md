@@ -43,5 +43,6 @@ node .claude/scripts/check-portfolio.mjs --remote --render
 ```
 
 - 오류가 0개여야 한다. 바뀐 상세 페이지의 스크린샷(`<TMP>/portfolio-render/detail-<id>.png`)을 직접 열어 문장 길이와 줄바꿈을 확인한다.
+- `content.md`의 "자동 최종 검토 루프"를 돈다(`recruiter-reviewer`, 최대 3회).
 - 커밋하고 `CLAUDE.md`의 Git 절에 따라 작업 브랜치에 push한 뒤, 사용자 승인을 받아 `main`에 push한다.
 - 사용자에게는 바뀐 항목, 각 문장의 근거(원본 파일), 확인이 필요한 점을 짧게 보고한다.

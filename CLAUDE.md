@@ -83,8 +83,10 @@ node .claude/scripts/check-portfolio.mjs --render --mobile --only=<id>   # 모�
   (necromancer·soulmate·runepago 숨김, soulmate/runepago goal 없음, necromancer linkMap "Google Drive")
 
 - 검토 서브에이전트(읽기 전용, `.claude/agents/`):
-  - `content-reviewer`: 내용 세션이 문구·샘플 코드를 고친 뒤 독립 검토
-  - `recruiter-reviewer`: 지원 전이나 큰 변경 뒤, 완성된 화면을 채용 심사자 시점에서 최종 검토(내용·디자인 모두). 발견마다 고칠 세션을 붙여 준다
+  - `content-reviewer`: 샘플 코드 문서를 고친 뒤 문서 품질 검토(요청 시 또는 큰 수정 뒤)
+  - `recruiter-reviewer`: 완성된 화면을 채용 심사자 시점에서 검토(내용·디자인 모두). 발견마다 고칠 세션을 붙여 준다.
+    **내용 세션은 데이터를 고친 뒤 사용자 요청 없이 자동으로** 부르고, 품질 기준(내용 몫 치명·중요 0건)을 넘을 때까지
+    검토 → 목표 설정 → 수정을 **최대 3회** 반복한다. 절차는 `.claude/roles/content.md`의 "자동 최종 검토 루프"
 
 ## Git
 
