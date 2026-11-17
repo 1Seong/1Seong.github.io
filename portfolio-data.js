@@ -137,6 +137,7 @@ const PROJECTS = {
           "실패하면 실패 파일 위치와 확인한 사실만 붙여 구현 단계로 되돌리고, 고치는 방법은 지시하지 않음",
         ],
         result:"샌드박스 이슈 SAN-3를 PR 머지와 Jira 완료까지 처리",
+        diagram:{ src:"assets/projects/uloop/architecture.svg", alt:"UnityLoop 이너 루프 전체 흐름: 이슈 읽기, 계획, 구현·검증, PR·CI, 수락·머지와 되돌림 경로, state.py와 하네스", size:"full", caption:"보라는 서브에이전트, 흰색은 스크립트, 초록은 사람 확인. 붉은 선은 구현으로 되돌리는 경로" },
       },
       {
         title:"훅 기반 쓰기 범위와 외부 쓰기 가드",
