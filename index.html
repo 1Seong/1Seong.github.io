@@ -1125,6 +1125,48 @@ body::after {
 .sd-code { background: #fff; border: none; box-shadow: 0 4px 0 var(--iso-left); }
 .sd-code:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--iso-left); }
 
+/* 기여 카드: 보라 틴트 판 → 흰 석판, 위 색띠 제거 */
+.contribution-group-head { text-transform: none; letter-spacing: .01em; font-size: 1rem; font-weight: 600; }
+.contribution-group.core .contribution-summary, .contribution-group.additional .contribution-summary { background: #fff; border-color: #fff; }
+.contribution-group .contribution-summary::before { display: none; }
+.contribution-summary:hover { border-color: #fff; box-shadow: 0 8px 0 var(--iso-left), 0 36px 56px -30px rgba(40,30,110,.45); }
+.contribution-summary-media img { border-radius: var(--slab-r) var(--slab-r) 0 0; }
+.contribution-summary-icon { width: 30px; height: 34px; border-radius: 0; clip-path: var(--hex); background: var(--cube-light); color: var(--gold); }
+.contribution-badge { border: none !important; border-radius: 7px; text-transform: none; letter-spacing: .01em; }
+.code-link { border: none; border-radius: 9px; background: #fff; color: var(--cream-2); box-shadow: 0 3px 0 var(--iso-left); transition: transform .15s, box-shadow .15s, color .2s; }
+.code-link:hover, .code-link:focus-visible { background: #fff; color: var(--gold); transform: translateY(-2px); box-shadow: 0 5px 0 var(--iso-left); }
+.code-link:active { transform: translateY(3px); box-shadow: none; }
+
+/* Troubleshooting·Optimization 흐름: System Design 흐름 스트립과 같은 모양(흰 판 + 홈 모양 이음새, 결과만 민트) */
+.flow-card { overflow: visible; }
+.flow-card-title { background: transparent; padding: .95rem 1.2rem .8rem; border-bottom: 1px solid var(--iso-left); }
+.flow-cell { --flow-bg: transparent; border-right: none; }
+.flow-cell + .flow-cell { border-left: 1px solid var(--iso-left); }
+.flow-cell:last-child { --flow-bg: var(--mint-top); border-radius: 0 0 var(--slab-r) 0; }
+.flow-cell:first-child { border-radius: 0 0 0 var(--slab-r); }
+.flow-cell:not(:last-child)::after { content: ''; right: -7px; width: 12px; height: 12px; border: none; border-top: 1px solid var(--iso-left); border-right: 1px solid var(--iso-left); border-radius: 0; background: #fff; transform: translateY(-50%) rotate(45deg); }
+.flow-cell:nth-last-child(2)::after { background: #fff; }
+.flow-label { text-transform: none; letter-spacing: .01em; font-size: .8rem; font-weight: 700; }
+.flow-label::before { width: 9px; height: 10px; border-radius: 0; clip-path: var(--hex); }
+.flow-step-1 .flow-label { color: var(--blue-ink); }
+.flow-step-2 .flow-label { color: var(--gold); }
+.flow-step-3 .flow-label, .flow-cell:last-child .flow-label { color: var(--mint-ink); }
+.flow-cell:last-child .flow-text { color: var(--cream); font-weight: 600; }
+.retro-card.good { background: #fff; border-color: #fff; }
+.retro-card.bad { background: #fff; border-color: #fff; }
+.retro-card.good .retro-card-label { color: var(--mint-ink); }
+.retro-card.bad .retro-card-label { color: var(--blue-ink); }
+.optimization-comparison img, .optimization-comparison .optimization-crop { border: none; border-radius: 10px; box-shadow: 0 6px 0 var(--iso-left); }
+
+/* 푸터: 내비와 같은 큐브 표식 */
+.footer-brand { display: inline-flex; align-items: center; }
+.footer-brand::before { content: ''; width: 16px; height: 19px; margin-right: .55rem; background: conic-gradient(from -60deg, #e2dcff 0 120deg, #7060e0 120deg 240deg, #a0f0d8 240deg 360deg); clip-path: var(--hex); }
+@media(max-width:680px){
+  .flow-cell + .flow-cell { border-left: none; border-top: 1px solid var(--iso-left); }
+  .flow-cell:first-child, .flow-cell:last-child { border-radius: 0; }
+  .flow-cell:last-child { border-radius: 0 0 var(--slab-r) var(--slab-r); }
+}
+
 /* ── 한 번의 연출: 히어로 섬이 떠오르고, 작은 큐브만 천천히 떠 있다 ── */
 @keyframes hsRise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
 @keyframes hsBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
