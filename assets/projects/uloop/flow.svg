@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 -60 1600 900" font-family="Pretendard, 'Malgun Gothic', 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5b6070"/>
+    </marker>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d1495b"/>
+    </marker>
+  </defs>
+  <rect y="-60" width="1600" height="900" fill="#f6f5f1"/>
+  <text x="40" y="72" font-size="34" font-weight="800" fill="#1d1f24">이슈 하나가 처리되는 흐름</text>
+
+  <!-- lanes -->
+  <rect x="40" y="120" width="1520" height="180" rx="18" fill="#fdf0dc"/>
+  <rect x="40" y="320" width="1520" height="220" rx="18" fill="#eee8fb"/>
+  <rect x="40" y="560" width="1520" height="180" rx="18" fill="#dff1ee"/>
+  <g font-size="26" font-weight="800">
+    <text x="76" y="219" fill="#b45f06">사람</text>
+    <text x="76" y="459" fill="#6234c9">AI</text>
+    <text x="76" y="659" fill="#0f7468">스크립트</text>
+  </g>
+
+  <!-- flow -->
+  <g stroke="#5b6070" stroke-width="3" fill="none" stroke-linejoin="round" marker-end="url(#ar)">
+    <path d="M340,210 H365 V450 H388"/>
+    <path d="M540,450 H588"/>
+    <path d="M740,450 H765 V650 H788"/>
+    <path d="M940,650 H965 V450 H988"/>
+    <path d="M1140,450 H1165 V650 H1188"/>
+    <path d="M1340,650 H1365 V210 H1388"/>
+    <path d="M1465,256 V602"/>
+  </g>
+
+  <!-- retry -->
+  <path d="M1065,404 C1065,345 665,345 665,402" stroke="#d1495b" stroke-width="3" stroke-dasharray="10 8" fill="none" marker-end="url(#arr)"/>
+  <text x="865" y="402" text-anchor="middle" font-size="20" font-weight="700" fill="#d1495b">실패 시 다시 구현</text>
+
+  <!-- nodes -->
+  <g font-size="25" font-weight="800" text-anchor="middle" stroke-width="3">
+    <rect x="190" y="164" width="150" height="92" rx="16" fill="#fff" stroke="#e08a1e"/>
+    <text x="265" y="219" fill="#7a3e00" stroke="none">Jira 이슈</text>
+
+    <rect x="390" y="404" width="150" height="92" rx="16" fill="#fff" stroke="#7b4ce0"/>
+    <text x="465" y="459" fill="#46209a" stroke="none">계획</text>
+
+    <rect x="590" y="404" width="150" height="92" rx="16" fill="#fff" stroke="#7b4ce0"/>
+    <text x="665" y="459" fill="#46209a" stroke="none">구현</text>
+
+    <rect x="790" y="604" width="150" height="92" rx="16" fill="#fff" stroke="#139485"/>
+    <text x="865" y="659" fill="#0a524a" stroke="none">검증</text>
+
+    <rect x="990" y="404" width="150" height="92" rx="16" fill="#fff" stroke="#7b4ce0"/>
+    <text x="1065" y="459" fill="#46209a" stroke="none">평가</text>
+
+    <rect x="1190" y="604" width="150" height="92" rx="16" fill="#fff" stroke="#139485"/>
+    <text x="1265" y="659" fill="#0a524a" stroke="none">PR · CI</text>
+
+    <rect x="1390" y="164" width="150" height="92" rx="16" fill="#fff" stroke="#e08a1e"/>
+    <text x="1465" y="219" fill="#7a3e00" stroke="none">수락</text>
+
+    <rect x="1390" y="604" width="150" height="92" rx="16" fill="#fff" stroke="#139485"/>
+    <text x="1465" y="659" fill="#0a524a" stroke="none">머지 · 완료</text>
+  </g>
+</svg>

@@ -118,7 +118,8 @@ const PROJECTS = {
       { text:"Jira · CI", type:"sub" },
     ],
     media:[
-      { type:"video", src:"", label:"데모 영상 준비 중" },
+      { type:"image", src:"assets/projects/uloop/flow.svg", label:"처리 흐름" },
+      { type:"image", src:"assets/projects/uloop/guard.svg", label:"훅 권한" },
     ],
     summary:"사람이 고른 Jira 이슈 하나를 계획·구현·검증·PR·CI·수락·머지까지 잇는 Claude Code 이너 루프. 서버 배포와 Unity 빌드 릴리스 단계는 아직 구현하지 않음.",
     role:[
