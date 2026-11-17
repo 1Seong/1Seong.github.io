@@ -74,8 +74,8 @@ node .claude/scripts/check-portfolio.mjs --render --mobile --only=<id>   # 모�
 - 화면 단위 스크린샷과 변경 전후 비교는 `node .claude/scripts/shot.mjs`를 쓴다(사용법은 파일 머리말).
 
 - `portfolio-data.js`나 `index.html`을 편집하면 PostToolUse 훅이 빠른 검사를 자동으로 실행한다. 오류(✖)가 나오면 다음 작업 전에 고친다.
-- 현재 남아 있는 경고 4개는 기존 상태이며 의도된 것일 수 있다. 요청이 없으면 고치지 않는다.
-  (runepago 숨김, soulmate/runepago goal 없음, necromancer linkMap "Google Drive")
+- 현재 남아 있는 경고 6개는 기존 상태이며 의도된 것일 수 있다. 요청이 없으면 고치지 않는다.
+  (necromancer·soulmate·runepago 숨김, soulmate/runepago goal 없음, necromancer linkMap "Google Drive")
 
 ## Git
 

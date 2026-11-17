@@ -96,7 +96,8 @@ const OTHER_WORKS = [
     items: ["간단한 컴파일러 및 파서 구현"],
   },
 ];
-const PROJECT_ORDER = ["eulerian_aurora", "square_erauqs", "save_the_world", "omakhase", "detective_ai","hell_pit", "necromancer_survivors", "soulmate_system"];
+const PROJECT_ORDER = ["eulerian_aurora", "square_erauqs", "save_the_world", "omakhase", "detective_ai", "hell_pit"];
+// 표시하지 않는 프로젝트(데이터는 보존): necromancer_survivors, soulmate_system, runepago
 // 프로젝트 순서 변경 시 배열 순서만 바꾸면 됩니다.
 const MAIN_PROJECT_IDS = ["eulerian_aurora", "square_erauqs", "save_the_world", "omakhase"];
 const SUB_PROJECT_IDS = PROJECT_ORDER.filter(id => !MAIN_PROJECT_IDS.includes(id));

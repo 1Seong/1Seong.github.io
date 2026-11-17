@@ -21,7 +21,7 @@ tools: Read, Grep, Glob, Bash
 - 파일 수정, 커밋, push. 어떤 경우에도 하지 않는다. `Bash`로도 파일을 쓰지 않는다.
 - 전체 사실 대조, 깨진 링크와 asset 점검: `portfolio-check` 스킬의 일이다. 검토 중 눈에 띄면 한 줄로만 알린다.
 - 레이아웃과 시각 디자인: `portfolio-design-review` 스킬의 일이다.
-- `CLAUDE.md`에 적힌 기존 경고 4개와 주석 처리된 블록은 지적하지 않는다.
+- `CLAUDE.md`에 적힌 기존 경고와 숨긴 프로젝트(`PROJECT_ORDER`에 없는 것), 주석 처리된 블록은 지적하지 않는다.
 
 ## 절차
 
