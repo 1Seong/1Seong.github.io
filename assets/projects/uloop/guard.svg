@@ -1,57 +1,100 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="Pretendard, 'Malgun Gothic', 'Segoe UI', sans-serif">
-  <defs>
-    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M0,0 L10,5 L0,10 z" fill="#5b6070"/>
-    </marker>
-  </defs>
-  <rect width="1600" height="900" fill="#f6f5f1"/>
-  <text x="40" y="72" font-size="34" font-weight="800" fill="#1d1f24">AI의 모든 도구 호출은 훅을 거친다</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" width="1100" height="600" role="img" aria-labelledby="t d">
+<title id="t">UnityLoop 훅 기반 쓰기 범위와 외부 쓰기 가드</title>
+<desc id="d">메인 세션과 서브에이전트 6종의 파일·셸·MCP·스킬 호출을 PreToolUse 훅 5종이 먼저 판정해 허용, 사람 확인, 차단으로 나눈다. 외부 쓰기는 사람 확인을 거쳐 scripts/의 스크립트만 Jira와 GitHub에 한다. 하네스가 실제 훅 입력으로 판정과 고정 스킬 해시를 시험한다.</desc>
+<!-- 근거: 1Seong/UnityLoopInner .claude/settings.json, .claude/hooks/*.mjs, ownership.json, skill-pools.json, scripts/check-harness.mjs, docs/STATUS.md(하네스 474/474, 2026-11-17) -->
+<style>
+text{font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;fill:#0F172A}
+.title{font-size:22px;font-weight:700}.sub{font-size:13.5px;fill:#475569}.lg{font-size:12.5px;fill:#475569}
+.lane{fill:#F8FAFC;stroke:#E2E8F0}.lt{font-size:15px;font-weight:700}.ls{font-size:12px;fill:#64748B}
+.card{fill:#fff;stroke:#94A3B8;stroke-width:1.5}.ct{font-size:15px;font-weight:700}.cs{font-size:12.5px;fill:#475569}
+.chip{fill:#fff;stroke-width:1.5}.c-opus{stroke:#6D28D9}.c-sonnet{stroke:#1D4ED8}.c-haiku{stroke:#047857}
+.mono{font-family:'Cascadia Code',Consolas,monospace;font-size:12.5px;fill:#1E293B}
+.hook{fill:#1E293B}.hookt{font-family:'Cascadia Code',Consolas,monospace;font-size:13px;font-weight:600;fill:#fff}
+.row{fill:#F1F5F9}.rt{font-size:12.5px;fill:#1E293B}
+.ok{fill:#ECFDF5;stroke:#059669;stroke-width:1.5}.okt{font-size:15px;font-weight:700;fill:#065F46}
+.ask{fill:#FEF3C7;stroke:#D97706;stroke-width:1.5}.askt{font-size:15px;font-weight:700;fill:#92400E}
+.no{fill:#FEF2F2;stroke:#DC2626;stroke-width:1.5}.not{font-size:15px;font-weight:700;fill:#B91C1C}
+.bt{font-size:12.5px;fill:#334155}
+.ext{fill:#fff;stroke:#CBD5E1;stroke-width:1.5}
+.flow{fill:none;stroke:#334155;stroke-width:2;marker-end:url(#a)}
+.flowa{fill:none;stroke:#D97706;stroke-width:2;marker-end:url(#aa)}
+.ctrl{fill:#1E293B}.ctrlt{font-size:14px;font-weight:600;fill:#fff}
+</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+<marker id="aa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#D97706"/></marker>
+</defs>
+<rect width="1100" height="600" fill="#fff"/>
+<text x="10" y="34" class="title">쓰기 범위와 외부 쓰기 가드</text>
+<text x="10" y="58" class="sub">파일·셸·MCP·스킬 호출은 실행 전에 PreToolUse 훅이 판정</text>
+<g transform="translate(790,22)">
+  <rect x="0" y="3" width="13" height="13" rx="3" class="ok"/><text x="19" y="14" class="lg">허용</text>
+  <rect x="64" y="3" width="13" height="13" rx="3" class="ask"/><text x="83" y="14" class="lg">사람 확인</text>
+  <rect x="160" y="3" width="13" height="13" rx="3" class="no"/><text x="179" y="14" class="lg">차단</text>
+</g>
 
-  <!-- agent -->
-  <rect x="150" y="380" width="260" height="140" rx="22" fill="#eee8fb" stroke="#7b4ce0" stroke-width="3"/>
-  <text x="280" y="462" text-anchor="middle" font-size="30" font-weight="800" fill="#46209a">AI 에이전트</text>
+<!-- 판정 영역 -->
+<rect x="10" y="80" width="1080" height="320" rx="10" class="lane"/>
 
-  <!-- hook wall -->
-  <rect x="640" y="150" width="70" height="620" rx="14" fill="#2f3542"/>
-  <text x="675" y="128" text-anchor="middle" font-size="26" font-weight="800" fill="#2f3542">훅</text>
+<!-- 호출 주체 -->
+<text x="30" y="108" class="lt">호출 주체</text>
+<rect x="30" y="122" width="250" height="56" rx="9" class="card"/>
+<text x="46" y="146" class="ct">메인 세션</text><text x="46" y="166" class="cs">/issue 진행 · 결과만 옮김</text>
+<rect x="30" y="192" width="250" height="190" rx="9" class="card"/>
+<text x="46" y="216" class="ct">서브에이전트 6종</text><text x="46" y="234" class="cs">훅 입력의 agent_id로 구분</text>
+<rect x="46" y="246" width="106" height="28" rx="6" class="chip c-haiku"/><text x="56" y="265" class="mono">discoverer</text>
+<rect x="160" y="246" width="106" height="28" rx="6" class="chip c-opus"/><text x="170" y="265" class="mono">planner</text>
+<rect x="46" y="282" width="106" height="28" rx="6" class="chip c-sonnet"/><text x="56" y="301" class="mono">implementer</text>
+<rect x="160" y="282" width="106" height="28" rx="6" class="chip c-opus"/><text x="170" y="301" class="mono">solo</text>
+<rect x="46" y="318" width="106" height="28" rx="6" class="chip c-sonnet"/><text x="56" y="337" class="mono">evaluator</text>
+<rect x="160" y="318" width="112" height="28" rx="6" class="chip c-opus"/><text x="166" y="336" class="mono" style="font-size:10.5px">security-reviewer</text>
+<text x="46" y="370" class="cs">테두리 색 = 모델 (Opus · Sonnet · Haiku)</text>
 
-  <!-- arrows -->
-  <g stroke="#5b6070" stroke-width="3" fill="none" stroke-linejoin="round">
-    <path d="M410,450 H520 V250 H640"/>
-    <path d="M410,450 H640"/>
-    <path d="M410,450 H520 V650 H640"/>
-  </g>
-  <g stroke-width="3" fill="none" marker-end="url(#ar)">
-    <path d="M710,250 H1018" stroke="#139485"/>
-    <path d="M710,650 H1018" stroke="#e08a1e"/>
-  </g>
-  <path d="M710,450 H860" stroke="#d1495b" stroke-width="3" stroke-dasharray="10 8"/>
+<!-- 훅 -->
+<text x="330" y="108" class="lt">PreToolUse 훅</text>
+<g>
+  <rect x="330" y="122" width="330" height="44" rx="8" class="row"/><rect x="330" y="122" width="118" height="44" rx="8" class="hook"/><text x="389" y="149" text-anchor="middle" class="hookt">guard-shell</text><text x="460" y="149" class="rt">Bash · PowerShell</text>
+  <rect x="330" y="174" width="330" height="44" rx="8" class="row"/><rect x="330" y="174" width="118" height="44" rx="8" class="hook"/><text x="389" y="201" text-anchor="middle" class="hookt">guard-edit</text><text x="460" y="193" class="rt">Write · Edit</text><text x="460" y="210" class="rt" style="fill:#64748B">ownership.json · scope.json</text>
+  <rect x="330" y="226" width="330" height="44" rx="8" class="row"/><rect x="330" y="226" width="118" height="44" rx="8" class="hook"/><text x="389" y="253" text-anchor="middle" class="hookt">guard-read</text><text x="460" y="253" class="rt">Read · Grep · Glob</text>
+  <rect x="330" y="278" width="330" height="44" rx="8" class="row"/><rect x="330" y="278" width="118" height="44" rx="8" class="hook"/><text x="389" y="305" text-anchor="middle" class="hookt">guard-mcp</text><text x="460" y="305" class="rt">MCP 도구 (mcp__*)</text>
+  <rect x="330" y="330" width="330" height="44" rx="8" class="row"/><rect x="330" y="330" width="118" height="44" rx="8" class="hook"/><text x="389" y="357" text-anchor="middle" class="hookt">guard-skill</text><text x="460" y="349" class="rt">Skill</text><text x="460" y="366" class="rt" style="fill:#64748B">skill-pools.json</text>
+</g>
 
-  <!-- verdict badges -->
-  <circle cx="790" cy="250" r="26" fill="#139485"/>
-  <path d="M777,251 l9,9 l17,-19" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="890" cy="450" r="26" fill="#d1495b"/>
-  <path d="M879,439 l22,22 M901,439 l-22,22" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
-  <circle cx="790" cy="650" r="26" fill="#e08a1e"/>
-  <circle cx="790" cy="642" r="7" fill="#fff"/>
-  <path d="M777,664 a13,11 0 0 1 26,0 z" fill="#fff"/>
+<!-- 판정 -->
+<text x="720" y="108" class="lt">판정</text>
+<rect x="720" y="122" width="350" height="76" rx="9" class="ok"/>
+<text x="736" y="146" class="okt">허용</text>
+<text x="736" y="167" class="bt">서브에이전트: 자기 산출물 + scope.json 경로</text>
+<text x="736" y="186" class="bt">읽기 명령 · 자기 스킬 풀</text>
+<rect x="720" y="210" width="350" height="76" rx="9" class="ask"/>
+<text x="736" y="234" class="askt">사람 확인</text>
+<text x="736" y="255" class="bt">메인 세션: git push · gh 쓰기 · 쓰기 스크립트</text>
+<text x="736" y="274" class="bt">플러그인 스킬 · 그 밖의 MCP 쓰기</text>
+<rect x="720" y="298" width="350" height="84" rx="9" class="no"/>
+<text x="736" y="322" class="not">차단</text>
+<text x="736" y="343" class="bt">.claude/ · .git/ · 비밀 파일 · 범위 밖 파일</text>
+<text x="736" y="362" class="bt">강제 푸시 · 검증 우회 · MCP로 Jira·GitHub 쓰기</text>
 
-  <!-- targets -->
-  <g font-size="27" font-weight="800">
-    <rect x="1020" y="195" width="430" height="110" rx="18" fill="#fff" stroke="#139485" stroke-width="3"/>
-    <text x="1060" y="261" fill="#0a524a">이슈 범위 안의 파일</text>
+<!-- 화살표 -->
+<path d="M280 150H326" class="flow"/>
+<path d="M280 287H326" class="flow"/>
+<path d="M660 248H690V160H716" class="flow"/>
+<path d="M690 248H716" class="flow"/>
+<path d="M690 248V340H716" class="flow"/>
 
-    <rect x="960" y="395" width="490" height="110" rx="18" fill="#fff" stroke="#d1495b" stroke-width="3" stroke-dasharray="10 8"/>
-    <text x="1000" y="461" fill="#9c2233">설정 · 비밀값 · .git</text>
+<!-- 외부 쓰기 -->
+<rect x="10" y="416" width="1080" height="96" rx="10" class="lane"/>
+<text x="24" y="458" class="lt">외부 쓰기</text><text x="24" y="478" class="ls">스크립트만</text><rect x="330" y="434" width="330" height="60" rx="9" class="card"/>
+<text x="346" y="458" class="ct">scripts/</text><text x="346" y="478" class="mono">jira.py · pr.py · ci.py</text>
+<rect x="720" y="434" width="165" height="60" rx="9" class="ext"/><text x="802" y="469" text-anchor="middle" class="ct">Jira</text>
+<rect x="905" y="434" width="165" height="60" rx="9" class="ext"/><text x="987" y="469" text-anchor="middle" class="ct">GitHub</text>
+<path d="M660 464H716" class="flow"/>
+<path d="M690 464V503H987V498" class="flow"/>
+<text x="150" y="458" class="cs">사람 확인 뒤 실행</text><text x="150" y="476" class="cs">에이전트에는 쓰기 도구 없음</text>
 
-    <rect x="1020" y="595" width="430" height="110" rx="18" fill="#fff" stroke="#e08a1e" stroke-width="3"/>
-    <text x="1060" y="661" fill="#7a3e00">GitHub · Jira 쓰기</text>
-  </g>
-
-  <!-- legend -->
-  <g font-size="21" font-weight="600" fill="#4a4d55">
-    <circle cx="160" cy="820" r="11" fill="#139485"/><text x="180" y="827">허용</text>
-    <circle cx="280" cy="820" r="11" fill="#d1495b"/><text x="300" y="827">차단</text>
-    <circle cx="400" cy="820" r="11" fill="#e08a1e"/><text x="420" y="827">사람 확인 후 실행</text>
-  </g>
+<!-- 하네스 -->
+<rect x="10" y="528" width="1080" height="58" rx="10" class="lane"/>
+<text x="24" y="562" class="lt">시험</text>
+<rect x="130" y="537" width="940" height="40" rx="8" class="ctrl"/>
+<text x="600" y="562" text-anchor="middle" class="ctrlt">check-harness.mjs · 실제 훅 입력으로 판정 474건 회귀 시험 · 고정 스킬 SHA-256 해시 대조</text>
 </svg>

@@ -105,7 +105,8 @@ const SUB_PROJECT_IDS = PROJECT_ORDER.filter(id => !MAIN_PROJECT_IDS.includes(id
 const PROJECTS = {
   // 근거: 1Seong/UnityLoopInner (비공개) CLAUDE.md, docs/STATUS.md(2026-11-17), docs/DECISIONS.md, .claude/skills/issue/SKILL.md
   // 1Seong/UnityLoop(Agent SDK 아우터 루프)는 비용 문제로 중단했고 실제로 쓴 적이 없어 근거로 쓰지 않는다.
-  // 공개 샘플 저장소·데모 영상·구조도는 아직 없다. 서버(I5) 보류, Unity 릴리스·비대화형(I6) 시작 전이므로 완성된 것처럼 쓰지 않는다.
+  // 공개 샘플 저장소·데모 영상은 아직 없다. 도식은 assets/projects/uloop/(architecture·guard·ci.svg).
+  // 서버(I5)는 보류, 비대화형 디스패처 실측도 보류(STATUS 2026-11-17).
   unity_loop: {
     id:"unity_loop",
     title:"UnityLoop",
@@ -114,14 +115,13 @@ const PROJECTS = {
     tags:[],
     badges:[
       { text:"1인 설계·구현", type:"primary" },
-      { text:"Claude Code", type:"sub" },
+      { text:"서브에이전트 · 훅", type:"sub" },
       { text:"Jira · CI", type:"sub" },
     ],
     media:[
-      { type:"image", src:"assets/projects/uloop/flow.svg", label:"처리 흐름" },
-      { type:"image", src:"assets/projects/uloop/guard.svg", label:"훅 권한" },
+      { type:"video", src:"", label:"데모 영상 준비 중" },
     ],
-    summary:"사람이 고른 Jira 이슈 하나를 계획·구현·검증·PR·CI·수락·머지까지 잇는 Claude Code 이너 루프. 서버 배포와 Unity 빌드 릴리스 단계는 아직 구현하지 않음.",
+    summary:"사람이 고른 Jira 이슈 하나를 계획·구현·검증·PR·CI·수락·머지까지 잇는 에이전트 개발 루프. 샌드박스 Unity 이슈를 PR 머지와 Jira 완료까지 처리.",
     role:[
       { name:"파이프라인 설계·구현", icon:"ti-cpu", desc:"/issue 절차와 단계별 서브에이전트 설계<br>Jira·GitHub·CI 연동 스크립트<br>훅 기반 쓰기·셸 가드와 하네스 시험" },
     ],
@@ -134,12 +134,12 @@ const PROJECTS = {
         category:"구조",
         context:"에이전트 출력에 진행이 흔들리지 않도록, 이슈마다 같은 순서와 기준으로 진행되는 흐름 필요",
         decisions:[
-          "fetch → plan → implement → verify → evaluate → PR → CI → 수락 → merge 순서와 재시도 횟수를 state.py가 관리",
-          "판정은 스크립트 종료 코드(통과·재시도·차단)로만 내리고, 메인 세션은 결과를 옮기기만 하도록 역할 분리",
+          "이슈 읽기 → 계획 → 구현 → 검증 → 평가 → PR → CI → 수락 → 머지 순서와 재시도 횟수를 state.py가 관리",
+          "스크립트 단계는 종료 코드(통과·재시도·사람에게)로, 평가 단계는 evaluator 판정 파일로 넘기고, 메인 세션은 결과만 옮기도록 분리",
           "실패하면 실패 파일 위치와 확인한 사실만 붙여 구현 단계로 되돌리고, 고치는 방법은 지시하지 않음",
         ],
         result:"샌드박스 이슈 SAN-3를 PR 머지와 Jira 완료까지 처리",
-        diagram:{ src:"assets/projects/uloop/architecture.svg", alt:"UnityLoop 이너 루프 전체 흐름: 이슈 읽기, 계획, 구현·검증, PR·CI, 수락·머지와 되돌림 경로, state.py와 하네스", size:"full", caption:"보라는 서브에이전트, 흰색은 스크립트, 초록은 사람 확인. 붉은 선은 구현으로 되돌리는 경로" },
+        diagram:{ src:"assets/projects/uloop/architecture.svg", alt:"UnityLoop 이너 루프 전체 흐름: 사람의 이슈 선택, 이슈 읽기·계획·구현 검증·PR CI·머지 완료 단계와 모델 배치, 수락, 구현으로 되돌리는 경로, state.py 제어", size:"full", caption:"칩 색은 서브에이전트 모델(Opus·Sonnet·Haiku)과 스크립트, 노랑은 사람. 붉은 선은 구현으로 되돌리는 경로" },
       },
       {
         title:"훅 기반 쓰기 범위와 외부 쓰기 가드",
@@ -147,23 +147,33 @@ const PROJECTS = {
         context:"에이전트가 범위 밖 파일을 고치거나 외부 시스템을 바꾸는 사고 방지",
         decisions:[
           "서브에이전트별 쓰기 범위를 ownership.json으로 정하고, 편집·셸·읽기·MCP·스킬 훅이 범위 밖 요청을 차단",
-          "Jira·GitHub 쓰기와 push는 scripts/의 스크립트만 하고 사람 확인을 거치며, 에이전트에는 쓰기 도구 미부여",
+          "Jira·GitHub 쓰기와 push는 scripts/의 스크립트만 하고 사람 확인을 거치며, 에이전트에는 Jira·GitHub 쓰기 도구 미부여",
           "에이전트가 쓰는 외부 스킬은 해시와 함께 고정 복사하고, 하네스 시험으로 훅 판정과 해시를 함께 검사",
         ],
+        issue:{
+          problem:"worktree 세션에서 discoverer의 산출물 쓰기가 훅에 막힘",
+          cause:"절대 경로 전체에서 .claude 구간을 찾아 worktree 경로를 오판",
+          fix:"저장소 안 경로는 루트 기준 상대 경로로 .claude 여부를 검사",
+        },
+        result:"실제 훅 입력으로 만든 하네스 판정 시험 474건 통과",
+        diagram:{ src:"assets/projects/uloop/guard.svg", alt:"훅 가드 구조: 메인 세션과 서브에이전트 6종의 호출을 PreToolUse 훅 5종이 허용·사람 확인·차단으로 판정하고, 외부 쓰기는 scripts/만 Jira·GitHub에 수행, 하네스가 판정을 시험", size:"full", caption:"초록은 허용, 노랑은 사람 확인, 빨강은 차단. 에이전트 칩 테두리 색은 모델" },
       },
       {
         title:"CI 검증과 실패 원인 분류",
         category:"빌드",
         context:"에이전트가 만든 변경을 사람 수락 전에 자동 검증하고, 재시도가 필요한 실패만 되돌림",
         decisions:[
-          "PR마다 GameCI unity-test-runner로 EditMode 테스트를 돌리는 GitHub Actions 워크플로를 템플릿으로 생성",
+          "verify.py가 PR 전에 범위 밖 변경·[Test] 수 감소·gitleaks 비밀값·Unity EditMode 결과를 로컬에서 먼저 검사",
           "평가 에이전트가 수락 기준별로 판정하고, 화면 확인이 필요한 기준은 사람 확인 항목으로 분류하는 규칙",
+          "프로필(TOML)에서 GameCI EditMode 워크플로를 생성하고, preflight가 PR 전에 워크플로·시크릿 이름을 점검",
         ],
         issue:{
           problem:"SAN-3 CI가 코드와 무관하게 두 번 실패",
           cause:"CI 실패를 모두 재구현으로 보내던 절차",
           fix:"실패 로그에서 디스크·Unity 로그인 등 인프라 원인을 찾아 사람에게 넘김",
         },
+        result:"SAN-3 1차 실패 로그가 disk·docker_pull 인프라 실패로 분류되는 것을 시험으로 확인",
+        diagram:{ src:"assets/projects/uloop/ci.svg", alt:"CI 검증 구조: 프로필에서 워크플로 생성, 구현 뒤 verify.py 로컬 검사·evaluator 평가·PR과 GameCI 실행, pr.py가 실패 로그로 코드 실패·인프라 실패·통과를 나눔", size:"full", caption:"코드 실패는 구현으로 되돌리고, 로그에서 인프라 원인이 보이면 재시도 없이 사람에게 넘김" },
       },
     ],
     troubleshooting:[],
