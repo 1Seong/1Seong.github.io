@@ -976,12 +976,12 @@ footer { background: var(--nav-bg); padding: 0; }
    4) 색의 역할: 보라=행동·주요, 민트=성취·결과, 블루=정보·자격
    ══════════════════════════════════════════════════════════════════════ */
 :root {
-  --navy: #e9e7f0; --navy-2: #f4f3f8; --navy-3: #dfdce9; --navy-4: #cfcadf;
+  --navy: #f4f2fc; --navy-2: #faf9fe; --navy-3: #e7e4f4; --navy-4: #d6d1ec;
   --cream: #25223a; --cream-1: #2f2b48; --cream-2: #45405e; --cream-3: #625d7c; --white: #1e1b31;
   --gold: #5446b8; --gold-light: #6a5cd0;
   --nav-bg: #25223a;
   --rule: rgba(37,34,58,.09); --rule-mid: rgba(37,34,58,.16);
-  --surface: #f4f3f8; --face: #dcd8e8; --face-dark: #c6c0db;
+  --surface: #faf9fe; --face: #e3dff3; --face-dark: #cdc7e8;
   --iso-left: var(--face); --iso-right: var(--face-dark);
   --accent-top: #7a6ddb; --accent-side: #3e3392;
   --mint: #bfe6d8; --mint-top: #d3ece3; --mint-side: #93cdb9; --mint-ink: #1f6b57;
@@ -996,12 +996,13 @@ body { background: var(--navy); }
 body::before {
   content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
-    radial-gradient(1000px 560px at 90% -10%, rgba(127,191,169,.14), transparent 62%),
-    linear-gradient(180deg, #ebe9f2 0%, #e8e6ef 60%, #e5e7f0 100%);
+    radial-gradient(1100px 620px at 88% -8%, rgba(160,240,216,.26), transparent 62%),
+    radial-gradient(900px 640px at -12% 108%, rgba(112,96,224,.10), transparent 60%),
+    linear-gradient(180deg, #f6f4fe 0%, #f1effc 55%, #ecf2fb 100%);
 }
 
 /* 내비: 어두운 띠 → 바탕과 같은 계열의 밝은 띠 */
-#nav { background: rgba(240,238,246,.92); border-bottom: 1px solid var(--rule-mid); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+#nav { background: rgba(247,245,254,.9); border-bottom: 1px solid var(--rule-mid); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 #nav.scrolled { box-shadow: 0 6px 18px -10px rgba(37,34,58,.3); }
 .nav-logo { display: inline-flex; align-items: center; color: var(--cream); }
 .nav-logo span { color: var(--gold); }
@@ -1207,8 +1208,8 @@ footer { background: var(--navy-3); border-top: 1px solid var(--rule); }
   <div id="list-view">
     <nav class="home-toc" id="home-toc" aria-label="목차">
       <a href="#about"    data-sec="about"    onclick="showList('about');return false;"><span>About</span></a>
-      <a href="#projects" data-sec="projects" onclick="showList('projects');return false;"><span>Projects</span></a>
       <a href="#skills"   data-sec="skills"   onclick="showList('skills');return false;"><span>Skills</span></a>
+      <a href="#projects" data-sec="projects" onclick="showList('projects');return false;"><span>Projects</span></a>
       <a href="#awards"   data-sec="awards"   onclick="showList('awards');return false;"><span>Activities</span></a>
     </nav>
 
@@ -1230,16 +1231,16 @@ footer { background: var(--navy-3); border-top: 1px solid var(--rule); }
 
     <hr class="rule">
 
-    <section id="projects">
-      <div class="eyebrow">Projects</div>
-      <div class="projects-list" id="projects-list"></div>
+    <section id="skills">
+      <div class="eyebrow">Skills &amp; Tools</div>
+      <div class="skills-grid" id="skills-grid"></div>
     </section>
 
     <hr class="rule">
 
-    <section id="skills">
-      <div class="eyebrow">Skills &amp; Tools</div>
-      <div class="skills-grid" id="skills-grid"></div>
+    <section id="projects">
+      <div class="eyebrow">Projects</div>
+      <div class="projects-list" id="projects-list"></div>
     </section>
 
     <hr class="rule">
@@ -1304,8 +1305,8 @@ footer { background: var(--navy-3); border-top: 1px solid var(--rule); }
     <div class="footer-brand">SW<span>.</span>CHOI</div>
     <nav class="footer-links">
       <a href="#about"       onclick="showList('about');return false;">About</a>
-      <a href="#projects"    onclick="showList('projects');return false;">Projects</a>
       <a href="#skills"      onclick="showList('skills');return false;">Skills</a>
+      <a href="#projects"    onclick="showList('projects');return false;">Projects</a>
       <a href="#awards"      onclick="showList('awards');return false;">Activities</a>
       <a href="#other-works" hidden onclick="showList('other-works');return false;">Etc</a>
     </nav>
@@ -1395,9 +1396,9 @@ function buildSkills(){
   const ITEM_H=34, PAD_B=10, CAT_H=44, MIN_CUP_H=180;
   const THEMES={
     // 밝은 탑 + 파스텔 물: 보라(주력), 블루(AI 도구), 민트(플랫폼). cap은 탑 꼭대기 큐브의 세 면
-    footer:  {bg:'#f4f3f8',border:'transparent',water:'#e2def2',wave2:'#d4cfea',catColor:'#5446b8',itemColor:'#25223a',badgeBg:'transparent',badgeColor:'#5446b8',cap:'conic-gradient(from -60deg,#7a6ddb 0 120deg,#3e3392 120deg 240deg,#5446b8 240deg 360deg)'},
-    tool:    {bg:'#f4f3f8',border:'transparent',water:'#dce3f1',wave2:'#cdd8ee',catColor:'#2f5797',itemColor:'#25223a',badgeBg:'transparent',badgeColor:'#2f5797',cap:'conic-gradient(from -60deg,#c9d6ee 0 120deg,#7f98c8 120deg 240deg,#a9bde0 240deg 360deg)'},
-    platform:{bg:'#f4f3f8',border:'transparent',water:'#d5ebe3',wave2:'#c3e2d6',catColor:'#1f6b57',itemColor:'#25223a',badgeBg:'transparent',badgeColor:'#1f6b57',cap:'conic-gradient(from -60deg,#d3ece3 0 120deg,#7fbfa9 120deg 240deg,#a8d9c7 240deg 360deg)'},
+    footer:  {bg:'#faf9fe',border:'transparent',water:'#e2def2',wave2:'#d4cfea',catColor:'#5446b8',itemColor:'#25223a',badgeBg:'transparent',badgeColor:'#5446b8',cap:'conic-gradient(from -60deg,#7a6ddb 0 120deg,#3e3392 120deg 240deg,#5446b8 240deg 360deg)'},
+    tool:    {bg:'#faf9fe',border:'transparent',water:'#dce3f1',wave2:'#cdd8ee',catColor:'#2f5797',itemColor:'#25223a',badgeBg:'transparent',badgeColor:'#2f5797',cap:'conic-gradient(from -60deg,#c9d6ee 0 120deg,#7f98c8 120deg 240deg,#a9bde0 240deg 360deg)'},
+    platform:{bg:'#faf9fe',border:'transparent',water:'#d5ebe3',wave2:'#c3e2d6',catColor:'#1f6b57',itemColor:'#25223a',badgeBg:'transparent',badgeColor:'#1f6b57',cap:'conic-gradient(from -60deg,#d3ece3 0 120deg,#7fbfa9 120deg 240deg,#a8d9c7 240deg 360deg)'},
   };
   const cupTheme=['footer','footer','footer','tool','platform'];
   const g=document.getElementById('skills-grid');
