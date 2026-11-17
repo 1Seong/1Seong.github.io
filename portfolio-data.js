@@ -108,10 +108,10 @@ const PROJECTS = {
   // 공개 샘플 저장소·데모 영상·구조도는 아직 없다. 서버(I5) 보류, Unity 릴리스·비대화형(I6) 시작 전이므로 완성된 것처럼 쓰지 않는다.
   unity_loop: {
     id:"unity_loop",
-    title:"UnityLoop Inner",
+    title:"UnityLoop",
     subtitle:"Jira–Unity AI 개발 파이프라인",
     meta:{ engine:"Claude Code", platform:"Windows · GitHub Actions", team:"개인", year:"2026.11 ~" },
-    tags:["서브에이전트 분업","훅 기반 가드","사람 수락 게이트"],
+    tags:[],
     badges:[
       { text:"AI 개발 파이프라인", type:"primary" },
       { text:"Claude Code · Python", type:"sub" },
@@ -138,7 +138,7 @@ const PROJECTS = {
           "실패하면 실패 파일 위치와 확인한 사실만 붙여 구현 단계로 되돌리고, 고치는 방법은 지시하지 않음",
         ],
         result:"샌드박스 이슈 SAN-3를 PR 머지와 Jira 완료까지 처리",
-        diagram:{ src:"assets/projects/uloop/architecture.svg", alt:"UnityLoop Inner 전체 흐름: 이슈 읽기, 계획, 구현·검증, PR·CI, 수락·머지와 되돌림 경로, state.py와 하네스", size:"full", caption:"보라는 서브에이전트, 흰색은 스크립트, 초록은 사람 확인. 붉은 선은 구현으로 되돌리는 경로" },
+        diagram:{ src:"assets/projects/uloop/architecture.svg", alt:"UnityLoop 이너 루프 전체 흐름: 이슈 읽기, 계획, 구현·검증, PR·CI, 수락·머지와 되돌림 경로, state.py와 하네스", size:"full", caption:"보라는 서브에이전트, 흰색은 스크립트, 초록은 사람 확인. 붉은 선은 구현으로 되돌리는 경로" },
       },
       {
         title:"훅 기반 쓰기 범위와 외부 쓰기 가드",
