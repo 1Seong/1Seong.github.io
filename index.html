@@ -263,6 +263,10 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .proj-slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .4s ease; }
 .proj-slide.active { opacity: 1; pointer-events: auto;}
 .proj-slide img, .proj-slide iframe, .proj-slide video { width: 100%; height: 100%; object-fit: cover; }
+/* 구조도(SVG) 카드: 잘리지 않게 contain + 밝은 바탕 */
+.proj-slide.is-diagram { background: linear-gradient(160deg, #fff 0%, var(--navy-2) 100%); }
+.proj-slide.is-diagram img { object-fit: contain; padding: 2.5% 3%; box-sizing: border-box; }
+.proj-slide.is-diagram .slide-type-badge { display: none; } /* 도식 위 글자를 가리므로 숨긴다 */
 .proj-slide video {
   display: block;
 }
@@ -284,6 +288,9 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .proj-badge.primary { color: #fff; background: var(--gold); border-color: var(--gold); }
 .proj-badge.sub { color: var(--gold); border-color: rgba(80,64,200,.35); background: rgba(80,64,200,.07); }
 .proj-title { font-size: clamp(1.9rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.1; letter-spacing: -.01em; color: var(--nav-bg); }
+/* 메인 카드: 띄어쓰기 없는 긴 제목(SQUARE::ERAUQS)이 열 밖으로 넘치지 않게, 가장 긴 단어 길이(--word)로 글자 크기 상한을 둔다 */
+.project-card .proj-info { min-width: 0; container-type: inline-size; }
+.project-card .proj-title { font-size: min(clamp(1.9rem, 3.5vw, 2.8rem), calc(100cqi / (var(--word, 1) * .64))); }
 .proj-subtitle { font-size: .88rem; color: var(--cream-3); margin-top: -.25rem; }
 .proj-tags { display: flex; gap: .35rem; flex-wrap: wrap; margin: .05rem 0; }
 .proj-tag { font-size: .66rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: .2rem .52rem; border: 1px solid var(--rule-mid); color: var(--cream-3); border-radius: var(--radius); }
@@ -1285,7 +1292,8 @@ function makeSlider(media,cont,dots,prev,next,preload='metadata'){
                 <video controls muted playsinline preload="${preload}" poster="${m.thumbnail}">
                   <source src="${m.src}" type="video/mp4">
                 </video>
-              `:`<img src="${m.src}" alt="${m.label}" loading="lazy">`):`<div class="slide-placeholder">${m.type==='video'?IC.vid:IC.img}<span>${m.label}</span></div>`;
+              `:`<img src="${m.src}" alt="${escapeHTML(m.alt||m.label||'')}" loading="lazy">`):`<div class="slide-placeholder">${m.type==='video'?IC.vid:IC.img}<span>${m.label}</span></div>`;
+    if(m.fit==='contain' || /\.svg(\?|$)/i.test(m.src||'')) s.classList.add('is-diagram');
     if(m.label){const b=document.createElement('div');b.className='slide-type-badge';b.textContent=m.label;s.appendChild(b);}
     cont.appendChild(s); sl.push(s);
   });
@@ -1375,6 +1383,14 @@ function getFirstSentence(text){
   return match ? match[0] : text;
 }
 
+// 카드에 보여 줄 미디어. 실제 파일이 하나도 없으면(영상 준비 전) 첫 System Design 도식을 카드 이미지로 쓴다.
+function getCardMedia(p){
+  const media=(p.media||[]).filter(Boolean);
+  if(media.some(m=>m.src)) return media;
+  const d=(p.designCases||[]).find(c=>c?.diagram?.src)?.diagram;
+  return d ? [{ type:'image', src:d.src, label:'구조도', alt:d.alt||'', fit:'contain' }] : media;
+}
+
 function createProjectCard(p, idx, variant='main'){
   const card=document.createElement('article');
   card.className=variant==='sub'
@@ -1386,7 +1402,9 @@ function createProjectCard(p, idx, variant='main'){
   const pb=document.createElement('button'); pb.className='slider-btn'; pb.setAttribute('aria-label','이전'); pb.innerHTML=`<svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>`;
   const nb=document.createElement('button'); nb.className='slider-btn'; nb.setAttribute('aria-label','다음'); nb.innerHTML=`<svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>`;
   const nr=document.createElement('div'); nr.className='slider-nav'; nr.append(pb,dw,nb);
-  mw.append(sl,nr); makeSlider(p.media,sl,dw,pb,nb,variant==='sub'?'none':'metadata');
+  const media=getCardMedia(p);
+  mw.append(sl); if(media.length>1) mw.append(nr);
+  makeSlider(media,sl,dw,pb,nb,variant==='sub'?'none':'metadata');
   const info=document.createElement('div'); info.className='proj-info';
   const metaLine=(variant==='sub'
     ? [p.meta.engine, p.meta.team]
@@ -1407,7 +1425,7 @@ function createProjectCard(p, idx, variant='main'){
     <div class="sub-project-footer"><p class="proj-summary">${summary}</p>${moreButton}</div>`:`
     <div class="proj-index">${p.meta.year||''}</div>
     ${badges?`<div class="proj-badges">${badges}</div>`:''}
-    <h3 class="proj-title">${p.title}</h3>
+    <h3 class="proj-title" style="--word:${Math.max(...String(p.title).split(/\s+/).map(w=>w.length))}">${p.title}</h3>
     ${variant==='main'?`<div class="proj-subtitle">${p.subtitle||''}</div>`:''}
     ${variant==='main' && th?`<div class="proj-tags">${th}</div>`:''}
     <div class="proj-meta-line">${metaLine}</div>
@@ -1728,6 +1746,9 @@ function showDetail(id){
   document.getElementById('d-subtitle').textContent=p.subtitle;
 
   const dm=document.getElementById('d-media'); dm.innerHTML='';
+  // 실제 미디어가 없으면 자리표시 대신 상단 미디어 영역을 숨긴다(구조도는 본문 System Design에서 보여 줌).
+  const hasMedia=(p.media||[]).some(m=>m&&m.src);
+  dm.hidden=!hasMedia; dm.nextElementSibling.hidden=!hasMedia;
   const dd=document.getElementById('d-dots'); dd.innerHTML='';
   let dc=0; const ds=[];
   p.media.forEach((m,i)=>{

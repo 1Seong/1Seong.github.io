@@ -42,6 +42,8 @@
 - 표시 순서는 `PROJECT_ORDER`, 메인 카드는 `MAIN_PROJECT_IDS`가 정한다. 나머지는 서브 프로젝트다.
   `showMore:false` 또는 `detail.showMore:false`이면 상세 페이지가 없다.
 - `PROJECTS.<id>`: `id, title, subtitle, meta{engine,platform,team,year}, badges[{text,type:primary|sub}], media[{type:image|video,src,thumbnail?,label}], summary, goal, keyChallenges[], role[{name,icon,desc(HTML)}], activities[]`
+  - `media`에 `src`가 있는 항목이 하나도 없으면, 홈 카드는 첫 `designCases[].diagram`을 구조도 이미지로 대신 보여 주고 상세 페이지 상단 미디어 영역은 숨긴다.
+    SVG 이미지(또는 `fit:"contain"`)는 카드에서 잘리지 않게 contain으로 표시한다. 미디어가 1개면 카드의 슬라이더 화살표·점을 숨긴다.
 - `contributions[]`: `{ title, category, goal, solution:[문자열 2개], codeUrl, codeLabel?, images[] }`
   - `goal`이 없으면 렌더러가 `desc`의 첫 문장으로 대체한다.
   - `category`는 `index.html`의 `CONTRIB_CATS` 키 중 하나다. 검사 스크립트가 이 목록을 직접 읽는다.
