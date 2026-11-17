@@ -110,7 +110,7 @@ const PROJECTS = {
     title:"UnityLoop",
     subtitle:"Jira–Unity AI 개발 파이프라인",
     meta:{ engine:"Claude Code", platform:"Windows · GitHub Actions", team:"개인", year:"2026.11 ~" },
-    tags:["Claude Code","Python","Jira","GitHub Actions"],
+    tags:["서브에이전트 분업","훅 기반 가드","사람 수락 게이트"],
     badges:[
       { text:"AI 개발 파이프라인", type:"primary" },
       { text:"Claude Code · Python", type:"sub" },
