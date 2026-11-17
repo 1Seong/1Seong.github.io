@@ -1013,14 +1013,28 @@ body::before {
     linear-gradient(180deg, #2f2b62 0%, #3a3572 50%, #463f80 100%);
 }
 
-/* 석단 공통 */
-.about-glance, .ag-side, .sub-project-card, .contribution-summary, .flow-card, .retro-card, .feedback-chart, .sd-flow, .cup {
-  background: var(--step-1); border: none; border-radius: var(--slab-r); box-shadow: var(--step-edge), var(--lift-1);
+/* 석단 공통. 판의 색은 내용의 성격에 따라 하늘 안에서 조금씩 다른 빛을 받는다:
+   보라(기본) = 기여·기술 / 노을(호박→장밋빛) = 성취·요약 / 푸른 저녁 = 분석·흐름·사양 / 자두 = 다른 작업·회고 */
+:root {
+  --panel-warm: linear-gradient(170deg, rgba(245,198,107,.22) 0%, rgba(214,140,160,.17) 50%, rgba(140,96,190,.12) 100%);
+  --panel-blue: linear-gradient(170deg, rgba(120,165,250,.30) 0%, rgba(80,120,215,.19) 55%, rgba(60,95,190,.14) 100%);
+  --panel-plum: linear-gradient(170deg, rgba(224,146,210,.27) 0%, rgba(165,90,170,.17) 55%, rgba(120,70,160,.12) 100%);
+  --side-warm: #2e2350; --side-blue: #1f2559; --side-plum: #2c1f52;
+}
+.about-glance, .ag-side, .sub-project-card, .contribution-summary, .flow-card, .retro-card, .feedback-chart, .sd-flow, .cup, .detail-overview-layout {
+  background: var(--panel, var(--step-1)); border: none; border-radius: var(--slab-r);
+  box-shadow: var(--step-edge), 0 8px 0 var(--panel-side, var(--side-1)), 0 30px 46px -26px rgba(8,6,26,.7);
   -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
 }
 .sd-points.cols li, .role-card, .detail-overview-layout .role-card, .detail-overview-layout .role-card.role-primary, .detail-qa-item {
-  background: var(--step-2); border: none; border-radius: 10px; box-shadow: var(--step-edge), var(--lift-2);
+  background: var(--panel, var(--step-2)); border: none; border-radius: 10px;
+  box-shadow: var(--step-edge), 0 5px 0 var(--panel-side, var(--side-2)), 0 18px 30px -22px rgba(8,6,26,.6);
 }
+.about-glance, .ag-side { --panel: var(--panel-warm); --panel-side: var(--side-warm); }
+.flow-card, .sd-flow, .sd-points.cols li, .detail-overview-layout, .feedback-chart { --panel: var(--panel-blue); --panel-side: var(--side-blue); }
+.sub-project-card, .retro-card { --panel: var(--panel-plum); --panel-side: var(--side-plum); }
+/* Overview 판 안의 역할 카드는 판보다 한 단계 낮은 보라 */
+.detail-overview-layout .role-card, .detail-overview-layout .role-card.role-primary { --panel: var(--step-2); --panel-side: var(--side-2); }
 
 /* 내비 */
 #nav { background: rgba(33,29,72,.78); border-bottom: 1px solid rgba(255,255,255,.07); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
@@ -1111,7 +1125,7 @@ body::before {
 .projects-sub { border-top: none; }
 .projects-sub .projects-group-label { text-transform: none; letter-spacing: -.01em; font-size: 1.3rem; font-weight: 500; color: var(--white); }
 .projects-sub .projects-group-label::before { width: 20px; height: 23px; background: var(--cube); clip-path: var(--hex); }
-.sub-project-card:hover, .sub-project-card:focus-within { border-color: transparent; box-shadow: var(--step-edge), 0 8px 0 var(--side-1), 0 40px 60px -26px rgba(8,6,26,.8); }
+.sub-project-card:hover, .sub-project-card:focus-within { border-color: transparent; box-shadow: var(--step-edge), 0 8px 0 var(--panel-side), 0 40px 60px -26px rgba(8,6,26,.8); }
 .sub-project-card .proj-slider { box-shadow: none; border-radius: 8px; }
 
 /* ── Activities ── */
@@ -1141,7 +1155,7 @@ body::before {
 .detail-section-label::before { content: ''; flex: none; width: 22px; height: 26px; background: var(--cube); clip-path: var(--hex); }
 .detail-section-label::after { background: rgba(255,255,255,.12); }
 /* Overview: 판 없이 선과 라벨로 묶는다(3단) */
-.detail-overview-layout { background: none; border: none; box-shadow: none; padding: 0; border-radius: 0; }
+.detail-overview-layout { padding: 1.2rem 1.35rem 1.3rem; }
 .detail-overview-group + .detail-overview-group, .detail-overview-group + .detail-overview-hero, .detail-overview-hero + .detail-overview-group { border-top-color: rgba(255,255,255,.1); }
 .detail-overview-kicker, .detail-overview-label, .detail-info-key, .retro-card-label { text-transform: none; letter-spacing: .02em; }
 .detail-overview-label, .detail-overview-kicker { color: var(--sun); }
@@ -1216,7 +1230,7 @@ body::before {
 .flow-step-3 .flow-label, .flow-cell:last-child .flow-label { color: var(--sun); }
 .flow-text { color: var(--cream-2); }
 .flow-cell:last-child .flow-text { color: var(--white); font-weight: 600; }
-.retro-card.good, .retro-card.bad { background: var(--step-1); border-color: transparent; }
+.retro-card.good, .retro-card.bad { background: var(--panel); border-color: transparent; }
 .retro-card.good .retro-card-label { color: var(--sun); }
 .retro-card.bad .retro-card-label { color: var(--info-ink); }
 .retro-card-text { color: var(--cream-2); }
