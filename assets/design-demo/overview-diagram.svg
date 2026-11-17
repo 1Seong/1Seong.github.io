@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 300" font-family="Outfit, 'Noto Sans KR', sans-serif">
+  <!-- 데모용 자리 표시 도식 (디자인 세션). 실제 도식은 내용 세션이 assets/projects/<dir>/에 SVG로 만든다. -->
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#5040c8"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="880" height="300" fill="none"/>
+  <g font-size="15" font-weight="600" fill="#1a1440" text-anchor="middle">
+    <rect x="20" y="110" width="160" height="80" rx="10" fill="#ffffff" stroke="#c9c2f0" stroke-width="1.5"/>
+    <text x="100" y="146">Data</text><text x="100" y="168" font-size="12" font-weight="400" fill="#6b6494">ScriptableObject</text>
+    <rect x="250" y="110" width="160" height="80" rx="10" fill="#ffffff" stroke="#c9c2f0" stroke-width="1.5"/>
+    <text x="330" y="146">State</text><text x="330" y="168" font-size="12" font-weight="400" fill="#6b6494">단일 상태 객체</text>
+    <rect x="480" y="40" width="160" height="70" rx="10" fill="#efecfd" stroke="#5040c8" stroke-width="1.5"/>
+    <text x="560" y="72">System A</text><text x="560" y="92" font-size="12" font-weight="400" fill="#6b6494">규칙 처리</text>
+    <rect x="480" y="190" width="160" height="70" rx="10" fill="#efecfd" stroke="#5040c8" stroke-width="1.5"/>
+    <text x="560" y="222">System B</text><text x="560" y="242" font-size="12" font-weight="400" fill="#6b6494">입력·연출</text>
+    <rect x="710" y="110" width="150" height="80" rx="10" fill="#ffffff" stroke="#c9c2f0" stroke-width="1.5"/>
+    <text x="785" y="146">View</text><text x="785" y="168" font-size="12" font-weight="400" fill="#6b6494">UI · 렌더링</text>
+  </g>
+  <g stroke="#5040c8" stroke-width="1.6" fill="none" marker-end="url(#a)">
+    <path d="M180 150H246"/>
+    <path d="M410 140C445 140 445 75 476 75"/>
+    <path d="M410 160C445 160 445 225 476 225"/>
+    <path d="M640 75C675 75 675 140 706 140"/>
+    <path d="M640 225C675 225 675 160 706 160"/>
+  </g>
+  <g stroke="#9a92c8" stroke-width="1.2" stroke-dasharray="4 4" fill="none" marker-end="url(#a)">
+    <path d="M560 114V186"/>
+  </g>
+  <text x="572" y="154" font-size="11" fill="#6b6494">이벤트</text>
+</svg>

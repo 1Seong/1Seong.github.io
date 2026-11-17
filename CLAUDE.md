@@ -47,6 +47,9 @@
   - `category`는 `index.html`의 `CONTRIB_CATS` 키 중 하나다. 검사 스크립트가 이 목록을 직접 읽는다.
   - `codeLabel`의 기본값은 "GitHub 샘플 코드"다.
 - `troubleshooting[]`: `{ title, problem, cause, solution, result, codeUrl? }`
+- `designCases[]` (선택, 데모 단계): 있으면 그 프로젝트는 `contributions`·`troubleshooting` 대신 **System Design** 섹션을 렌더한다.
+  `{ title, category, context, decisions[], issue?{problem,cause,fix}, result?, diagram?{src,alt,size:"full"|"side",caption?}, media?[{type:image|video,src,caption?,thumbnail?}], codeUrl?, codeLabel? }`
+  설계는 `claude/portfolio-local-setup-6c7661`의 `.claude/specs/detail-system-design.md`. `index.html?demo=system-design`으로 기존 데이터를 끼워 넣은 미리보기를 볼 수 있다.
 - `optimizations[]`: `{ title, category, desc(HTML), codeUrl?, images[], comparison:{before:{src,alt,caption}, after:{...}} }`
 - `retrospective`: `{ good, bad, images[] }` / `feedback`, `other_contributions`: `null` 또는 렌더러가 기대하는 형식
 - `links[]`: `{ label, url }`
