@@ -308,18 +308,20 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 
 #detail-view { display: none; padding-top: 2rem; }
 #detail-view.visible { display: block; }
-.detail-back { display: inline-flex; align-items: center; gap: .5rem; font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--cream-3); cursor: pointer; background: none; border: none; font-family: var(--sans); margin-bottom: 3rem; transition: color .2s; }
+.detail-back { display: inline-flex; align-items: center; gap: .5rem; font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--cream-3); cursor: pointer; background: none; border: none; font-family: var(--sans); margin-bottom: 1.5rem; transition: color .2s; }
 .detail-back:hover { color: var(--gold-light); }
 .detail-back svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2.5; }
 .detail-eyebrow { font-size: .68rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: .75rem; }
 .detail-title { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 700; line-height: 1.05; letter-spacing: -.02em; color: var(--white); margin-bottom: .4rem; }
-.detail-subtitle { font-size: .9rem; color: var(--cream-3); margin-bottom: 2.5rem; }
-.detail-media { width: 100%; aspect-ratio: 16/9; background: var(--navy-3); border: 1px solid var(--rule-mid); overflow: hidden; position: relative; margin-bottom: 1rem; box-shadow: 0 22px 70px rgba(26,20,64,.12); }
+.detail-subtitle { font-size: .9rem; color: var(--cream-3); margin-bottom: 1.5rem; }
+/* 갤러리 높이를 화면 높이(42vh)에 맞춘다 → 데스크톱에서 Overview 제목이 첫 화면 안에 들어온다. 좁은 화면은 그대로 100% 폭 */
+.detail-media, .detail-media-nav { width: min(100%, calc(42vh * 16 / 9)); }
+.detail-media { aspect-ratio: 16/9; background: var(--navy-3); border: 1px solid var(--rule-mid); overflow: hidden; position: relative; margin-bottom: 1rem; box-shadow: 0 22px 70px rgba(26,20,64,.12); }
 .detail-media-slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .4s ease; }
 .detail-media-slide.active { opacity: 1; pointer-events: auto; }
 .detail-media-slide img, .detail-media-slide iframe, .detail-media-slide video { width: 100%; height: 100%; object-fit: cover; }
 .detail-media-slide video {display: block;}
-.detail-media-nav { display: flex; align-items: center; gap: 1.15rem; margin-bottom: 4rem; }
+.detail-media-nav { display: flex; align-items: center; gap: 1.15rem; margin-bottom: 2.5rem; }
 .detail-media-nav .slider-btn { width: 42px; height: 42px; border: 1px solid var(--rule-mid); border-radius: var(--radius); background: var(--navy-2); }
 .detail-media-nav .slider-btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
 .detail-media-nav .slider-btn svg { width: 26px; height: 26px; stroke-width: 2.25; }
