@@ -287,7 +287,7 @@ const PROJECTS = {
         decisions:[
           "맵을 char[,,] 타일 배열과 포탈 쌍·회전 설정으로 표현하고, 저장·업로드는 같은 문자열 인코딩으로 맵 행에 기록",
           "싱글턴 SupabaseManager에 이메일·Google/Discord(PKCE) 로그인과 세션 복원을 모으고, SDK 상태 리스너와 연동",
-          "초안·게시 맵과 좋아요·클리어·신고 기록을 복합키 테이블로 나누고, RLS로 본인 데이터만 수정하게 제한",
+          "맵·활동 기록 테이블은 PostgREST 기반 RESTful API와 RPC로 조회·수정하고, 복합키와 RLS로 본인 데이터만 수정하게 제한",
         ],
         result:"팀원이 코드 없이 맵을 만들어 올리고, 유저가 내려받아 플레이하는 UGC 루프 완성",
         diagram:{ src:"assets/projects/aurora/architecture.svg", alt:"맵 데이터와 백엔드 구조: Unity 클라이언트의 초안 생성기·맵 에디터가 퍼즐 솔버로 검증하고, 에디터가 Supabase 맵 테이블(초안·게시·썸네일)에 저장·업로드, 플레이가 목록을 받아 좋아요·클리어를 기록, SupabaseManager가 Auth(이메일·Google·Discord)로 로그인. 맵은 char[,,] 타일·포탈 쌍·회전 설정을 문자열로 저장", size:"full" },
@@ -300,7 +300,7 @@ const PROJECTS = {
         context:"유저가 만든 맵이 모든 칸을 칠해 클리어 가능한지 에디터에서 자동 판정",
         decisions:[
           "모든 칸을 한 번씩 칠하는 해밀턴 경로 문제로 보고, 남은 칸이 적은 상태부터 꺼내는 우선순위 탐색과 상태 중복 제거를 결합",
-          "순간이동·재방문처럼 경로 규칙을 깨는 기믹이 있으면 해당 가지치기만 완화하거나 생략해, 풀 수 있는 맵을 잘못 버리지 않음",
+          "기믹 맵은 플레이어 위치뿐 아니라 타일 배치·고스트 횟수·레이저·포탈 연결까지 담은 상태 그래프로 재구성하고, 층이 회전하는 맵은 회전 후 닿는 이웃 목록으로 가지치기",
           "찾은 해답은 부모 기록으로 입력열을 복원하고, 초기 맵에서 같은 전이 함수로 재생해 실제 클리어를 확인한 뒤 확정",
         ],
         issue:{
@@ -315,23 +315,23 @@ const PROJECTS = {
         codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/puzzle-solver/README.md",
       },
       {
-        title:"해답을 함께 쌓는 절차적 맵 생성",
+        title:"클리어가 보장되는 절차적 맵 생성",
         category:"에디터",
         context:"난이도·기믹만 고르면 클리어가 보장된 퍼즐 초안으로 편집을 시작",
         decisions:[
           "맵을 만든 뒤 푸는 대신 타일 배치와 해답 입력을 함께 쌓고, 솔버의 상태 전이로 실행해 단계마다 검증",
           "재귀 대신 명시적 스택 DFS로 긴 경로의 스택 오버플로를 막고, 새 배치가 이전 입력 결과를 바꾸는지 처음부터 재생해 확인",
-          "난이도별 예산에서 길·기믹 비용을 차감하되 필수 기믹 비용은 미리 예약하고, 완성 후보는 전체 입력을 다시 검증",
+          "난이도별 예산 안에서 길·기믹마다 정한 비용을 차감하고 다음 배치는 가중치로 고르되, 필수 기믹 비용은 미리 예약해 반드시 배치",
         ],
         issue:{
           problem:"생성 맵의 길이 한곳에 뭉침(길 밀집 비율 88%, 직접 만든 맵은 31%)",
           cause:"다음 칸 후보를 모두 같은 확률로 선택",
-          fix:"길이 뭉치거나 일자로만 뻗는 후보에 감점하는 점수제 도입",
+          fix:"후보마다 큐브 27구역 중 이미 채워진 구역·기존 길 접촉·2×2 덩어리·긴 직진과 잦은 꺾임을 감점하고, 점수에 무작위 값을 더해 선택",
         },
         result:"길 밀집 비율 88% → 37%로, 직접 만든 맵(31%)과 비슷한 수준",
         media:[
-          { type:"video", src:"assets/projects/aurora/mapgen-shaped.mp4", thumbnail:"assets/projects/aurora/mapgen-shaped-thumb.webp", caption:"형태 점수 적용 뒤 연속 생성한 후보" },
           { type:"video", src:"assets/projects/aurora/mapgen-flow.mp4", thumbnail:"assets/projects/aurora/mapgen-flow-thumb.webp", caption:"기믹·난이도 선택 → 후보 생성 → 적용" },
+          { type:"video", src:"assets/projects/aurora/mapgen-shaped.mp4", thumbnail:"assets/projects/aurora/mapgen-shaped-thumb.webp", caption:"형태 점수 적용 뒤 연속 생성한 후보" },
         ],
         codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/procedural-map-generation/README.md",
       },
@@ -389,7 +389,7 @@ const PROJECTS = {
   
     detail: {
       coreContributionCount:5,
-      techStack:["Unity", "C#", "Supabase", "PostgreSQL"],
+      techStack:["Unity", "C#", "Supabase", "PostgreSQL", "RESTful API"],
       linkMap:{ Document:"Google Drive", GitHub:"GitHub", "Game Build":"Game Build" },
       optimizations:[]
     },

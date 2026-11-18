@@ -44,7 +44,7 @@ text{font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;fill:#0F
 <!-- Supabase -->
 <rect class="lane" x="24" y="268" width="1052" height="176" rx="12"/>
 <use href="#ic-supabase" x="44" y="282" width="20" height="20"/>
-<text class="lt" x="72" y="298">Supabase</text>
+<text class="lt" x="72" y="298">Supabase</text><text class="note" x="156" y="298">RESTful API(PostgREST) · RPC</text>
 
 <rect class="band" x="44" y="318" width="380" height="64" rx="8"/>
 <text class="bt" x="60" y="345">맵 저장 형식</text>
