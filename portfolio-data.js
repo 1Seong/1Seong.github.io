@@ -105,7 +105,8 @@ const SUB_PROJECT_IDS = PROJECT_ORDER.filter(id => !MAIN_PROJECT_IDS.includes(id
 const PROJECTS = {
   // 근거: 1Seong/UnityLoopInner (비공개) CLAUDE.md, docs/STATUS.md(2026-11-17), docs/DECISIONS.md, .claude/skills/issue/SKILL.md
   // 1Seong/UnityLoop(Agent SDK 아우터 루프)는 비용 문제로 중단했고 실제로 쓴 적이 없어 근거로 쓰지 않는다.
-  // 공개 샘플 저장소·데모 영상은 아직 없다. 도식은 assets/projects/uloop/(architecture·guard·ci.svg).
+  // 공개 샘플 저장소는 아직 없다. 도식은 assets/projects/uloop/(architecture·guard·ci.svg).
+  // 데모 영상·스크린샷은 학습 프로젝트 1Seong/unity-2d-game-analysis(비공개)의 U2D-2 실행(2026-11-18, PR #2 머지). 영상은 녹화 3개를 단계 자막과 함께 편집.
   // 서버(I5)는 보류, 비대화형 디스패처 실측도 보류(STATUS 2026-11-17).
   unity_loop: {
     id:"unity_loop",
@@ -119,9 +120,13 @@ const PROJECTS = {
       { text:"Jira · CI", type:"sub" },
     ],
     media:[
-      { type:"video", src:"", label:"데모 영상 준비 중" },
+      { type:"video", src:"assets/projects/uloop/demo.mp4", thumbnail:"assets/projects/uloop/demo-thumb.webp", label:"실행 흐름" },
+      { type:"image", src:"assets/projects/uloop/pr.webp", label:"PR 설계 메모", alt:"에이전트가 만든 U2D-2 PR과 본문의 설계 메모", fit:"contain" },
+      { type:"image", src:"assets/projects/uloop/ci-run.webp", label:"CI 실행", alt:"GitHub Actions에서 Unity EditMode 테스트가 실행 중인 화면", fit:"contain" },
+      { type:"image", src:"assets/projects/uloop/reject.webp", label:"1차 수락 거절", alt:"1차 수락 게이트에서 사유와 함께 거절하는 /issue --reject 명령", fit:"contain" },
+      { type:"image", src:"assets/projects/uloop/jira-issue.webp", label:"재구현 뒤 Jira 완료", alt:"재구현 뒤 수락되어 완료 상태가 된 Jira U2D-2 이슈", fit:"contain" },
     ],
-    summary:"사람이 고른 Jira 이슈 하나를 계획·구현·검증·PR·CI·수락·머지까지 잇는 에이전트 개발 루프. 샌드박스 Unity 이슈를 PR 머지와 Jira 완료까지 처리.",
+    summary:"사람이 고른 Jira 이슈 하나를 계획·구현·검증·PR·CI·수락·머지까지 잇는 에이전트 개발 루프. 학습용 Unity 프로젝트 이슈를 수락 거절·재구현을 거쳐 PR 머지와 Jira 완료까지 처리.",
     role:[
       { name:"파이프라인 설계·구현", icon:"ti-cpu", desc:"/issue 절차와 단계별 서브에이전트 설계<br>Jira·GitHub·CI 연동 스크립트<br>훅 기반 쓰기·셸 가드와 하네스 시험" },
     ],
@@ -138,7 +143,7 @@ const PROJECTS = {
           "스크립트 단계는 종료 코드(통과·재시도·사람에게)로, 평가 단계는 evaluator 판정 파일로 넘기고, 메인 세션은 결과만 옮기도록 분리",
           "실패하면 실패 파일 위치와 확인한 사실만 붙여 구현 단계로 되돌리고, 고치는 방법은 지시하지 않음",
         ],
-        result:"샌드박스 이슈 SAN-3를 PR 머지와 Jira 완료까지 처리",
+        result:"샌드박스 SAN-3와 학습 프로젝트 U2D-2(수락 거절 뒤 재구현)를 PR 머지·Jira 완료까지 처리",
         diagram:{ src:"assets/projects/uloop/architecture.svg", alt:"UnityLoop 이너 루프 전체 흐름: 사람의 이슈 선택, 이슈 읽기·계획·구현 검증·PR CI·머지 완료 단계와 모델 배치, 수락, 구현으로 되돌리는 경로, state.py 제어", size:"full", caption:"칩 색은 서브에이전트 모델(Opus·Sonnet·Haiku)과 스크립트, 노랑은 사람. 붉은 선은 구현으로 되돌리는 경로" },
       },
       {
