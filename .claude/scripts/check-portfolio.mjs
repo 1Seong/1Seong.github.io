@@ -200,8 +200,19 @@ if (args.has('--render')) {
       if (r.url().startsWith('file:')) pageErrors.push(`로컬 리소스 로드 실패: ${r.url()}`);
       else externalFailed.add(new URL(r.url()).host);
     });
+    // lazy 이미지는 화면에 들어오기 전까지 높이가 0에 가깝다. 길이 지표와 전체 스크린샷이 실제보다 짧게 나오지 않도록 모두 불러온 뒤 잰다.
+    const loadAllImages = async () => {
+      await page.evaluate(async () => {
+        const imgs = [...document.images];
+        imgs.forEach((i) => { i.loading = 'eager'; });
+        await Promise.all(imgs.map((i) => ((i.complete && i.naturalWidth) ? 0
+          : new Promise((r) => { i.addEventListener('load', r, { once: true }); i.addEventListener('error', r, { once: true }); setTimeout(r, 4000); }))));
+      });
+      await page.waitForTimeout(200);
+    };
     await page.goto(fileUrl(path.join(ROOT, 'index.html')));
     await page.waitForTimeout(800);
+    await loadAllImages();
     await page.screenshot({ path: `${outDir}/home${sfx}.png`, fullPage: true });
     // 한눈에 보기 지표: 페이지 길이, 프로젝트가 몇 화면째에 나오는지
     const vh = MOBILE ? 844 : 900;
@@ -218,6 +229,7 @@ if (args.has('--render')) {
       const ok = await page.evaluate((pid) => { try { showDetail(pid); return true; } catch (e) { return String(e); } }, id);
       if (ok !== true) pageErrors.push(`showDetail('${id}') 실패: ${ok}`);
       await page.waitForTimeout(300);
+      await loadAllImages();
       await page.screenshot({ path: `${outDir}/detail-${id}${sfx}.png`, fullPage: true });
       const d = await page.evaluate(() => {
         const ov = document.querySelector('#detail-overview');
