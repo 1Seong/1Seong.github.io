@@ -316,14 +316,17 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .detail-subtitle { font-size: .9rem; color: var(--cream-3); margin-bottom: 1.5rem; }
 /* 첫 화면: 미디어(왼쪽) + Overview 요약(오른쪽) 2단. 미디어가 없거나 좁은 화면이면 1단으로 쌓는다 */
 /* 사진과 패널의 위·아래 끝을 맞춘다: 1행 = [사진 | 패널(사진 높이만큼 늘어남)], 2행 = [화살표 … 링크] */
-/* 미디어(사진+화살표) 묶음을 Overview(제목+패널) 높이의 가운데에 둔다: 패널이 길어도 위아래 여백이 같아 한 덩어리로 보인다 */
-.detail-hero { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 1.75rem; align-items: center; margin-bottom: 1rem; }
-.detail-hero.no-media { grid-template-columns: minmax(0, 1fr); }
-.detail-hero-media { min-width: 0; }
-.detail-hero .detail-media-nav { margin-bottom: 0; }
+/* 사진의 세로 중심을 Overview 패널의 세로 중심에 맞춘다.
+   - 사진 칸 위에 Overview 제목 줄과 같은 높이(--ov-head)를 비워 두고 두 칸을 가운데 정렬하면, 사진 중심 = 패널 중심이 된다.
+   - 화살표 줄은 사진 아래에 띄워(absolute) 정렬 계산에서 뺀다. 대신 히어로 아래에 그만큼 여백을 둔다. */
+.detail-hero { --ov-head: 2.3rem; display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 1.75rem; align-items: center; margin-bottom: 1rem; padding-bottom: 3.6rem; }
+.detail-hero.no-media { grid-template-columns: minmax(0, 1fr); padding-bottom: 0; }
+.detail-hero-media { position: relative; min-width: 0; margin-top: var(--ov-head); }
+.detail-hero .detail-media { margin-bottom: 0; }
+.detail-hero .detail-media-nav { position: absolute; top: 100%; left: 0; margin: 1rem 0 0; }
 .detail-hero-side { min-width: 0; }
 .detail-hero-side .detail-overview-section { padding: 0; border: none; }
-.detail-hero-side .detail-section-label { margin-bottom: .5rem; }
+.detail-hero-side .detail-section-label { box-sizing: border-box; height: calc(var(--ov-head) - .5rem); margin-bottom: .5rem; }
 .detail-hero-side .detail-overview-layout { gap: .55rem; padding: .85rem 1rem; }
 .detail-hero-side .detail-overview-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .4rem; }
 .detail-hero-side .detail-overview-link { padding: .48rem .6rem; font-size: .66rem; }
@@ -339,7 +342,9 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .detail-hero-side .detail-info-val { font-size: .84rem; }
 .detail-hero.no-media .detail-info-grid, .detail-hero.no-media .detail-overview-links { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media(max-width:900px){
-  .detail-hero { grid-template-columns: minmax(0, 1fr); }
+  .detail-hero { grid-template-columns: minmax(0, 1fr); padding-bottom: 0; }
+  .detail-hero-media { margin-top: 0; }
+  .detail-hero .detail-media-nav { position: static; margin: 1rem 0 0; }
 }
 /* 역할 + 활동: 미디어 아래 첫 본문 섹션 */
 .detail-role-activities { display: flex; align-items: center; flex-wrap: wrap; gap: .4rem .85rem; margin-top: 1rem; }
