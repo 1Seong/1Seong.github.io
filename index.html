@@ -315,28 +315,33 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .detail-title { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 700; line-height: 1.05; letter-spacing: -.02em; color: var(--white); margin-bottom: .4rem; }
 .detail-subtitle { font-size: .9rem; color: var(--cream-3); margin-bottom: 1.5rem; }
 /* 첫 화면: 미디어(왼쪽) + Overview 요약(오른쪽) 2단. 미디어가 없거나 좁은 화면이면 1단으로 쌓는다 */
-.detail-hero { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 1.75rem; align-items: start; margin-bottom: 1rem; }
+/* 사진과 패널의 위·아래 끝을 맞춘다: 1행 = [사진 | 패널(사진 높이만큼 늘어남)], 2행 = [화살표 … 링크] */
+.detail-hero { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 1rem 1.75rem; align-items: stretch; margin-bottom: 1rem; }
 .detail-hero.no-media { grid-template-columns: minmax(0, 1fr); }
-.detail-hero-media { min-width: 0; }
+.detail-hero .detail-media { align-self: start; margin-bottom: 0; }
+.detail-hero-side { display: flex; flex-direction: column; min-width: 0; }
+.detail-hero-bar { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .detail-hero .detail-media-nav { margin-bottom: 0; }
-.detail-hero-side .detail-overview-section { padding: 0; border: none; }
-.detail-hero-side .detail-section-label { margin-bottom: .85rem; }
-.detail-hero-side .detail-overview-layout { gap: .8rem; padding: 1rem 1.05rem; }
+.detail-hero-bar .detail-overview-links { margin-left: auto; }
+.detail-hero-bar .detail-overview-link { flex: 0 0 auto; gap: .9rem; padding: .62rem .8rem; }
+.detail-hero-side .detail-overview-section { display: flex; flex-direction: column; flex: 1; padding: 0; border: none; }
+.detail-hero-side .detail-section-label { margin-bottom: .5rem; }
+.detail-hero-side .detail-overview-layout { flex: 1; align-content: space-between; gap: .55rem; padding: .85rem 1rem; }
 .detail-hero-side .detail-overview-group + .detail-overview-group,
-.detail-hero-side .detail-overview-hero + .detail-overview-group { padding-top: .8rem; }
-.detail-hero-side .detail-overview-label { font-size: .72rem; margin-bottom: .45rem; }
-.detail-hero-side .detail-overview-kicker { font-size: .72rem; margin-bottom: .3rem; }
-.detail-hero-side .detail-overview-goal { font-size: .9rem; line-height: 1.6; }
-.detail-hero-side .detail-overview-chips span { font-size: .76rem; padding: .18rem .5rem; }
-.detail-hero-side .detail-info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem .9rem; }
+.detail-hero-side .detail-overview-hero + .detail-overview-group { padding-top: .55rem; }
+.detail-hero-side .detail-overview-label { font-size: .7rem; margin-bottom: .35rem; }
+.detail-hero-side .detail-overview-kicker { font-size: .7rem; margin-bottom: .25rem; }
+.detail-hero-side .detail-overview-goal { font-size: .86rem; line-height: 1.5; }
+.detail-hero-side .detail-overview-chips { gap: .3rem; }
+.detail-hero-side .detail-overview-chips span { font-size: .74rem; padding: .14rem .48rem; }
+.detail-hero-side .detail-info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .4rem .9rem; }
 .detail-hero-side .detail-info-item { padding: 0; border-right: none; }
 .detail-hero-side .detail-info-val { font-size: .84rem; }
-.detail-hero-side .detail-overview-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .45rem; }
-.detail-hero-side .detail-overview-link { padding: .5rem .6rem; font-size: .66rem; }
-.detail-hero.no-media .detail-info-grid, .detail-hero.no-media .detail-overview-links { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.detail-hero.no-media .detail-info-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media(max-width:900px){
   .detail-hero { grid-template-columns: minmax(0, 1fr); }
-  .detail-hero .detail-media-nav { margin-bottom: 1rem; }
+  .detail-hero-bar { order: 1; }
+  .detail-hero-side { order: 2; }
 }
 /* 역할 + 활동: 미디어 아래 첫 본문 섹션 */
 .detail-role-activities { display: flex; align-items: center; flex-wrap: wrap; gap: .4rem .85rem; margin-top: 1rem; }
@@ -1086,15 +1091,16 @@ footer { background: var(--nav-bg); padding: 0; }
     <h2 class="detail-title" id="d-title"></h2>
     <div class="detail-subtitle" id="d-subtitle"></div>
     <div class="detail-hero" id="d-hero">
-      <div class="detail-hero-media">
-        <div class="detail-media" id="d-media"></div>
-        <div class="detail-media-nav">
+      <div class="detail-media" id="d-media"></div>
+      <div class="detail-hero-side" id="d-hero-side"></div>
+      <div class="detail-hero-bar">
+        <div class="detail-media-nav" id="d-media-nav">
           <button class="slider-btn" id="d-prev"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
           <div class="detail-media-dots" id="d-dots"></div>
           <button class="slider-btn" id="d-next"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
         </div>
+        <div class="detail-overview-links" id="d-hero-links"></div>
       </div>
-      <div class="detail-hero-side" id="d-hero-side"></div>
     </div>
     <div class="detail-body">
       <div id="d-main"></div>
@@ -1767,12 +1773,10 @@ function renderDetailOverview(p) {
           <div class="detail-overview-label">Project Info</div>
           <div class="detail-info-grid">${infoHTML}</div>
         </div>
-        ${linksHTML ? `<div class="detail-overview-group">
-          <div class="detail-overview-label">Links</div>
-          <div class="detail-overview-links">${linksHTML}</div>
-        </div>` : ''}
       </div>
     </section>`,
+    // 링크는 미디어 아래 화살표 줄 오른쪽에 둔다(패널 높이를 사진 높이에 맞추기 위해)
+    links: linksHTML,
     role: `
     <section class="detail-section detail-role-section" id="detail-role">
       <div class="detail-section-label">My Role</div>
@@ -1801,7 +1805,7 @@ function showDetail(id){
   const dm=document.getElementById('d-media'); dm.innerHTML='';
   // 실제 미디어가 없으면 자리표시 대신 상단 미디어 영역을 숨긴다(구조도는 본문 System Design에서 보여 줌).
   const hasMedia=(p.media||[]).some(m=>m&&m.src);
-  dm.hidden=!hasMedia; dm.nextElementSibling.hidden=!hasMedia;
+  dm.hidden=!hasMedia; document.getElementById('d-media-nav').hidden=!hasMedia;
   document.getElementById('d-hero').classList.toggle('no-media', !hasMedia);
   const dd=document.getElementById('d-dots'); dd.innerHTML='';
   let dc=0; const ds=[];
@@ -1831,6 +1835,7 @@ function showDetail(id){
   // 0. Overview 요약은 첫 화면 미디어 옆(#d-hero-side)에, 역할·활동은 본문 첫 섹션으로
   const overview = renderDetailOverview(p);
   document.getElementById('d-hero-side').innerHTML = overview.side;
+  document.getElementById('d-hero-links').innerHTML = overview.links;
   sections.push(overview.role);
 
   // 3. Technical Contributions
