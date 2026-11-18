@@ -121,9 +121,9 @@ const PROJECTS = {
     ],
     media:[
       { type:"video", src:"assets/projects/uloop/demo.mp4", thumbnail:"assets/projects/uloop/demo-thumb.webp", label:"실행 흐름" },
-      { type:"image", src:"assets/projects/uloop/pr.webp", label:"PR 설계 메모", alt:"에이전트가 만든 U2D-2 PR과 본문의 설계 메모", fit:"contain" },
-      { type:"image", src:"assets/projects/uloop/ci-run.webp", label:"CI 실행", alt:"GitHub Actions에서 Unity EditMode 테스트가 실행 중인 화면", fit:"contain" },
       { type:"image", src:"assets/projects/uloop/reject.webp", label:"1차 수락 거절", alt:"1차 수락 게이트에서 사유와 함께 거절하는 /issue --reject 명령", fit:"contain" },
+      { type:"image", src:"assets/projects/uloop/ci-run.webp", label:"재구현 뒤 CI 통과", alt:"재구현 뒤 GitHub Actions에서 Unity EditMode 테스트가 통과한 실행 화면", fit:"contain" },
+      { type:"image", src:"assets/projects/uloop/pr.webp", label:"PR 머지", alt:"에이전트가 쓴 설계 메모가 담긴 U2D-2 PR이 머지된 화면", fit:"contain" },
       { type:"image", src:"assets/projects/uloop/jira-issue.webp", label:"재구현 뒤 Jira 완료", alt:"재구현 뒤 수락되어 완료 상태가 된 Jira U2D-2 이슈", fit:"contain" },
     ],
     summary:"사람이 고른 Jira 이슈 하나를 계획·구현·검증·PR·CI·수락·머지까지 잇는 에이전트 개발 루프. 학습용 Unity 프로젝트 이슈를 수락 거절·재구현을 거쳐 PR 머지와 Jira 완료까지 처리.",
