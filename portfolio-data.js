@@ -96,7 +96,7 @@ const OTHER_WORKS = [
     items: ["간단한 컴파일러 및 파서 구현"],
   },
 ];
-const PROJECT_ORDER = ["unity_loop", "eulerian_aurora", "square_erauqs", "omakhase", "detective_ai", "save_the_world", "hell_pit"];
+const PROJECT_ORDER = ["unity_loop", "eulerian_aurora", "square_erauqs", "omakhase", "detective_ai", "save_the_world"];
 // 표시하지 않는 프로젝트(데이터는 보존): necromancer_survivors, soulmate_system, runepago
 // 프로젝트 순서 변경 시 배열 순서만 바꾸면 됩니다.
 const MAIN_PROJECT_IDS = ["unity_loop", "eulerian_aurora", "square_erauqs", "omakhase"];
@@ -411,9 +411,9 @@ const PROJECTS = {
       { type:"image", src:"assets/projects/square/5.png", label:"2" },
       { type:"image", src:"assets/projects/square/3.png", label:"3" },
     ],
-    summary:"두 플레이어를 동시에 조작하며 다양한 기믹과 시점 전환 기능으로 퍼즐을 해결.",
+    summary:"두 캐릭터를 함께 조작하며 탑뷰·사이드뷰 전환으로 푸는 퍼즐 플랫포머. 시점 전환 이벤트와 물체별 중력을 설계하고, 맵툴 데이터 기반 스테이지 빌딩으로 스테이지를 2배로 늘리고, 입력 추상화로 Android에 이식.",
     role:[
-        { name:"리드 프로그래머", icon:"ti-code", desc:"스테이지 및 퍼즐 기믹 구현<br>맵 생성 파이프라인 구현<br>모바일 이식" },
+        { name:"리드 프로그래머", icon:"ti-code", desc:"스테이지 및 퍼즐 기믹 구현<br>맵툴 데이터 기반 스테이지 빌딩<br>모바일 이식" },
       ],
     activities:["Steam 출시", "2025, 2026 UNICON 전시", "교내 동아리박람회 전시"],
     goal:"두 캐릭터와 시점 전환을 활용한 복합 2D 플랫포머 퍼즐 경험 구현",
@@ -474,6 +474,58 @@ const PROJECTS = {
         codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/mobile-ui/README.md",
         images:["assets/projects/square/hint.png"]
       }
+    ],
+    // System Design 근거: 1Seong/SQUARE-ERAUQS portfolio/(view-gravity·physics-stability·map-generation·mobile-ui), 원본 기준 커밋 0607414.
+    // 기존 contributions·troubleshooting은 지우지 않는다(designCases가 있으면 렌더하지 않음). 기믹 공통 구조·Localization·빙판 트러블슈팅은 사례에서 뺐다.
+    designCases:[
+      {
+        title:"시점 전환 이벤트와 커스텀 중력",
+        category:"게임플레이",
+        context:"탑뷰·사이드뷰 전환 때 카메라·벽·중력이 같은 순서로 바뀌어야 하는 퍼즐 규칙",
+        decisions:[
+          "거부 조건을 Stage 한곳에 모아, 기능마다 따로 검사하지 않고 같은 기준으로 전환 허용",
+          "기능을 직접 호출하지 않고 이벤트 구독으로 연결해, 전환 반응을 추가해도 Stage는 고치지 않음",
+          "Unity 전역 중력 대신 물체별 중력을 두어 중력 반전 기믹과 시점별 이동 축을 물체마다 제어",
+        ],
+        issue:{
+          problem:"벽에 붙은 스프링이 간헐적으로 미발동",
+          cause:"착지 판정이 중력 방향을 보지 않아 겹친 벽을 바닥으로 오인",
+          fix:"충돌면 normal과 중력 반대 방향의 내적으로 실제 착지만 인정",
+        },
+        result:"시점·중력이 바뀌어도 전환 순서와 바닥 판정이 같은 기준으로 동작",
+        diagram:{ src:"assets/projects/square/view-switch.svg", alt:"시점 전환 이벤트 흐름: 키보드·모바일 버튼 입력이 Stage.ConvertButton에 도착해 점프 중·제한 구역·전환 연출 중이면 거부되고, 통과하면 카메라 회전·투영 벽 교체·좌표 보정·CustomGravity 구독자를 순서대로 호출한 뒤 convertEventLast로 후속 처리. CustomGravity는 탑뷰 기본·반전·사이드뷰 상태별 중력 방향과 고정 축을 바꾸고 복귀 시 이전 상태를 복원", size:"full" },
+        codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/view-gravity/README.md",
+      },
+      {
+        title:"맵툴 데이터 기반 스테이지 빌딩",
+        category:"구조",
+        context:"한 스테이지를 탑뷰·사이드뷰 두 장의 2D 타일로 그리면, 3D 스테이지를 자동으로 조립",
+        decisions:[
+          "맵툴이 내보낸 두 시점의 타일·제한 영역·아이템·포탈을 MapData로 받아 기존 스테이지 진입 흐름에 연결",
+          "탑뷰 벽의 깊이는 사이드뷰의 같은 열에서 찾고, 사이드뷰에 없는 벽은 맨 뒤에 둬 두 화면이 같은 벽을 보이게 함",
+          "충돌 칸을 직사각형으로 묶어 시점별 BoxCollider 수를 줄이고, 같은 사각형을 두 시점에 맞게 배치",
+        ],
+        result:"기획이 맵툴로 맵을 만들고 고치는 흐름을 갖춰 스테이지 수를 2배로 확장",
+        media:[
+          { type:"image", src:"assets/projects/square/editor.png", caption:"맵툴에서 탑뷰·사이드뷰 타일을 나눠 배치한 화면" },
+        ],
+        codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/map-generation/README.md",
+        codeLabel:"출력 데이터 빌딩 샘플 · 맵툴 UI 제외",
+      },
+      {
+        title:"입력 추상화 기반 Android 이식",
+        category:"플랫폼",
+        context:"PC 기준으로 만든 플레이 로직을 크게 바꾸지 않고 터치 조작으로 이식",
+        decisions:[
+          "InputWrapper가 키보드 입력과 터치 버튼이 넣은 축 값·액션을 같은 API로 제공해 기존 플레이어·시점 전환 코드 재사용",
+          "드래그·버튼 해제 시 축 입력을 정리해 이동이 남지 않게 하고, Safe Area를 부모 UI 좌표로 변환해 화면 경계 대응",
+        ],
+        result:"플레이 로직을 유지한 채 Android 터치 조작 지원",
+        media:[
+          { type:"image", src:"assets/projects/square/mobile.png", caption:"Android 화면의 터치 이동·점프 버튼과 Safe Area 안쪽 UI" },
+        ],
+        codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/mobile-ui/README.md",
+      },
     ],
     troubleshooting: [
       {
@@ -537,7 +589,7 @@ const PROJECTS = {
     ],
     retrospective:{
       good:"리드 프로그래머로서 시점 전환, 커스텀 물리, 기믹 구조, 모바일 이식까지 프로젝트의 핵심 기술 방향을 주도했습니다. 개발 시작부터 Steam 출시와 전시까지 이어지는 전체 사이클을 경험하며, 장기 프로젝트에서 구조 설계가 얼마나 중요한지 체감했습니다.",
-      bad:"초기에는 기믹별 구현을 빠르게 붙이는 데 집중해 맵을 확장하는 데에 어려움을 겪었습니다. 이후에는 협업을 통해 맵툴과 레벨 생성 파이프라인을 구현하여, 기획 사이드에서 맵 확장 및 수정을 쉽게 할 수 있게 개선하였습니다.",
+      bad:"초기에는 기믹별 구현을 빠르게 붙이는 데 집중해 맵을 확장하는 데에 어려움을 겪었습니다. 이후에는 협업을 통해 맵툴과 스테이지 빌딩 파이프라인을 구현하여, 기획 사이드에서 맵 확장 및 수정을 쉽게 할 수 있게 개선하였습니다.",
       images:["assets/projects/square/unicon26.jpg","assets/projects/square/uniconteam.jpg",]
     },
     feedback:{
@@ -573,7 +625,7 @@ const PROJECTS = {
       feedbackIterations:[
         // source / sourceUrl: 실제 피드백 출처를 입력한 경우에만 카드 우측 하단에 표시합니다.
         { feedback:"어려운 맵에서 진행을 보조해 줄 힌트가 있으면 좋겠다", improvement:"스테이지별 힌트 시스템 도입", source:"2025 UNICON 피드백 中", sourceUrl:"" },
-        { feedback:"스테이지 수가 적어 플레이타임이 다소 아쉽다", improvement:"맵툴 기반 제작 흐름으로 스테이지 수를 2배로 확장", source:"2025 UNICON 피드백 中", sourceUrl:"" }
+        { feedback:"스테이지 수가 적어 플레이타임이 다소 아쉽다", improvement:"맵툴 데이터 기반 스테이지 빌딩으로 스테이지 수를 2배로 확장", source:"2025 UNICON 피드백 中", sourceUrl:"" }
       ]
     },
   },

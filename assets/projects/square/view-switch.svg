@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 440" width="1100" height="440" role="img" aria-labelledby="t d">
+<title id="t">SQUARE::ERAUQS 시점 전환 이벤트 흐름</title>
+<desc id="d">PC 키보드나 모바일 버튼의 전환 입력이 InputWrapper를 거쳐 Stage.ConvertButton에 도착한다. Stage는 점프 중·제한 구역·전환 연출 중이면 요청을 거부하고, 통과하면 시점을 바꾼 뒤 convertEvent 구독자(카메라 회전, 투영 벽·제한 영역 교체, 플레이어 좌표 보정, CustomGravity)를 순서대로 호출하고 마지막에 convertEventLast로 후속 처리를 한다. CustomGravity는 탑뷰 기본·탑뷰 반전·사이드뷰 중력 상태에 따라 방향과 고정 축을 바꾸고, 사이드뷰에서 돌아오면 전환 전 상태를 복원한다.</desc>
+<!-- 근거: 1Seong/SQUARE-ERAUQS portfolio/view-gravity (원본 Stage.cs·CustomGravity.cs, 기준 커밋 0607414) -->
+<style>
+text{font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;fill:#0F172A}
+.title{font-size:22px;font-weight:700}
+.lane{fill:#F8FAFC;stroke:#E2E8F0}.lt{font-size:16px;font-weight:700}
+.card{fill:#fff;stroke:#94A3B8;stroke-width:1.5}.ct{font-size:15px;font-weight:700}.cs{font-size:14px;fill:#475569}
+.hl{fill:#EEF2FF;stroke:#6366F1;stroke-width:1.5}
+.sb{fill:#ECFDF5;stroke:#059669;stroke-width:1.5}
+.band{fill:#FFF7ED;stroke:#EA580C;stroke-width:1.5}.bt{font-size:16px;font-weight:700;fill:#9A3412}.bs{font-size:15px;fill:#7C2D12}
+.rej{font-size:14px;fill:#B91C1C}.ok{font-size:14px;fill:#047857}
+.note{font-size:13px;fill:#64748B}
+.flow{fill:none;stroke:#334155;stroke-width:2;marker-end:url(#a)}
+.dash{fill:none;stroke:#EA580C;stroke-width:1.5;stroke-dasharray:5 4;marker-end:url(#b)}
+</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+<marker id="b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#EA580C"/></marker>
+</defs>
+<rect width="1100" height="440" fill="#fff"/>
+<text class="title" x="30" y="40">시점 전환 이벤트 흐름</text>
+
+<rect class="card" x="30" y="95" width="200" height="100" rx="10"/>
+<text class="ct" x="48" y="125">전환 입력</text>
+<text class="cs" x="48" y="150">PC 키보드 · 모바일 버튼</text>
+<text class="cs" x="48" y="172">InputWrapper.ShiftAction</text>
+
+<path class="flow" d="M230 145H266"/>
+
+<rect class="hl" x="270" y="75" width="240" height="140" rx="10"/>
+<text class="ct" x="288" y="105">Stage.ConvertButton</text>
+<text class="rej" x="288" y="132">거부: 점프 중 · 제한 구역</text>
+<text class="rej" x="288" y="152">· 전환 연출 중</text>
+<text class="ok" x="288" y="182">통과: 탑뷰 ↔ 사이드뷰 전환</text>
+
+<path class="flow" d="M510 145H546"/>
+
+<rect class="lane" x="550" y="60" width="310" height="285" rx="12"/>
+<text class="lt" x="570" y="88">convertEvent 구독자 · 순차 호출</text>
+<rect class="card" x="570" y="102" width="270" height="44" rx="8"/>
+<text class="ct" x="586" y="129">카메라 회전</text>
+<rect class="card" x="570" y="156" width="270" height="44" rx="8"/>
+<text class="ct" x="586" y="183">투영 벽 · 제한 영역 교체</text>
+<rect class="card" x="570" y="210" width="270" height="44" rx="8"/>
+<text class="ct" x="586" y="237">플레이어 좌표 보정</text>
+<rect class="sb" x="570" y="264" width="270" height="44" rx="8"/>
+<text class="ct" x="586" y="291">CustomGravity</text>
+<text class="cs" x="706" y="291">중력 · 고정 축 갱신</text>
+<text class="note" x="570" y="332">구독자별 예외 분리</text>
+
+<path class="flow" d="M860 200H896"/>
+
+<rect class="card" x="900" y="160" width="170" height="80" rx="10"/>
+<text class="ct" x="918" y="192">convertEventLast</text>
+<text class="cs" x="918" y="216">전환 뒤 후속 처리</text>
+
+<path class="dash" d="M800 308V364"/>
+
+<rect class="band" x="30" y="368" width="1040" height="56" rx="10"/>
+<text class="bt" x="48" y="402">CustomGravity 상태</text>
+<text class="bs" x="220" y="402">탑뷰 기본 −Z · 탑뷰 반전 +Z · 사이드뷰 −Y  ·  탑뷰로 돌아오면 이전 중력 복원</text>
+</svg>
