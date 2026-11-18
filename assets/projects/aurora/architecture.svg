@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 470" width="1100" height="470" role="img" aria-labelledby="t d">
+<title id="t">Eulerian Aurora 맵 데이터 흐름</title>
+<desc id="d">맵 에디터에서 편집한 맵은 초안 생성기와 퍼즐 솔버가 함께 검증하고, 저장·업로드하면 타일 문자열과 포탈·회전 정보가 PostgreSQL 맵 행에, 썸네일이 Storage에 저장된다. 플레이어는 온라인 목록에서 맵을 받아 PuzzlePlayer로 플레이하고 클리어·좋아요 기록을 남긴다. 모든 단계가 char[,,] 타일 배열과 포탈 쌍, 회전 설정을 같은 형식으로 쓴다.</desc>
+<!-- 근거: 1Seong/EulerianAurora(구 Capstone2) 55e9598 — MapEditor.cs(SaveToDB·UploadMap의 StringHelper.Encode, AutoTest의 PuzzleSolver.Solve, GenerateAssistProposal), MapDocument.cs, NewMapGenerator.cs(PuzzleSolver.Simulation·VerifySequence), portfolio/gameplay·layer-rotation·ugc-backend -->
+<style>
+text{font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;fill:#0F172A}
+.title{font-size:22px;font-weight:700}.sub{font-size:13.5px;fill:#475569}
+.lane{fill:#F8FAFC;stroke:#E2E8F0}.lt{font-size:15px;font-weight:700}.ls{font-size:12px;fill:#64748B}
+.card{fill:#fff;stroke:#94A3B8;stroke-width:1.5}.ct{font-size:15px;font-weight:700}.cs{font-size:12.5px;fill:#475569}
+.hl{fill:#EEF2FF;stroke:#6366F1;stroke-width:1.5}
+.sb{fill:#ECFDF5;stroke:#059669;stroke-width:1.5}
+.mono{font-family:'Cascadia Code',Consolas,monospace;font-size:12px;fill:#334155}
+.lbl{font-size:12px;fill:#334155}
+.band{fill:#FFF7ED;stroke:#EA580C;stroke-width:1.5}.bt{font-size:14px;font-weight:700;fill:#9A3412}.bs{font-size:12.5px;fill:#7C2D12}
+.flow{fill:none;stroke:#334155;stroke-width:2;marker-end:url(#a)}
+.dash{fill:none;stroke:#EA580C;stroke-width:1.5;stroke-dasharray:5 4}
+</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1100" height="470" fill="#fff"/>
+<text class="title" x="24" y="36">맵 데이터 흐름: 제작 → 공유 → 플레이</text>
+<text class="sub" x="24" y="58">에디터·생성기·솔버·서버·플레이가 모두 같은 타일 배열 형식을 읽고 씀</text>
+
+<!-- lanes -->
+<rect class="lane" x="24" y="76" width="380" height="270" rx="12"/>
+<text class="lt" x="44" y="102">제작 · 검증</text><text class="ls" x="140" y="102">맵 에디터</text>
+<rect class="lane" x="428" y="76" width="244" height="270" rx="12"/>
+<text class="lt" x="448" y="102">공유</text><text class="ls" x="488" y="102">Supabase</text>
+<rect class="lane" x="696" y="76" width="380" height="270" rx="12"/>
+<text class="lt" x="716" y="102">플레이</text>
+
+<!-- 제작 -->
+<rect class="card" x="44" y="118" width="340" height="62" rx="8"/>
+<text class="ct" x="60" y="144">맵 에디터</text>
+<text class="cs" x="60" y="166">타일 배치·되돌리기 · 테스트 플레이 · 저장/업로드</text>
+
+<rect class="hl" x="44" y="226" width="160" height="88" rx="8"/>
+<text class="ct" x="58" y="250">초안 생성기</text>
+<text class="mono" x="58" y="270">NewMapGenerator</text>
+<text class="cs" x="58" y="292">배치와 해답 입력을</text>
+<text class="cs" x="58" y="308">함께 탐색</text>
+
+<rect class="hl" x="224" y="226" width="160" height="88" rx="8"/>
+<text class="ct" x="238" y="250">퍼즐 솔버</text>
+<text class="mono" x="238" y="270">PuzzleSolver</text>
+<text class="cs" x="238" y="292">해답 탐색 · 입력 재생</text>
+<text class="cs" x="238" y="308">클리어 판정</text>
+
+<path class="flow" d="M110 226 V184"/><text class="lbl" x="116" y="212">후보 적용</text>
+<path class="flow" d="M318 180 V222"/><text class="lbl" x="324" y="212">자동 테스트</text>
+<path class="flow" d="M204 270 H220"/>
+<text class="ls" x="44" y="334">생성기는 솔버의 상태 전이로 배치를 시뮬레이션·검증</text>
+
+<!-- 공유 -->
+<rect class="sb" x="448" y="118" width="204" height="62" rx="8"/>
+<text class="ct" x="462" y="144">PostgreSQL</text>
+<text class="cs" x="462" y="166">맵 행: 타일 문자열·포탈·회전</text>
+
+<rect class="sb" x="448" y="226" width="204" height="88" rx="8"/>
+<text class="ct" x="462" y="250">활동 기록 · Storage</text>
+<text class="cs" x="462" y="272">좋아요·클리어·신고 (복합키)</text>
+<text class="cs" x="462" y="294">RLS · 트리거 · 썸네일</text>
+
+<path class="flow" d="M384 149 H444"/><text class="lbl" x="390" y="140">업로드</text>
+
+<!-- 플레이 -->
+<rect class="card" x="716" y="118" width="340" height="62" rx="8"/>
+<text class="ct" x="732" y="144">온라인 맵 목록</text>
+<text class="cs" x="732" y="166">검색·정렬·필터·페이지를 RPC 한 번으로 조회</text>
+
+<rect class="card" x="716" y="226" width="160" height="88" rx="8"/>
+<text class="ct" x="730" y="250">PuzzlePlayer</text>
+<text class="cs" x="730" y="272">이동·색칠·기믹 판정</text>
+<text class="cs" x="730" y="294">스냅숏 스택으로 Undo</text>
+
+<rect class="card" x="896" y="226" width="160" height="88" rx="8"/>
+<text class="ct" x="910" y="250">레이어 회전</text>
+<text class="cs" x="910" y="272">단면 배열 재매핑(데이터)</text>
+<text class="cs" x="910" y="294">→ 연출 뒤 격자 복원</text>
+
+<path class="flow" d="M652 149 H712"/><text class="lbl" x="658" y="140">다운로드</text>
+<path class="flow" d="M716 284 H656"/><text class="lbl" x="670" y="276">기록</text>
+<path class="flow" d="M796 180 V222"/><text class="lbl" x="802" y="212">플레이</text>
+<path class="flow" d="M876 270 H892"/>
+
+<!-- 공통 데이터 -->
+<rect class="band" x="24" y="366" width="1052" height="84" rx="12"/>
+<text class="bt" x="44" y="394">공통 맵 데이터</text>
+<text class="bs" x="44" y="418">char[,,] 타일 배열(타일 종류·색칠 상태) + 포탈 쌍 + 회전 축·레이어</text>
+<text class="bs" x="44" y="438">저장·업로드는 StringHelper 문자열과 포탈·회전 정보를 맵 행에 함께 기록, 생성 후보는 MapDocument로 에디터에 전달</text>
+<path class="dash" d="M214 346 V366M550 346 V366M886 346 V366"/>
+</svg>

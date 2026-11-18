@@ -210,7 +210,7 @@ const PROJECTS = {
     badges:[
       { text:"풀스택", type:"primary" },
       { text:"Supabase · PostgreSQL", type:"sub" },
-      { text:"UGC 맵 에디터", type:"sub" },
+      { text:"맵 생성기 · 솔버", type:"sub" },
     ],
     media:[
       { type:"video", src:"assets/projects/aurora/trailer.mp4", thumbnail: "assets/projects/aurora/trailerthumb.png", label:"Trailer" },
@@ -219,7 +219,7 @@ const PROJECTS = {
       { type:"image", src:"assets/projects/aurora/usermap.png", label:"2" },
       { type:"image", src:"assets/projects/aurora/mymap.png", label:"3" },
     ],
-    summary:"유저가 3D 퍼즐 맵을 직접 제작·공유하고, 다른 유저의 맵을 플레이할 수 있는 UGC 기반 3D 퍼즐 게임.",
+    summary:"유저가 3D 퍼즐 맵을 제작·공유·플레이하는 UGC 3D 퍼즐 게임. 퍼즐 솔버로 116칸 맵의 해답 탐색 상태를 408,370개에서 145개로 줄이고, 클리어가 보장된 초안을 만드는 절차적 맵 생성기를 구현.",
     goal:"유저가 직접 3D 퍼즐 맵을 제작·공유하고, 다른 유저의 맵을 플레이할 수 있는 UGC 루프 구현",
 
     keyChallenges:[
@@ -229,7 +229,7 @@ const PROJECTS = {
       "인증·RLS·Storage 연동"
     ],
     role:[
-      { name:"풀스택 프로그래밍", icon:"ti-code", desc:"백엔드(Supabase),<br>클라이언트(Unity)" },
+      { name:"풀스택 프로그래밍", icon:"ti-code", desc:"백엔드(Supabase),<br>클라이언트(Unity),<br>퍼즐 솔버·맵 생성기" },
       { name:"아트", icon:"ti-brush", desc:"Codex를 활용한<br>AI 그래픽 아트 구현" },
     ],
     activities:["2026 UNICON 전시"],
@@ -274,6 +274,83 @@ const PROJECTS = {
         codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/ugc-backend/README.md",
         codeLabel:"클라이언트·DB 샘플 · 서버 부분은 재구성 예시",
         images:["assets/projects/aurora/db.png"]
+      },
+    ],
+    // System Design 근거: 1Seong/EulerianAurora(구 Capstone2) 55e9598, Drive "[AI용] 맵 생성/솔버 구현 위치"·"맵 생성 설정 가이드",
+    // Notion "[Aurora] 절차적 퍼즐 맵 생성"·"[Aurora] 해밀턴 경로 문제"(탐색 상태·ms·밀집 비율 수치 출처).
+    // 기존 contributions·troubleshooting은 지우지 않는다(designCases가 있으면 렌더하지 않음). 스텐실·AABB 트러블슈팅은 사례에서 뺐다.
+    designCases:[
+      {
+        title:"맵 데이터 구조와 플레이 상태 관리",
+        category:"구조",
+        context:"저장한 맵이 검증·공유·플레이 단계에서 다르게 해석되지 않도록 형식 통일",
+        decisions:[
+          "맵을 char[,,] 타일 배열과 포탈 쌍·회전 설정으로 표현하고, 저장·업로드는 같은 문자열 인코딩으로 맵 행에 기록",
+          "이동마다 맵·플레이어·포탈·고스트/레이저 상태를 복사해 스택에 쌓고, Undo 시 함께 복원",
+          "6종 기믹은 이동 결과를 타일 상태로 판정하고, 인버터는 맵을 먼저 반전한 뒤 거리별로 순차 연출",
+        ],
+        issue:{
+          problem:"레이어 회전 뒤 로컬 좌표와 데이터 좌표가 어긋남",
+          cause:"회전 연출과 상태 갱신이 같은 Transform에 의존",
+          fix:"배열 재매핑으로 좌표를 갱신하고 연출 뒤 격자로 복원",
+        },
+        result:"연속 회전에서도 데이터 좌표 기준 유지",
+        diagram:{ src:"assets/projects/aurora/architecture.svg", alt:"맵 데이터 흐름: 맵 에디터·초안 생성기·퍼즐 솔버에서 만든 맵이 PostgreSQL 맵 행(타일 문자열·포탈·회전)과 Storage 썸네일로 공유되고, 온라인 목록에서 받은 맵을 PuzzlePlayer와 레이어 회전이 플레이하며 클리어·좋아요 기록을 남김. 모든 단계가 char[,,] 타일 배열 형식을 공유", size:"full" },
+        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/gameplay/README.md",
+      },
+      {
+        title:"해밀턴 경로 기반 퍼즐 솔버",
+        category:"에디터",
+        context:"유저가 만든 맵이 모든 칸을 칠해 클리어 가능한지 에디터에서 자동 판정",
+        decisions:[
+          "모든 칸을 한 번씩 칠하는 해밀턴 경로 문제로 보고, 남은 칸이 적은 상태부터 꺼내는 우선순위 탐색과 상태 중복 제거를 결합",
+          "포탈·고스트·인버터처럼 경로 규칙을 깨는 기믹이 있으면 가지치기 그래프를 넓히거나 검사를 생략해 풀 수 있는 맵을 버리지 않음",
+          "찾은 해답은 부모 기록으로 입력열을 복원하고, 초기 맵에서 같은 전이 함수로 재생해 실제 클리어를 확인한 뒤 확정",
+        ],
+        issue:{
+          problem:"모든 경로를 세는 DFS가 116칸 맵에서 40만 개 넘는 상태 탐색",
+          cause:"풀 수 없는 분기도 끝까지 탐색하는 브루트포스",
+          fix:"칠할 칸이 고립되거나 끝점이 2개 이상이면 분기를 즉시 버림",
+        },
+        result:"기믹 없는 116칸 맵 탐색 상태 408,370 → 145, 게임 수록 맵 14개 모두 중앙값 85ms 이내 풀이",
+        media:[
+          { type:"video", src:"assets/projects/aurora/solver-demo.mp4", thumbnail:"assets/projects/aurora/solver-demo-thumb.webp", caption:"자동 테스트로 해답을 찾아 미리 보고, 풀 수 없는 맵은 바로 판정" },
+        ],
+        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/puzzle-solver/README.md",
+      },
+      {
+        title:"해답을 함께 쌓는 절차적 맵 생성",
+        category:"에디터",
+        context:"난이도·기믹만 고르면 클리어가 보장된 퍼즐 초안으로 편집을 시작",
+        decisions:[
+          "맵을 만든 뒤 푸는 대신 타일 배치와 해답 입력을 함께 쌓고, 솔버의 상태 전이로 실행해 단계마다 검증",
+          "재귀 대신 명시적 스택 DFS로 긴 경로의 스택 오버플로를 막고, 새 배치가 이전 입력 결과를 바꾸는지 처음부터 재생해 확인",
+          "난이도별 예산에서 길·기믹 비용을 차감하되 필수 기믹 비용은 미리 예약하고, 완성 후보는 전체 입력을 다시 검증",
+        ],
+        issue:{
+          problem:"생성 맵의 길이 한곳에 뭉침(밀집 비율 88%, 수록 맵 31%)",
+          cause:"다음 칸 후보를 모두 같은 확률로 선택",
+          fix:"길이 뭉치거나 일자로만 뻗는 후보에 감점하는 점수제 도입",
+        },
+        result:"일반 길 맵의 밀집 비율 88% → 37%로 수록 맵(31%)에 근접",
+        media:[
+          { type:"video", src:"assets/projects/aurora/mapgen-flow.mp4", thumbnail:"assets/projects/aurora/mapgen-flow-thumb.webp", caption:"기믹·난이도 선택 → 후보 생성 → 미리보기 → 적용" },
+          { type:"video", src:"assets/projects/aurora/mapgen-shaped.mp4", thumbnail:"assets/projects/aurora/mapgen-shaped-thumb.webp", caption:"형태 점수 적용 뒤 생성한 후보" },
+        ],
+        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/procedural-map-generation/README.md",
+      },
+      {
+        title:"Supabase 기반 UGC 백엔드와 DB 설계",
+        category:"백엔드",
+        context:"별도 서버 없이 인증·맵 공유·활동 기록을 Unity 클라이언트와 연결",
+        decisions:[
+          "싱글턴 SupabaseManager에 이메일·Google/Discord(PKCE) 인증과 세션 복원을 모으고, SDK 상태 리스너와 연동",
+          "초안·게시 맵·사용자 활동을 분리하고, 맵 ID·작성자 ID 복합키와 외래키로 좋아요·클리어·신고 기록 연결",
+          "RLS로 공개 맵 조회와 본인 데이터 수정을 구분하고, 트리거로 좋아요 수와 더 좋은 클리어 기록 반영",
+        ],
+        diagram:{ src:"assets/projects/aurora/db.png", alt:"Supabase 테이블 구조: map·map_likes·map_clears·nickname 테이블과 auth.users 연결, 좋아요·클리어는 user_id·map_id·map_user_id 복합키", size:"side", caption:"맵 원본과 사용자별 활동 기록을 분리한 테이블 구조" },
+        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/ugc-backend/README.md",
+        codeLabel:"클라이언트·DB 샘플 · 서버 부분은 재구성 예시",
       },
     ],
     troubleshooting: [
