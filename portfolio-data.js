@@ -105,7 +105,7 @@ const SUB_PROJECT_IDS = PROJECT_ORDER.filter(id => !MAIN_PROJECT_IDS.includes(id
 const PROJECTS = {
   // 근거: 1Seong/UnityLoopInner (비공개) CLAUDE.md, docs/STATUS.md(2026-11-17), docs/DECISIONS.md, .claude/skills/issue/SKILL.md
   // 1Seong/UnityLoop(Agent SDK 아우터 루프)는 비용 문제로 중단했고 실제로 쓴 적이 없어 근거로 쓰지 않는다.
-  // 공개 샘플 저장소는 아직 없다. 도식은 assets/projects/uloop/(architecture·guard·ci.svg).
+  // 공개 샘플 저장소: 1Seong/UnityLoop-Samples (원본 3968a7b 기준 발췌). 도식은 assets/projects/uloop/(architecture·guard·ci.svg).
   // 데모 영상·스크린샷은 학습 프로젝트 1Seong/unity-2d-game-analysis(비공개)의 U2D-2 실행(2026-11-18, PR #2 머지). 영상은 녹화 3개를 단계 자막과 함께 편집.
   // 서버(I5)는 보류, 비대화형 디스패처 실측도 보류(STATUS 2026-11-17).
   unity_loop: {
@@ -145,6 +145,7 @@ const PROJECTS = {
         ],
         result:"샌드박스 이슈와 학습용 Unity 프로젝트 이슈(수락 거절 뒤 재구현)를 PR 머지·Jira 완료까지 처리",
         diagram:{ src:"assets/projects/uloop/architecture.svg", alt:"UnityLoop 이너 루프 전체 흐름: 사람의 이슈 선택, 이슈 읽기·계획·구현 검증·PR CI·머지 완료 단계와 모델 배치, 수락, 구현으로 되돌리는 경로, state.py 제어", size:"full" },
+        codeUrl:"https://github.com/1Seong/UnityLoop-Samples/blob/main/portfolio/issue-flow/README.md",
       },
       {
         title:"훅 기반 쓰기 범위와 외부 쓰기 가드",
@@ -162,6 +163,7 @@ const PROJECTS = {
         },
         result:"실제 훅 입력으로 만든 판정 시험 474건 통과",
         diagram:{ src:"assets/projects/uloop/guard.svg", alt:"훅 가드 구조: 메인 세션과 서브에이전트 6종의 모든 호출이 Node.js 훅 5종 중 해당 훅을 거쳐 허용·사람 확인·차단으로 판정되고, 확인을 거친 외부 쓰기는 Python 스크립트만 Jira·GitHub에 수행, 하네스가 판정을 시험", size:"full", caption:"모든 호출은 도구별 훅을 거쳐 허용·사람 확인·차단으로 판정" },
+        codeUrl:"https://github.com/1Seong/UnityLoop-Samples/blob/main/portfolio/hook-guard/README.md",
       },
       {
         title:"CI 검증과 실패 원인 분류",
@@ -179,6 +181,7 @@ const PROJECTS = {
         },
         result:"실제 CI에서 받은 첫 실패 로그가 인프라 실패로 분류됨을 시험으로 확인",
         diagram:{ src:"assets/projects/uloop/ci.svg", alt:"CI 구조: 프로필에서 ci.py가 워크플로를 만들어 설치, PR마다 Changes 작업과 Unity 작업(디스크 정리·체크아웃·Library 캐시·GameCI EditMode·결과 업로드) 실행, pr.py가 wait·checks·로그 대조로 통과·인프라 실패·코드 실패를 나눔", size:"full", caption:"준비는 한 번, CI는 PR마다 실행, pr.py가 로그로 실패를 분류해 종료 코드로 전달" },
+        codeUrl:"https://github.com/1Seong/UnityLoop-Samples/blob/main/portfolio/ci-classify/README.md",
       },
     ],
     troubleshooting:[],
@@ -190,10 +193,12 @@ const PROJECTS = {
     },
     feedback:null,
     other_contributions:null,
-    links:[],
+    links:[
+      { label:"GitHub", url:"https://github.com/1Seong/UnityLoop-Samples" },
+    ],
     detail:{
       techStack:["Claude Code", "Python", "Jira", "GitHub Actions", "GameCI", "Unity CLI"],
-      linkMap:{},
+      linkMap:{ GitHub:"GitHub" },
     },
   },
   eulerian_aurora: {
