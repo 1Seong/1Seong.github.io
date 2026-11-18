@@ -281,22 +281,18 @@ const PROJECTS = {
     // 기존 contributions·troubleshooting은 지우지 않는다(designCases가 있으면 렌더하지 않음). 스텐실·AABB 트러블슈팅은 사례에서 뺐다.
     designCases:[
       {
-        title:"맵 데이터 구조와 플레이 상태 관리",
+        title:"맵 데이터와 UGC 백엔드 구조",
         category:"구조",
-        context:"저장한 맵이 검증·공유·플레이 단계에서 다르게 해석되지 않도록 형식 통일",
+        context:"별도 서버 없이 맵 제작·공유·플레이를 하나의 형식과 계정으로 연결",
         decisions:[
           "맵을 char[,,] 타일 배열과 포탈 쌍·회전 설정으로 표현하고, 저장·업로드는 같은 문자열 인코딩으로 맵 행에 기록",
-          "이동마다 맵·플레이어·포탈·고스트/레이저 상태를 복사해 스택에 쌓고, Undo 시 함께 복원",
-          "6종 기믹은 이동 결과를 타일 상태로 판정하고, 인버터는 맵을 먼저 반전한 뒤 거리별로 순차 연출",
+          "싱글턴 SupabaseManager에 이메일·Google/Discord(PKCE) 로그인과 세션 복원을 모으고, SDK 상태 리스너와 연동",
+          "초안·게시 맵과 좋아요·클리어·신고 기록을 복합키 테이블로 나누고, RLS로 본인 데이터만 수정하게 제한",
         ],
-        issue:{
-          problem:"레이어 회전 뒤 로컬 좌표와 데이터 좌표가 어긋남",
-          cause:"회전 연출과 상태 갱신이 같은 Transform에 의존",
-          fix:"배열 재매핑으로 좌표를 갱신하고 연출 뒤 격자로 복원",
-        },
-        result:"연속 회전에서도 데이터 좌표 기준 유지",
-        diagram:{ src:"assets/projects/aurora/architecture.svg", alt:"맵 데이터 흐름: 맵 에디터·초안 생성기·퍼즐 솔버에서 만든 맵이 PostgreSQL 맵 행(타일 문자열·포탈·회전)과 Storage 썸네일로 공유되고, 온라인 목록에서 받은 맵을 PuzzlePlayer와 레이어 회전이 플레이하며 클리어·좋아요 기록을 남김. 모든 단계가 char[,,] 타일 배열 형식을 공유", size:"full" },
-        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/gameplay/README.md",
+        result:"팀원이 코드 없이 맵을 만들어 올리고, 유저가 내려받아 플레이하는 UGC 루프 완성",
+        diagram:{ src:"assets/projects/aurora/architecture.svg", alt:"맵 데이터와 백엔드 구조: Unity 클라이언트의 초안 생성기·맵 에디터가 퍼즐 솔버로 검증하고, 에디터가 Supabase 맵 테이블(초안·게시·썸네일)에 저장·업로드, 플레이가 목록을 받아 좋아요·클리어를 기록, SupabaseManager가 Auth(이메일·Google·Discord)로 로그인. 맵은 char[,,] 타일·포탈 쌍·회전 설정을 문자열로 저장", size:"full" },
+        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/ugc-backend/README.md",
+        codeLabel:"클라이언트·DB 샘플 · 서버 부분은 재구성 예시",
       },
       {
         title:"해밀턴 경로 기반 퍼즐 솔버",
@@ -304,7 +300,7 @@ const PROJECTS = {
         context:"유저가 만든 맵이 모든 칸을 칠해 클리어 가능한지 에디터에서 자동 판정",
         decisions:[
           "모든 칸을 한 번씩 칠하는 해밀턴 경로 문제로 보고, 남은 칸이 적은 상태부터 꺼내는 우선순위 탐색과 상태 중복 제거를 결합",
-          "포탈·고스트·인버터처럼 경로 규칙을 깨는 기믹이 있으면 가지치기 그래프를 넓히거나 검사를 생략해 풀 수 있는 맵을 버리지 않음",
+          "순간이동·재방문처럼 경로 규칙을 깨는 기믹이 있으면 해당 가지치기만 완화하거나 생략해, 풀 수 있는 맵을 잘못 버리지 않음",
           "찾은 해답은 부모 기록으로 입력열을 복원하고, 초기 맵에서 같은 전이 함수로 재생해 실제 클리어를 확인한 뒤 확정",
         ],
         issue:{
@@ -328,29 +324,16 @@ const PROJECTS = {
           "난이도별 예산에서 길·기믹 비용을 차감하되 필수 기믹 비용은 미리 예약하고, 완성 후보는 전체 입력을 다시 검증",
         ],
         issue:{
-          problem:"생성 맵의 길이 한곳에 뭉침(밀집 비율 88%, 수록 맵 31%)",
+          problem:"생성 맵의 길이 한곳에 뭉침(길 밀집 비율 88%, 직접 만든 맵은 31%)",
           cause:"다음 칸 후보를 모두 같은 확률로 선택",
           fix:"길이 뭉치거나 일자로만 뻗는 후보에 감점하는 점수제 도입",
         },
-        result:"일반 길 맵의 밀집 비율 88% → 37%로 수록 맵(31%)에 근접",
+        result:"길 밀집 비율 88% → 37%로, 직접 만든 맵(31%)과 비슷한 수준",
         media:[
-          { type:"video", src:"assets/projects/aurora/mapgen-flow.mp4", thumbnail:"assets/projects/aurora/mapgen-flow-thumb.webp", caption:"기믹·난이도 선택 → 후보 생성 → 미리보기 → 적용" },
-          { type:"video", src:"assets/projects/aurora/mapgen-shaped.mp4", thumbnail:"assets/projects/aurora/mapgen-shaped-thumb.webp", caption:"형태 점수 적용 뒤 생성한 후보" },
+          { type:"video", src:"assets/projects/aurora/mapgen-shaped.mp4", thumbnail:"assets/projects/aurora/mapgen-shaped-thumb.webp", caption:"형태 점수 적용 뒤 연속 생성한 후보" },
+          { type:"video", src:"assets/projects/aurora/mapgen-flow.mp4", thumbnail:"assets/projects/aurora/mapgen-flow-thumb.webp", caption:"기믹·난이도 선택 → 후보 생성 → 적용" },
         ],
         codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/procedural-map-generation/README.md",
-      },
-      {
-        title:"Supabase 기반 UGC 백엔드와 DB 설계",
-        category:"백엔드",
-        context:"별도 서버 없이 인증·맵 공유·활동 기록을 Unity 클라이언트와 연결",
-        decisions:[
-          "싱글턴 SupabaseManager에 이메일·Google/Discord(PKCE) 인증과 세션 복원을 모으고, SDK 상태 리스너와 연동",
-          "초안·게시 맵·사용자 활동을 분리하고, 맵 ID·작성자 ID 복합키와 외래키로 좋아요·클리어·신고 기록 연결",
-          "RLS로 공개 맵 조회와 본인 데이터 수정을 구분하고, 트리거로 좋아요 수와 더 좋은 클리어 기록 반영",
-        ],
-        diagram:{ src:"assets/projects/aurora/db.png", alt:"Supabase 테이블 구조: map·map_likes·map_clears·nickname 테이블과 auth.users 연결, 좋아요·클리어는 user_id·map_id·map_user_id 복합키", size:"side", caption:"맵 원본과 사용자별 활동 기록을 분리한 테이블 구조" },
-        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/ugc-backend/README.md",
-        codeLabel:"클라이언트·DB 샘플 · 서버 부분은 재구성 예시",
       },
     ],
     troubleshooting: [
@@ -386,17 +369,8 @@ const PROJECTS = {
       }
     ],
     */
-    optimizations:[
-      {
-        title:"RPC 조회 기반 맵 목록 조회 최적화",
-        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/ugc-backend/README.md",
-        category:"최적화",
-        desc:"<br><strong>온라인 맵 목록에서 필요한 데이터를 여러 번 나누어 요청하지 않도록 조회 흐름을 통합</strong><ul><li>검색, 정렬, 페이지네이션, 클리어 필터를 DB 함수 호출 하나로 처리</li><li>좋아요·클리어·신고 여부는 맵 키 목록을 기반으로 한 번에 조회하고, 클라이언트에서 딕셔너리로 매핑</li><li>닉네임 조회도 작성자 ID 기준으로 묶어 처리해 같은 작성자 정보를 반복 요청하지 않도록 구성</li></ul>",
-        images:[],
-        // 전후 사진: src에 이미지 경로를 입력하면 해당 사진만 표시합니다.
-        comparison: { before: { src:"", alt:"", caption:"" }, after: { src:"", alt:"", caption:"" } }
-      },
-    ],
+    // RPC 목록 조회 최적화는 사용자 요청으로 뺐다(2026-11-18). 문구는 git 기록에 있다.
+    optimizations:[],
 
     retrospective:{
       good:"UGC 게임에 필요한 인증, DB, RPC, RLS를 Unity 클라이언트와 직접 연결하며 서버-클라이언트 전체 흐름을 구축했습니다. 맵 에디터와 온라인 공유 기능을 통해 팀원이 코드 작업 없이 맵을 제작하고, 유저가 이를 플레이하는 루프를 완성한 점이 가장 의미 있었습니다.",
@@ -415,16 +389,9 @@ const PROJECTS = {
   
     detail: {
       coreContributionCount:5,
-      techStack:["Unity", "C#", "Supabase", "PostgreSQL", "Storage"],
+      techStack:["Unity", "C#", "Supabase", "PostgreSQL"],
       linkMap:{ Document:"Google Drive", GitHub:"GitHub", "Game Build":"Game Build" },
-      optimizations:[
-        {
-          measurement:"맵 목록과 사용자별 상태의 요청 흐름 점검",
-          cause:"맵·작성자별 개별 조회가 반복됨",
-          improvement:"검색·정렬·필터·페이지를 RPC로 통합하고, 복합키 목록의 상태 JOIN·닉네임 배치 요청을 병렬 실행",
-          result:"맵 수에 비례하던 개별 요청을 페이지 단위로 통합"
-        }
-      ]
+      optimizations:[]
     },
   },
   
