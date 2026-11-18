@@ -296,7 +296,7 @@ const PROJECTS = {
       },
       {
         title:"해밀턴 경로 기반 퍼즐 솔버",
-        category:"에디터",
+        category:"알고리즘",
         context:"유저가 만든 맵이 모든 칸을 칠해 클리어 가능한지 에디터에서 자동 판정",
         decisions:[
           "모든 칸을 한 번씩 칠하는 해밀턴 경로 문제로 보고, 남은 칸이 적은 상태부터 꺼내는 우선순위 탐색과 상태 중복 제거를 결합",
@@ -330,8 +330,7 @@ const PROJECTS = {
         },
         result:"길 밀집 비율 88% → 37%로, 직접 만든 맵(31%)과 비슷한 수준",
         media:[
-          { type:"video", src:"assets/projects/aurora/mapgen-flow.mp4", thumbnail:"assets/projects/aurora/mapgen-flow-thumb.webp", caption:"기믹·난이도 선택 → 후보 생성 → 적용" },
-          { type:"video", src:"assets/projects/aurora/mapgen-shaped.mp4", thumbnail:"assets/projects/aurora/mapgen-shaped-thumb.webp", caption:"형태 점수 적용 뒤 연속 생성한 후보" },
+          { type:"video", src:"assets/projects/aurora/mapgen-flow.mp4", thumbnail:"assets/projects/aurora/mapgen-flow-thumb.webp", caption:"기믹·난이도 선택 → 후보 생성 → 적용, 이어서 형태 점수 적용 뒤 연속 생성" },
         ],
         codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/procedural-map-generation/README.md",
       },
