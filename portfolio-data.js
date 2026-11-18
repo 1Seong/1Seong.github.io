@@ -153,7 +153,7 @@ const PROJECTS = {
         context:"에이전트가 범위 밖 파일이나 외부 시스템을 바꾸는 사고 방지",
         decisions:[
           "서브에이전트별 쓰기 범위를 ownership.json으로 정하고, 훅 5종이 범위 밖 요청을 차단",
-          "Jira·GitHub 쓰기와 push는 사람 확인 뒤 scripts/만 수행하고, 에이전트에는 쓰기 도구 미부여",
+          "Jira·GitHub 쓰기는 scripts/만 자동 수행하고 에이전트에는 쓰기 도구 미부여, 사람은 병합·워크플로 설치만 최종 승인",
           "에이전트가 쓰는 외부 스킬은 해시로 고정하고, 훅 판정 시험(하네스)에서 판정과 해시를 함께 검사",
         ],
         issue:{
@@ -162,7 +162,7 @@ const PROJECTS = {
           fix:"저장소 안 경로는 루트 기준 상대 경로로 .claude 여부를 검사",
         },
         result:"실제 훅 입력으로 만든 판정 시험 474건 통과",
-        diagram:{ src:"assets/projects/uloop/guard.svg", alt:"훅 가드 구조: 메인 세션과 서브에이전트 6종의 모든 호출이 Node.js 훅 5종 중 해당 훅을 거쳐 허용·사람 확인·차단으로 판정되고, 확인을 거친 외부 쓰기는 Python 스크립트만 Jira·GitHub에 수행, 하네스가 판정을 시험", size:"full", caption:"모든 호출은 도구별 훅을 거쳐 허용·사람 확인·차단으로 판정" },
+        diagram:{ src:"assets/projects/uloop/guard.svg", alt:"훅 가드 구조: 메인 세션과 서브에이전트 6종의 모든 호출이 Node.js 훅 5종 중 해당 훅을 거쳐 허용·사람 확인·차단으로 판정되고(사람 확인은 병합·워크플로 설치 같은 최종 승인만), 외부 쓰기는 Python 스크립트만 Jira·GitHub에 자동 수행, 하네스가 판정을 시험", size:"full", caption:"모든 호출은 도구별 훅을 거쳐 허용·사람 확인·차단으로 판정" },
         codeUrl:"https://github.com/1Seong/UnityLoop-Samples/blob/main/portfolio/hook-guard/README.md",
       },
       {

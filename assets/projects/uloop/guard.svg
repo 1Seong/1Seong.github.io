@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 528" width="1100" height="528" role="img" aria-labelledby="t d">
 <title id="t">UnityLoop 훅 기반 쓰기 범위와 외부 쓰기 가드</title>
-<desc id="d">메인 세션과 서브에이전트 6종의 파일·셸·MCP·스킬 호출은 모두 PreToolUse 훅 5종 가운데 해당 훅을 거쳐 허용, 사람 확인, 차단으로 나뉜다. 사람 확인을 거친 외부 쓰기는 scripts/의 파이썬 스크립트만 Jira와 GitHub에 한다. 하네스가 실제 훅 입력으로 판정과 고정 스킬 해시를 시험한다.</desc>
-<!-- 근거: 1Seong/UnityLoopInner .claude/settings.json, .claude/hooks/*.mjs, ownership.json, skill-pools.json, scripts/check-harness.mjs, docs/STATUS.md(하네스 474/474, 2026-11-17) -->
+<desc id="d">메인 세션과 서브에이전트 6종의 파일·셸·MCP·스킬 호출은 모두 PreToolUse 훅 5종 가운데 해당 훅을 거쳐 허용, 사람 확인, 차단으로 나뉜다. 사람 확인은 기본 브랜치 병합·워크플로 설치 같은 최종 승인에만 남는다. Jira와 GitHub 쓰기는 scripts/의 파이썬 스크립트만 자동으로 하고, 머지는 수락 기록을 확인한 뒤에만 한다. 하네스가 실제 훅 입력으로 판정과 고정 스킬 해시를 시험한다.</desc>
+<!-- 근거: 1Seong/UnityLoopInner .claude/settings.json, .claude/hooks/*.mjs, ownership.json, skill-pools.json, scripts/check-harness.mjs, docs/STATUS.md(하네스 474/474, 2026-11-17), docs/DECISIONS.md I-D26(쓰기는 자동, 최종 승인만 확인, 2026-11-18) -->
 <style>
 text{font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;fill:#0F172A}
 .title{font-size:22px;font-weight:700}.sub{font-size:13.5px;fill:#475569}.lg{font-size:12.5px;fill:#475569}
@@ -90,12 +90,12 @@ text{font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;fill:#0F
 </g>
 <rect x="720" y="122" width="350" height="76" rx="9" class="ok"/>
 <text x="736" y="146" class="okt">허용</text>
-<text x="736" y="167" class="bt">서브에이전트: 자기 산출물 + scope.json 경로</text>
-<text x="736" y="186" class="bt">읽기 명령 · 자기 스킬 풀</text>
+<text x="736" y="167" class="bt">서브에이전트: 자기 산출물 · scope.json · 스킬 풀</text>
+<text x="736" y="186" class="bt">메인 세션: 스크립트 쓰기 · git push · gh 쓰기</text>
 <rect x="720" y="210" width="350" height="76" rx="9" class="ask"/>
-<text x="736" y="234" class="askt">사람 확인</text>
-<text x="736" y="255" class="bt">메인 세션: git push · gh 쓰기 · 쓰기 스크립트</text>
-<text x="736" y="274" class="bt">플러그인 스킬 · 그 밖의 MCP 쓰기</text>
+<text x="736" y="234" class="askt">사람 확인 (최종 승인만)</text>
+<text x="736" y="255" class="bt">기본 브랜치 병합 · 워크플로 설치 · gh pr merge</text>
+<text x="736" y="274" class="bt">main 직접 push · 플러그인 스킬 · 판정 불가 명령</text>
 <rect x="720" y="298" width="350" height="84" rx="9" class="no"/>
 <text x="736" y="322" class="not">차단</text>
 <text x="736" y="343" class="bt">.claude/ · .git/ · 비밀 파일 · 범위 밖 파일</text>
@@ -104,8 +104,8 @@ text{font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;fill:#0F
 <!-- 외부 쓰기 -->
 <rect x="10" y="416" width="1080" height="100" rx="10" class="lane"/>
 <text x="24" y="458" class="lt">외부 쓰기</text><text x="24" y="478" class="ls">스크립트만</text>
-<path d="M1070 248H1084V426H495V432" class="flowa"/>
-<text x="900" y="420" class="lg" style="fill:#92400E">확인 뒤 실행</text>
+<path d="M1070 160H1084V426H495V432" class="flow"/>
+<text x="1072" y="413" text-anchor="end" class="lg">자동 실행 · 머지는 수락 기록 확인 뒤</text>
 <rect x="330" y="436" width="330" height="62" rx="9" class="card"/>
 <use href="#ic-python" x="346" y="452" width="28" height="28"/>
 <text x="386" y="461" class="ct">scripts/</text><text x="386" y="482" class="mono">jira.py · pr.py · ci.py</text>
