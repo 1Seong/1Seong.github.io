@@ -41,7 +41,10 @@
   `date`는 `YYYY.MM` 또는 `YYYY.MM.DD ~ YYYY.MM.DD`로 시작해야 한다(앞 4자리가 연도 표시). `url`·`validity`는 선택. `MILESTONE_SUMMARY`가 비면 요약 줄을 숨긴다.
 - 표시 순서는 `PROJECT_ORDER`, 메인 카드는 `MAIN_PROJECT_IDS`가 정한다. 나머지는 서브 프로젝트다.
   `showMore:false` 또는 `detail.showMore:false`이면 상세 페이지가 없다.
-- `PROJECTS.<id>`: `id, title, subtitle, meta{engine,platform,team,year}, badges[{text,type:primary|sub}], media[{type:image|video,src,thumbnail?,label}], summary, goal, keyChallenges[], role[{name,icon,desc(HTML)}], activities[]`
+- `PROJECTS.<id>`: `id, title, subtitle, meta{engine,platform,team,year}, badges[{text,type:primary|sub}], media[{type:image|video,src,thumbnail?,label?,alt?,fit?}], summary, goal, keyChallenges[], role[{name,icon,desc(HTML)}], activities[]`
+  - `media`는 홈 카드 슬라이더와 상세 갤러리가 같은 규칙으로 그린다. `label`은 왼쪽 위 이름표다(서브 카드에서는 숨김). `alt`가 없으면 `label`을 대체 텍스트로 쓴다.
+  - `fit:"contain"`(이미지만)이면 자르지 않고 밝은 바탕에 전체를 보인다. SVG는 자동으로 `contain`이다. 기본은 꽉 채워 자르는 `cover`다.
+- 상세 Overview의 Links 묶음은 `DETAIL_LINK_SLOTS`에 맞는 링크가 하나도 없으면 제목째 숨긴다.
   - `media`에 `src`가 있는 항목이 하나도 없으면, 홈 카드는 첫 `designCases[].diagram`을 구조도 이미지로 대신 보여 주고 상세 페이지 상단 미디어 영역은 숨긴다.
     SVG 이미지(또는 `fit:"contain"`)는 카드에서 잘리지 않게 contain으로 표시한다. 미디어가 1개면 카드의 슬라이더 화살표·점을 숨긴다.
 - `contributions[]`: `{ title, category, goal, solution:[문자열 2개], codeUrl, codeLabel?, images[] }`

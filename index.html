@@ -263,10 +263,12 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .proj-slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .4s ease; }
 .proj-slide.active { opacity: 1; pointer-events: auto;}
 .proj-slide img, .proj-slide iframe, .proj-slide video { width: 100%; height: 100%; object-fit: cover; }
-/* 구조도(SVG) 카드: 잘리지 않게 contain + 밝은 바탕 */
-.proj-slide.is-diagram { background: linear-gradient(160deg, #fff 0%, var(--navy-2) 100%); }
-.proj-slide.is-diagram img { object-fit: contain; padding: 2.5% 3%; box-sizing: border-box; }
-.proj-slide.is-diagram .slide-type-badge { display: none; } /* 도식 위 글자를 가리므로 숨긴다 */
+/* fit:'contain' 이미지(도식·스크린샷): 잘리지 않게 contain + 밝은 바탕. 홈 카드와 상세 갤러리가 함께 쓴다 */
+.proj-slide.is-diagram, .detail-media-slide.is-diagram { background: linear-gradient(160deg, #fff 0%, var(--navy-2) 100%); }
+.proj-slide.is-diagram img, .detail-media-slide.is-diagram img { object-fit: contain; padding: 2.5% 3%; box-sizing: border-box; }
+/* 이름표가 있으면 이미지를 이름표 아래로 내려 도식 위 글자를 가리지 않게 한다 */
+.proj-slide.is-diagram.has-label img, .detail-media-slide.is-diagram.has-label img { padding-top: 2.6rem; }
+.sub-project-card .proj-slide.is-diagram.has-label img { padding-top: 2.5%; } /* 서브 카드는 이름표를 숨긴다 */
 .proj-slide video {
   display: block;
 }
@@ -1284,6 +1286,15 @@ function buildAwards(){
   `;
 }
 
+// 슬라이드 공통(홈 카드·상세 갤러리): fit:'contain' 또는 SVG면 잘리지 않게, label이 있으면 이름표를 붙인다.
+function decorateSlide(s,m){
+  if(m.src && m.type!=='video' && (m.fit==='contain' || /\.svg(\?|$)/i.test(m.src))) s.classList.add('is-diagram');
+  if(m.src && m.label){
+    s.classList.add('has-label');
+    const b=document.createElement('div'); b.className='slide-type-badge'; b.textContent=m.label; s.appendChild(b);
+  }
+}
+
 function makeSlider(media,cont,dots,prev,next,preload='metadata'){
   let cur=0; const sl=[];
   media.forEach((m,i)=>{
@@ -1293,8 +1304,7 @@ function makeSlider(media,cont,dots,prev,next,preload='metadata'){
                   <source src="${m.src}" type="video/mp4">
                 </video>
               `:`<img src="${m.src}" alt="${escapeHTML(m.alt||m.label||'')}" loading="lazy">`):`<div class="slide-placeholder">${m.type==='video'?IC.vid:IC.img}<span>${m.label}</span></div>`;
-    if(m.fit==='contain' || /\.svg(\?|$)/i.test(m.src||'')) s.classList.add('is-diagram');
-    if(m.label){const b=document.createElement('div');b.className='slide-type-badge';b.textContent=m.label;s.appendChild(b);}
+    decorateSlide(s,m);
     cont.appendChild(s); sl.push(s);
   });
   media.forEach((_,i)=>{
@@ -1723,10 +1733,10 @@ function renderDetailOverview(p) {
           <div class="detail-overview-kicker">Goal</div>
           <p class="detail-overview-goal">${escapeHTML(goal)}</p>
         </div>` : ''}
-        <div class="detail-overview-group">
+        ${linksHTML ? `<div class="detail-overview-group">
           <div class="detail-overview-label">Links</div>
           <div class="detail-overview-links">${linksHTML}</div>
-        </div>
+        </div>` : ''}
       </div>
     </section>
   `;
@@ -1757,7 +1767,8 @@ function showDetail(id){
     <video controls autoplay muted playsinline preload="metadata"${m.thumbnail?` poster="${escapeHTML(m.thumbnail)}"`:''}>
       <source src="${m.src}" type="video/mp4">
     </video>
-    `:`<img src="${m.src}" alt="${m.label}">`):`<div class="slide-placeholder">${m.type==='video'?IC.vid:IC.img}<span>${m.label}</span></div>`;
+    `:`<img src="${m.src}" alt="${escapeHTML(m.alt||m.label||'')}">`):`<div class="slide-placeholder">${m.type==='video'?IC.vid:IC.img}<span>${m.label}</span></div>`;
+    decorateSlide(s,m);
     dm.appendChild(s); ds.push(s);
     const d=document.createElement('div'); d.className='slider-dot'+(i===0?' active':'');
     d.addEventListener('click',()=>dgo(i)); dd.appendChild(d);
