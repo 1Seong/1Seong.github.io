@@ -512,7 +512,7 @@ const PROJECTS = {
         },
         result:"벽에 이어지면 정지하고, 연결이 풀리면 다시 미끄러짐",
         media:[
-          { type:"image", src:"assets/projects/square/gravity.png", caption:"빙판 구간의 플레이어와 스프링" },
+          { type:"video", src:"assets/projects/square/ice-wall.mp4", thumbnail:"assets/projects/square/ice-wall-thumb.webp", caption:"벽에 이어진 줄은 함께 멈추고, 이웃이 빠져 연결이 풀리면 다시 미끄러짐" },
         ],
         codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/physics-stability/README.md",
       },
@@ -527,7 +527,7 @@ const PROJECTS = {
         ],
         result:"기획이 맵툴로 맵을 만들고 고치는 흐름을 갖춰 스테이지 수를 2배로 확장",
         media:[
-          { type:"image", src:"assets/projects/square/editor.png", caption:"맵툴에서 탑뷰·사이드뷰 타일을 나눠 배치한 화면" },
+          { type:"video", src:"assets/projects/square/maptool-flow.mp4", thumbnail:"assets/projects/square/maptool-flow-thumb.webp", caption:"탑뷰·사이드뷰 타일 배치 → TEST로 조립된 스테이지 플레이 → 편집 복귀" },
         ],
         codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/map-generation/README.md",
         codeLabel:"출력 데이터 빌딩 샘플 · 맵툴 UI 제외",
