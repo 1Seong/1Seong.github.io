@@ -667,7 +667,7 @@ const PROJECTS = {
       { type:"image", src:"assets/projects/stw/ending1.png", label:"3" },
       { type:"image", src:"assets/projects/stw/crutch.png", label:"4" },
     ],
-    summary:"6.25 전쟁유공자의 삶을 회고하는 스토리텔링 기반 포인트 앤 클릭 룸 이스케이프. 다채로운 미니게임으로 몰입도 높은 게임플레이를 제공.",
+    summary:"클라이언트를 단독으로 맡아 방 탐색·아이템·미니게임을 이벤트로 잇고 Shader Graph로 픽셀·반사를 연출한 6.25 회고 룸 이스케이프. 6.25 전쟁유공자의 삶을 포인트 앤 클릭 탐색과 미니게임으로 되짚는 게임.",
     role:[
         { name:"클라이언트 프로그래밍", icon:"ti-code", desc:"클라이언트 프로그래밍 단독 담당" },
         { name:"기획", icon:"ti-pencil", desc:"연출 기획" },
@@ -745,6 +745,61 @@ const PROJECTS = {
         codeUrl:"https://github.com/1Seong/SaveTheWorld/blob/main/Assets/Scripts/AspectRatioKeeper.cs",
         codeLabel:"GitHub 원본 코드 · 카메라 스택은 씬 설정"
       }
+    ],
+    // System Design 근거: 1Seong/SaveTheWorld portfolio/(room-navigation·item-system·minigames·save-system·shader-effects), 원본 기준 커밋 8a05e42.
+    // 사례 01의 issue는 기존 저장 트러블슈팅이다. CSV 대화·창 화면비 항목은 사례에서 뺐다(데이터는 남김).
+    designCases:[
+      {
+        title:"방 탐색에서 미니게임까지 잇는 진행 구조",
+        category:"구조",
+        context:"방 탐색·아이템·노트·미니게임이 서로의 진행을 풀어 주는 흐름",
+        decisions:[
+          "아이템 사용·글자 완성·미니게임 완료를 이벤트로 알리고, 각 오브젝트는 자기 종류일 때만 잠금 해제·보상 공개",
+          "아이템은 ItemData 에셋을 월드·인벤토리가 공유하고, 사용 대상은 아이템 ID가 맞을 때만 효과를 실행하고 소비",
+          "방은 네 벽면과 천장의 면 단위로 회전하고, 회전 중에는 입력을 잠가 전환 도중의 오작동을 차단",
+        ],
+        issue:{
+          problem:"저장 대상이 늘 때마다 저장 매니저 코드를 고쳐야 함",
+          cause:"저장 매니저가 개별 시스템의 내부 상태에 의존",
+          fix:"각 시스템이 ISaveable로 자기 상태를 JSON 변환하고, 매니저는 등록 대상만 순회",
+        },
+        result:"저장 대상을 추가해도 매니저 수정 없이 확장되고, 새 아이템·미니게임도 같은 진행 흐름을 재사용",
+        diagram:{ src:"assets/projects/stw/progress-structure.svg", alt:"방 탐색에서 미니게임까지 진행 구조: 위쪽에 ① 방 탐색(연기에 가려진 잠긴 물건) ② 아이템 사용 ③ 노트에 글자 조각을 모아 단어 완성 → 해금 ④ 주사기 미니게임 화면이 순서대로 있고, 아래쪽에 각 화면을 맡는 StageManager, ItemData·ItemTarget, NoteManager, MiniGameManager와 이벤트를 받는 InteractiveObject, ISaveable 기반 SaveManager", size:"full" },
+        codeUrl:"https://github.com/1Seong/SaveTheWorld/blob/main/portfolio/README.md",
+        codeLabel:"샘플 코드 목록 (아이템·저장 등)",
+      },
+      {
+        title:"미니게임 공통 흐름과 개별 판정",
+        category:"게임플레이",
+        context:"조작이 다른 미니게임마다 안내·결과·방 복귀를 반복 구현하지 않기",
+        decisions:[
+          "MiniGameManager가 안내·시작 예약, 결과 페이드·문구, 완료 이벤트, 방 복귀를 맡고, 중복 종료 요청은 한 번만 처리",
+          "주사기 게임은 타이밍 바가 목표 구간 안에 있는지 판정하고, 살린 인원 수에 따라 회상 문구를 바꿈",
+          "재봉틀 게임은 바늘이 바느질 경로의 폭을 벗어나면 실패로 판정하고, 곡선 경로는 Catmull-Rom으로 생성",
+        ],
+        result:"개별 게임은 판정 규칙만 구현하고, 안내·결과·복귀는 공통 흐름을 재사용",
+        media:[
+          { type:"image", src:"assets/projects/stw/syringe.png", caption:"주사기 미니게임: 움직이는 바가 목표 구간에 들어올 때 클릭" },
+        ],
+        codeUrl:"https://github.com/1Seong/SaveTheWorld/blob/main/portfolio/minigames/README.md",
+      },
+      {
+        title:"Shader Graph 픽셀 합성과 물 반사",
+        category:"셰이더",
+        context:"3D로 만든 방을 픽셀 아트 톤으로 보여 주고, 엔딩 장면에 수면 반사 연출",
+        decisions:[
+          "3D 방을 352×198 렌더 텍스처에 그린 뒤 Point 필터로 확대해, 경계가 흐려지지 않는 픽셀 아트 화면 구성",
+          "픽셀 화면과 3D 오브젝트의 앞뒤 가림이 어긋나지 않게, 별도 깊이 텍스처를 장면 깊이와 비교해 가려질 픽셀을 투명 처리",
+          "반사 카메라 화면을 뒤집어 읽고, 시간·노이즈로 흐르는 수면 텍스처로 좌표를 흔들어 반사 연출",
+        ],
+        result:"3D 공간 배치는 유지한 채 픽셀 아트 화면과 엔딩의 수면 반사를 구현",
+        media:[
+          { type:"image", src:"assets/projects/stw/view.png", caption:"3D로 만든 방(왼쪽)을 픽셀 카메라로 렌더한 화면(오른쪽)" },
+          { type:"image", src:"assets/projects/stw/ending1.png", caption:"엔딩 장면의 수면 반사" },
+        ],
+        codeUrl:"https://github.com/1Seong/SaveTheWorld/blob/main/portfolio/shader-effects/README.md",
+        codeLabel:"Shader Graph 샘플 · 픽셀 합성과 물 반사",
+      },
     ],
     /*
     technicalDecisions:[
