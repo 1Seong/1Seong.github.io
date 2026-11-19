@@ -593,15 +593,15 @@ const PROJECTS = {
         // 전후 사진: src에 이미지 경로를 입력하면 해당 사진만 표시합니다.
         comparison: {
           before: {
-            src:"assets/projects/square/profiler-mobile-before.png",
-            crop:{ width:3071, height:435 },
-            alt:"최적화 전 모바일 실기 Unity Profiler: 목표 프레임 시간 초과 경고와 CPU Usage 타임라인",
+            src:"assets/projects/square/profiler-before-cpu.webp",
+            crop:{ width:1325, height:390 },
+            alt:"최적화 전 모바일 실기 Unity Profiler CPU Usage: CPU 28.215ms 목표 프레임 시간 초과 경고, 프레임이 33ms(30FPS) 선에 분포",
             caption:"변경 전: 빨간 CPU 초과 표시와 33ms(30FPS) 선에 붙은 프레임."
           },
           after: {
-            src:"assets/projects/square/profiler-mobile-after.png",
-            crop:{ width:2705, height:430 },
-            alt:"최적화 후 모바일 실기 Unity Profiler: 16ms 기준선 부근의 CPU Usage 타임라인",
+            src:"assets/projects/square/profiler-after-cpu.webp",
+            crop:{ width:1150, height:338 },
+            alt:"최적화 후 모바일 실기 Unity Profiler CPU Usage: 프레임이 16ms(60FPS) 선 부근에 분포",
             caption:"변경 후: 16ms(60FPS) 선 부근으로 내려온 프레임."
           }
         }

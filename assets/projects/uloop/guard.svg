@@ -34,7 +34,7 @@ text{font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;fill:#0F
 <symbol id="nodechip" viewBox="0 0 22 22"><rect width="22" height="22" rx="5" fill="#fff"/><use href="#ic-nodedotjs" x="3" y="3" width="16" height="16"/></symbol>
 </defs>
 <rect width="1100" height="528" fill="#fff"/>
-<!-- 제목 띠는 포트폴리오 카드 제목과 겹쳐 뺐다. 본문 전체를 72 올리고 범례는 '판정' 머리글 옆으로 -->
+<!-- 제목 띠는 포트폴리오 카드 제목과 겹쳐 뺐다. 본문 전체를 72 올렸다. 판정 범례는 각 칸 제목과 겹쳐 뺐다 -->
 <g transform="translate(0,-72)">
 <rect x="10" y="80" width="1080" height="320" rx="10" class="lane"/>
 
@@ -83,11 +83,6 @@ text{font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;fill:#0F
 
 <!-- 판정 -->
 <text x="720" y="108" class="lt">판정</text>
-<g transform="translate(860,94)">
-  <rect x="0" y="3" width="13" height="13" rx="3" class="ok"/><text x="19" y="14" class="lg">허용</text>
-  <rect x="64" y="3" width="13" height="13" rx="3" class="ask"/><text x="83" y="14" class="lg">사람 확인</text>
-  <rect x="160" y="3" width="13" height="13" rx="3" class="no"/><text x="179" y="14" class="lg">차단</text>
-</g>
 <rect x="720" y="122" width="350" height="76" rx="9" class="ok"/>
 <text x="736" y="146" class="okt">허용</text>
 <text x="736" y="167" class="bt">서브에이전트: 자기 산출물 · scope.json · 스킬 풀</text>
