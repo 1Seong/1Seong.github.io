@@ -592,7 +592,6 @@ const PROJECTS = {
         images:[],
         // 전후 사진: src에 이미지 경로를 입력하면 해당 사진만 표시합니다.
         comparison: {
-          layout:"stacked",
           before: {
             src:"assets/projects/square/profiler-mobile-before.png",
             crop:{ width:3071, height:435 },
