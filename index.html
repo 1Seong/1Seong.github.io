@@ -1662,7 +1662,7 @@ function sdFigure(item, cls){
   if(!item?.src) return '';
   const caption = item.caption ? `<figcaption>${escapeHTML(item.caption)}</figcaption>` : '';
   if(item.type === 'video'){
-    return `<figure class="sd-figure ${cls}"><div class="sd-frame"><video src="${escapeHTML(item.src)}" muted loop playsinline controls preload="metadata"${item.thumbnail ? ` poster="${escapeHTML(item.thumbnail)}"` : ''}></video></div>${caption}</figure>`;
+    return `<figure class="sd-figure ${cls}"><div class="sd-frame"><video src="${escapeHTML(item.src)}" autoplay muted loop playsinline controls preload="metadata"${item.thumbnail ? ` poster="${escapeHTML(item.thumbnail)}"` : ''}></video></div>${caption}</figure>`;
   }
   const alt = escapeHTML(item.alt || item.caption || '');
   return `<figure class="sd-figure ${cls}"><button type="button" class="sd-frame sd-zoom" data-src="${escapeHTML(item.src)}" data-alt="${alt}" aria-label="크게 보기"><img src="${escapeHTML(item.src)}" alt="${alt}" loading="lazy"><span class="sd-zoom-badge" aria-hidden="true"><i class="ti ti-zoom-in"></i></span></button>${caption}</figure>`;
