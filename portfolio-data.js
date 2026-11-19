@@ -779,22 +779,22 @@ const PROJECTS = {
         ],
         result:"개별 게임은 판정 규칙만 구현하고, 안내·결과·복귀는 공통 흐름을 재사용",
         media:[
-          { type:"image", src:"assets/projects/stw/syringe.png", caption:"주사기 미니게임: 움직이는 바가 목표 구간에 들어올 때 클릭" },
+          { type:"image", src:"assets/projects/stw/minigames.webp", caption:"왼쪽 위부터 주사기·목발·단지·빨래 미니게임 (6종 중 4종)" },
         ],
         codeUrl:"https://github.com/1Seong/SaveTheWorld/blob/main/portfolio/minigames/README.md",
       },
       {
         title:"Shader Graph 픽셀 합성과 물 반사",
         category:"셰이더",
-        context:"3D로 만든 방을 픽셀 아트 톤으로 보여 주고, 엔딩 장면에 수면 반사 연출",
+        context:"픽셀 아트로 그린 장면에 3D 모델을 같은 픽셀 톤으로 섞고, 엔딩 장면에 수면 반사 연출",
         decisions:[
-          "3D 방을 352×198 렌더 텍스처에 그린 뒤 Point 필터로 확대해, 경계가 흐려지지 않는 픽셀 아트 화면 구성",
-          "픽셀 화면과 3D 오브젝트의 앞뒤 가림이 어긋나지 않게, 별도 깊이 텍스처를 장면 깊이와 비교해 가려질 픽셀을 투명 처리",
+          "3D 모델을 352×198 렌더 텍스처에 그린 뒤 Point 필터로 확대해, 픽셀 아트 장면과 같은 도트 질감으로 표현",
+          "픽셀화한 3D 모델과 다른 오브젝트의 앞뒤 가림이 어긋나지 않게, 별도 깊이 텍스처를 장면 깊이와 비교해 가려질 픽셀을 투명 처리",
           "반사 카메라 화면을 뒤집어 읽고, 시간·노이즈로 흐르는 수면 텍스처로 좌표를 흔들어 반사 연출",
         ],
-        result:"3D 공간 배치는 유지한 채 픽셀 아트 화면과 엔딩의 수면 반사를 구현",
+        result:"3D 모델을 픽셀 아트 장면에 어색하지 않게 섞고, 엔딩의 수면 반사를 구현",
         media:[
-          { type:"image", src:"assets/projects/stw/view.png", caption:"3D로 만든 방(왼쪽)을 픽셀 카메라로 렌더한 화면(오른쪽)" },
+          { type:"image", src:"assets/projects/stw/shader.png", caption:"주사기 미니게임의 3D 팔을 픽셀 셰이더로 렌더한 모습" },
           { type:"image", src:"assets/projects/stw/ending1.png", caption:"엔딩 장면의 수면 반사" },
         ],
         codeUrl:"https://github.com/1Seong/SaveTheWorld/blob/main/portfolio/shader-effects/README.md",
