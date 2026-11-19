@@ -100,7 +100,7 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .eyebrow { display: inline-flex; align-items: center; gap: .6rem; font-size: .88rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: 2.5rem; }
 .eyebrow-hint { font-size: .80rem; font-weight: 400; letter-spacing: .06em; text-transform: none; color: var(--cream-3); opacity: .7; }
 .eyebrow::before { content: ''; display: block; width: 28px; height: 2px; background: var(--gold); }
-.rule { border: none; border-top: 1px solid var(--rule); margin: 5rem 0; }
+.rule { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
 .hidden-section-rule { display: none; }
 [hidden] { display: none !important; }
 
@@ -157,28 +157,21 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .link-icon:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
 .link-icon svg { width: 14px; height: 14px; fill: currentColor; }
 
-.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; align-items: end; }
-.cup { position: relative; border-radius: 4px 4px 12px 12px; overflow: hidden; transition: transform .22s cubic-bezier(.34,1.56,.64,1); cursor: default; }
-.cup:hover { transform: translateY(-6px); }
+/* Skills & Tools(한눈에 보기 패널 안): 분류 | 항목 칩 한 줄씩 */
+.glance-skills { padding-top: 1rem; border-top: 1px solid var(--rule-mid); scroll-margin-top: calc(var(--nav-h) + 1.5rem); }
+.glance-skills dl { display: grid; gap: .45rem; margin: 0; }
+.glance-skill-row { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: .6rem; align-items: baseline; }
+.glance-skill-row dt { font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--cream-3); line-height: 1.9; }
+.glance-skill-row dd { display: flex; flex-wrap: wrap; gap: .3rem .75rem; margin: 0; }
+.glance-skill { display: inline-flex; align-items: center; gap: .3rem; font-size: .82rem; font-weight: 500; line-height: 1.6; color: var(--cream); white-space: nowrap; }
+.glance-skill i { font-size: 15px; color: var(--gold); }
+.glance-skill img { width: 15px; height: 15px; object-fit: contain; }
 .other-works-grid { display: flex; flex-direction: column; gap: 1.25rem; }
 .ow-row { display: flex; gap: 1.25rem; align-items: baseline; flex-wrap: wrap; }
 .ow-cat { font-size: .68rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); flex-shrink: 0; width: 140px; padding-top: .15rem; }
 .ow-tags { display: flex; gap: .5rem; flex-wrap: wrap; }
 .ow-tag { font-size: .8rem; font-weight: 400; color: var(--cream-2); padding: .25rem .7rem; border: 1px solid var(--rule-mid); border-radius: 999px; background: var(--navy-2); transition: border-color .2s, color .2s; }
 .ow-tag:hover { border-color: var(--gold); color: var(--gold-light); }
-.cup-water { position: absolute; bottom: 0; left: 0; right: 0; z-index: 1; }
-.wave-wrap { position: absolute; top: -20px; left: 0; width: 200%; height: 22px; pointer-events: none; }
-.wave-svg { display: block; width: 100%; height: 22px; }
-@keyframes cupWave { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-.cwl1 { animation: cupWave 5.5s linear infinite; }
-.cwl2 { animation: cupWave 8s linear infinite reverse; }
-.cup:hover .cwl1 { animation-duration: 3.5s; }
-.cup:hover .cwl2 { animation-duration: 5s; }
-.cup-items { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 11px 10px; }
-.cup-item { display: flex; align-items: center; gap: 7px; font-size: .82rem; font-weight: 500; padding: 6px 6px; border-radius: 4px; }
-.cup-icon { width: 20px; flex-shrink: 0; font-size: 18px; line-height: 1; text-align: center; opacity: .9; }
-.cup-cat { position: absolute; top: 13px; left: 13px; right: 13px; font-size: .6rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; display: flex; align-items: center; gap: 5px; z-index: 3; }
-.cup-cat-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
 
 
 
@@ -1043,7 +1036,6 @@ footer { background: var(--nav-bg); padding: 0; }
   <div id="list-view">
     <nav class="home-toc" id="home-toc" aria-label="목차">
       <a href="#about"    data-sec="about"    onclick="showList('about');return false;"><span>About</span></a>
-      <a href="#skills"   data-sec="skills"   onclick="showList('skills');return false;"><span>Skills</span></a>
       <a href="#projects" data-sec="projects" onclick="showList('projects');return false;"><span>Projects</span></a>
       <a href="#awards"   data-sec="awards"   onclick="showList('awards');return false;"><span>Activities</span></a>
     </nav>
@@ -1062,13 +1054,6 @@ footer { background: var(--nav-bg); padding: 0; }
         </div>
         <aside class="about-glance fade-up fu1" id="about-glance" aria-label="한눈에 보기" hidden></aside>
       </div>
-    </section>
-
-    <hr class="rule">
-
-    <section id="skills">
-      <div class="eyebrow">Skills &amp; Tools</div>
-      <div class="skills-grid" id="skills-grid"></div>
     </section>
 
     <hr class="rule">
@@ -1213,6 +1198,9 @@ function buildAboutGlance(){
       </li>`).join('')}</ul></div>`);
   }
 
+  const skills=skillsGlanceHTML();
+  if(skills) parts.push(skills);
+
   if(!parts.length){ el.hidden=true; return; }
   el.innerHTML=parts.join('');
   el.hidden=false;
@@ -1232,52 +1220,15 @@ function skillIcon(name){
   return hit ? hit[1] : 'ti-point';
 }
 
-function buildSkills(){
-  const ITEM_H=34, PAD_B=10, CAT_H=44, MIN_CUP_H=180;
-  const THEMES={
-    footer:  {bg:'#16133a',border:'#4a40a0',water:'#2e2870',wave2:'#3e3888',catColor:'#b8a8ff',itemColor:'#d8d0ff',badgeBg:'rgba(184,168,255,.2)',badgeColor:'#b8a8ff'},
-    tool:    {bg:'#131828',border:'#384888',water:'#263468',wave2:'#364480',catColor:'#90b0e8',itemColor:'#b8d0ff',badgeBg:'rgba(144,176,232,.2)',badgeColor:'#90b0e8'},
-    platform:{bg:'#0c1e2a',border:'#285878',water:'#1e4860',wave2:'#2c5878',catColor:'#80c8e0',itemColor:'#a8ddf0',badgeBg:'rgba(128,200,224,.2)',badgeColor:'#80c8e0'},
-  };
-  const cupTheme=['footer','footer','footer','tool','platform'];
-  const g=document.getElementById('skills-grid');
-
-  SKILLS.forEach((cat,idx)=>{
-    const t=THEMES[cupTheme[idx]||'footer'];
-    const n=cat.items.length;
-    const waterH=Math.max(44, n*ITEM_H+PAD_B+20);
-    const cupH=Math.max(MIN_CUP_H, waterH+CAT_H+10);
-
-    const div=document.createElement('div');
-    div.className='cup';
-    div.style.cssText=`background:${t.bg};border:1.5px solid ${t.border};height:${cupH}px;`;
-
-    const itemsHTML=cat.items.map(it=>{
-      const badge=it.icon
-        ? `<img src="${it.icon}" alt="${it.name}" style="width:18px;height:18px;object-fit:contain;flex-shrink:0">`
-        : `<i class="ti ${skillIcon(it.name)} cup-icon" style="color:${t.badgeColor}" aria-hidden="true"></i>`;
-      return `<div class="cup-item" style="color:${t.itemColor}">${badge}${it.name}</div>`;
-    }).join('');
-
-    div.innerHTML=`
-      <div class="cup-cat" style="color:${t.catColor}">
-        <div class="cup-cat-dot" style="background:${t.catColor}"></div>${cat.category}
-      </div>
-      <div class="cup-water" style="height:${waterH}px;background:${t.water}">
-        <div class="wave-wrap">
-          <svg class="wave-svg cwl2" viewBox="0 0 720 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,18 C90,2 180,22 270,18 C360,2 450,22 540,18 C630,2 720,22 720,18 L720,22 L0,22 Z" fill="${t.wave2}"/>
-          </svg>
-        </div>
-        <div class="wave-wrap">
-          <svg class="wave-svg cwl1" viewBox="0 0 720 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,12 C60,4 120,20 180,12 C240,4 300,20 360,12 C420,4 480,20 540,12 C600,4 660,20 720,12 L720,22 L0,22 Z" fill="${t.water}"/>
-          </svg>
-        </div>
-      </div>
-      <div class="cup-items">${itemsHTML}</div>`;
-    g.appendChild(div);
-  });
+// Skills & Tools: 별도 섹션 대신 About의 '한눈에 보기' 패널 안에 분류별 한 줄 목록으로 넣는다(첫 프로젝트 카드를 위로 당기기 위해).
+function skillsGlanceHTML(){
+  const cats=(typeof SKILLS!=='undefined' ? SKILLS : []).filter(c=>c && c.items?.length);
+  if(!cats.length) return '';
+  return `<div id="skills" class="glance-skills"><div class="glance-label">Skills &amp; Tools</div><dl>${cats.map(cat=>`
+    <div class="glance-skill-row"><dt>${escapeHTML(cat.category)}</dt><dd>${cat.items.map(it=>`<span class="glance-skill">${it.icon
+      ? `<img src="${escapeHTML(it.icon)}" alt="" aria-hidden="true">`
+      : `<i class="ti ${skillIcon(it.name)}" aria-hidden="true"></i>`}${escapeHTML(it.name)}</span>`).join('')}</dd></div>`).join('')}
+  </dl></div>`;
 }
 
 function buildAwards(){
@@ -2230,10 +2181,10 @@ function buildBooks(){
 /* ── 스크롤 기반 하이라이트 ── */
 window._cardObserver = null; // buildProjects에서 참조 방지용
 
-buildAbout();buildSkills();buildAwards();buildProjects();buildOtherWorks();buildBooks();
+buildAbout();buildAwards();buildProjects();buildOtherWorks();buildBooks();
 
 // 섹션: 뷰포트 중심에 가장 가까운 섹션 하나에만 라이트 효과
-const sections = Array.from(document.querySelectorAll('#about, #skills, #projects, #awards'));
+const sections = Array.from(document.querySelectorAll('#about, #projects, #awards'));
 sections.forEach(el => el.classList.add('section-highlight'));
 const tocLinks = Array.from(document.querySelectorAll('#home-toc a'));
 
