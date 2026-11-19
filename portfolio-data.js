@@ -997,7 +997,7 @@ const PROJECTS = {
           "조리 화면과 레시피북이 같은 GetRecipe를 쓰고, 등록되지 않은 조합은 null로 돌려 없는 조합을 구분",
         ],
         result:"요리 판정과 레시피북이 하나의 조합 기준을 공유하고, 메뉴 추가는 에셋 작업으로 처리",
-        diagram:{ src:"assets/projects/omak/recipe-structure.svg", alt:"레시피 데이터와 조합 조회 구조: ScriptableObject인 RecipeBase(기본 재료·조리법·육류/생선·채소 조합 조건)를 RecipeData(이름·맛·이미지)가 상속하고, RecipeManager가 시작 시 (Base, Cook, MeatFish, Vege) 튜플 키 딕셔너리를 만들어 GetRecipe로 RecipeData 또는 null을 반환. 조리 화면(팀원 구현 판정, 처음 만든 메뉴 해금 호출)과 레시피북이 같은 조회를 쓰고, UnlockManager가 해금 상태를 저장", size:"full" },
+        diagram:{ src:"assets/projects/omak/recipe-structure.svg", alt:"게임 흐름과 레시피 데이터 구조: 위쪽에 조리 화면의 재료 선택, 손님 반응, 레시피북 결과 페이지 화면이 순서대로 있고, 아래쪽 코드 구조에서 ScriptableObject인 RecipeBase(기본 재료·조리법·육류/생선·채소 조합 조건)를 RecipeData(이름·맛·이미지)가 상속하고, RecipeManager가 시작 시 (Base, Cook, MeatFish, Vege) 튜플 키 딕셔너리를 만들어 GetRecipe로 RecipeData 또는 null을 반환. 조리 화면(팀원 구현 판정, 처음 만든 메뉴 해금 호출)과 레시피북이 같은 조회를 쓰고, UnlockManager가 해금 상태를 저장", size:"full" },
         codeUrl:"https://github.com/1Seong/OMakHase/blob/main/portfolio/recipe-system/README.md",
       },
       {
@@ -1010,7 +1010,7 @@ const PROJECTS = {
           "초기화 순서는 부모 클래스에 두고 버튼 개수만 재정의해, 재료 외 버튼이 섞인 조리 화면과 레시피북을 같은 코드로 처리",
         ],
         result:"해금 로직이 UI를 참조하지 않고, 새 해금과 저장 복원이 같은 경로로 화면에 반영",
-        diagram:{ src:"assets/projects/omak/unlock-flow.svg", alt:"재료 해금 이벤트 흐름: 날짜 진행과 게임 불러오기가 UnlockManager를 거쳐 PlayerPrefs에 저장되고 ButtonUnlockAction(버튼 인덱스, 분류) 이벤트로 조리 화면 패널 4종과 레시피북 패널에 전달, 각 패널은 자기 분류의 버튼만 켬", size:"side" },
+        diagram:{ src:"assets/projects/omak/unlock-flow.svg", alt:"재료 해금 이벤트 흐름(게임 Day 표시와 조리 화면·레시피북의 재료 버튼 화면 포함): 날짜 진행과 게임 불러오기가 UnlockManager를 거쳐 PlayerPrefs에 저장되고 ButtonUnlockAction(버튼 인덱스, 분류) 이벤트로 조리 화면 패널 4종과 레시피북 패널에 전달, 각 패널은 자기 분류의 버튼만 켬", size:"side" },
         codeUrl:"https://github.com/1Seong/OMakHase/blob/main/portfolio/unlock-ui/README.md",
       },
       {
