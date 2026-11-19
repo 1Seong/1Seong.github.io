@@ -55,7 +55,8 @@
 - `designCases[]` (선택, 데모 단계): 있으면 그 프로젝트는 `contributions`·`troubleshooting` 대신 **System Design** 섹션을 렌더한다.
   `{ title, category, context, decisions[], issue?{problem,cause,fix}, result?, diagram?{src,alt,size:"full"|"side",caption?}, media?[{type:image|video,src,caption?,thumbnail?}], codeUrl?, codeLabel? }`
   설계는 `claude/portfolio-local-setup-6c7661`의 `.claude/specs/detail-system-design.md`. `index.html?demo=system-design`으로 기존 데이터를 끼워 넣은 미리보기를 볼 수 있다.
-- `optimizations[]`: `{ title, category, desc(HTML), codeUrl?, images[], comparison:{before:{src,alt,caption}, after:{...}} }`
+- `optimizations[]`: `{ title, category, desc(HTML), codeUrl?, images[], comparison:{before:{src,alt,caption,crop?{width,height}}, after:{...}} }`
+  - Before/After는 항상 좌우로 놓는다(`comparison.layout`은 읽지 않으므로 지워도 된다). `crop`은 이미지 윗부분만 그 비율로 잘라 보이고, 둘 다 있으면 더 높은 쪽 비율로 맞춘다. 원본은 클릭해 연다.
 - `retrospective`: `{ good, bad, images[] }` / `feedback`, `other_contributions`: `null` 또는 렌더러가 기대하는 형식
 - `links[]`: `{ label, url }`
 - `detail`: `{ coreContributionCount, techStack[], linkMap{슬롯:links의 label}, optimizations[{measurement,cause,improvement,result}] }`

@@ -235,7 +235,6 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .milestone-source { color: inherit; text-decoration: none; }
 .milestone-source:hover { color: var(--gold); }
 .optimization-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; padding: 1rem; border-top: 1px solid var(--rule); }
-.optimization-comparison.stacked { grid-template-columns: minmax(0, 1fr); }
 .optimization-comparison figure { min-width: 0; margin: 0; }
 .optimization-comparison a { display: block; cursor: zoom-in; }
 .optimization-comparison a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
@@ -808,17 +807,18 @@ a.feedback-citation:hover { color: var(--gold); }
    문제 → 원인 → 해결 → 결과는 한 줄 흐름 스트립 하나로 통일한다 ── */
 .sd-demo-note { margin: -.5rem 0 1.5rem; padding: .6rem .85rem; border: 1px dashed var(--rule-mid); border-radius: 6px; font-size: .8rem; line-height: 1.6; color: var(--cream-3); }
 .sd-list { display: flex; flex-direction: column; }
-.sd-case { padding: 3.75rem 0; border-top: 1px solid var(--rule); }
+.sd-case { padding: 2.5rem 0; border-top: 1px solid var(--rule); }
 .sd-case:first-child { padding-top: .75rem; border-top: none; }
 .sd-eyebrow { margin-bottom: .8rem; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--cream-3); }
 .sd-title-row { display: flex; align-items: baseline; gap: .95rem; }
 .sd-num { flex: none; padding-right: .95rem; border-right: 1px solid var(--rule-mid); font-size: clamp(1.4rem, 2.1vw, 1.85rem); font-weight: 600; line-height: 1.28; letter-spacing: -.02em; color: var(--gold); font-variant-numeric: tabular-nums; }
 .sd-title { font-size: clamp(1.4rem, 2.1vw, 1.85rem); font-weight: 700; line-height: 1.28; letter-spacing: -.02em; color: var(--white); }
 .sd-context { max-width: 46ch; margin-top: .75rem; font-size: 1.04rem; line-height: 1.7; color: var(--cream-2); }
-.sd-split { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 3.5rem; align-items: center; }
-.sd-split.is-reverse { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+/* 미디어 칸을 1.2fr로 줄여 이미지 높이를 낮춘다(사례 하나가 한 화면 안팎에 들어오도록) */
+.sd-split { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 2.5rem; align-items: center; }
+.sd-split.is-reverse { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); }
 .sd-split.is-reverse .sd-media { order: 2; }
-.sd-split.has-head { margin-top: 2rem; align-items: start; }
+.sd-split.has-head { margin-top: 1.25rem; align-items: start; }
 .sd-split.has-head .sd-points { margin-top: 0; }
 .sd-media { display: flex; flex-direction: column; gap: .75rem; min-width: 0; }
 .sd-media-rest { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
@@ -831,21 +831,21 @@ a.feedback-citation:hover { color: var(--gold); }
 .sd-zoom-badge { position: absolute; right: .8rem; bottom: .8rem; display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: rgba(20,16,55,.62); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 0 0 1px rgba(255,255,255,.18); color: #fff; font-size: 18px; transition: transform .2s ease, background .2s ease; pointer-events: none; }
 .sd-zoom:hover .sd-zoom-badge, .sd-zoom:focus-visible .sd-zoom-badge { transform: scale(1.08); background: var(--gold); }
 .sd-figure.thumb .sd-zoom-badge { right: .55rem; bottom: .55rem; width: 1.85rem; height: 1.85rem; font-size: 15px; }
-.sd-figure.primary .sd-frame img, .sd-figure.primary .sd-frame video { aspect-ratio: 16 / 10; object-fit: cover; }
+.sd-figure.primary .sd-frame img, .sd-figure.primary .sd-frame video { aspect-ratio: 16 / 9; object-fit: cover; }
 .sd-figure.thumb .sd-frame img { aspect-ratio: 16 / 10; object-fit: cover; }
 .sd-figure.diagram .sd-frame { background: var(--navy-2); box-shadow: inset 0 0 0 1px var(--rule-mid); }
 /* 도식은 패널을 꽉 채운다: 안쪽 여백·최대 높이를 두면 그림이 작아지고 패널에 빈 띠가 남는다 */
 .sd-figure.diagram .sd-frame img { aspect-ratio: auto; padding: 0; }
-.sd-figure.full { margin: 2.25rem 0 0; }
+.sd-figure.full { margin: 1.5rem 0 0; }
 .sd-figure figcaption { margin-top: .7rem; font-size: .78rem; line-height: 1.5; color: var(--cream-3); }
 .sd-points { list-style: none; margin-top: 1.75rem; border-top: 1px solid var(--rule); }
-.sd-points li { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); padding: 1rem 0; border-bottom: 1px solid var(--rule); }
+.sd-points li { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); padding: .8rem 0; border-bottom: 1px solid var(--rule); }
 .sd-point-num { padding-top: .2rem; font-size: .74rem; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
 .sd-points p { font-size: .95rem; line-height: 1.65; color: var(--cream); }
-.sd-points.cols { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 1rem; margin-top: 1.5rem; border-top: none; }
-.sd-split + .sd-points.cols { margin-top: 2.5rem; }
-.sd-points.cols li { grid-template-columns: minmax(0, 1fr); align-content: start; gap: .55rem; padding: 1.3rem 1.4rem 1.4rem; border: 1px solid var(--rule-mid); border-radius: 14px; background: var(--navy-2); }
-.sd-actions { margin-top: 1.6rem; }
+.sd-points.cols { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 1rem; margin-top: 1.25rem; border-top: none; }
+.sd-split + .sd-points.cols { margin-top: 1.5rem; }
+.sd-points.cols li { grid-template-columns: minmax(0, 1fr); align-content: start; gap: .45rem; padding: 1.05rem 1.2rem 1.15rem; border: 1px solid var(--rule-mid); border-radius: 14px; background: var(--navy-2); }
+.sd-actions { margin-top: 1.1rem; }
 .sd-code { display: inline-flex; align-items: center; gap: .5rem; padding: .55rem 1rem; border: 1px solid var(--rule-mid); border-radius: 999px; background: var(--navy); font-size: .8rem; font-weight: 600; color: var(--cream); text-decoration: none; transition: border-color .2s, color .2s; }
 .sd-code i { font-size: 15px; }
 .sd-code::after { content: '\2197'; font-size: .9em; color: var(--cream-3); transition: color .2s; }
@@ -1916,15 +1916,18 @@ function showDetail(id){
     const detail=(p.detail?.optimizations || [])[idx] || {};
     const bullets=getListItems(opt.desc, 3);
     const comparison=opt.comparison || {};
-    const images=[['Before', comparison.before], ['After', comparison.after]]
-      .filter(([,image])=>image?.src)
+    const isCropped=crop=>Number.isFinite(crop?.width) && crop.width>0 && Number.isFinite(crop?.height) && crop.height>0;
+    const pairs=[['Before', comparison.before], ['After', comparison.after]].filter(([,image])=>image?.src);
+    // 좌우로 놓을 때 두 이미지 높이가 달라 설명 줄이 어긋나지 않게, 잘라 보이는 비율을 둘 중 더 높은 쪽으로 맞춘다.
+    const crops=pairs.map(([,image])=>image.crop).filter(isCropped);
+    const sharedRatio=crops.length===pairs.length && crops.length ? Math.min(...crops.map(c=>c.width/c.height)) : null;
+    const images=pairs
       .map(([label,image])=>{
         // Crop only the displayed top region; the link keeps the original evidence intact.
         const crop=image.crop;
-        const cropped=Number.isFinite(crop?.width) && crop.width>0
-          && Number.isFinite(crop?.height) && crop.height>0;
+        const cropped=isCropped(crop);
         const cropAttributes=cropped
-          ? ` class="optimization-crop" style="aspect-ratio:${crop.width}/${crop.height}"` : '';
+          ? ` class="optimization-crop" style="aspect-ratio:${sharedRatio || `${crop.width}/${crop.height}`}"` : '';
         return `<figure><a${cropAttributes} href="${escapeHTML(image.src)}" target="_blank" rel="noopener" title="원본 이미지 보기" aria-label="${escapeHTML(`${opt.title} · ${label} 원본 이미지 보기`)}"><img src="${escapeHTML(image.src)}" alt="${escapeHTML(image.alt || `${opt.title} — ${label}`)}" loading="lazy"></a><figcaption><strong>${label}</strong>${escapeHTML(image.caption || '')}</figcaption></figure>`;
       }).join('');
     const flow=flowCard(opt.title, [
@@ -1933,7 +1936,8 @@ function showDetail(id){
       { label:'개선', text:detail.improvement || bullets[2] || getStrongText(opt.desc) },
       { label:'결과', text:detail.result || '동일 기능을 더 예측 가능한 흐름으로 정리' },
     ], '', opt);
-    return images ? flow.replace(/<\/div>$/, `<div class="optimization-comparison${comparison.layout==='stacked'?' stacked':''}">${images}</div></div>`) : flow;
+    // Before/After는 항상 좌우로 놓는다(위아래로 쌓으면 상세 길이가 크게 늘어난다). 원본은 이미지를 눌러 연다.
+    return images ? flow.replace(/<\/div>$/, `<div class="optimization-comparison">${images}</div></div>`) : flow;
   }
 
   function troubleshootingCard(item){
