@@ -476,7 +476,7 @@ const PROJECTS = {
       }
     ],
     // System Design 근거: 1Seong/SQUARE-ERAUQS portfolio/(view-gravity·physics-stability·map-generation·mobile-ui), 원본 기준 커밋 0607414.
-    // 기존 contributions·troubleshooting은 지우지 않는다(designCases가 있으면 렌더하지 않음). 기믹 공통 구조·Localization·빙판 트러블슈팅은 사례에서 뺐다.
+    // 기존 contributions·troubleshooting은 지우지 않는다(designCases가 있으면 렌더하지 않음). 기믹 공통 구조는 사례에서 뺐다. view-switch.svg의 썸네일은 view.png를 잘라 base64로 넣었다.
     designCases:[
       {
         title:"시점 전환 이벤트와 커스텀 중력",
@@ -485,7 +485,7 @@ const PROJECTS = {
         decisions:[
           "거부 조건을 Stage 한곳에 모아, 기능마다 따로 검사하지 않고 같은 기준으로 전환 허용",
           "기능을 직접 호출하지 않고 이벤트 구독으로 연결해, 전환 반응을 추가해도 Stage는 고치지 않음",
-          "Unity 전역 중력 대신 물체별 중력을 두어 중력 반전 기믹과 시점별 이동 축을 물체마다 제어",
+          "Unity 기본 중력 대신 CustomGravity로 물체마다 기본·반전·사이드뷰 중력 상태를 직접 관리하고, 상태별 방향·고정 축과 가속도를 함께 적용",
         ],
         issue:{
           problem:"벽에 붙은 스프링이 간헐적으로 미발동",
@@ -497,13 +497,33 @@ const PROJECTS = {
         codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/view-gravity/README.md",
       },
       {
+        title:"빙판 위 벽 연결 상태 전파",
+        category:"물리",
+        context:"빙판에서 미끄러지는 스프링이 벽이나 벽에 붙은 물체에 닿으면 멈춰야 하는 규칙",
+        decisions:[
+          "WallConnection이 시점에 맞춘 좌우 BoxCast로 벽 또는 이미 벽에 연결된 이웃을 찾아 연결 상태를 갱신",
+          "이웃이 나를 연결 대상으로 삼고 있으면 제외해, 두 물체가 서로를 근거로 고정되는 상호 참조를 차단",
+          "연결되면 비트 연산으로 X축 고정만 켜고 꺼서 중력·회전 등 다른 Rigidbody 제약은 그대로 유지",
+        ],
+        issue:{
+          problem:"빙판에 나란히 놓인 물체들이 틈 사이에서 서로 튕기는 연쇄 반동",
+          cause:"벽에 직접 닿은 물체만 멈추고, 그 뒤에 이어진 물체는 계속 밀림",
+          fix:"벽에 닿은 이웃을 거쳐 연결을 전파해 이어진 줄 전체를 함께 고정",
+        },
+        result:"벽에 이어지면 정지하고, 연결이 풀리면 다시 미끄러짐",
+        media:[
+          { type:"image", src:"assets/projects/square/gravity.png", caption:"빙판 구간의 플레이어와 스프링" },
+        ],
+        codeUrl:"https://github.com/1Seong/SQUARE-ERAUQS/blob/main/portfolio/physics-stability/README.md",
+      },
+      {
         title:"맵툴 데이터 기반 스테이지 빌딩",
         category:"구조",
         context:"한 스테이지를 탑뷰·사이드뷰 두 장의 2D 타일로 그리면, 3D 스테이지를 자동으로 조립",
         decisions:[
           "맵툴이 내보낸 두 시점의 타일·제한 영역·아이템·포탈을 MapData로 받아 기존 스테이지 진입 흐름에 연결",
           "탑뷰 벽의 깊이는 사이드뷰의 같은 열에서 찾고, 사이드뷰에 없는 벽은 맨 뒤에 둬 두 화면이 같은 벽을 보이게 함",
-          "충돌 칸을 직사각형으로 묶어 시점별 BoxCollider 수를 줄이고, 같은 사각형을 두 시점에 맞게 배치",
+          "충돌체 수를 줄이려고 충돌 칸을 직사각형으로 탐욕 병합. 오른쪽 최대 폭에서 시작해 아래 행으로 늘리고, 더 좁은 행을 만나면 폭을 줄여 빈 칸 제외",
         ],
         result:"기획이 맵툴로 맵을 만들고 고치는 흐름을 갖춰 스테이지 수를 2배로 확장",
         media:[
@@ -513,14 +533,15 @@ const PROJECTS = {
         codeLabel:"출력 데이터 빌딩 샘플 · 맵툴 UI 제외",
       },
       {
-        title:"입력 추상화 기반 Android 이식",
+        title:"Android 이식과 다국어 UI 대응",
         category:"플랫폼",
-        context:"PC 기준으로 만든 플레이 로직을 크게 바꾸지 않고 터치 조작으로 이식",
+        context:"PC 기준으로 만든 플레이 로직은 그대로 두고 터치 조작과 한·영 UI를 지원",
         decisions:[
           "InputWrapper가 키보드 입력과 터치 버튼이 넣은 축 값·액션을 같은 API로 제공해 기존 플레이어·시점 전환 코드 재사용",
           "드래그·버튼 해제 시 축 입력을 정리해 이동이 남지 않게 하고, Safe Area를 부모 UI 좌표로 변환해 화면 경계 대응",
+          "한·영 문구를 공통 키·ID의 Localization 테이블로 관리하고, 한국어 화면은 전용 Animator로 연출·레이아웃 대응",
         ],
-        result:"플레이 로직을 유지한 채 Android 터치 조작 지원",
+        result:"플레이 로직을 유지한 채 Android 터치 조작과 한·영 전환 지원",
         media:[
           { type:"image", src:"assets/projects/square/mobile.png", caption:"Android 화면의 터치 이동·점프 버튼과 Safe Area 안쪽 UI" },
         ],
@@ -576,13 +597,13 @@ const PROJECTS = {
             src:"assets/projects/square/profiler-mobile-before.png",
             crop:{ width:3071, height:435 },
             alt:"최적화 전 모바일 실기 Unity Profiler: 목표 프레임 시간 초과 경고와 CPU Usage 타임라인",
-            caption:"모바일 실기 연결 캡처. 목표 60 FPS의 프레임 시간을 초과한 상태."
+            caption:"변경 전: 빨간 CPU 초과 표시와 33ms(30FPS) 선에 붙은 프레임."
           },
           after: {
             src:"assets/projects/square/profiler-mobile-after.png",
             crop:{ width:2705, height:430 },
             alt:"최적화 후 모바일 실기 Unity Profiler: 16ms 기준선 부근의 CPU Usage 타임라인",
-            caption:"모바일 실기 연결 캡처. CPU Usage 타임라인이 16ms 기준선 부근에 분포하며 대기 시간을 포함함."
+            caption:"변경 후: 16ms(60FPS) 선 부근으로 내려온 프레임."
           }
         }
       }
@@ -616,10 +637,10 @@ const PROJECTS = {
       linkMap:{ Document:"Google Drive" },
       optimizations:[
         {
-          measurement:"Android 실기 Profiler에서 목표 60 FPS의 프레임 시간(16.7ms)을 초과하는 구간 확인",
+          measurement:"Android 실기 Profiler에서 프레임이 약 33ms(30FPS)에 머물고, 선택 프레임 CPU 28.2ms로 목표 16.7ms 초과",
           cause:"2D 타일맵 화면에 불필요한 그림자·깊이/불투명 텍스처 처리가 포함된 렌더링 설정",
           improvement:"Render Scale 0.65, 그림자·깊이/불투명 텍스처 해제, SRP Batcher 사용",
-          result:"설정 조정 후 실기 캡처에서 CPU Usage 타임라인이 16ms 기준선 부근에 분포하는 구간 확인(대기 시간 포함)"
+          result:"프레임 시간 약 33ms(30FPS) → 약 16ms(60FPS), 실기 Profiler 캡처 기준(VSync 대기 포함)"
         }
       ],
       feedbackIterations:[
