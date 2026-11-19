@@ -1160,7 +1160,7 @@ const PROJECTS = {
       { type:"image", src:"assets/projects/dai/2.png", label:"2" },
       { type:"image", src:"assets/projects/dai/3.png", label:"3" },
     ],
-    summary:"플레이어가 직접 추론을 작성하고, AI가 입력 검증,최종 추리,결과 평가를 수행하는 추리 게임.",
+    summary:"플레이어가 쓴 가설을 AI 검증·추리·평가 3단계로 처리하고, Supabase Edge Function으로 OpenAI 키를 숨긴 WebGL 추리 게임. 사진·물건·소리 증거를 모아 직접 추론을 작성하면 AI 탐정이 결론을 내고 점수를 매김.",
     role:[
       { name:"풀스택 프로그래밍", icon:"ti-cpu", desc:"OpenAI API 연동<br>AI 추리 파이프라인 설계<br>Supabase 서버 연동" },
     ],
@@ -1191,6 +1191,52 @@ const PROJECTS = {
         solution:["사진·물건·소리의 사실 데이터와 플레이어 해석을 EvidenceRecord로 묶어 AI에 전달", "JSON 평가 필드에 항목별 가중치·함정 주장 감점을 적용하고, ResultData 에셋의 기준 점수로 대사·결과 이미지를 선택"],
         codeUrl:"https://github.com/1Seong/DetectiveAI/blob/main/portfolio/ai-pipeline/README.md",
         images:[]
+      },
+    ],
+    // System Design 근거: 1Seong/DetectiveAI portfolio/(ai-pipeline·edge-client·evidence-collection), 원본 기준 커밋 57848cd.
+    // 화면은 demo.mp4(9s·25s·31s·42s)와 1.png·3.png. 기존 contributions는 지우지 않는다.
+    designCases:[
+      {
+        title:"검증·추리·평가로 나눈 AI 추리 파이프라인",
+        category:"AI",
+        context:"플레이어가 직접 쓴 자연어 가설을 게임 진행과 점수에 반영",
+        decisions:[
+          "관련성 검증 → 추리 → 평가를 서로 다른 AI 단계로 나눠, 관련 없는 설명은 추리 전에 거르고 평가는 플레이어가 추리를 수락한 뒤에만 실행",
+          "추리 단계는 배경 사실과 플레이어 해석만 받아 결론을 쓰고, 사건 정답은 평가 단계에만 넘겨 비교",
+          "AI는 항목별 평가 JSON만 돌려주고, 점수는 클라이언트가 항목 가중치와 함정(오답 유도) 주장 감점으로 계산해 결과 대사·도장 선택",
+        ],
+        result:"관련 없는 설명은 재설명 요청으로 돌려보내고, 플레이어가 수락한 AI 결론만 100점 만점 점수와 의뢰인 대사로 마무리",
+        diagram:{ src:"assets/projects/dai/ai-pipeline.svg", alt:"게임 화면과 AI 단계: 위쪽에 ① 증거 고르기 ② 가설 작성 ③ AI 추리 확인·수락 ④ 점수 화면이 순서대로 있고, 아래쪽에 EvidenceRecord → InputValidationAI(관련성, Accept일 때만 진행) → DetectiveAI(배경 사실과 해석으로 결론, 정답 미전달) → DeductionEvaluationAI(정답과 비교한 항목별 평가 JSON), 클라이언트 점수 계산, 세 단계가 같은 AIEdgeFunctionClient를 주입받는 구조", size:"full" },
+        codeUrl:"https://github.com/1Seong/DetectiveAI/blob/main/portfolio/ai-pipeline/README.md",
+      },
+      {
+        title:"OpenAI 키를 숨기는 서버 경유 AI 호출",
+        category:"백엔드",
+        context:"WebGL 빌드에 OpenAI 키를 넣지 않고, 여러 AI 단계가 같은 경로로 요청",
+        decisions:[
+          "OpenAI 키와 프롬프트는 Supabase Edge Function에 두고, 클라이언트는 익명 사용자 JWT로 서버 함수만 호출",
+          "InvokeAsync<T>가 인증·HTTP·JSON 변환을 감추고, 세 AI 단계는 같은 클라이언트를 생성자로 주입받아 작업 종류만 바꿔 호출",
+          "세마포어 안에서 토큰을 다시 확인해 동시 갱신을 막고, 401이면 토큰을 무효화한 뒤 한 번만 재시도",
+        ],
+        result:"세션이 만료되거나 401이 와도 플레이어는 다시 로그인하지 않고 같은 흐름으로 진행",
+        diagram:{ src:"assets/projects/dai/edge-call.svg", alt:"서버 경유 AI 호출: Unity WebGL 클라이언트(추리 중 대기 화면)의 세 AI 단계가 InvokeAsync로 요청하고, SupabaseAnonymousAuthClient가 세마포어 안에서 재사용·갱신·익명 발급 순으로 JWT를 준비, 익명 JWT로 Supabase Edge Function을 호출(401이면 1회 재시도), Edge Function이 키·프롬프트를 보관하고 OpenAI API 호출", size:"side" },
+        codeUrl:"https://github.com/1Seong/DetectiveAI/blob/main/portfolio/edge-client/README.md",
+        codeLabel:"클라이언트 인증·요청 샘플 · 서버 본문은 미포함",
+      },
+      {
+        title:"사진·물건·소리 증거 수집과 보관",
+        category:"게임플레이",
+        context:"종류가 다른 증거를 같은 형태로 모아 인벤토리와 추리 제출에 연결",
+        decisions:[
+          "사진은 촬영 영역 안에 중심점이 들어온 증거 오브젝트의 사실 데이터와 설명을 함께 모아 붙임",
+          "촬영 화면이 닫혀 임시 텍스처가 해제되기 전에 픽셀 사본을 만들어 보관하고, 사진 삭제·종료 때 사본을 해제",
+          "같은 사진 데이터를 보관함 셀과 추리 제출 셀에 함께 연결하고, 소리·물건은 한 번만 수집되게 버튼을 잠금",
+        ],
+        result:"촬영 화면을 닫아도 사진이 보관함에 남고, 같은 증거를 보관함과 제출 칸에서 함께 다룸",
+        media:[
+          { type:"image", src:"assets/projects/dai/evidence.webp", caption:"왼쪽 위부터 소리 수집, 물건 보관함, 사진을 제출 칸에 넣기, 가설과 함께 제출" },
+        ],
+        codeUrl:"https://github.com/1Seong/DetectiveAI/blob/main/portfolio/evidence-collection/README.md",
       },
     ],
     optimizations:[],

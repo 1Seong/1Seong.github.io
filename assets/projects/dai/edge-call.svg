@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 560" width="560" height="560" role="img" aria-labelledby="t d">
+<title id="t">Detective A&amp;I 서버 경유 AI 호출</title>
+<desc id="d">Unity WebGL 클라이언트(추리 중 대기 화면)에서 세 AI 단계가 InvokeAsync로 요청한다. SupabaseAnonymousAuthClient가 세마포어 안에서 토큰을 재확인하고 재사용, 갱신, 익명 발급 순서로 JWT를 준비한다. 요청은 익명 JWT를 붙여 Supabase Edge Function으로 가고, 401이면 토큰을 무효화하고 한 번만 재시도한다. Edge Function이 OpenAI 키와 프롬프트를 보관하고 OpenAI API를 호출한다. 클라이언트 빌드에는 OpenAI 키가 없다.</desc>
+<!-- 근거: 1Seong/DetectiveAI portfolio/edge-client (원본 AIEdgeFunctionClient.cs·SupabaseAnonymousAuthClient.cs, 기준 커밋 57848cd). 서버 함수 본문은 샘플에 없다 -->
+<style>
+text{font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;fill:#0F172A}
+.title{font-size:22px;font-weight:700}
+.card{fill:#fff;stroke:#94A3B8;stroke-width:1.5}.ct{font-size:16px;font-weight:700}.cs{font-size:15px;fill:#475569}
+.hl{fill:#EEF2FF;stroke:#6366F1;stroke-width:1.5}
+.sb{fill:#ECFDF5;stroke:#059669;stroke-width:1.5}
+.ext{fill:#F1F5F9;stroke:#CBD5E1;stroke-width:1.5}
+.mono{font-family:Consolas,'D2Coding',monospace;font-size:14px;font-weight:700;fill:#3730A3}
+.lbl{font-size:14px;fill:#334155}
+.note{font-size:14px;fill:#64748B}
+.flow{fill:none;stroke:#334155;stroke-width:2;marker-end:url(#a)}
+</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="560" height="560" fill="#fff"/>
+<text class="title" x="20" y="36">서버 경유 AI 호출</text>
+
+<rect class="card" x="20" y="54" width="520" height="164" rx="12"/>
+<text class="ct" x="36" y="80">Unity WebGL 클라이언트</text>
+<clipPath id="cl"><rect x="36" y="92" width="220" height="124" rx="8"/></clipPath><image href="data:image/webp;base64,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" x="36" y="92" width="220" height="124" clip-path="url(#cl)" preserveAspectRatio="xMidYMid slice"/><rect x="36" y="92" width="220" height="124" rx="8" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
+
+<text class="ct" x="276" y="116">세 AI 단계</text>
+<text class="mono" x="276" y="142">InvokeAsync&lt;T&gt;</text>
+<text class="cs" x="276" y="166">인증·HTTP·JSON 변환을</text>
+<text class="cs" x="276" y="188">한곳에 감춤</text>
+
+<path class="flow" d="M280 218V244"/>
+<rect class="hl" x="20" y="248" width="520" height="92" rx="12"/>
+<text class="ct" x="36" y="276">SupabaseAnonymousAuthClient</text>
+<text class="cs" x="36" y="300">세마포어 안에서 토큰을 다시 확인</text>
+<text class="cs" x="36" y="324">재사용 → 갱신 → 익명 발급</text>
+
+<path class="flow" d="M280 340V392"/>
+<text class="lbl" x="292" y="364">익명 JWT · 401이면 1회 재시도</text>
+<rect class="sb" x="20" y="396" width="330" height="96" rx="12"/>
+<text class="ct" x="36" y="424">Supabase Edge Function</text>
+<text class="cs" x="36" y="448">OpenAI 키·프롬프트 보관</text>
+<text class="cs" x="36" y="472">(서버 본문은 샘플 미포함)</text>
+<path class="flow" d="M350 444H376"/>
+<rect class="ext" x="380" y="396" width="160" height="96" rx="12"/>
+<text class="ct" x="398" y="440">OpenAI API</text>
+
+<text class="note" x="20" y="530">클라이언트 빌드에는 OpenAI 키가 없음</text>
+</svg>
