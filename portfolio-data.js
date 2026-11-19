@@ -927,7 +927,7 @@ const PROJECTS = {
       { type:"image", src:"assets/projects/omak/book.png", label:"2" },
       { type:"image", src:"assets/projects/omak/tutorial.png", label:"3" },
     ],
-    summary:"포인트 앤 클릭 식당 경영 게임. 조리법·메인재료·서브재료 카테고리 분류로 다양한 레시피 조합을 유도하고 멀티엔딩을 제공합니다.",
+    summary:"재료·조리법을 조합해 손님 요리를 만드는 포인트 앤 클릭 식당 경영 게임. 레시피 데이터 구조와 해금·레시피북 UI를 설계해, 메뉴 추가를 코드 수정 없이 에셋 작업으로 처리하고 PlayX4 피드백을 레시피북에 반영.",
     role:[
         { name:"클라이언트 프로그래밍", icon:"ti-code", desc:"게임 구조 설계, 전체 UI 구현, 레시피북 시스템 구현." },
       ],
@@ -983,6 +983,56 @@ const PROJECTS = {
         codeUrl:"https://github.com/1Seong/OMakHase/blob/main/portfolio/unlock-ui/README.md",
         images:[]
       }
+    ],
+    // System Design 근거: 1Seong/OMakHase portfolio/(recipe-system·unlock-ui·recipe-book), 원본 기준 커밋 87c7ce2, CookManager.cs의 GetRecipe 호출.
+    // 사례 03의 issue는 detail.feedbackIterations의 PlayX4 피드백(레시피북 이용 설명)이다. 기존 contributions는 지우지 않는다.
+    designCases:[
+      {
+        title:"레시피 데이터와 조합 조회 구조",
+        category:"구조",
+        context:"메뉴와 맛 수치가 자주 바뀌는 기획에서, 코드 수정 없이 메뉴를 추가·조정",
+        decisions:[
+          "메뉴마다 클래스를 만들지 않고, 조합 조건은 RecipeBase에, 이름·맛·이미지는 RecipeData 에셋에 두어 Inspector에서 메뉴 추가",
+          "시작 시 기본 재료·조리법·육류/생선·채소 4개 enum 튜플을 키로 딕셔너리를 한 번 만들어, 선택할 때마다 목록을 순회하지 않음",
+          "조리 화면과 레시피북이 같은 GetRecipe를 쓰고, 등록되지 않은 조합은 null로 돌려 없는 조합을 구분",
+        ],
+        result:"요리 판정과 레시피북이 하나의 조합 기준을 공유하고, 메뉴 추가는 에셋 작업으로 처리",
+        diagram:{ src:"assets/projects/omak/recipe-structure.svg", alt:"레시피 데이터와 조합 조회 구조: ScriptableObject인 RecipeBase(기본 재료·조리법·육류/생선·채소 조합 조건)를 RecipeData(이름·맛·이미지)가 상속하고, RecipeManager가 시작 시 (Base, Cook, MeatFish, Vege) 튜플 키 딕셔너리를 만들어 GetRecipe로 RecipeData 또는 null을 반환. 조리 화면(팀원 구현 판정, 처음 만든 메뉴 해금 호출)과 레시피북이 같은 조회를 쓰고, UnlockManager가 해금 상태를 저장", size:"full" },
+        codeUrl:"https://github.com/1Seong/OMakHase/blob/main/portfolio/recipe-system/README.md",
+      },
+      {
+        title:"해금 이벤트 기반 UI 동기화",
+        category:"구조",
+        context:"재료 해금이 조리 화면·레시피북 버튼과 저장 데이터에 함께 반영되어야 함",
+        decisions:[
+          "UnlockManager는 해금을 PlayerPrefs에 저장한 뒤 버튼 인덱스·분류만 정적 이벤트로 알리고, 각 패널은 자기 분류일 때만 버튼을 켬",
+          "불러오기 때도 저장된 해금을 같은 이벤트로 다시 보내, 새 해금과 저장 복원이 하나의 UI 경로를 사용",
+          "초기화 순서는 부모 클래스에 두고 버튼 개수만 재정의해, 재료 외 버튼이 섞인 조리 화면과 레시피북을 같은 코드로 처리",
+        ],
+        result:"해금 로직이 UI를 참조하지 않고, 새 해금과 저장 복원이 같은 경로로 화면에 반영",
+        diagram:{ src:"assets/projects/omak/unlock-flow.svg", alt:"재료 해금 이벤트 흐름: 날짜 진행과 게임 불러오기가 UnlockManager를 거쳐 PlayerPrefs에 저장되고 ButtonUnlockAction(버튼 인덱스, 분류) 이벤트로 조리 화면 패널 4종과 레시피북 패널에 전달, 각 패널은 자기 분류의 버튼만 켬", size:"side" },
+        codeUrl:"https://github.com/1Seong/OMakHase/blob/main/portfolio/unlock-ui/README.md",
+      },
+      {
+        title:"발견 상태를 반영하는 레시피북 UI",
+        category:"UI",
+        context:"고르는 대로 결과를 보여 주되, 아직 만들지 않은 메뉴는 정답을 숨겨 발견을 유도",
+        decisions:[
+          "재료·조리법 버튼은 ButtonBehavior로 선택값만 BookController에 넘기고, 조회·표시는 컨트롤러 한곳에서 처리",
+          "선택값 프로퍼티가 바뀔 때마다 결과 페이지를 다시 그려, 버튼마다 갱신 코드를 두지 않음",
+          "미등록·미발견·발견을 나눠, 발견한 메뉴에만 이미지·이름·맛 별점을 공개",
+        ],
+        issue:{
+          problem:"레시피북 사용법을 처음에 알기 어렵다는 PlayX4 피드백",
+          cause:"첫 화면에 조작 안내 없이 빈 결과 페이지만 표시",
+          fix:"첫 페이지에 이용 설명을 두고, 조합을 고르면 결과로 교체",
+        },
+        result:"선택을 바꾸면 결과가 바로 갱신되고, 미발견 메뉴는 정보를 숨긴 채 존재만 표시",
+        media:[
+          { type:"image", src:"assets/projects/omak/book.png", caption:"분류·조리법·재료를 고르면 오른쪽 페이지에 결과와 맛 별점 표시" },
+        ],
+        codeUrl:"https://github.com/1Seong/OMakHase/blob/main/portfolio/recipe-book/README.md",
+      },
     ],
     /*
     technicalDecisions:[

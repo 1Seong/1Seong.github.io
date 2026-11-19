@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 430" width="1100" height="430" role="img" aria-labelledby="t d">
+<title id="t">오,막하세! 레시피 데이터와 조합 조회 구조</title>
+<desc id="d">레시피는 ScriptableObject 에셋으로 정의한다. RecipeBase가 조합 조건(기본 재료·조리법을 담은 CategoryData, 육류/생선, 채소)을 갖고, RecipeData가 이를 상속해 이름·맛·레시피북 이미지를 더한다. RecipeManager는 시작할 때 (Base, Cook, MeatFish, Vege) 튜플을 키로 딕셔너리를 만들고, GetRecipe가 RecipeData 또는 등록되지 않은 조합이면 null을 돌려준다. 조리 화면(CookManager, 손님 판정·평판은 팀원 구현)과 레시피북(BookController)이 같은 조회를 쓴다. 조리 화면은 처음 만든 메뉴를 UnlockManager에 해금하고, 레시피북은 UnlockManager에서 발견 여부를 확인한다.</desc>
+<!-- 근거: 1Seong/OMakHase portfolio/recipe-system·recipe-book·unlock-ui (원본 기준 커밋 87c7ce2), CookManager.cs의 GetRecipe·UnlockRecipe 호출 -->
+<style>
+text{font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;fill:#0F172A}
+.title{font-size:22px;font-weight:700}
+.lane{fill:#F8FAFC;stroke:#E2E8F0}.lt{font-size:16px;font-weight:700}
+.card{fill:#fff;stroke:#94A3B8;stroke-width:1.5}.ct{font-size:15px;font-weight:700}.cs{font-size:14px;fill:#475569}
+.team{fill:#F1F5F9;stroke:#CBD5E1;stroke-width:1.5}
+.hl{fill:#EEF2FF;stroke:#6366F1;stroke-width:1.5}
+.sb{fill:#ECFDF5;stroke:#059669;stroke-width:1.5}
+.mono{font-family:Consolas,'D2Coding',monospace;font-size:15px;font-weight:700;fill:#3730A3}
+.band{fill:#FFF7ED;stroke:#EA580C;stroke-width:1.5}.bt{font-size:16px;font-weight:700;fill:#9A3412}.bs{font-size:15px;fill:#7C2D12}
+.ok{font-size:14px;fill:#047857}.nul{font-size:14px;fill:#B91C1C}
+.lbl{font-size:13px;fill:#9A3412}
+.flow{fill:none;stroke:#334155;stroke-width:2;marker-end:url(#a)}
+.inh{fill:none;stroke:#334155;stroke-width:1.5;marker-end:url(#h)}
+.dash{fill:none;stroke:#EA580C;stroke-width:1.5;stroke-dasharray:5 4;marker-end:url(#b)}
+</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+<marker id="b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#EA580C"/></marker>
+<marker id="h" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0L11 6L0 12z" fill="#fff" stroke="#334155" stroke-width="1.2"/></marker>
+</defs>
+<rect width="1100" height="430" fill="#fff"/>
+<text class="title" x="30" y="38">레시피 데이터와 조합 조회 구조</text>
+
+<rect class="lane" x="30" y="60" width="300" height="270" rx="12"/>
+<text class="lt" x="50" y="88">데이터 에셋 · ScriptableObject</text>
+<rect class="card" x="50" y="104" width="260" height="92" rx="8"/>
+<text class="ct" x="66" y="131">RecipeBase · 조합 조건</text>
+<text class="cs" x="66" y="156">CategoryData(기본 재료·조리법)</text>
+<text class="cs" x="66" y="178">+ 육류/생선 · 채소</text>
+<path class="inh" d="M180 236V200"/>
+<rect class="card" x="50" y="236" width="260" height="76" rx="8"/>
+<text class="ct" x="66" y="263">RecipeData · 결과</text>
+<text class="cs" x="66" y="290">이름 · 맛 · 레시피북 이미지</text>
+
+<path class="flow" d="M330 195H376"/>
+
+<rect class="hl" x="380" y="84" width="320" height="222" rx="12"/>
+<text class="ct" x="400" y="114">RecipeManager</text>
+<text class="cs" x="400" y="138">시작할 때 한 번 인덱싱</text>
+<rect class="card" x="400" y="152" width="280" height="50" rx="8"/>
+<text class="mono" x="414" y="183">(Base, Cook, MeatFish, Vege)</text>
+<text class="cs" x="400" y="230">GetRecipe(선택값 4개) → 딕셔너리 조회</text>
+<text class="ok" x="400" y="256">등록된 조합 → RecipeData</text>
+<text class="nul" x="400" y="280">등록 안 된 조합 → null</text>
+
+<rect class="lane" x="750" y="60" width="320" height="270" rx="12"/>
+<text class="lt" x="770" y="88">같은 조회를 쓰는 화면</text>
+<path class="flow" d="M700 152H766"/>
+<path class="flow" d="M700 264H766"/>
+<rect class="team" x="770" y="104" width="280" height="96" rx="8"/>
+<text class="ct" x="786" y="131">조리 화면 · CookManager</text>
+<text class="cs" x="786" y="156">손님 판정·평판은 팀원 구현</text>
+<text class="ok" x="786" y="180">처음 만든 메뉴 해금 호출</text>
+<rect class="sb" x="770" y="216" width="280" height="96" rx="8"/>
+<text class="ct" x="786" y="243">레시피북 · BookController</text>
+<text class="cs" x="786" y="268">미등록 · 미발견 · 발견 구분</text>
+<text class="cs" x="786" y="292">발견한 메뉴만 이름·맛 공개</text>
+
+<path class="dash" d="M1050 150H1086V386H1076"/>
+<text class="lbl" x="1048" y="350">해금</text>
+<path class="dash" d="M910 358V316"/>
+<text class="lbl" x="918" y="344">발견 여부</text>
+
+<rect class="band" x="30" y="362" width="1040" height="52" rx="10"/>
+<text class="bt" x="48" y="394">UnlockManager</text>
+<text class="bs" x="190" y="394">재료·레시피 해금을 PlayerPrefs에 저장하고, 이벤트로 버튼 패널을 갱신 (사례 02)</text>
+</svg>

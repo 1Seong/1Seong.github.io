@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 420" width="560" height="420" role="img" aria-labelledby="t d">
+<title id="t">오,막하세! 재료 해금 이벤트 흐름</title>
+<desc id="d">날짜 진행에 따른 재료 해금과 게임 불러오기가 모두 UnlockManager를 거친다. UnlockManager는 해금을 PlayerPrefs에 저장하고 ButtonUnlockAction(버튼 인덱스, 분류) 정적 이벤트를 보낸다. 불러오기 때는 저장된 해금을 같은 이벤트로 다시 보낸다. 조리 화면의 UnlockButtonController와 레시피북의 UnlockBookButtonController가 이벤트를 구독해 자기 분류의 버튼만 켠다. 레시피북 쪽은 버튼 개수만 재정의한다. 해금 관리자는 UI를 참조하지 않는다.</desc>
+<!-- 근거: 1Seong/OMakHase portfolio/unlock-ui (원본 UnlockManager.cs·UnlockButtonController.cs·UnlockBookButtonController.cs, 기준 커밋 87c7ce2) -->
+<style>
+text{font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;fill:#0F172A}
+.title{font-size:22px;font-weight:700}
+.card{fill:#fff;stroke:#94A3B8;stroke-width:1.5}.ct{font-size:16px;font-weight:700}.cs{font-size:15px;fill:#475569}
+.hl{fill:#EEF2FF;stroke:#6366F1;stroke-width:1.5}
+.sb{fill:#ECFDF5;stroke:#059669;stroke-width:1.5}
+.mono{font-family:Consolas,'D2Coding',monospace;font-size:15px;font-weight:700;fill:#3730A3}
+.note{font-size:14px;fill:#64748B}
+.flow{fill:none;stroke:#334155;stroke-width:2;marker-end:url(#a)}
+</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="560" height="420" fill="#fff"/>
+<text class="title" x="20" y="36">재료 해금 이벤트 흐름</text>
+
+<rect class="card" x="20" y="56" width="250" height="64" rx="10"/>
+<text class="ct" x="36" y="82">날짜 진행</text>
+<text class="cs" x="36" y="106">새 재료 Unlock 요청</text>
+<rect class="card" x="290" y="56" width="250" height="64" rx="10"/>
+<text class="ct" x="306" y="82">게임 불러오기</text>
+<text class="cs" x="306" y="106">저장된 해금을 다시 보냄</text>
+
+<path class="flow" d="M145 120V146"/>
+<path class="flow" d="M415 120V146"/>
+
+<rect class="hl" x="20" y="150" width="520" height="96" rx="12"/>
+<text class="ct" x="36" y="178">UnlockManager</text>
+<text class="cs" x="168" y="178">PlayerPrefs에 해금 저장 → 이벤트 발행</text>
+<rect class="card" x="36" y="194" width="488" height="38" rx="8"/>
+<text class="mono" x="52" y="219">ButtonUnlockAction(버튼 인덱스, 분류)</text>
+
+<path class="flow" d="M145 246V276"/>
+<path class="flow" d="M415 246V276"/>
+
+<rect class="sb" x="20" y="280" width="250" height="100" rx="10"/>
+<text class="ct" x="36" y="306">조리 화면 패널 4종</text>
+<text class="cs" x="36" y="331">자기 분류일 때만 버튼 켬</text>
+<text class="cs" x="36" y="355">재료 외 버튼은 초기화 제외</text>
+<rect class="sb" x="290" y="280" width="250" height="100" rx="10"/>
+<text class="ct" x="306" y="306">레시피북 패널</text>
+<text class="cs" x="306" y="331">같은 이벤트 구독</text>
+<text class="cs" x="306" y="355">버튼 개수만 재정의</text>
+
+<text class="note" x="20" y="408">해금 관리자는 UI를 모름 · 패널은 파괴될 때 구독 해제</text>
+</svg>
