@@ -232,7 +232,7 @@ const PROJECTS = {
       { name:"풀스택 프로그래밍", icon:"ti-code", desc:"백엔드(Supabase),<br>클라이언트(Unity),<br>퍼즐 솔버·맵 생성기" },
       { name:"아트", icon:"ti-brush", desc:"Codex를 활용한<br>AI 그래픽 아트 구현" },
     ],
-    activities:["2026 UNICON 전시"],
+    activities:["2026 UNICON 전시", "교내 게임개발동아리 창립제 전시"],
     contributions:[
       {
         title:"퍼즐 핵심 게임플레이 루프",
@@ -986,7 +986,7 @@ const PROJECTS = {
     role:[
         { name:"클라이언트 프로그래밍", icon:"ti-code", desc:"게임 구조 설계, 전체 UI 구현, 레시피북 시스템 구현." },
       ],
-    activities:["PlayX4 IndieSeed"],
+    activities:["PlayX4 IndieSeed", "교내 게임개발동아리 창립제 전시"],
     goal:"재료 조합, 조리법, 손님 요구 조건, 레시피북 해금을 연결해 새로운 레시피를 발견하는 식당 경영 루프 구현",
 
     keyChallenges:[
