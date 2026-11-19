@@ -709,14 +709,31 @@ main { max-width: var(--max-w); margin: 0 auto; padding: calc(var(--nav-h) + 2.5
 .retro-card.good .retro-card-label { color: #4a9e6a; }
 .retro-card.bad  .retro-card-label { color: var(--gold); }
 .retro-card-text { font-size: .855rem; color: var(--cream-2); line-height: 1.8; }
-.feedback-chart { display: flex; flex-direction: column; gap: .8rem; padding: 1rem; border: 1px solid var(--rule-mid); background: var(--navy-2); border-radius: var(--radius); box-shadow: none; }
-.feedback-row { display: flex; align-items: center; gap: 1rem; }
-.feedback-label-wrap { display: flex; flex-direction: column; gap: .1rem; width: 68px; flex-shrink: 0; }
-.feedback-label { font-size: .8rem; color: var(--cream-2); }
-.feedback-bar-wrap { flex: 1; max-width: 480px; height: 8px; background: var(--navy-3); border-radius: 4px; overflow: hidden; }
+/* 유저 피드백(압축형): 점수 칸 | 피드백 → 개선 줄 목록 */
+.feedback-layout { display: grid; gap: .9rem; }
+.feedback-layout.is-split { grid-template-columns: 260px minmax(0, 1fr); align-items: stretch; }
+.feedback-chart { display: flex; flex-direction: column; justify-content: center; gap: .75rem; padding: 1rem 1.1rem; border: 1px solid var(--rule-mid); background: var(--navy-2); border-radius: var(--radius); box-shadow: none; }
+.feedback-row { display: grid; gap: .35rem; }
+.feedback-row-head { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; }
+.feedback-label { font-size: .84rem; font-weight: 600; color: var(--cream-2); }
+.feedback-bar-wrap { height: 6px; background: var(--navy-3); border-radius: 4px; overflow: hidden; }
 .feedback-bar { height: 100%; border-radius: 4px; background: linear-gradient(to right, #5040c8, #a0f0d8); transition: width .8s cubic-bezier(.22,1,.36,1); }
-.feedback-val { font-size: .78rem; color: var(--cream-3); width: 44px; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; }
-.feedback-source { font-size: .68rem; color: var(--cream-3); }
+.feedback-val { font-size: .84rem; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
+.feedback-source { font-size: .68rem; font-weight: 400; color: var(--cream-3); }
+.feedback-chart-source { margin-top: -.15rem; text-align: right; }
+.feedback-iterations { border: 1px solid var(--rule-mid); background: var(--navy-2); border-radius: var(--radius); }
+.feedback-iterations ul { list-style: none; margin: 0; padding: 0; }
+.feedback-iter-head, .feedback-iter { display: grid; grid-template-columns: minmax(0, 1fr) 1.5rem minmax(0, 1fr); gap: .9rem; align-items: center; padding: .85rem 1.1rem; }
+.feedback-iter-head { padding-bottom: .55rem; border-bottom: 1px solid var(--rule); font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
+.feedback-iter-head span:last-child { color: #1e5fa8; }
+.feedback-iter + .feedback-iter { border-top: 1px solid var(--rule); }
+.feedback-iter-q p { font-size: .88rem; line-height: 1.55; color: var(--cream-2); }
+.feedback-iter-q .feedback-citation { align-self: auto; margin-top: .2rem; padding-top: 0; text-align: left; font-size: .7rem; }
+.feedback-iter-arrow { justify-self: center; font-size: 1rem; color: var(--cream-3); }
+.feedback-iter-a { font-size: .88rem; line-height: 1.55; font-weight: 600; color: var(--cream); }
+@media(max-width:760px){
+  .feedback-layout.is-split { grid-template-columns: minmax(0, 1fr); }
+}
 .troubleshooting-list, .optimization-list, .feedback-iteration-list { display: grid; gap: .7rem; }
 .feedback-iteration-list { margin-top: .9rem; }
 .flow-card { border: 1px solid var(--rule-mid); background: var(--navy-2); border-radius: var(--radius); overflow: hidden; box-shadow: none; }
@@ -2004,23 +2021,31 @@ function showDetail(id){
       const quotes = Array.isArray(p.feedback) ? [] : (p.feedback.quotes || []);
       const iterations = p.detail?.feedbackIterations || [];
 
-      const graphHTML = graphs.length ? `<div class="feedback-chart">${graphs.map(f=>{
-        const pct = Math.round(f.value / f.max * 100);
-        return `<div class="feedback-row">
-          <div class="feedback-label-wrap">
-            <div class="feedback-label">${f.label}</div>
-            ${f.source ? `<div class="feedback-source">${f.source}</div>` : ''}
-          </div>
-          <div class="feedback-bar-wrap"><div class="feedback-bar" style="width:0" data-pct="${pct}"></div></div>
-          <div class="feedback-val">${f.value}${f.unit}</div>
-        </div>`;
-      }).join('')}</div>` : '';
+      // 압축형: 점수(왼쪽 좁은 칸) | 피드백 → 개선 줄 목록(오른쪽). 출처가 모두 같으면 한 번만 적는다.
+      const graphSources = [...new Set(graphs.map(f=>f.source).filter(Boolean))];
+      const sharedGraphSource = graphSources.length === 1 && graphs.every(f=>f.source) ? graphSources[0] : '';
+      const graphHTML = graphs.length ? `<div class="feedback-chart">
+        ${graphs.map(f=>{
+          const pct = Math.round(f.value / f.max * 100);
+          return `<div class="feedback-row">
+            <div class="feedback-row-head">
+              <span class="feedback-label">${f.label}${!sharedGraphSource && f.source ? ` <small class="feedback-source">${f.source}</small>` : ''}</span>
+              <span class="feedback-val">${f.value}${f.unit}</span>
+            </div>
+            <div class="feedback-bar-wrap"><div class="feedback-bar" style="width:0" data-pct="${pct}"></div></div>
+          </div>`;
+        }).join('')}
+        ${sharedGraphSource ? `<div class="feedback-source feedback-chart-source">${sharedGraphSource}</div>` : ''}
+      </div>` : '';
 
-      const iterationHTML = iterations.length ? `<div class="feedback-iteration-list">${iterations.map(item=>
-        flowCard('', [
-          { label:'Feedback', text:item.feedback, source:item.source, sourceUrl:item.sourceUrl },
-          { label:'Improvement', text:item.improvement },
-        ], 'feedback-flow-card')).join('')}</div>` : '';
+      const iterationHTML = iterations.length ? `<div class="feedback-iterations">
+        <div class="feedback-iter-head"><span>Feedback</span><span aria-hidden="true"></span><span>Improvement</span></div>
+        <ul>${iterations.map(item=>`<li class="feedback-iter">
+          <div class="feedback-iter-q"><p>${item.feedback}</p>${renderFeedbackSource(item.source,item.sourceUrl)}</div>
+          <span class="feedback-iter-arrow" aria-hidden="true">→</span>
+          <p class="feedback-iter-a">${item.improvement}</p>
+        </li>`).join('')}</ul>
+      </div>` : '';
 
       const quoteHTML = quotes.length && !iterations.length ? `<div class="feedback-quotes">${quotes.map(q=>`
         <div class="feedback-quote">
@@ -2031,7 +2056,7 @@ function showDetail(id){
 
       sections.push(`<div class="detail-section" id="detail-feedback">
         <div class="detail-section-label">User Feedback & Iteration</div>
-        ${graphHTML}${iterationHTML}${quoteHTML}
+        <div class="feedback-layout${graphHTML && (iterationHTML || quoteHTML) ? ' is-split' : ''}">${graphHTML}${iterationHTML}${quoteHTML}</div>
       </div>`);
     }
   }
