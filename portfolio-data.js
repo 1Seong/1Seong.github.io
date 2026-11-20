@@ -313,6 +313,9 @@ const PROJECTS = {
           { type:"video", src:"assets/projects/aurora/solver-demo.mp4", thumbnail:"assets/projects/aurora/solver-demo-thumb.webp", caption:"자동 테스트로 해답을 찾아 미리 보고, 풀 수 없는 맵은 바로 판정" },
         ],
         codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/puzzle-solver/README.md",
+        refs:[
+          { text:"A. Itai, C. H. Papadimitriou, J. L. Szwarcfiter, \"Hamilton Paths in Grid Graphs,\" SIAM Journal on Computing, 11(4), 676–686, 1982", url:"https://csaws.cs.technion.ac.il/~itai/publications/Algorithms/Hamilton-paths.pdf" },
+        ],
       },
       {
         title:"클리어가 보장되는 절차적 맵 생성",

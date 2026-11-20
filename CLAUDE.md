@@ -53,7 +53,8 @@
   - `codeLabel`의 기본값은 "GitHub 샘플 코드"다.
 - `troubleshooting[]`: `{ title, problem, cause, solution, result, codeUrl? }`
 - `designCases[]` (선택, 데모 단계): 있으면 그 프로젝트는 `contributions`·`troubleshooting` 대신 **System Design** 섹션을 렌더한다.
-  `{ title, category, context, decisions[], issue?{problem,cause,fix}, result?, diagram?{src,alt,size:"full"|"side",caption?}, media?[{type:image|video,src,caption?,thumbnail?}], codeUrl?, codeLabel? }`
+  `{ title, category, context, decisions[], issue?{problem,cause,fix}, result?, diagram?{src,alt,size:"full"|"side",caption?}, media?[{type:image|video,src,caption?,thumbnail?}], codeUrl?, codeLabel?, refs?[{text,url?}] }`
+  `refs`는 사례 맨 아래에 작고 흐린 "참고 ·" 줄로 표시한다(본문에 저자·연도로 인용한 문헌의 전체 출처). `url`은 http(s)만 링크가 된다.
   설계는 `claude/portfolio-local-setup-6c7661`의 `.claude/specs/detail-system-design.md`. `index.html?demo=system-design`으로 기존 데이터를 끼워 넣은 미리보기를 볼 수 있다.
 - `optimizations[]`: `{ title, category, desc(HTML), codeUrl?, images[], comparison:{before:{src,alt,caption,crop?{width,height}}, after:{...}} }`
   - Before/After는 항상 좌우로 놓는다(`comparison.layout`은 읽지 않으므로 지워도 된다). `crop`은 이미지 윗부분만 그 비율로 잘라 보이고, 둘 다 있으면 더 높은 쪽 비율로 맞춘다. 원본은 클릭해 연다.

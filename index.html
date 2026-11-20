@@ -855,6 +855,9 @@ a.feedback-citation:hover { color: var(--gold); }
 .sd-figure.diagram .sd-frame img { aspect-ratio: auto; padding: 0; }
 .sd-figure.full { margin: 1.5rem 0 0; }
 .sd-figure figcaption { margin-top: .7rem; font-size: .78rem; line-height: 1.5; color: var(--cream-3); }
+.sd-refs { margin: .9rem 0 0; font-size: .7rem; line-height: 1.5; color: var(--cream-3); opacity: .75; }
+.sd-refs a { color: inherit; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 2px; }
+.sd-refs a:hover { color: var(--cream); }
 .sd-points { list-style: none; margin-top: 1.75rem; border-top: 1px solid var(--rule); }
 .sd-points li { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); padding: .8rem 0; border-bottom: 1px solid var(--rule); }
 .sd-point-num { padding-top: .2rem; font-size: .74rem; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
@@ -1699,6 +1702,9 @@ function renderSystemDesign(cases, isDemo, CATS, DEFAULT){
     const points = decisions.length ? `<ol class="sd-points${pointsBelow ? ' cols' : ''}" style="--cols:${cols}">${decisions.map((d, k) => `<li><span class="sd-point-num">${String(k + 1).padStart(2, '0')}</span><p>${escapeHTML(d)}</p></li>`).join('')}</ol>` : '';
     const code = sdCodeLink(c);
     const actions = code ? `<div class="sd-actions">${code}</div>` : '';
+    // 참고 문헌: 사례 맨 아래에 작고 흐리게. url은 http(s)만 링크로 만든다
+    const refs = Array.isArray(c.refs) ? c.refs.filter(r => r?.text) : [];
+    const refsHTML = refs.length ? `<p class="sd-refs">참고 · ${refs.map(r => /^https?:\/\//.test(r.url || '') ? `<a href="${escapeHTML(r.url)}" target="_blank" rel="noopener">${escapeHTML(r.text)}</a>` : escapeHTML(r.text)).join(' / ')}</p>` : '';
     const flow = steps.length ? `<ol class="sd-flow" style="--n:${steps.length}">${steps.map(([k, icon, v, cls]) => `<li class="sd-step ${cls || ''}"><div class="sd-step-k"><i class="ti ${icon}" aria-hidden="true"></i>${k}</div><p>${escapeHTML(v)}</p></li>`).join('')}</ol>` : '';
 
     let body;
@@ -1714,7 +1720,7 @@ function renderSystemDesign(cases, isDemo, CATS, DEFAULT){
       body = `${head}${points}${actions}`;
     }
     return `
-      <article class="sd-case is-${variant}" id="sd-case-${i + 1}" data-toc="${escapeHTML(c.title)}">${body}${flow}</article>`;
+      <article class="sd-case is-${variant}" id="sd-case-${i + 1}" data-toc="${escapeHTML(c.title)}">${body}${flow}${refsHTML}</article>`;
   }).join('');
   return `<div class="detail-section" id="detail-system-design">
     <div class="detail-section-label">System Design</div>
