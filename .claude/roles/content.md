@@ -43,7 +43,7 @@
 
 | id | 제목 | 저장소 | assets |
 | --- | --- | --- | --- |
-| `eulerian_aurora` | Eulerian Aurora (메인) | `1Seong/EulerianAurora` | `aurora` |
+| `eulerian_aurora` | Eulerian Aurora (메인) | `1Seong/EulerianAurora-Samples` (공개 샘플, 원본 `1Seong/EulerianAurora`는 비공개) | `aurora` |
 | `square_erauqs` | SQUARE::ERAUQS (메인) | `1Seong/SQUARE-ERAUQS` | `square` |
 | `save_the_world` | Save The World (메인) | `1Seong/SaveTheWorld` | `stw` |
 | `omakhase` | 오,막하세! (메인) | `1Seong/OMakHase` | `omak` |

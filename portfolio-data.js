@@ -239,7 +239,7 @@ const PROJECTS = {
         category:"게임플레이",
         goal:"편집·플레이·업로드에서 일관된 퍼즐 상태 유지",
         solution:["3D 타일 배열을 기준으로 이동·색칠·클리어를 판정하고 표시 상태를 갱신", "Memento 방식으로 맵·플레이어·포탈·고스트/레이저 상태를 복사해 스택에 저장하고, Undo 시 함께 복원"],
-        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/gameplay/README.md",
+        codeUrl:"https://github.com/1Seong/EulerianAurora-Samples/blob/main/portfolio/gameplay/README.md",
         images:["assets/projects/aurora/tile.png"]
       },
       {
@@ -247,7 +247,7 @@ const PROJECTS = {
         category:"게임플레이",
         goal:"6가지 기믹을 이동·타일 상태와 일관되게 연동",
         solution:["포탈 좌표 이동, 고스트 횟수 소모, 레이저 경로 반전, 대시 연속 이동을 타일 상태와 연동", "인버터는 맵 상태를 먼저 반전한 뒤 맨해튼 거리별 그룹을 순차 연출하고, 회전은 데이터·연출을 분리"],
-        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/gimmick-state/README.md",
+        codeUrl:"https://github.com/1Seong/EulerianAurora-Samples/blob/main/portfolio/gimmick-state/README.md",
         images:["assets/projects/aurora/gimmik.png"]
       },
       {
@@ -255,7 +255,7 @@ const PROJECTS = {
         category:"에디터",
         goal:"유저가 만든 맵을 바로 테스트하고 공유",
         solution:["표면·방향을 검사해 타일을 배치하고, 편집 전 맵·시작점을 저장해 되돌리기 지원", "테스트에는 편집 데이터의 복사본을 전달하고, 타일·포탈·회전 정보를 공통 포맷으로 직렬화해 저장·업로드"],
-        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/map-generation/README.md",
+        codeUrl:"https://github.com/1Seong/EulerianAurora-Samples/blob/main/portfolio/map-generation/README.md",
         images:["assets/projects/aurora/editor2.png"]
       },
       {
@@ -263,7 +263,7 @@ const PROJECTS = {
         category:"백엔드",
         goal:"이메일·외부 계정 인증을 하나의 세션 흐름으로 통합",
         solution:["싱글턴 SupabaseManager에 이메일·Google/Discord(PKCE) 인증·세션 복원을 모으고, SDK의 Observer 방식 상태 리스너와 연동", "회원가입·비밀번호 변경과 맵 생성·수정·게시·신고를 연동. 좋아요 RPC는 JWT의 사용자 ID로 처리"],
-        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/authentication/README.md",
+        codeUrl:"https://github.com/1Seong/EulerianAurora-Samples/blob/main/portfolio/authentication/README.md",
         images:["assets/projects/aurora/supabase.png"]
       },
       {
@@ -271,13 +271,14 @@ const PROJECTS = {
         category:"DB",
         goal:"맵 원본과 사용자별 활동 기록을 구분해 관리",
         solution:["초안·게시 맵·사용자 활동을 분리하고, 맵 ID·작성자 ID의 복합키와 외래키로 좋아요·클리어·신고 기록 연결", "RLS로 공개 맵 조회와 본인 데이터 수정을 구분하고, 트리거로 좋아요 수와 더 좋은 클리어 기록 반영"],
-        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/ugc-backend/README.md",
+        codeUrl:"https://github.com/1Seong/EulerianAurora-Samples/blob/main/portfolio/ugc-backend/README.md",
         codeLabel:"클라이언트·DB 샘플 · 서버 부분은 재구성 예시",
         images:["assets/projects/aurora/db.png"]
       },
     ],
-    // System Design 근거: 1Seong/EulerianAurora(구 Capstone2) 55e9598, Drive "[AI용] 맵 생성/솔버 구현 위치"·"맵 생성 설정 가이드",
+    // System Design 근거: 1Seong/EulerianAurora(구 Capstone2, 비공개) 55e9598, Drive "[AI용] 맵 생성/솔버 구현 위치"·"맵 생성 설정 가이드",
     // Notion "[Aurora] 절차적 퍼즐 맵 생성"·"[Aurora] 해밀턴 경로 문제"(탐색 상태·ms·밀집 비율 수치 출처).
+    // 공개 샘플 저장소: 1Seong/EulerianAurora-Samples (원본 README와 portfolio/ 복사, 원본 코드 링크는 텍스트로 대체).
     // 기존 contributions·troubleshooting은 지우지 않는다(designCases가 있으면 렌더하지 않음). 스텐실·AABB 트러블슈팅은 사례에서 뺐다.
     designCases:[
       {
@@ -291,7 +292,7 @@ const PROJECTS = {
         ],
         result:"팀원이 코드 없이 맵을 만들어 올리고, 유저가 내려받아 플레이하는 UGC 루프 완성",
         diagram:{ src:"assets/projects/aurora/architecture.svg", alt:"맵 데이터와 백엔드 구조: Unity 클라이언트의 초안 생성기·맵 에디터가 퍼즐 솔버로 검증하고, 에디터가 Supabase 맵 테이블(초안·게시·썸네일)에 저장·업로드, 플레이가 목록을 받아 좋아요·클리어를 기록, SupabaseManager가 Auth(이메일·Google·Discord)로 로그인. 맵은 char[,,] 타일·포탈 쌍·회전 설정을 문자열로 저장", size:"full" },
-        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/ugc-backend/README.md",
+        codeUrl:"https://github.com/1Seong/EulerianAurora-Samples/blob/main/portfolio/ugc-backend/README.md",
         codeLabel:"클라이언트·DB 샘플 · 서버 부분은 재구성 예시",
       },
       {
@@ -312,7 +313,7 @@ const PROJECTS = {
         media:[
           { type:"video", src:"assets/projects/aurora/solver-demo.mp4", thumbnail:"assets/projects/aurora/solver-demo-thumb.webp", caption:"자동 테스트로 해답을 찾아 미리 보고, 풀 수 없는 맵은 바로 판정" },
         ],
-        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/puzzle-solver/README.md",
+        codeUrl:"https://github.com/1Seong/EulerianAurora-Samples/blob/main/portfolio/puzzle-solver/README.md",
         refs:[
           { text:"A. Itai, C. H. Papadimitriou, J. L. Szwarcfiter, \"Hamilton Paths in Grid Graphs,\" SIAM Journal on Computing, 11(4), 676–686, 1982", url:"https://csaws.cs.technion.ac.il/~itai/publications/Algorithms/Hamilton-paths.pdf" },
         ],
@@ -335,7 +336,7 @@ const PROJECTS = {
         media:[
           { type:"video", src:"assets/projects/aurora/mapgen-flow.mp4", thumbnail:"assets/projects/aurora/mapgen-flow-thumb.webp", caption:"기믹·난이도 선택 → 후보 생성 → 적용, 이어서 형태 점수 적용 뒤 연속 생성" },
         ],
-        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/procedural-map-generation/README.md",
+        codeUrl:"https://github.com/1Seong/EulerianAurora-Samples/blob/main/portfolio/procedural-map-generation/README.md",
       },
     ],
     troubleshooting: [
@@ -345,7 +346,7 @@ const PROJECTS = {
         cause: "회전 연출과 상태 갱신이 같은 Transform에 의존",
         solution: "단면 배열의 전치·역순으로 좌표를 재매핑하고, 연출 후 표시 오브젝트를 격자로 복원",
         result: "연속 회전에서도 데이터 좌표 기준 유지",
-        codeUrl:"https://github.com/1Seong/EulerianAurora/blob/main/portfolio/layer-rotation/README.md"
+        codeUrl:"https://github.com/1Seong/EulerianAurora-Samples/blob/main/portfolio/layer-rotation/README.md"
       },
       {
         title: "중심 큐브 뒤의 기믹 이펙트가 완전히 가려지지 않는 문제",
@@ -383,7 +384,7 @@ const PROJECTS = {
     feedback:null,
     other_contributions:null,
     links:[
-      { label:"GitHub", url:"https://github.com/1Seong/EulerianAurora" },
+      { label:"GitHub", url:"https://github.com/1Seong/EulerianAurora-Samples" },
       { label:"QA Log", url:"https://docs.google.com/spreadsheets/d/1m_KURQGTxd0x7m2Nlj68Ax_Qtp4aNc9YAAjlM2upWb4/edit?gid=0#gid=0" },
       { label:"Game Build", url:"https://drive.google.com/drive/u/0/folders/10mRU31GlTHey1yCcf1V_u7jEjr0QA4JT"},
       { label:"Google Drive", url:"https://drive.google.com/drive/u/0/folders/1IGMLGUreO3WDR3LEqzpbtfKZpKzZaxUQ"}
